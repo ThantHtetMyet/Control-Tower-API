@@ -1,0 +1,5 @@
+dotnet ef migrations add Initial_Migration
+dotnet ef database update
+
+dotnet ef migrations add AddNewColumns
+dotnet ef database update
