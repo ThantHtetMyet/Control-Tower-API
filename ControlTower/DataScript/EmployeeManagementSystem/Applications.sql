@@ -11,7 +11,7 @@ INSERT INTO Applications (
     UpdatedBy
 ) VALUES (
     'D3E7A18F-2A6F-4D29-BF2B-C5B5A81A1234', -- Example GUID
-    'User Management Portal',
+    'User Management System',
     'This is a User Management description.',
     'Initial release',
     5,

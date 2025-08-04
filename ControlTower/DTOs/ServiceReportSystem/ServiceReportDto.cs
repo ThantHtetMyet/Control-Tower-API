@@ -61,13 +61,18 @@ namespace ControlTower.DTOs.ServiceReportSystem
         public DateTime? CompletionDate { get; set; }
         public List<TempItem> FormStatus { get; set; }
         public List<TempItem> ServiceType { get; set; }
-        public List<TempItem> IssueReported { get; set; }
-        public List<TempItem> IssueFound { get; set; }
-        public List<TempItem> ActionTaken { get; set; }
+        public List<TempItemTwo> IssueReported { get; set; }
+        public List<TempItemTwo> IssueFound { get; set; }
+        public List<TempItemTwo> ActionTaken { get; set; }
         public List<TempItem> FurtherAction { get; set; }
         public string CreatedBy { get; set; }  // This remains string as it's parsed later
     }
 
+    public class TempItemTwo
+    {
+        public string? Remark { get; set; }
+        public string? Description { get; set; }
+    }
     public class TempItem
     {
         public Guid Id { get; set; }
@@ -90,9 +95,9 @@ namespace ControlTower.DTOs.ServiceReportSystem
         // Change these to match frontend structure (TempItem with Id and Remark)
         public List<TempItem>? ServiceType { get; set; }
         public List<TempItem>? FormStatus { get; set; }
-        public List<TempItem>? IssueReported { get; set; }
-        public List<TempItem>? IssueFound { get; set; }
-        public List<TempItem>? ActionTaken { get; set; }
+        public List<TempItemTwo>? IssueReported { get; set; }
+        public List<TempItemTwo>? IssueFound { get; set; }
+        public List<TempItemTwo>? ActionTaken { get; set; }
         public List<TempItem>? FurtherAction { get; set; }
         
         public string UpdatedBy { get; set; }

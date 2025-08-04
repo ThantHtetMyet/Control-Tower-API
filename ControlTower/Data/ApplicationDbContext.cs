@@ -28,11 +28,12 @@ namespace ControlTower.Data
         public DbSet<IssueReported> IssueReported { get; set; }
         public DbSet<IssueFound> IssueFound { get; set; }
         public DbSet<ActionTaken> ActionTaken { get; set; }
-        public DbSet<IssueReportWarehouse> IssueReportWarehouses { get; set; }
-        public DbSet<IssueFoundWarehouse> IssueFoundWarehouses { get; set; }
-        public DbSet<ActionTakenWarehouse> ActionTakenWarehouses { get; set; }
+        //public DbSet<IssueReportWarehouse> IssueReportWarehouses { get; set; }
+        //public DbSet<IssueFoundWarehouse> IssueFoundWarehouses { get; set; }
+        //public DbSet<ActionTakenWarehouse> ActionTakenWarehouses { get; set; }
         public DbSet<FurtherActionTakenWarehouse> FurtherActionTakenWarehouses { get; set; }
-
+public DbSet<ImportFormTypes> ImportFormTypes { get; set; }
+public DbSet<ImportFileRecords> ImportFileRecords { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

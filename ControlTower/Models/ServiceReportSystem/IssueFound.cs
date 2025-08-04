@@ -10,15 +10,10 @@ namespace ControlTower.Models.ServiceReportSystem
     {
         [Key]
         public Guid ID { get; set; }
-
         public string? Description { get; set; }
         public string? Remark { get; set; }
 
-        [ForeignKey("IssueFoundWarehouse")]
-        public Guid IssueFoundWarehouseID { get; set; }
-        
-        // Add missing navigation property
-        public IssueFoundWarehouse IssueFoundWarehouse { get; set; }
+        // Removed IssueFoundWarehouseID and navigation property
 
         [ForeignKey("ServiceReportForm")]
         public Guid ServiceReportFormID { get; set; }

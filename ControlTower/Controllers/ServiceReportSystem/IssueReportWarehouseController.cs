@@ -19,9 +19,12 @@ namespace ServiceReportSystem.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<IssueReportWarehouse>>> GetIssueReportWarehouses()
         {
+            return null;
+            /*
             return await _context.IssueReportWarehouses
                 .Where(x => !x.IsDeleted)
                 .ToListAsync();
+            */
         }
     }
 }

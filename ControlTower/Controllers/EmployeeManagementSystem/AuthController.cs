@@ -103,9 +103,11 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
         private string GenerateJwtToken(User employee)
         {
             var jwtSettings = _configuration.GetSection("JwtSettings");
-            var secretKey = jwtSettings["SecretKey"] ?? "YourDefaultSecretKeyThatIsAtLeast32CharactersLong!";
-            var issuer = jwtSettings["Issuer"] ?? "EmployeeManagementSystem";
-            var audience = jwtSettings["Audience"] ?? "EmployeeManagementSystem";
+            // ✅ Fix: Change "SecretKey" to "Key"
+            var secretKey = jwtSettings["Key"] ?? "YourDefaultSecretKeyThatIsAtLeast32CharactersLong!";
+            // ✅ Fix: Update default values to match appsettings.json
+            var issuer = jwtSettings["Issuer"] ?? "ServiceReportSystem";
+            var audience = jwtSettings["Audience"] ?? "ServiceReportSystemUsers";
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

@@ -10,6 +10,7 @@ using System.Text;
 using ControlTower.Data;
 using System.Text.Json.Serialization;
 using ControlTower.Data;
+using Microsoft.AspNetCore.Http.Features;
 
 internal class Program
 {
@@ -55,6 +56,12 @@ internal class Program
                 };
             });
 
+        // Add this before builder.Build()
+        builder.Services.Configure<FormOptions>(options =>
+        {
+            options.MultipartBodyLengthLimit = 100 * 1024 * 1024; // 100MB
+        });
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -71,6 +78,9 @@ internal class Program
 
         // Add authentication middleware
         app.UseAuthentication();
+        
+        // Add authorization middleware - THIS WAS MISSING!
+        app.UseAuthorization();
 
         app.MapControllers();
 

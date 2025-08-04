@@ -20,9 +20,12 @@ namespace ControlTower.Controllers.ServiceReportSystem
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ActionTakenWarehouse>>> GetActionTakenWarehouses()
         {
+            /*
             return await _context.ActionTakenWarehouses
                 .Where(x => !x.IsDeleted)
                 .ToListAsync();
+            */
+            return null;
         }
     }
 }

@@ -5,7 +5,7 @@ using ControlTower.DTOs.ServiceReportSystem;
 using ControlTower.Models.EmployeeManagementSystem;
 using ControlTower.Models.ServiceReportSystem;
 
-namespace ServiceReportSystem.Controllers
+namespace ControlTower.Controllers.ServiceReportSystem
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -75,11 +75,8 @@ namespace ServiceReportSystem.Controllers
                 .Include(s => s.CreatedByUser)
                 .Include(s => s.UpdatedByUser)
                 .Include(s => s.IssueReported)
-                    .ThenInclude(ir => ir.IssueReportWarehouse)
                 .Include(s => s.IssueFound)
-                    .ThenInclude(issueFound => issueFound.IssueFoundWarehouse)
                 .Include(s => s.ActionTaken)
-                    .ThenInclude(at => at.ActionTakenWarehouse)
                 .Include(s => s.FurtherActionTaken)
                     .ThenInclude(fat => fat.FurtherActionTakenWarehouse)
                 .FirstOrDefaultAsync(s => s.ID == id && !s.IsDeleted);
@@ -127,25 +124,25 @@ namespace ServiceReportSystem.Controllers
                     Remark = fs.Remark
                 }).ToList(),
                 
-                // Fix mappings to extract warehouse IDs instead of record IDs
+                // Update the GetServiceReport method's DTO mapping
                 IssueReported = serviceReport.IssueReported.Select(ir => new IssueReportedDto
                 {
-                    ID = ir.IssueReportWarehouseID,  // ✅ Changed from ir.ID
-                    Description = ir.IssueReportWarehouse?.Name ?? string.Empty,
+                    ID = ir.ID,  // Changed from ir.IssueReportWarehouseID
+                    Description = ir.Description, // Changed from ir.IssueReportWarehouse?.Name
                     Remark = ir.Remark
                 }).ToList(),
                 
                 IssueFound = serviceReport.IssueFound.Select(ifound => new IssueFoundDto
                 {
-                    ID = ifound.IssueFoundWarehouseID,  // ✅ Changed from ifound.ID
-                    Description = ifound.IssueFoundWarehouse?.Name ?? string.Empty,
+                    ID = ifound.ID,  // Changed from ifound.IssueFoundWarehouseID
+                    Description = ifound.Description, // Changed from ifound.IssueFoundWarehouse?.Name
                     Remark = ifound.Remark
                 }).ToList(),
                 
                 ActionTaken = serviceReport.ActionTaken.Select(at => new ActionTakenDto
                 {
-                    ID = at.ActionTakenWarehouseID,  // ✅ Changed from at.ID
-                    Description = at.ActionTakenWarehouse?.Name ?? string.Empty,
+                    ID = at.ID,  // Changed from at.ActionTakenWarehouseID
+                    Description = at.Description, // Changed from at.ActionTakenWarehouse?.Name
                     Remark = at.Remark
                 }).ToList(),
                 
@@ -231,7 +228,7 @@ namespace ServiceReportSystem.Controllers
             {
                 new IssueReported
                 {
-                    IssueReportWarehouseID = createDto.IssueReported[0].Id,
+                    Description = createDto.IssueReported[0].Description, // Changed from IssueReportWarehouseID
                     Remark = createDto.IssueReported[0].Remark,
                     ServiceReportFormID = serviceReport.ID,
                     CreatedDate = DateTime.UtcNow,
@@ -246,7 +243,7 @@ namespace ServiceReportSystem.Controllers
             {
                 new IssueFound
                 {
-                    IssueFoundWarehouseID = createDto.IssueFound[0].Id,
+                    Description = createDto.IssueFound[0].Description, // Changed from IssueFoundWarehouseID
                     ServiceReportFormID = serviceReport.ID,
                     Remark = createDto.IssueFound[0].Remark,
                     CreatedDate = DateTime.UtcNow,
@@ -261,7 +258,7 @@ namespace ServiceReportSystem.Controllers
             {
                 new ActionTaken
                 {
-                    ActionTakenWarehouseID = createDto.ActionTaken[0].Id,
+                    Description = createDto.ActionTaken[0].Description, // Changed from ActionTakenWarehouseID
                     ServiceReportFormID = serviceReport.ID,
                     Remark = createDto.ActionTaken[0].Remark,
                     CreatedDate = DateTime.UtcNow,
@@ -400,7 +397,7 @@ namespace ServiceReportSystem.Controllers
                 var existingIssueReported = serviceReport.IssueReported.FirstOrDefault();
                 if (existingIssueReported != null)
                 {
-                    existingIssueReported.IssueReportWarehouseID = updateDto.IssueReported[0].Id;
+                    existingIssueReported.Description = updateDto.IssueReported[0].Description; // Fixed: Use Description instead of Remark
                     existingIssueReported.Remark = updateDto.IssueReported[0].Remark;
                     existingIssueReported.UpdatedDate = DateTime.UtcNow;
                     existingIssueReported.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
@@ -413,7 +410,7 @@ namespace ServiceReportSystem.Controllers
                 var existingIssueFound = serviceReport.IssueFound.FirstOrDefault();
                 if (existingIssueFound != null)
                 {
-                    existingIssueFound.IssueFoundWarehouseID = updateDto.IssueFound[0].Id;
+                    existingIssueFound.Description = updateDto.IssueFound[0].Description; // Fixed: Use Description instead of Remark
                     existingIssueFound.Remark = updateDto.IssueFound[0].Remark;
                     existingIssueFound.UpdatedDate = DateTime.UtcNow;
                     existingIssueFound.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
@@ -426,7 +423,7 @@ namespace ServiceReportSystem.Controllers
                 var existingActionTaken = serviceReport.ActionTaken.FirstOrDefault();
                 if (existingActionTaken != null)
                 {
-                    existingActionTaken.ActionTakenWarehouseID = updateDto.ActionTaken[0].Id;
+                    existingActionTaken.Description = updateDto.ActionTaken[0].Description; // Fixed: Use Description instead of Remark
                     existingActionTaken.Remark = updateDto.ActionTaken[0].Remark;
                     existingActionTaken.UpdatedDate = DateTime.UtcNow;
                     existingActionTaken.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
