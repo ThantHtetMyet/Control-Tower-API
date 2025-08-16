@@ -2023,10 +2023,60 @@
         }
       }
     },
-    "/api/ServiceReport": {
+    "/api/ServiceReport/search": {
       "get": {
         "tags": [
           "ServiceReport"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "searchField",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchValue",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -2034,26 +2084,66 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ServiceReportDto"
-                  }
+                  "$ref": "#/components/schemas/ServiceReportDtoPagedResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ServiceReportDto"
-                  }
+                  "$ref": "#/components/schemas/ServiceReportDtoPagedResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ServiceReportDto"
-                  }
+                  "$ref": "#/components/schemas/ServiceReportDtoPagedResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ServiceReport": {
+      "get": {
+        "tags": [
+          "ServiceReport"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceReportDtoPagedResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceReportDtoPagedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceReportDtoPagedResult"
                 }
               }
             }
@@ -2240,6 +2330,18 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/ServiceReport/dashboard-stats": {
+      "get": {
+        "tags": [
+          "ServiceReport"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -2925,6 +3027,24 @@
         },
         "additionalProperties": false
       },
+      "CreateMaterialUsedDto": {
+        "type": "object",
+        "properties": {
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "serialNo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CreateOccupationDto": {
         "required": [
           "occupationName"
@@ -3045,6 +3165,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/TempItem"
+            },
+            "nullable": true
+          },
+          "materialsUsed": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateMaterialUsedDto"
             },
             "nullable": true
           },
@@ -3699,6 +3826,28 @@
         },
         "additionalProperties": false
       },
+      "MaterialUsedDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "serialNo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "Occupation": {
         "required": [
           "occupationName"
@@ -3874,7 +4023,8 @@
           },
           "projectNoID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "projectNumberName": {
             "type": "string",
@@ -3882,7 +4032,8 @@
           },
           "systemID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "systemName": {
             "type": "string",
@@ -3890,7 +4041,8 @@
           },
           "locationID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "locationName": {
             "type": "string",
@@ -3898,7 +4050,8 @@
           },
           "followupActionID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "followupActionNo": {
             "type": "string",
@@ -3906,7 +4059,8 @@
           },
           "serviceTypeID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "serviceTypeName": {
             "type": "string",
@@ -3914,7 +4068,8 @@
           },
           "formStatusID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "formStatusName": {
             "type": "string",
@@ -3942,7 +4097,8 @@
           },
           "createdDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "createdByUserName": {
             "type": "string",
@@ -4022,6 +4178,43 @@
               "$ref": "#/components/schemas/FurtherActionDto"
             },
             "nullable": true
+          },
+          "materialsUsed": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MaterialUsedDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ServiceReportDtoPagedResult": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceReportDto"
+            },
+            "nullable": true
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -4530,6 +4723,28 @@
         },
         "additionalProperties": false
       },
+      "UpdateMaterialUsedDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "serialNo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "UpdateServiceReportDto": {
         "type": "object",
         "properties": {
@@ -4616,6 +4831,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/TempItem"
+            },
+            "nullable": true
+          },
+          "materialsUsed": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdateMaterialUsedDto"
             },
             "nullable": true
           },

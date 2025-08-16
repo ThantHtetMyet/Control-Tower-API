@@ -4,6 +4,7 @@ using ControlTower.Data;
 using ControlTower.DTOs.ServiceReportSystem;
 using ControlTower.Models.EmployeeManagementSystem;
 using ControlTower.Models.ServiceReportSystem;
+using ControlTower.DTOs;
 
 namespace ControlTower.Controllers.ServiceReportSystem
 {
@@ -17,12 +18,66 @@ namespace ControlTower.Controllers.ServiceReportSystem
         {
             _context = context;
         }
+        // Add this new endpoint after the existing GetServiceReports method
 
-        // GET: api/ServiceReport
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ServiceReportDto>>> GetServiceReports()
+        // GET: api/ServiceReport/search
+        [HttpGet("search")]
+        public async Task<ActionResult<PagedResult<ServiceReportDto>>> SearchServiceReports(
+            [FromQuery] int page = 1, 
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string? searchField = null,
+            [FromQuery] string? searchValue = null,
+            [FromQuery] DateTime? startDate = null,
+            [FromQuery] DateTime? endDate = null)
         {
-            var serviceReports = await _context.ServiceReportForms
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 10;
+            if (pageSize > 100) pageSize = 100;
+
+            var baseQuery = _context.ServiceReportForms
+                .Where(s => !s.IsDeleted);
+
+            // Apply field-specific search
+            if (!string.IsNullOrEmpty(searchField) && !string.IsNullOrEmpty(searchValue))
+            {
+                switch (searchField.ToLower())
+                {
+                    case "jobno":
+                    case "jobnumber":
+                        baseQuery = baseQuery.Where(s => s.JobNumber.Contains(searchValue));
+                        break;
+                    case "customer":
+                        baseQuery = baseQuery.Where(s => s.Customer.Contains(searchValue));
+                        break;
+                    case "projectno":
+                    case "project":
+                        baseQuery = baseQuery.Where(s => s.ProjectNo.ProjectNumber.Contains(searchValue));
+                        break;
+                    case "system":
+                        baseQuery = baseQuery.Where(s => s.System.Name.Contains(searchValue));
+                        break;
+                    case "location":
+                        baseQuery = baseQuery.Where(s => s.Location.Name.Contains(searchValue));
+                        break;
+                    case "status":
+                        baseQuery = baseQuery.Where(s => s.FormStatus.Any(fs => fs.FormStatusWarehouse.Name.Contains(searchValue)));
+                        break;
+                }
+            }
+
+            // Apply date range filter
+            if (startDate.HasValue)
+            {
+                baseQuery = baseQuery.Where(s => s.CreatedDate >= startDate.Value);
+            }
+            if (endDate.HasValue)
+            {
+                baseQuery = baseQuery.Where(s => s.CreatedDate <= endDate.Value.AddDays(1).AddTicks(-1));
+            }
+
+            var totalCount = await baseQuery.CountAsync();
+
+            var query = baseQuery
                 .Include(s => s.ProjectNo)
                 .Include(s => s.System)
                 .Include(s => s.Location)
@@ -30,16 +85,26 @@ namespace ControlTower.Controllers.ServiceReportSystem
                     .ThenInclude(st => st.ServiceTypeWarehouse)
                 .Include(s => s.FormStatus)
                     .ThenInclude(fs => fs.FormStatusWarehouse)
-                .Where(s => !s.IsDeleted)
+                .Include(s => s.CreatedByUser)
+                .Include(s => s.UpdatedByUser)
+                .OrderByDescending(s => s.UpdatedDate ?? s.CreatedDate);
+
+            var items = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Select(s => new ServiceReportDto
                 {
-                    ID = s.ID,  // Add this missing line!
+                    ID = s.ID,
                     JobNumber = s.JobNumber,
                     Customer = s.Customer,
                     SystemName = s.System.Name,
                     LocationName = s.Location.Name,
                     ProjectNoID = s.ProjectNoID,
                     ProjectNumberName = s.ProjectNo.ProjectNumber,
+                    CreatedDate = s.CreatedDate,
+                    CreatedByUserName = s.CreatedByUser.FirstName ?? string.Empty,
+                    UpdatedDate = s.UpdatedDate,
+                    UpdatedByUserName = s.UpdatedByUser.FirstName ?? string.Empty,
                     ServiceType = s.ServiceType.Select(st => new ServiceTypeDto
                     {
                         Id = st.ServiceTypeWarehouseID,
@@ -55,9 +120,82 @@ namespace ControlTower.Controllers.ServiceReportSystem
                 })
                 .ToListAsync();
 
-            return Ok(serviceReports);
-        }
+            var result = new PagedResult<ServiceReportDto>
+            {
+                Items = items,
+                TotalCount = totalCount,
+                Page = page,
+                PageSize = pageSize
+            };
 
+            return Ok(result);
+        }
+        // GET: api/ServiceReport
+        [HttpGet]
+        public async Task<ActionResult<PagedResult<ServiceReportDto>>> GetServiceReports([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+        {
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 10;
+            if (pageSize > 100) pageSize = 100;
+
+            var baseQuery = _context.ServiceReportForms
+                .Where(s => !s.IsDeleted);
+
+            var totalCount = await baseQuery.CountAsync();
+
+            var query = baseQuery
+                .Include(s => s.ProjectNo)
+                .Include(s => s.System)
+                .Include(s => s.Location)
+                .Include(s => s.ServiceType)
+                    .ThenInclude(st => st.ServiceTypeWarehouse)
+                .Include(s => s.FormStatus)
+                    .ThenInclude(fs => fs.FormStatusWarehouse)
+                .Include(s => s.CreatedByUser)  // Add this line
+                .Include(s => s.UpdatedByUser)  // Add this line
+                .OrderByDescending(s => s.UpdatedDate ?? s.CreatedDate);
+
+            var items = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(s => new ServiceReportDto
+                {
+                    ID = s.ID,
+                    JobNumber = s.JobNumber,
+                    Customer = s.Customer,
+                    SystemName = s.System.Name,
+                    LocationName = s.Location.Name,
+                    ProjectNoID = s.ProjectNoID,
+                    ProjectNumberName = s.ProjectNo.ProjectNumber,
+                    CreatedDate = s.CreatedDate,
+                    CreatedByUserName = s.CreatedByUser.FirstName ?? string.Empty,  // Add this line
+                    UpdatedDate = s.UpdatedDate,  // Add this line
+                    UpdatedByUserName = s.UpdatedByUser.FirstName ?? string.Empty,  // Add this line
+                    ServiceType = s.ServiceType.Select(st => new ServiceTypeDto
+                    {
+                        Id = st.ServiceTypeWarehouseID,
+                        Name = st.ServiceTypeWarehouse.Name,
+                        Remark = st.Remark
+                    }).ToList(),
+                    FormStatus = s.FormStatus.Select(fs => new FormStatusDto
+                    {
+                        Id = fs.FormStatusWarehouseID,
+                        Name = fs.FormStatusWarehouse.Name,
+                        Remark = fs.Remark
+                    }).ToList()
+                })
+                .ToListAsync();
+
+            var result = new PagedResult<ServiceReportDto>
+            {
+                Items = items,
+                TotalCount = totalCount,
+                Page = page,
+                PageSize = pageSize
+            };
+
+            return Ok(result);
+        }
 
         // GET: api/ServiceReport/5
         [HttpGet("{id}")]
@@ -72,6 +210,7 @@ namespace ControlTower.Controllers.ServiceReportSystem
                     .ThenInclude(st => st.ServiceTypeWarehouse)
                 .Include(s => s.FormStatus)
                     .ThenInclude(fs => fs.FormStatusWarehouse)
+                .Include(s => s.MaterialsUsed)
                 .Include(s => s.CreatedByUser)
                 .Include(s => s.UpdatedByUser)
                 .Include(s => s.IssueReported)
@@ -79,6 +218,7 @@ namespace ControlTower.Controllers.ServiceReportSystem
                 .Include(s => s.ActionTaken)
                 .Include(s => s.FurtherActionTaken)
                     .ThenInclude(fat => fat.FurtherActionTakenWarehouse)
+                .Include(s => s.MaterialsUsed) // Add this line
                 .FirstOrDefaultAsync(s => s.ID == id && !s.IsDeleted);
 
             if (serviceReport == null)
@@ -89,81 +229,92 @@ namespace ControlTower.Controllers.ServiceReportSystem
             var dto = new ServiceReportDto
             {
                 ID = serviceReport.ID,
-                JobNumber = serviceReport.JobNumber,
-                ContactNo = serviceReport.ContactNo,
-                Customer = serviceReport.Customer,
+                JobNumber = serviceReport.JobNumber ?? string.Empty,
+                ContactNo = serviceReport.ContactNo ?? string.Empty,
+                Customer = serviceReport.Customer ?? string.Empty,
+                
                 ProjectNoID = serviceReport.ProjectNoID,
-                ProjectNumberName = serviceReport.ProjectNo.ProjectNumber,
+                ProjectNumberName = serviceReport.ProjectNo?.ProjectNumber ?? string.Empty,
+                
                 SystemID = serviceReport.SystemID,
-                SystemName = serviceReport.System.Name,
+                SystemName = serviceReport.System?.Name ?? string.Empty,
+                
                 LocationID = serviceReport.LocationID,
-                LocationName = serviceReport.Location.Name,
+                LocationName = serviceReport.Location?.Name ?? string.Empty,
+                
                 FollowupActionID = serviceReport.FollowupActionID,
-                FollowupActionNo = serviceReport.FollowupAction.FollowupActionNo,
+                FollowupActionNo = serviceReport.FollowupAction?.FollowupActionNo ?? string.Empty,
+                
                 FailureDetectedDate = serviceReport.FailureDetectedDate,
                 ResponseDate = serviceReport.ResponseDate,
                 ArrivalDate = serviceReport.ArrivalDate,
                 CompletionDate = serviceReport.CompletionDate,
                 CreatedDate = serviceReport.CreatedDate,
-                CreatedByUserName = serviceReport.CreatedByUser.FirstName,
+                CreatedByUserName = serviceReport.CreatedByUser?.FirstName ?? string.Empty,
                 UpdatedDate = serviceReport.UpdatedDate,
-                UpdatedByUserName = serviceReport.UpdatedByUser.FirstName,
+                UpdatedByUserName = serviceReport.UpdatedByUser?.FirstName ?? string.Empty,
                 
-                // Map collections
-                ServiceType = serviceReport.ServiceType.Select(st => new ServiceTypeDto
+                ServiceType = serviceReport.ServiceType?.Select(st => new ServiceTypeDto
                 {
                     Id = st.ServiceTypeWarehouseID,
-                    Name = st.ServiceTypeWarehouse.Name,
+                    Name = st.ServiceTypeWarehouse?.Name ?? string.Empty,
                     Remark = st.Remark
-                }).ToList(),
+                }).ToList() ?? new List<ServiceTypeDto>(),
                 
-                FormStatus = serviceReport.FormStatus.Select(fs => new FormStatusDto
+                FormStatus = serviceReport.FormStatus?.Select(fs => new FormStatusDto
                 {
                     Id = fs.FormStatusWarehouseID,
-                    Name = fs.FormStatusWarehouse.Name,
+                    Name = fs.FormStatusWarehouse?.Name ?? string.Empty,
                     Remark = fs.Remark
-                }).ToList(),
+                }).ToList() ?? new List<FormStatusDto>(),
                 
-                // Update the GetServiceReport method's DTO mapping
-                IssueReported = serviceReport.IssueReported.Select(ir => new IssueReportedDto
+                IssueReported = serviceReport.IssueReported?.Select(ir => new IssueReportedDto
                 {
-                    ID = ir.ID,  // Changed from ir.IssueReportWarehouseID
-                    Description = ir.Description, // Changed from ir.IssueReportWarehouse?.Name
+                    ID = ir.ID,
+                    Description = ir.Description ?? string.Empty,
                     Remark = ir.Remark
-                }).ToList(),
+                }).ToList() ?? new List<IssueReportedDto>(),
                 
-                IssueFound = serviceReport.IssueFound.Select(ifound => new IssueFoundDto
+                IssueFound = serviceReport.IssueFound?.Select(ifound => new IssueFoundDto
                 {
-                    ID = ifound.ID,  // Changed from ifound.IssueFoundWarehouseID
-                    Description = ifound.Description, // Changed from ifound.IssueFoundWarehouse?.Name
+                    ID = ifound.ID,
+                    Description = ifound.Description ?? string.Empty,
                     Remark = ifound.Remark
-                }).ToList(),
+                }).ToList() ?? new List<IssueFoundDto>(),
                 
-                ActionTaken = serviceReport.ActionTaken.Select(at => new ActionTakenDto
+                ActionTaken = serviceReport.ActionTaken?.Select(at => new ActionTakenDto
                 {
-                    ID = at.ID,  // Changed from at.ActionTakenWarehouseID
-                    Description = at.Description, // Changed from at.ActionTakenWarehouse?.Name
+                    ID = at.ID,
+                    Description = at.Description ?? string.Empty,
                     Remark = at.Remark
-                }).ToList(),
+                }).ToList() ?? new List<ActionTakenDto>(),
                 
-                FurtherActionTaken = serviceReport.FurtherActionTaken.Select(fat => new FurtherActionDto
+                FurtherActionTaken = serviceReport.FurtherActionTaken?.Select(fat => new FurtherActionDto
                 {
-                    ID = fat.FurtherActionTakenWarehouseID,  // ✅ Changed from fat.ID
+                    ID = fat.FurtherActionTakenWarehouseID,
                     Description = fat.FurtherActionTakenWarehouse?.Name ?? string.Empty,
                     Remark = fat.Remark
-                }).ToList(),
+                }).ToList() ?? new List<FurtherActionDto>(),
                 
-                // Set remark fields from first items (if any)
-                ServiceTypeRemark = serviceReport.ServiceType.FirstOrDefault()?.Remark,
-                IssueReportedRemark = serviceReport.IssueReported.FirstOrDefault()?.Remark,
-                IssueFoundRemark = serviceReport.IssueFound.FirstOrDefault()?.Remark,
-                ActionTakenRemark = serviceReport.ActionTaken.FirstOrDefault()?.Remark,
-                FurtherActionTakenRemark = serviceReport.FurtherActionTaken.FirstOrDefault()?.Remark,
-                FormStatusRemark = serviceReport.FormStatus.FirstOrDefault()?.Remark
+                MaterialsUsed = serviceReport.MaterialsUsed?.Select(mu => new MaterialUsedDto
+                {
+                    ID = mu.ID,
+                    Quantity = mu.Quantity,
+                    Description = mu.Description,
+                    SerialNo = mu.SerialNo
+                }).ToList() ?? new List<MaterialUsedDto>(),
+                
+                ServiceTypeRemark = serviceReport.ServiceType?.FirstOrDefault()?.Remark,
+                IssueReportedRemark = serviceReport.IssueReported?.FirstOrDefault()?.Remark,
+                IssueFoundRemark = serviceReport.IssueFound?.FirstOrDefault()?.Remark,
+                ActionTakenRemark = serviceReport.ActionTaken?.FirstOrDefault()?.Remark,
+                FurtherActionTakenRemark = serviceReport.FurtherActionTaken?.FirstOrDefault()?.Remark,
+                FormStatusRemark = serviceReport.FormStatus?.FirstOrDefault()?.Remark
             };
 
             return dto;
         }
+
         [HttpGet("NextJobNumber")]
         public async Task<ActionResult<string>> GetNextJobNumber()
         {
@@ -222,7 +373,23 @@ namespace ControlTower.Controllers.ServiceReportSystem
                 CreatedBy = Guid.Parse(createDto.CreatedBy),
                 UpdatedBy = Guid.Parse(createDto.CreatedBy)
             };
-
+            // Add materials used if provided
+            if (createDto.MaterialsUsed != null && createDto.MaterialsUsed.Any())
+            {
+                serviceReport.MaterialsUsed = createDto.MaterialsUsed.Select(m => new MaterialUsed
+                {
+                    ID = Guid.NewGuid(),
+                    ServiceReportFormID = serviceReport.ID,
+                    Quantity = m.Quantity,
+                    Description = m.Description,
+                    SerialNo = m.SerialNo,
+                    CreatedDate = DateTime.UtcNow,
+                    UpdatedDate = DateTime.UtcNow,
+                    CreatedBy = Guid.Parse(createDto.CreatedBy),
+                    UpdatedBy = Guid.Parse(createDto.CreatedBy),
+                    IsDeleted = false
+                }).ToList();
+            }
             // Add related entities
             serviceReport.IssueReported = new List<IssueReported>
             {
@@ -344,6 +511,7 @@ namespace ControlTower.Controllers.ServiceReportSystem
                 .Include(s => s.IssueFound)
                 .Include(s => s.ActionTaken)
                 .Include(s => s.FurtherActionTaken)
+                .Include(s => s.MaterialsUsed) // Add this line
                 .FirstOrDefaultAsync(s => s.ID == id);
 
             if (serviceReport == null || serviceReport.IsDeleted)
@@ -443,6 +611,62 @@ namespace ControlTower.Controllers.ServiceReportSystem
                 }
             }
 
+            // Update MaterialsUsed if provided
+            if (updateDto.MaterialsUsed != null && updateDto.MaterialsUsed.Any())
+            {
+                // Get existing materials
+                var existingMaterials = serviceReport.MaterialsUsed?.ToList() ?? new List<MaterialUsed>();
+
+                // Mark all existing materials as deleted first
+                foreach (var material in existingMaterials)
+                {
+                    material.IsDeleted = true;
+                    material.UpdatedDate = DateTime.UtcNow;
+                    material.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
+                }
+
+                // Add or update materials from the DTO
+                foreach (var materialDto in updateDto.MaterialsUsed)
+                {
+                    // Check if this is an existing material being updated
+                    var existingMaterial = existingMaterials.FirstOrDefault(m => m.ID == materialDto.ID);
+
+                    if (existingMaterial != null)
+                    {
+                        // Update existing material
+                        existingMaterial.Quantity = materialDto.Quantity;
+                        existingMaterial.Description = materialDto.Description;
+                        existingMaterial.SerialNo = materialDto.SerialNo;
+                        existingMaterial.UpdatedDate = DateTime.UtcNow;
+                        existingMaterial.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
+                        existingMaterial.IsDeleted = false; // Mark as not deleted
+                    }
+                    else
+                    {
+                        // Add new material
+                        var newMaterial = new MaterialUsed
+                        {
+                            ID = Guid.NewGuid(),
+                            ServiceReportFormID = serviceReport.ID,
+                            Quantity = materialDto.Quantity,
+                            Description = materialDto.Description,
+                            SerialNo = materialDto.SerialNo,
+                            CreatedDate = DateTime.UtcNow,
+                            UpdatedDate = DateTime.UtcNow,
+                            CreatedBy = Guid.Parse(updateDto.UpdatedBy),
+                            UpdatedBy = Guid.Parse(updateDto.UpdatedBy),
+                            IsDeleted = false
+                        };
+
+                        if (serviceReport.MaterialsUsed == null)
+                        {
+                            serviceReport.MaterialsUsed = new List<MaterialUsed>();
+                        }
+
+                        serviceReport.MaterialsUsed.Add(newMaterial);
+                    }
+                }
+            }
             try
             {
                 await _context.SaveChangesAsync();
@@ -458,6 +682,7 @@ namespace ControlTower.Controllers.ServiceReportSystem
 
             return NoContent();
         }
+
 
         // In DeleteServiceReport method - parameter should be Guid
         [HttpDelete("{id}")]
@@ -479,6 +704,65 @@ namespace ControlTower.Controllers.ServiceReportSystem
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [HttpGet("dashboard-stats")]
+        public async Task<IActionResult> GetDashboardStats()
+        {
+            try
+            {
+                // Get the latest FormStatus for each ServiceReportForm (ordered by CreatedDate)
+                var formStatusStats = await _context.ServiceReportForms
+                    .Where(sr => !sr.IsDeleted)
+                    .Select(sr => new {
+                        ServiceReportId = sr.ID,
+                        LatestFormStatus = sr.FormStatus
+                            .Where(fs => !fs.IsDeleted)
+                            .OrderByDescending(fs => fs.CreatedDate)
+                            .FirstOrDefault()
+                    })
+                    .Where(x => x.LatestFormStatus != null)
+                    .GroupBy(x => x.LatestFormStatus.FormStatusWarehouse.Name)
+                    .Select(g => new {
+                        StatusName = g.Key ?? "Unknown",
+                        Count = g.Count()
+                    })
+                    .OrderByDescending(x => x.Count)
+                    .ToListAsync();
+
+                var totalReports = await _context.ServiceReportForms
+                    .CountAsync(sr => !sr.IsDeleted);
+
+                var recentReports = await _context.ServiceReportForms
+                    .Where(sr => !sr.IsDeleted && sr.CreatedDate >= DateTime.UtcNow.AddDays(-30))
+                    .CountAsync();
+
+                // Get completion rate using latest FormStatus (ordered by CreatedDate)
+                var completedReports = await _context.ServiceReportForms
+                    .Where(sr => !sr.IsDeleted)
+                    .Where(sr => sr.FormStatus
+                        .Where(fs => !fs.IsDeleted)
+                        .OrderByDescending(fs => fs.CreatedDate)
+                        .FirstOrDefault().FormStatusWarehouse.Name.ToLower() == "close")
+                    .CountAsync();
+
+                var completionRate = totalReports > 0 ? Math.Round((double)completedReports / totalReports * 100, 1) : 0;
+
+                var result = new {
+                    FormStatusDistribution = formStatusStats,
+                    TotalReports = totalReports,
+                    RecentReports = recentReports,
+                    CompletedReports = completedReports,
+                    CompletionRate = completionRate,
+                    LastUpdated = DateTime.UtcNow
+                };
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred while fetching dashboard statistics.", error = ex.Message });
+            }
         }
 
         private bool ServiceReportExists(Guid id)

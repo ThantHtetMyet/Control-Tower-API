@@ -4,6 +4,7 @@ using ControlTower.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControlTower.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250809080252_AddNewTableMaterialUsedTable")]
+    partial class AddNewTableMaterialUsedTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -934,21 +937,23 @@ namespace ControlTower.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ContactNo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("CreatedDate")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Customer")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("FailureDetectedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("FollowupActionID")
+                    b.Property<Guid>("FollowupActionID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
@@ -958,22 +963,22 @@ namespace ControlTower.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid?>("LocationID")
+                    b.Property<Guid>("LocationID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ProjectNoID")
+                    b.Property<Guid>("ProjectNoID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("ResponseDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("SystemID")
+                    b.Property<Guid>("SystemID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("UpdatedDate")
+                    b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("ID");
@@ -1548,22 +1553,26 @@ namespace ControlTower.Migrations
                     b.HasOne("ControlTower.Models.ServiceReportSystem.FollowupActionWarehouse", "FollowupAction")
                         .WithMany()
                         .HasForeignKey("FollowupActionID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("ControlTower.Models.ServiceReportSystem.LocationWarehouse", "Location")
                         .WithMany()
                         .HasForeignKey("LocationID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("ControlTower.Models.ServiceReportSystem.ProjectNoWarehouse", "ProjectNo")
                         .WithMany()
                         .HasForeignKey("ProjectNoID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("ControlTower.Models.ServiceReportSystem.SystemWarehouse", "System")
                         .WithMany()
                         .HasForeignKey("SystemID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
                         .WithMany()

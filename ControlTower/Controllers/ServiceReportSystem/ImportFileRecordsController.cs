@@ -5,6 +5,9 @@ using ControlTower.DTOs.ServiceReportSystem;
 using ControlTower.Models.ServiceReportSystem;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using MQTTnet;
+using MQTTnet.Client;
+using System.Text.Json;
 
 namespace ControlTower.Controllers.ServiceReportSystem
 {
@@ -224,52 +227,38 @@ namespace ControlTower.Controllers.ServiceReportSystem
         {
             return _context.ImportFileRecords.Any(e => e.ID == id && !e.IsDeleted);
         }
-
-        // POST: api/ImportFileRecords/ProcessImportData
         [HttpPost("ProcessImportData")]
         public async Task<ActionResult> ProcessImportData(IFormFile file, [FromForm] Guid importFormTypeId)
         {
             try
             {
                 if (file == null || file.Length == 0)
-                {
                     return BadRequest("No file uploaded.");
-                }
 
                 // Validate file type
                 var allowedExtensions = new[] { ".xlsx", ".xls" };
                 var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
                 if (!allowedExtensions.Contains(fileExtension))
-                {
                     return BadRequest("Only Excel files (.xlsx, .xls) are allowed.");
-                }
 
                 // Get current user ID
                 var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (!Guid.TryParse(userIdClaim, out Guid userId))
-                {
                     return Unauthorized("Invalid user.");
-                }
 
                 // Get ImportFormType
                 var importFormType = await _context.ImportFormTypes
                     .FirstOrDefaultAsync(x => x.ID == importFormTypeId && !x.IsDeleted);
-                
                 if (importFormType == null)
-                {
                     return BadRequest("Invalid import form type.");
-                }
 
-                // Create directory structure: BasePath/ImportFormTypeName/UserId
+                // Create directory: BasePath/ImportFormTypeName/UserId
                 var formTypeDirectory = Path.Combine(_basePath, importFormType.Name);
                 var userDirectory = Path.Combine(formTypeDirectory, userId.ToString());
-                
                 if (!Directory.Exists(userDirectory))
-                {
                     Directory.CreateDirectory(userDirectory);
-                }
 
-                // Generate unique filename
+                // Unique filename
                 var fileName = $"{DateTime.Now:yyyyMMdd_HHmmss}_{file.FileName}";
                 var filePath = Path.Combine(userDirectory, fileName);
 
@@ -279,7 +268,7 @@ namespace ControlTower.Controllers.ServiceReportSystem
                     await file.CopyToAsync(stream);
                 }
 
-                // Create ImportFileRecord
+                // Create DB record
                 var fileRecord = new ImportFileRecords
                 {
                     ID = Guid.NewGuid(),
@@ -287,7 +276,7 @@ namespace ControlTower.Controllers.ServiceReportSystem
                     Name = fileName,
                     StoredDirectory = filePath,
                     UploadedStatus = "Uploaded",
-                    ImportedStatus = "Processing", // Set to Processing since we're about to process
+                    ImportedStatus = "Processing",
                     UploadedDate = DateTime.Now,
                     UploadedBy = userId,
                     IsDeleted = false,
@@ -299,101 +288,50 @@ namespace ControlTower.Controllers.ServiceReportSystem
 
                 _context.ImportFileRecords.Add(fileRecord);
                 await _context.SaveChangesAsync();
-                /*
-                // Now process the Excel file
-                List<Dictionary<string, object>> excelData;
-                using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+
+                // --- MQTT publish to ServiceReport/upload ---
+                try
                 {
-                    using (var package = new OfficeOpenXml.ExcelPackage(fileStream))
+                    var mqttSettings = _configuration.GetSection("MqttSettings");
+
+                    var mqttFactory = new MqttFactory();
+                    using var mqttClient = mqttFactory.CreateMqttClient();
+
+                    var mqttClientOptions = new MqttClientOptionsBuilder()
+                        .WithTcpServer(mqttSettings["BrokerAddress"], int.Parse(mqttSettings["BrokerPort"]))
+                        .WithClientId($"{mqttSettings["ClientId"]}-{Guid.NewGuid():N}")
+                        .Build();
+
+                    await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
+
+                    var messagePayload = JsonSerializer.Serialize(new
                     {
-                        var worksheet = package.Workbook.Worksheets.FirstOrDefault();
-                        if (worksheet == null)
-                        {
-                            // Update status to failed
-                            fileRecord.ImportedStatus = "Failed";
-                            fileRecord.UpdatedDate = DateTime.UtcNow;
-                            await _context.SaveChangesAsync();
-                            return BadRequest("No worksheet found in the Excel file");
-                        }
+                        fileId = fileRecord.ID,
+                        fileName = fileName,
+                        filePath = filePath,
+                        formType = importFormType.Name,
+                        uploadedBy = userId,
+                        uploadedDate = DateTime.Now
+                    });
 
-                        excelData = new List<Dictionary<string, object>>();
-                        var rowCount = worksheet.Dimension?.Rows ?? 0;
-                        var colCount = worksheet.Dimension?.Columns ?? 0;
+                    var applicationMessage = new MqttApplicationMessageBuilder()
+                        .WithTopic(mqttSettings["UploadTopic"]) // Get topic from appsettings.json
+                        .WithPayload(messagePayload)
+                        .Build();
 
-                        if (rowCount <= 1) // No data rows (only header or empty)
-                        {
-                            // Update status to failed
-                            fileRecord.ImportedStatus = "Failed";
-                            fileRecord.UpdatedDate = DateTime.UtcNow;
-                            await _context.SaveChangesAsync();
-                            return BadRequest("No data found in the Excel file");
-                        }
+                    await mqttClient.PublishAsync(applicationMessage, CancellationToken.None);
+                    await mqttClient.DisconnectAsync();
 
-                        // Get headers from first row
-                        var headers = new List<string>();
-                        for (int col = 1; col <= colCount; col++)
-                        {
-                            headers.Add(worksheet.Cells[1, col].Value?.ToString() ?? $"Column{col}");
-                        }
-
-                        // Read data rows
-                        for (int row = 2; row <= rowCount; row++)
-                        {
-                            var rowData = new Dictionary<string, object>();
-                            for (int col = 1; col <= colCount; col++)
-                            {
-                                var cellValue = worksheet.Cells[row, col].Value?.ToString() ?? string.Empty;
-                                rowData[headers[col - 1]] = cellValue;
-                            }
-                            excelData.Add(rowData);
-                        }
-                    }
+                    Console.WriteLine($"MQTT message sent to {mqttSettings["UploadTopic"]}");
                 }
-
-                var results = new ProcessImportResultDto
+                catch (Exception mqttEx)
                 {
-                    TotalProcessed = excelData.Count,
-                    FormTypeName = importFormType.Name,
-                    LocationWarehouse = new ImportResultDetail(),
-                    IssueReportWarehouse = new ImportResultDetail(),
-                    IssueFoundWarehouse = new ImportResultDetail(),
-                    ActionTakenWarehouse = new ImportResultDetail()
-                };
-
-                // Process only the relevant warehouse data based on form type
-                // Remove these methods:
-                // - ProcessIssueReportWarehouseFromExcel
-                // - ProcessIssueFoundWarehouseFromExcel
-                // - ProcessActionTakenWarehouseFromExcel
-
-                // And update the switch statement in ProcessImportData method:
-                switch (importFormType.Name.ToLower())
-                {
-                    case "location":
-                        await ProcessLocationWarehouseFromExcel(excelData, userId, results.LocationWarehouse);
-                        break;
-                    // Remove these cases:
-                    // case "issuereported":
-                    // case "issuereport":
-                    // case "issuefound":
-                    // case "actiontaken":
-                    default:
-                        // Update status to failed
-                        fileRecord.ImportedStatus = "Failed";
-                        fileRecord.UpdatedDate = DateTime.UtcNow;
-                        await _context.SaveChangesAsync();
-                        throw new InvalidOperationException($"Unsupported form type: {importFormType.Name}");
+                    Console.WriteLine($"Failed to send MQTT message: {mqttEx.Message}");
                 }
-
-                // Update final status to completed
-                fileRecord.ImportedStatus = "Completed";
-                fileRecord.UpdatedDate = DateTime.UtcNow;
-                await _context.SaveChangesAsync();
-                */
 
                 return Ok(new
                 {
-                    message = "File uploaded and processed successfully",
+                    message = "File uploaded and processing started",
                     fileId = fileRecord.ID,
                     fileName = fileName,
                     filePath = filePath
@@ -401,7 +339,6 @@ namespace ControlTower.Controllers.ServiceReportSystem
             }
             catch (Exception ex)
             {
-                // Try to update the file record status if it exists
                 try
                 {
                     var existingRecord = await _context.ImportFileRecords
@@ -413,14 +350,12 @@ namespace ControlTower.Controllers.ServiceReportSystem
                         await _context.SaveChangesAsync();
                     }
                 }
-                catch
-                {
-                    // Ignore errors when updating status
-                }
-                
+                catch { }
+
                 return StatusCode(500, $"Error processing import data: {ex.Message}");
             }
         }
+
 
         // Updated helper methods to work with Excel data
         private async Task ProcessLocationWarehouseFromExcel(List<Dictionary<string, object>> excelData, Guid userId, ImportResultDetail result)

@@ -10,23 +10,23 @@ namespace ControlTower.DTOs.ServiceReportSystem
         public string Customer { get; set; }
         public string ContactNo { get; set; }
 
-        public Guid ProjectNoID { get; set; }
+        public Guid? ProjectNoID { get; set; }
         public string ProjectNumberName { get; set; }
-        public Guid SystemID { get; set; }
+        public Guid? SystemID { get; set; }
         public string SystemName { get; set; }
-        public Guid LocationID { get; set; }
+        public Guid? LocationID { get; set; }
         public string LocationName { get; set; }
-        public Guid FollowupActionID { get; set; }
+        public Guid? FollowupActionID { get; set; }
         public string FollowupActionNo { get; set; }
-        public Guid ServiceTypeID { get; set; }
+        public Guid? ServiceTypeID { get; set; }
         public string ServiceTypeName { get; set; }
-        public Guid FormStatusID { get; set; }
+        public Guid? FormStatusID { get; set; }
         public string FormStatusName { get; set; }
         public DateTime? FailureDetectedDate { get; set; }
         public DateTime? ResponseDate { get; set; }
         public DateTime? ArrivalDate { get; set; }
         public DateTime? CompletionDate { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public string CreatedByUserName { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public string UpdatedByUserName { get; set; }
@@ -44,6 +44,7 @@ namespace ControlTower.DTOs.ServiceReportSystem
         public List<IssueFoundDto> IssueFound { get; set; }
         public List<ActionTakenDto> ActionTaken { get; set; }
         public List<FurtherActionDto> FurtherActionTaken { get; set; }
+        public List<MaterialUsedDto> MaterialsUsed { get; set; } = new List<MaterialUsedDto>(); // Add this line
     }
 
     public class CreateServiceReportDto
@@ -65,6 +66,7 @@ namespace ControlTower.DTOs.ServiceReportSystem
         public List<TempItemTwo> IssueFound { get; set; }
         public List<TempItemTwo> ActionTaken { get; set; }
         public List<TempItem> FurtherAction { get; set; }
+        public List<CreateMaterialUsedDto> MaterialsUsed { get; set; } = new List<CreateMaterialUsedDto>(); // Add this line
         public string CreatedBy { get; set; }  // This remains string as it's parsed later
     }
 
@@ -99,6 +101,8 @@ namespace ControlTower.DTOs.ServiceReportSystem
         public List<TempItemTwo>? IssueFound { get; set; }
         public List<TempItemTwo>? ActionTaken { get; set; }
         public List<TempItem>? FurtherAction { get; set; }
+        
+        public List<UpdateMaterialUsedDto>? MaterialsUsed { get; set; }
         
         public string UpdatedBy { get; set; }
     }

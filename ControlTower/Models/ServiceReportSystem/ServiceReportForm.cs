@@ -13,37 +13,36 @@ namespace ControlTower.Models.ServiceReportSystem
 
         [StringLength(100)]
         public string? JobNumber { get; set; }
-
-        public string Customer { get; set; }
-        public string ContactNo { get; set; }
+        public string? Customer { get; set; }
+        public string? ContactNo { get; set; }
 
         [ForeignKey("ProjectNo")]
-        public Guid ProjectNoID { get; set; }
+        public Guid? ProjectNoID { get; set; }
         [DeleteBehavior(DeleteBehavior.Restrict)]
-        public ProjectNoWarehouse ProjectNo { get; set; }
+        public ProjectNoWarehouse? ProjectNo { get; set; }
 
         [ForeignKey("System")]
-        public Guid SystemID { get; set; }
+        public Guid? SystemID { get; set; }
         [DeleteBehavior(DeleteBehavior.Restrict)]
-        public SystemWarehouse System { get; set; }
+        public SystemWarehouse? System { get; set; }
 
         [ForeignKey("Location")]
-        public Guid LocationID { get; set; }
+        public Guid? LocationID { get; set; }
         [DeleteBehavior(DeleteBehavior.Restrict)]
-        public LocationWarehouse Location { get; set; }
+        public LocationWarehouse? Location { get; set; }
 
         [ForeignKey("FollowupAction")]
-        public Guid FollowupActionID { get; set; }
+        public Guid? FollowupActionID { get; set; }
         [DeleteBehavior(DeleteBehavior.Restrict)]
-        public FollowupActionWarehouse FollowupAction { get; set; }
+        public FollowupActionWarehouse? FollowupAction { get; set; }
 
         public DateTime? FailureDetectedDate { get; set; }
         public DateTime? ResponseDate { get; set; }
         public DateTime? ArrivalDate { get; set; }
         public DateTime? CompletionDate { get; set; }
         public bool IsDeleted { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
         
         [ForeignKey("CreatedByUser")]
         public Guid? CreatedBy { get; set; }
@@ -62,5 +61,6 @@ namespace ControlTower.Models.ServiceReportSystem
         public ICollection<ServiceType>? ServiceType { get; set; }
         public ICollection<FurtherActionTaken>? FurtherActionTaken { get; set; }
         public ICollection<FormStatus>? FormStatus { get; set; }
+        public ICollection<MaterialUsed>? MaterialsUsed { get; set; } // Add this line
     }
 }

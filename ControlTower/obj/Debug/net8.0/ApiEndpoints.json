@@ -1168,10 +1168,21 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ServiceReportSystem.ServiceReportDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "ControlTower.DTOs.PagedResult\u00601[[ControlTower.DTOs.ServiceReportSystem.ServiceReportDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1277,6 +1288,16 @@
   },
   {
     "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ServiceReportController",
+    "Method": "GetDashboardStats",
+    "RelativePath": "api/ServiceReport/dashboard-stats",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ServiceReportController",
     "Method": "GetNextJobNumber",
     "RelativePath": "api/ServiceReport/NextJobNumber",
     "HttpMethod": "GET",
@@ -1286,6 +1307,57 @@
     "ReturnTypes": [
       {
         "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ServiceReportController",
+    "Method": "SearchServiceReports",
+    "RelativePath": "api/ServiceReport/search",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "searchField",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "searchValue",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "startDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.PagedResult\u00601[[ControlTower.DTOs.ServiceReportSystem.ServiceReportDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
