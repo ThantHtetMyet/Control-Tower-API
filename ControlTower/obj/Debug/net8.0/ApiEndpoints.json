@@ -613,7 +613,7 @@
   },
   {
     "ContainingType": "ControlTower.Controllers.EmployeeManagementSystem.EmployeeApplicationAccessController",
-    "Method": "GetUserApplicationAccessesByEmployee",
+    "Method": "GetUserApplicationAccessesByUser",
     "RelativePath": "api/EmployeeApplicationAccess/employee/{employeeId}",
     "HttpMethod": "GET",
     "IsController": true,

@@ -26,15 +26,15 @@ namespace ControlTower.Models.EmployeeManagementSystem
 
         public DateTime UpdatedDate { get; set; }
 
-        [ForeignKey("CreatedByEmployee")]
+        [ForeignKey("CreatedByUser")]
         public Guid? CreatedBy { get; set; }
 
-        [ForeignKey("UpdatedByEmployee")]
+        [ForeignKey("UpdatedByUser")]
         public Guid? UpdatedBy { get; set; }
 
         // Navigation properties
-        public virtual User? CreatedByEmployee { get; set; }
-        public virtual User? UpdatedByEmployee { get; set; }
-        public virtual ICollection<User> Employees { get; set; } = new List<User>();
+        public virtual User? CreatedByUser { get; set; }
+        public virtual User? UpdatedByUser { get; set; }
+        public virtual ICollection<User> Users { get; set; } = new List<User>();
     }
 }

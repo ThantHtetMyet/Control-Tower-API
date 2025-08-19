@@ -19,7 +19,7 @@ namespace ControlTower.DTOs.ServiceReportSystem
 
     public class UpdateMaterialUsedDto
     {
-        public Guid ID { get; set; }
+        public Guid? ID { get; set; }
         public int Quantity { get; set; }
         public string Description { get; set; }
         public string SerialNo { get; set; }

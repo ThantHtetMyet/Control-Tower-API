@@ -22,9 +22,9 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
         public async Task<ActionResult<IEnumerable<DepartmentDto>>> GetDepartments()
         {
             var departments = await _context.Departments
-                .Include(d => d.CreatedByEmployee)
-                .Include(d => d.UpdatedByEmployee)
-                .Include(d => d.Employees.Where(e => !e.IsDeleted))
+                .Include(d => d.CreatedByUser)
+                .Include(d => d.UpdatedByUser)
+                .Include(d => d.Users.Where(e => !e.IsDeleted))
                 .Where(d => !d.IsDeleted)
                 .Select(d => new DepartmentDto
                 {
@@ -35,9 +35,9 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     Rating = d.Rating,
                     CreatedDate = d.CreatedDate,
                     UpdatedDate = d.UpdatedDate,
-                    CreatedByUserName = d.CreatedByEmployee != null ? d.CreatedByEmployee.FirstName + " " + d.CreatedByEmployee.LastName : null,
-                    UpdatedByUserName = d.UpdatedByEmployee != null ? d.UpdatedByEmployee.FirstName + " " + d.UpdatedByEmployee.LastName : null,
-                    EmployeeCount = d.Employees.Count(e => !e.IsDeleted)
+                    CreatedByUserName = d.CreatedByUser != null ? d.CreatedByUser.FirstName + " " + d.CreatedByUser.LastName : null,
+                    UpdatedByUserName = d.UpdatedByUser != null ? d.UpdatedByUser.FirstName + " " + d.UpdatedByUser.LastName : null,
+                    EmployeeCount = d.Users.Count(e => !e.IsDeleted)
                 })
                 .ToListAsync();
 
@@ -49,9 +49,9 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
         public async Task<ActionResult<DepartmentDto>> GetDepartment(Guid id)
         {
             var department = await _context.Departments
-                .Include(d => d.CreatedByEmployee)
-                .Include(d => d.UpdatedByEmployee)
-                .Include(d => d.Employees.Where(e => !e.IsDeleted))
+                .Include(d => d.CreatedByUser)
+                .Include(d => d.UpdatedByUser)
+                .Include(d => d.Users.Where(e => !e.IsDeleted))
                 .Where(d => d.ID == id && !d.IsDeleted)
                 .Select(d => new DepartmentDto
                 {
@@ -62,9 +62,9 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     Rating = d.Rating,
                     CreatedDate = d.CreatedDate,
                     UpdatedDate = d.UpdatedDate,
-                    CreatedByUserName = d.CreatedByEmployee != null ? d.CreatedByEmployee.FirstName + " " + d.CreatedByEmployee.LastName : null,
-                    UpdatedByUserName = d.UpdatedByEmployee != null ? d.UpdatedByEmployee.FirstName + " " + d.UpdatedByEmployee.LastName : null,
-                    EmployeeCount = d.Employees.Count(e => !e.IsDeleted)
+                    CreatedByUserName = d.CreatedByUser != null ? d.CreatedByUser.FirstName + " " + d.CreatedByUser.LastName : null,
+                    UpdatedByUserName = d.UpdatedByUser != null ? d.UpdatedByUser.FirstName + " " + d.UpdatedByUser.LastName : null,
+                    EmployeeCount = d.Users.Count(e => !e.IsDeleted)
                 })
                 .FirstOrDefaultAsync();
 
@@ -178,13 +178,13 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                 return NotFound();
             }
 
-            // Check if department has active employees
-            var hasActiveEmployees = await _context.Users
+            // Check if department has active Users
+            var hasActiveUsers = await _context.Users
                 .AnyAsync(e => e.DepartmentID == id && !e.IsDeleted);
 
-            if (hasActiveEmployees)
+            if (hasActiveUsers)
             {
-                return BadRequest("Cannot delete department with active employees.");
+                return BadRequest("Cannot delete department with active Users.");
             }
 
             department.IsDeleted = true;

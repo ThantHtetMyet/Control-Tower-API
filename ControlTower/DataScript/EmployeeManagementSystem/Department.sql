@@ -11,7 +11,7 @@ INSERT INTO Departments (
     UpdatedBy
 )
 VALUES (
-    '41fa119d-49d4-4950-8a22-f99293ec218e', -- Use your existing DepartmentID
+    '11111111-1111-1111-1111-111111111111', -- Use your existing DepartmentID
     'Human Resources',
     'Handles employee recruitment, onboarding, records, and policy enforcement.',
     'Key department for workforce operations.',

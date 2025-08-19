@@ -1,16 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-
-// Fix: Add the required NuGet package reference for JwtBearer
-// You need to install the package 'Microsoft.AspNetCore.Authentication.JwtBearer' in your project.
-// Run the following command in the terminal:
-// dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ControlTower.Data;
 using System.Text.Json.Serialization;
-using ControlTower.Data;
 using Microsoft.AspNetCore.Http.Features;
+using System.Text.Json;
 
 internal class Program
 {
@@ -18,37 +13,51 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
+        // ================= Add services =================
+        builder.Services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                // Handle JSON serialization cycles if needed
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                // Add camelCase property naming policy
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            });
 
-        builder.Services.AddControllers();
-
-
-        // Add CORS configuration
+        // ===== CORS (allow all) =====
         builder.Services.AddCors(options =>
         {
-            options.AddPolicy("AllowReactApp",
-                builder => builder
-                    .WithOrigins("http://localhost:3000")
+            options.AddPolicy("AllowReactApp", policy =>
+            {
+                policy
+                    .WithOrigins(
+                        "http://192.3.71.120:5002", // React app URL
+                        "http://192.3.71.120:5001", // API URL (for same-origin requests)
+                        "http://localhost:3000",    // Development React
+                        "https://localhost:7145"    // Development API
+                    )
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .AllowCredentials());
+                    .AllowCredentials(); // required for cookies/auth headers
+            });
         });
 
-        // Add after builder.Services.AddControllers();
+        // ===== Database =====
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+        // ===== Swagger =====
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        // Add JWT Authentication services
+        // ===== JWT Authentication =====
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"])),
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"] ?? "")),
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
@@ -56,7 +65,7 @@ internal class Program
                 };
             });
 
-        // Add this before builder.Build()
+        // ===== File upload limit =====
         builder.Services.Configure<FormOptions>(options =>
         {
             options.MultipartBodyLengthLimit = 100 * 1024 * 1024; // 100MB
@@ -64,24 +73,24 @@ internal class Program
 
         var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
+        // ================= Middleware =================
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
         }
 
-        app.UseHttpsRedirection();
+        // If IIS isn�t using HTTPS, comment this line
+        // app.UseHttpsRedirection();
 
-        // Add CORS middleware before authentication
-        app.UseCors("AllowReactApp");
+        // Apply CORS (must be before auth)
+        app.UseCors("AllowReactApp"); // Fix: use the correct policy name
 
-        // Add authentication middleware
+        // Authentication & Authorization
         app.UseAuthentication();
-        
-        // Add authorization middleware - THIS WAS MISSING!
         app.UseAuthorization();
 
+        // Map controllers
         app.MapControllers();
 
         app.Run();

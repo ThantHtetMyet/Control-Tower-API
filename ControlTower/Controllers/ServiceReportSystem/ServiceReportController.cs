@@ -341,6 +341,7 @@ namespace ControlTower.Controllers.ServiceReportSystem
         }
 
         // POST: api/ServiceReport
+        // POST: api/ServiceReport
         [HttpPost]
         public async Task<ActionResult<ServiceReportDto>> CreateServiceReport([FromBody] CreateServiceReportDto createDto)
         {
@@ -348,9 +349,17 @@ namespace ControlTower.Controllers.ServiceReportSystem
             {
                 return BadRequest(ModelState);
             }
+
+            // Validate CreatedBy exists
+            var userId = Guid.Parse(createDto.CreatedBy);
+            var userExists = await _context.Users.AnyAsync(u => u.ID == userId);
+            if (!userExists)
+            {
+                return BadRequest("Invalid CreatedBy user ID.");
+            }
+
             // Generate the next job number
             string nextJobNumber = createDto.JobNumber;
-
 
             // Map DTO to Entity
             var serviceReport = new ServiceReportForm
@@ -370,116 +379,122 @@ namespace ControlTower.Controllers.ServiceReportSystem
                 IsDeleted = false,
                 CreatedDate = DateTime.UtcNow,
                 UpdatedDate = DateTime.UtcNow,
-                CreatedBy = Guid.Parse(createDto.CreatedBy),
-                UpdatedBy = Guid.Parse(createDto.CreatedBy)
+                CreatedBy = userId,
+                UpdatedBy = userId
             };
-            // Add materials used if provided
+
+            // Add MaterialsUsed
             if (createDto.MaterialsUsed != null && createDto.MaterialsUsed.Any())
             {
                 serviceReport.MaterialsUsed = createDto.MaterialsUsed.Select(m => new MaterialUsed
                 {
                     ID = Guid.NewGuid(),
-                    ServiceReportFormID = serviceReport.ID,
                     Quantity = m.Quantity,
                     Description = m.Description,
                     SerialNo = m.SerialNo,
                     CreatedDate = DateTime.UtcNow,
                     UpdatedDate = DateTime.UtcNow,
-                    CreatedBy = Guid.Parse(createDto.CreatedBy),
-                    UpdatedBy = Guid.Parse(createDto.CreatedBy),
+                    CreatedBy = userId,
+                    UpdatedBy = userId,
                     IsDeleted = false
                 }).ToList();
             }
-            // Add related entities
-            serviceReport.IssueReported = new List<IssueReported>
-            {
-                new IssueReported
-                {
-                    Description = createDto.IssueReported[0].Description, // Changed from IssueReportWarehouseID
-                    Remark = createDto.IssueReported[0].Remark,
-                    ServiceReportFormID = serviceReport.ID,
-                    CreatedDate = DateTime.UtcNow,
-                    UpdatedDate = DateTime.UtcNow,
-                    CreatedBy = Guid.Parse(createDto.CreatedBy),
-                    UpdatedBy = Guid.Parse(createDto.CreatedBy),
-                    IsDeleted = false,
-                }
-            };
 
-            serviceReport.IssueFound = new List<IssueFound>
+            // Add IssueReported
+            if (createDto.IssueReported != null && createDto.IssueReported.Any())
             {
-                new IssueFound
+                serviceReport.IssueReported = createDto.IssueReported.Select(x => new IssueReported
                 {
-                    Description = createDto.IssueFound[0].Description, // Changed from IssueFoundWarehouseID
-                    ServiceReportFormID = serviceReport.ID,
-                    Remark = createDto.IssueFound[0].Remark,
+                    Description = x.Description,
+                    Remark = x.Remark,
                     CreatedDate = DateTime.UtcNow,
                     UpdatedDate = DateTime.UtcNow,
-                    CreatedBy = Guid.Parse(createDto.CreatedBy),
-                    UpdatedBy = Guid.Parse(createDto.CreatedBy),
-                    IsDeleted = false,
-                }
-            };
+                    CreatedBy = userId,
+                    UpdatedBy = userId,
+                    IsDeleted = false
+                }).ToList();
+            }
 
-            serviceReport.ActionTaken = new List<ActionTaken>
+            // Add IssueFound
+            if (createDto.IssueFound != null && createDto.IssueFound.Any())
             {
-                new ActionTaken
+                serviceReport.IssueFound = createDto.IssueFound.Select(x => new IssueFound
                 {
-                    Description = createDto.ActionTaken[0].Description, // Changed from ActionTakenWarehouseID
-                    ServiceReportFormID = serviceReport.ID,
-                    Remark = createDto.ActionTaken[0].Remark,
+                    Description = x.Description,
+                    Remark = x.Remark,
                     CreatedDate = DateTime.UtcNow,
                     UpdatedDate = DateTime.UtcNow,
-                    CreatedBy = Guid.Parse(createDto.CreatedBy),
-                    UpdatedBy = Guid.Parse(createDto.CreatedBy),
-                    IsDeleted = false,
-                }
-            };
+                    CreatedBy = userId,
+                    UpdatedBy = userId,
+                    IsDeleted = false
+                }).ToList();
+            }
 
-            serviceReport.ServiceType = new List<ServiceType>
+            // Add ActionTaken
+            if (createDto.ActionTaken != null && createDto.ActionTaken.Any())
             {
-                new ServiceType
+                serviceReport.ActionTaken = createDto.ActionTaken.Select(x => new ActionTaken
                 {
-                    ServiceTypeWarehouseID = createDto.ServiceType[0].Id,
-                    Remark = createDto.ServiceType[0].Remark,
-                    ServiceReportFormID = serviceReport.ID,
+                    Description = x.Description,
+                    Remark = x.Remark,
                     CreatedDate = DateTime.UtcNow,
                     UpdatedDate = DateTime.UtcNow,
-                    CreatedBy = Guid.Parse(createDto.CreatedBy),
-                    UpdatedBy = Guid.Parse(createDto.CreatedBy),
-                    IsDeleted = false,
-                }
-            };
+                    CreatedBy = userId,
+                    UpdatedBy = userId,
+                    IsDeleted = false
+                }).ToList();
+            }
 
-            serviceReport.FurtherActionTaken = new List<FurtherActionTaken>
+            // Add ServiceType
+            if (createDto.ServiceType != null && createDto.ServiceType.Any())
             {
-                new FurtherActionTaken
-                {
-                    FurtherActionTakenWarehouseID = createDto.FurtherAction[0].Id,
-                    ServiceReportFormID = serviceReport.ID,
-                    Remark = createDto.FurtherAction[0].Remark,
-                    CreatedDate = DateTime.UtcNow,
-                    UpdatedDate = DateTime.UtcNow,
-                    CreatedBy = Guid.Parse(createDto.CreatedBy),
-                    UpdatedBy = Guid.Parse(createDto.CreatedBy),
-                    IsDeleted = false,
-                }
-            };
+                serviceReport.ServiceType = createDto.ServiceType
+                    .Where(x => x.Id != null && x.Id != Guid.Empty)
+                    .Select(x => new ServiceType
+                    {
+                        ServiceTypeWarehouseID = x.Id.Value,
+                        Remark = x.Remark,
+                        CreatedDate = DateTime.UtcNow,
+                        UpdatedDate = DateTime.UtcNow,
+                        CreatedBy = userId,
+                        UpdatedBy = userId,
+                        IsDeleted = false
+                    }).ToList();
+            }
 
-            serviceReport.FormStatus = new List<FormStatus>
+            // Add FurtherActionTaken
+            if (createDto.FurtherAction != null && createDto.FurtherAction.Any())
             {
-                new FormStatus
-                {
-                    FormStatusWarehouseID = createDto.FormStatus[0].Id,
-                    ServiceReportFormID = serviceReport.ID,
-                    Remark = createDto.FormStatus[0].Remark,
-                    CreatedDate = DateTime.UtcNow,
-                    UpdatedDate = DateTime.UtcNow,
-                    CreatedBy = Guid.Parse(createDto.CreatedBy),
-                    UpdatedBy = Guid.Parse(createDto.CreatedBy),
-                    IsDeleted = false,
-                }
-            };
+                serviceReport.FurtherActionTaken = createDto.FurtherAction
+                    .Where(x => x.Id != null && x.Id != Guid.Empty)
+                    .Select(x => new FurtherActionTaken
+                    {
+                        FurtherActionTakenWarehouseID = x.Id.Value,
+                        Remark = x.Remark,
+                        CreatedDate = DateTime.UtcNow,
+                        UpdatedDate = DateTime.UtcNow,
+                        CreatedBy = userId,
+                        UpdatedBy = userId,
+                        IsDeleted = false
+                    }).ToList();
+            }
+
+            // Add FormStatus
+            if (createDto.FormStatus != null && createDto.FormStatus.Any())
+            {
+                serviceReport.FormStatus = createDto.FormStatus
+                    .Where(x => x.Id != null && x.Id != Guid.Empty)
+                    .Select(x => new FormStatus
+                    {
+                        FormStatusWarehouseID = x.Id.Value,
+                        Remark = x.Remark,
+                        CreatedDate = DateTime.UtcNow,
+                        UpdatedDate = DateTime.UtcNow,
+                        CreatedBy = userId,
+                        UpdatedBy = userId,
+                        IsDeleted = false
+                    }).ToList();
+            }
 
             // Add the ServiceReportForm to the DbContext
             _context.ServiceReportForms.Add(serviceReport);
@@ -487,6 +502,7 @@ namespace ControlTower.Controllers.ServiceReportSystem
             // Save all changes
             await _context.SaveChangesAsync();
 
+            // Map response
             var responseDto = new ServiceReportDto
             {
                 ID = serviceReport.ID,
@@ -501,9 +517,11 @@ namespace ControlTower.Controllers.ServiceReportSystem
             return CreatedAtAction(nameof(GetServiceReport), new { id = serviceReport.ID }, responseDto);
         }
 
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateServiceReport(Guid id, UpdateServiceReportDto updateDto)
         {
+
             var serviceReport = await _context.ServiceReportForms
                 .Include(s => s.ServiceType)
                 .Include(s => s.FormStatus)
@@ -533,118 +551,188 @@ namespace ControlTower.Controllers.ServiceReportSystem
             serviceReport.UpdatedDate = DateTime.UtcNow;
             serviceReport.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
 
-            // Update ServiceType if changed
-            if (updateDto.ServiceType?.Any() == true)
+            // Update ServiceType if changed - only if valid value provided
+            if (updateDto.ServiceType?.Any() == true &&
+            updateDto.ServiceType[0].Id != null && updateDto.ServiceType[0].Id != Guid.Empty)
             {
                 var existingServiceType = serviceReport.ServiceType.FirstOrDefault();
                 if (existingServiceType != null)
                 {
-                    existingServiceType.ServiceTypeWarehouseID = updateDto.ServiceType[0].Id;
+                    existingServiceType.ServiceTypeWarehouseID = updateDto.ServiceType[0].Id.Value;
                     existingServiceType.Remark = updateDto.ServiceType[0].Remark;
+                    existingServiceType.UpdatedDate = DateTime.UtcNow;
+                    existingServiceType.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
+                }
+                else
+                {
+                    // Create new ServiceType if none exists
+                    serviceReport.ServiceType = new List<ServiceType>
+                    {
+                        new ServiceType
+                        {
+                            ServiceTypeWarehouseID = updateDto.ServiceType[0].Id.Value,
+                            Remark = updateDto.ServiceType[0].Remark,
+                            ServiceReportFormID = serviceReport.ID,
+                            CreatedDate = DateTime.UtcNow,
+                            UpdatedDate = DateTime.UtcNow,
+                            CreatedBy = Guid.Parse(updateDto.UpdatedBy),
+                            UpdatedBy = Guid.Parse(updateDto.UpdatedBy),
+                            IsDeleted = false,
+                        }
+                    };
+                }
+            }
+            else if (updateDto.ServiceType?.Any() == true &&
+                     (updateDto.ServiceType[0].Id == null || updateDto.ServiceType[0].Id == Guid.Empty))
+            {
+                // Remove existing ServiceType if empty value is provided
+                var existingServiceType = serviceReport.ServiceType.FirstOrDefault();
+                if (existingServiceType != null)
+                {
+                    existingServiceType.IsDeleted = true;
                     existingServiceType.UpdatedDate = DateTime.UtcNow;
                     existingServiceType.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
                 }
             }
 
-            // Update FormStatus if changed
-            if (updateDto.FormStatus?.Any() == true)
+            // Update FormStatus if changed - only if valid value provided
+            if (updateDto.FormStatus?.Any() == true &&
+            updateDto.FormStatus[0].Id != null && updateDto.FormStatus[0].Id != Guid.Empty)
             {
                 var existingFormStatus = serviceReport.FormStatus.FirstOrDefault();
                 if (existingFormStatus != null)
                 {
-                    existingFormStatus.FormStatusWarehouseID = updateDto.FormStatus[0].Id;
+                    existingFormStatus.FormStatusWarehouseID = updateDto.FormStatus[0].Id.Value;
                     existingFormStatus.Remark = updateDto.FormStatus[0].Remark;
+                    existingFormStatus.UpdatedDate = DateTime.UtcNow;
+                    existingFormStatus.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
+                }
+                else
+                {
+                    // Create new FormStatus if none exists
+                    serviceReport.FormStatus = new List<FormStatus>
+                    {
+                        new FormStatus
+                        {
+                            FormStatusWarehouseID = updateDto.FormStatus[0].Id.Value,
+                            ServiceReportFormID = serviceReport.ID,
+                            Remark = updateDto.FormStatus[0].Remark,
+                            CreatedDate = DateTime.UtcNow,
+                            UpdatedDate = DateTime.UtcNow,
+                            CreatedBy = Guid.Parse(updateDto.UpdatedBy),
+                            UpdatedBy = Guid.Parse(updateDto.UpdatedBy),
+                            IsDeleted = false,
+                        }
+                    };
+                }
+            }
+            else if (updateDto.FormStatus?.Any() == true &&
+                     (updateDto.FormStatus[0].Id == null || updateDto.FormStatus[0].Id == Guid.Empty))
+            {
+                // Remove existing FormStatus if empty value is provided
+                var existingFormStatus = serviceReport.FormStatus.FirstOrDefault();
+                if (existingFormStatus != null)
+                {
+                    existingFormStatus.IsDeleted = true;
                     existingFormStatus.UpdatedDate = DateTime.UtcNow;
                     existingFormStatus.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
                 }
             }
 
-            // Update IssueReported if changed
-            if (updateDto.IssueReported?.Any() == true)
-            {
-                var existingIssueReported = serviceReport.IssueReported.FirstOrDefault();
-                if (existingIssueReported != null)
-                {
-                    existingIssueReported.Description = updateDto.IssueReported[0].Description; // Fixed: Use Description instead of Remark
-                    existingIssueReported.Remark = updateDto.IssueReported[0].Remark;
-                    existingIssueReported.UpdatedDate = DateTime.UtcNow;
-                    existingIssueReported.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
-                }
-            }
-
-            // Update IssueFound if changed
-            if (updateDto.IssueFound?.Any() == true)
-            {
-                var existingIssueFound = serviceReport.IssueFound.FirstOrDefault();
-                if (existingIssueFound != null)
-                {
-                    existingIssueFound.Description = updateDto.IssueFound[0].Description; // Fixed: Use Description instead of Remark
-                    existingIssueFound.Remark = updateDto.IssueFound[0].Remark;
-                    existingIssueFound.UpdatedDate = DateTime.UtcNow;
-                    existingIssueFound.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
-                }
-            }
-
-            // Update ActionTaken if changed
-            if (updateDto.ActionTaken?.Any() == true)
-            {
-                var existingActionTaken = serviceReport.ActionTaken.FirstOrDefault();
-                if (existingActionTaken != null)
-                {
-                    existingActionTaken.Description = updateDto.ActionTaken[0].Description; // Fixed: Use Description instead of Remark
-                    existingActionTaken.Remark = updateDto.ActionTaken[0].Remark;
-                    existingActionTaken.UpdatedDate = DateTime.UtcNow;
-                    existingActionTaken.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
-                }
-            }
-
-            // Update FurtherAction if changed
-            if (updateDto.FurtherAction?.Any() == true)
+            // Update FurtherAction if changed - only if valid value provided
+            if (updateDto.FurtherAction?.Any() == true &&
+            updateDto.FurtherAction[0].Id != null && updateDto.FurtherAction[0].Id != Guid.Empty)
             {
                 var existingFurtherAction = serviceReport.FurtherActionTaken.FirstOrDefault();
                 if (existingFurtherAction != null)
                 {
-                    existingFurtherAction.FurtherActionTakenWarehouseID = updateDto.FurtherAction[0].Id;
+                    existingFurtherAction.FurtherActionTakenWarehouseID = updateDto.FurtherAction[0].Id.Value;
                     existingFurtherAction.Remark = updateDto.FurtherAction[0].Remark;
+                    existingFurtherAction.UpdatedDate = DateTime.UtcNow;
+                    existingFurtherAction.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
+                }
+                else
+                {
+                    // Create new FurtherActionTaken if none exists
+                    serviceReport.FurtherActionTaken = new List<FurtherActionTaken>
+                    {
+                        new FurtherActionTaken
+                        {
+                            FurtherActionTakenWarehouseID = updateDto.FurtherAction[0].Id.Value,
+                            ServiceReportFormID = serviceReport.ID,
+                            Remark = updateDto.FurtherAction[0].Remark,
+                            CreatedDate = DateTime.UtcNow,
+                            UpdatedDate = DateTime.UtcNow,
+                            CreatedBy = Guid.Parse(updateDto.UpdatedBy),
+                            UpdatedBy = Guid.Parse(updateDto.UpdatedBy),
+                            IsDeleted = false,
+                        }
+                    };
+                }
+            }
+            else if (updateDto.FurtherAction?.Any() == true &&
+                     (updateDto.FurtherAction[0].Id == null || updateDto.FurtherAction[0].Id == Guid.Empty))
+            {
+                // Remove existing FurtherAction if empty value is provided
+                var existingFurtherAction = serviceReport.FurtherActionTaken.FirstOrDefault();
+                if (existingFurtherAction != null)
+                {
+                    existingFurtherAction.IsDeleted = true;
                     existingFurtherAction.UpdatedDate = DateTime.UtcNow;
                     existingFurtherAction.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
                 }
             }
 
-            // Update MaterialsUsed if provided
-            if (updateDto.MaterialsUsed != null && updateDto.MaterialsUsed.Any())
+
+            // Update MaterialsUsed with proper concurrency handling
+            if (updateDto.MaterialsUsed != null)
             {
-                // Get existing materials
-                var existingMaterials = serviceReport.MaterialsUsed?.ToList() ?? new List<MaterialUsed>();
+                    // Get fresh data to avoid concurrency issues
+                    var currentMaterials = await _context.MaterialsUsed
+                        .Where(m => m.ServiceReportFormID == id && !m.IsDeleted)
+                        .ToListAsync();
 
-                // Mark all existing materials as deleted first
-                foreach (var material in existingMaterials)
-                {
-                    material.IsDeleted = true;
-                    material.UpdatedDate = DateTime.UtcNow;
-                    material.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
-                }
+                    var dtoMaterialIds = updateDto.MaterialsUsed
+                        .Where(m => m.ID.HasValue && m.ID.Value != Guid.Empty)
+                        .Select(m => m.ID.Value)
+                        .ToHashSet();
 
-                // Add or update materials from the DTO
-                foreach (var materialDto in updateDto.MaterialsUsed)
-                {
-                    // Check if this is an existing material being updated
-                    var existingMaterial = existingMaterials.FirstOrDefault(m => m.ID == materialDto.ID);
+                    // 1. Mark materials for deletion if they're not in the update list
+                    var materialsToDelete = currentMaterials
+                        .Where(m => !dtoMaterialIds.Contains(m.ID))
+                        .ToList();
 
-                    if (existingMaterial != null)
+                    foreach (var material in materialsToDelete)
                     {
-                        // Update existing material
-                        existingMaterial.Quantity = materialDto.Quantity;
-                        existingMaterial.Description = materialDto.Description;
-                        existingMaterial.SerialNo = materialDto.SerialNo;
-                        existingMaterial.UpdatedDate = DateTime.UtcNow;
-                        existingMaterial.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
-                        existingMaterial.IsDeleted = false; // Mark as not deleted
+                        material.IsDeleted = true;
+                        material.UpdatedDate = DateTime.UtcNow;
+                        material.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
                     }
-                    else
+
+                    // 2. Update existing materials
+                    foreach (var materialDto in updateDto.MaterialsUsed.Where(m => m.ID.HasValue && m.ID.Value != Guid.Empty))
                     {
-                        // Add new material
-                        var newMaterial = new MaterialUsed
+                        var existingMaterial = currentMaterials.FirstOrDefault(m => m.ID == materialDto.ID.Value);
+                        if (existingMaterial != null)
+                        {
+                            // Only update if values have actually changed
+                            if (existingMaterial.Quantity != materialDto.Quantity ||
+                                existingMaterial.Description != materialDto.Description ||
+                                existingMaterial.SerialNo != materialDto.SerialNo)
+                            {
+                                existingMaterial.Quantity = materialDto.Quantity;
+                                existingMaterial.Description = materialDto.Description;
+                                existingMaterial.SerialNo = materialDto.SerialNo;
+                                existingMaterial.UpdatedDate = DateTime.UtcNow;
+                                existingMaterial.UpdatedBy = Guid.Parse(updateDto.UpdatedBy);
+                            }
+                        }
+                    }
+
+                    // 3. Add new materials
+                    var newMaterials = updateDto.MaterialsUsed
+                        .Where(m => !m.ID.HasValue || m.ID.Value == Guid.Empty)
+                        .Select(materialDto => new MaterialUsed
                         {
                             ID = Guid.NewGuid(),
                             ServiceReportFormID = serviceReport.ID,
@@ -656,17 +744,14 @@ namespace ControlTower.Controllers.ServiceReportSystem
                             CreatedBy = Guid.Parse(updateDto.UpdatedBy),
                             UpdatedBy = Guid.Parse(updateDto.UpdatedBy),
                             IsDeleted = false
-                        };
+                        })
+                        .ToList();
 
-                        if (serviceReport.MaterialsUsed == null)
-                        {
-                            serviceReport.MaterialsUsed = new List<MaterialUsed>();
-                        }
-
-                        serviceReport.MaterialsUsed.Add(newMaterial);
+                    if (newMaterials.Any())
+                    {
+                        await _context.MaterialsUsed.AddRangeAsync(newMaterials);
                     }
                 }
-            }
             try
             {
                 await _context.SaveChangesAsync();

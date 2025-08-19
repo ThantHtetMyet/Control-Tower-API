@@ -2467,10 +2467,10 @@
             "format": "uuid",
             "nullable": true
           },
-          "createdByEmployee": {
+          "createdByUser": {
             "$ref": "#/components/schemas/User"
           },
-          "updatedByEmployee": {
+          "updatedByUser": {
             "$ref": "#/components/schemas/User"
           },
           "userApplicationAccesses": {
@@ -2631,10 +2631,10 @@
             "format": "uuid",
             "nullable": true
           },
-          "createdByEmployee": {
+          "createdByUser": {
             "$ref": "#/components/schemas/User"
           },
-          "updatedByEmployee": {
+          "updatedByUser": {
             "$ref": "#/components/schemas/User"
           }
         },
@@ -3092,19 +3092,23 @@
           },
           "projectNoID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "systemID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "locationID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "followupActionID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "failureDetectedDate": {
             "type": "string",
@@ -3234,13 +3238,13 @@
             "format": "uuid",
             "nullable": true
           },
-          "createdByEmployee": {
+          "createdByUser": {
             "$ref": "#/components/schemas/User"
           },
-          "updatedByEmployee": {
+          "updatedByUser": {
             "$ref": "#/components/schemas/User"
           },
-          "employees": {
+          "users": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/User"
@@ -3900,13 +3904,13 @@
             "format": "uuid",
             "nullable": true
           },
-          "createdByEmployee": {
+          "createdByUser": {
             "$ref": "#/components/schemas/User"
           },
-          "updatedByEmployee": {
+          "updatedByUser": {
             "$ref": "#/components/schemas/User"
           },
-          "employees": {
+          "users": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/User"
@@ -4349,7 +4353,8 @@
         "properties": {
           "id": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "remark": {
             "type": "string",
@@ -4728,7 +4733,8 @@
         "properties": {
           "id": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "quantity": {
             "type": "integer",
@@ -4758,19 +4764,23 @@
           },
           "projectNoID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "systemID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "locationID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "followupActionID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "failureDetectedDate": {
             "type": "string",
@@ -5002,20 +5012,20 @@
           "occupation": {
             "$ref": "#/components/schemas/Occupation"
           },
-          "createdByEmployee": {
+          "createdByUser": {
             "$ref": "#/components/schemas/User"
           },
-          "updatedByEmployee": {
+          "updatedByUser": {
             "$ref": "#/components/schemas/User"
           },
-          "createdEmployees": {
+          "createdUsers": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/User"
             },
             "nullable": true
           },
-          "updatedEmployees": {
+          "updatedUsers": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/User"
@@ -5060,7 +5070,7 @@
             "type": "string",
             "format": "uuid"
           },
-          "employeeID": {
+          "userID": {
             "type": "string",
             "format": "uuid"
           },
@@ -5116,7 +5126,7 @@
             "format": "uuid",
             "nullable": true
           },
-          "employee": {
+          "user": {
             "$ref": "#/components/schemas/User"
           },
           "application": {
@@ -5125,13 +5135,13 @@
           "accessLevel": {
             "$ref": "#/components/schemas/AccessLevel"
           },
-          "grantedByEmployee": {
+          "grantedByUser": {
             "$ref": "#/components/schemas/User"
           },
-          "createdByEmployee": {
+          "createdByUser": {
             "$ref": "#/components/schemas/User"
           },
-          "updatedByEmployee": {
+          "updatedByUser": {
             "$ref": "#/components/schemas/User"
           }
         },
@@ -5144,7 +5154,7 @@
             "type": "string",
             "format": "uuid"
           },
-          "employeeID": {
+          "userID": {
             "type": "string",
             "format": "uuid"
           },
@@ -5185,11 +5195,11 @@
             "type": "string",
             "format": "date-time"
           },
-          "employeeName": {
+          "userName": {
             "type": "string",
             "nullable": true
           },
-          "employeeStaffCardID": {
+          "userStaffCardID": {
             "type": "string",
             "nullable": true
           },

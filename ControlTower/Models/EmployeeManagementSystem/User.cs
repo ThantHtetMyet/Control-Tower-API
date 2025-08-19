@@ -82,21 +82,21 @@ namespace ControlTower.Models.EmployeeManagementSystem
 
         public DateTime? WorkPassCardExpiredDate { get; set; }
 
-        [ForeignKey("CreatedByEmployee")]
+        [ForeignKey("CreatedByUser")]
         public Guid? CreatedBy { get; set; }
 
-        [ForeignKey("UpdatedByEmployee")]
+        [ForeignKey("UpdatedByUser")]
         public Guid? UpdatedBy { get; set; }
 
         // Navigation properties
         public virtual Department Department { get; set; }
         public virtual Occupation Occupation { get; set; }
-        public virtual User? CreatedByEmployee { get; set; }
-        public virtual User? UpdatedByEmployee { get; set; }
+        public virtual User? CreatedByUser { get; set; }
+        public virtual User? UpdatedByUser { get; set; }
 
         // Self-referencing collections
-        public virtual ICollection<User> CreatedEmployees { get; set; } = new List<User>();
-        public virtual ICollection<User> UpdatedEmployees { get; set; } = new List<User>();
+        public virtual ICollection<User> CreatedUsers { get; set; } = new List<User>();
+        public virtual ICollection<User> UpdatedUsers { get; set; } = new List<User>();
         public virtual ICollection<Department> CreatedDepartments { get; set; } = new List<Department>();
         public virtual ICollection<Department> UpdatedDepartments { get; set; } = new List<Department>();
         public virtual ICollection<Occupation> CreatedOccupations { get; set; } = new List<Occupation>();

@@ -10,7 +10,7 @@ INSERT INTO Applications (
     CreatedBy,
     UpdatedBy
 ) VALUES (
-    'D3E7A18F-2A6F-4D29-BF2B-C5B5A81A1234', -- Example GUID
+    '11111111-1111-1111-1111-111111111111', -- Example GUID
     'User Management System',
     'This is a User Management description.',
     'Initial release',
@@ -18,6 +18,31 @@ INSERT INTO Applications (
     0,
     CURRENT_TIMESTAMP,
     CURRENT_TIMESTAMP,
-    '566FD088-AA3D-4907-8974-BB07AB1231B9',
-    '566FD088-AA3D-4907-8974-BB07AB1231B9'
+    '11111111-1111-1111-1111-111111111111',
+    '11111111-1111-1111-1111-111111111111'
 );
+
+INSERT INTO Applications (
+    ID,
+    ApplicationName,
+    Description,
+    Remark,
+    Rating,
+    IsDeleted,
+    CreatedDate,
+    UpdatedDate,
+    CreatedBy,
+    UpdatedBy
+) VALUES (
+    '22222222-2222-2222-2222-222222222222', -- Example GUID
+    'Service Report System',
+    'This is a Service Report description.',
+    'Initial release',
+    5,
+    0,
+    CURRENT_TIMESTAMP,
+    CURRENT_TIMESTAMP,
+    '11111111-1111-1111-1111-111111111111',
+    '11111111-1111-1111-1111-111111111111'
+);
+

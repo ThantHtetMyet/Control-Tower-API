@@ -22,8 +22,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
         public async Task<ActionResult<IEnumerable<OccupationDto>>> GetOccupations()
         {
             var occupations = await _context.Occupations
-                .Include(o => o.CreatedByEmployee)
-                .Include(o => o.UpdatedByEmployee)
+                .Include(o => o.CreatedByUser)
+                .Include(o => o.UpdatedByUser)
                 .Where(o => !o.IsDeleted)
                 .Select(o => new OccupationDto
                 {
@@ -34,8 +34,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     Rating = o.Rating,
                     CreatedDate = o.CreatedDate,
                     UpdatedDate = o.UpdatedDate,
-                    CreatedByUserName = o.CreatedByEmployee != null ? $"{o.CreatedByEmployee.FirstName} {o.CreatedByEmployee.LastName}" : null,
-                    UpdatedByUserName = o.UpdatedByEmployee != null ? $"{o.UpdatedByEmployee.FirstName} {o.UpdatedByEmployee.LastName}" : null
+                    CreatedByUserName = o.CreatedByUser != null ? $"{o.CreatedByUser.FirstName} {o.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = o.UpdatedByUser != null ? $"{o.UpdatedByUser.FirstName} {o.UpdatedByUser.LastName}" : null
                 })
                 .ToListAsync();
 
@@ -47,8 +47,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
         public async Task<ActionResult<OccupationDto>> GetOccupation(Guid id)
         {
             var occupation = await _context.Occupations
-                .Include(o => o.CreatedByEmployee)
-                .Include(o => o.UpdatedByEmployee)
+                .Include(o => o.CreatedByUser)
+                .Include(o => o.UpdatedByUser)
                 .Where(o => o.ID == id && !o.IsDeleted)
                 .Select(o => new OccupationDto
                 {
@@ -59,8 +59,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     Rating = o.Rating,
                     CreatedDate = o.CreatedDate,
                     UpdatedDate = o.UpdatedDate,
-                    CreatedByUserName = o.CreatedByEmployee != null ? $"{o.CreatedByEmployee.FirstName} {o.CreatedByEmployee.LastName}" : null,
-                    UpdatedByUserName = o.UpdatedByEmployee != null ? $"{o.UpdatedByEmployee.FirstName} {o.UpdatedByEmployee.LastName}" : null
+                    CreatedByUserName = o.CreatedByUser != null ? $"{o.CreatedByUser.FirstName} {o.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = o.UpdatedByUser != null ? $"{o.UpdatedByUser.FirstName} {o.UpdatedByUser.LastName}" : null
                 })
                 .FirstOrDefaultAsync();
 
@@ -92,8 +92,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             await _context.SaveChangesAsync();
 
             var createdOccupation = await _context.Occupations
-                .Include(o => o.CreatedByEmployee)
-                .Include(o => o.UpdatedByEmployee)
+                .Include(o => o.CreatedByUser)
+                .Include(o => o.UpdatedByUser)
                 .Where(o => o.ID == occupation.ID)
                 .Select(o => new OccupationDto
                 {
@@ -104,7 +104,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     Rating = o.Rating,
                     CreatedDate = o.CreatedDate,
                     UpdatedDate = o.UpdatedDate,
-                    CreatedByUserName = o.CreatedByEmployee != null ? $"{o.CreatedByEmployee.FirstName} {o.CreatedByEmployee.LastName}" : null,
+                    CreatedByUserName = o.CreatedByUser != null ? $"{o.CreatedByUser.FirstName} {o.CreatedByUser.LastName}" : null,
                     UpdatedByUserName = null
                 })
                 .FirstOrDefaultAsync();

@@ -11,7 +11,7 @@ INSERT INTO Occupations (
     UpdatedBy
 )
 VALUES (
-    '330D8C73-0DC4-469B-A14E-CAE0376A6FA2',                         -- ID (auto-generated GUID)
+    '11111111-1111-1111-1111-111111111111',                         -- ID (auto-generated GUID)
     'HR Manager',                   -- OccupationName
     'Handles HR operations and staff management', -- Description
     'Must be familiar with labor law', -- Remark

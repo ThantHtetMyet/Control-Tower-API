@@ -56,7 +56,7 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
     public class UserApplicationAccessDto
     {
         public Guid ID { get; set; }
-        public Guid EmployeeID { get; set; }
+        public Guid UserID { get; set; }
         public Guid ApplicationID { get; set; }
         public Guid AccessLevelID { get; set; }
         public DateTime GrantedDate { get; set; }
@@ -68,8 +68,8 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
         public DateTime UpdatedDate { get; set; }
 
         // Navigation properties for display
-        public string EmployeeName { get; set; }
-        public string EmployeeStaffCardID { get; set; }
+        public string UserName { get; set; }
+        public string UserStaffCardID { get; set; }
         public string ApplicationName { get; set; }
         public string? GrantedByUserName { get; set; }
         public string? CreatedByUserName { get; set; }

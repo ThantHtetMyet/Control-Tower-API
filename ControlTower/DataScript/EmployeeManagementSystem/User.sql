@@ -26,9 +26,9 @@ INSERT INTO Users (
     DateOfBirth
 )
 VALUES (
-    '566FD088-AA3D-4907-8974-BB07AB1231B9',
-    '41fa119d-49d4-4950-8a22-f99293ec218e', -- DepartmentID
-    '330D8C73-0DC4-469B-A14E-CAE0376A6FA2', -- OccupationID
+    '11111111-1111-1111-1111-111111111111',
+    '11111111-1111-1111-1111-111111111111', -- DepartmentID
+    '11111111-1111-1111-1111-111111111111', -- OccupationID
     1001,
     2001,
     'System',
@@ -52,6 +52,7 @@ VALUES (
     'Buddhist',
     '1990-06-15'
 );
+
 
 INSERT INTO Users (
     ID,
@@ -81,29 +82,29 @@ INSERT INTO Users (
     DateOfBirth
 )
 VALUES (
-    NEWID(),
-    '41FA119D-49D4-4950-8A22-F99293EC218E',
-    '330D8C73-0DC4-469B-A14E-CAE0376A6FA2',
-    1002,
-    2002,
-    'John',
-    'Lim',
-    'john.lim@willowglen.com',
-    '98765432',
-    'Male',
-    'hashedpassword2',
-    'HR Assistant handling recruitment',
-    3,
+    '22222222-2222-2222-2222-222222222222',
+    '11111111-1111-1111-1111-111111111111', -- DepartmentID
+    '11111111-1111-1111-1111-111111111111', -- OccupationID
+    3001,
+    3001,
+    'Shwe',
+    'Sin',
+    'shwesin@willowglen.com.sg',
+    '91234567',
+    'Female',
+    'Willowglen@12345',
+    'Software Manager',
+    4,
     0,
     GETDATE(),
     GETDATE(),
     NULL,
     NULL,
-    '1900-01-01',  -- Default value for LastLogin
-    '2022-01-10',
+    '1900-01-01',   -- LastLogin set to placeholder instead of NULL
+    '2020-03-01',
     NULL,
-    'WP20205678',
-    'Singaporean',
-    'Christian',
-    '1995-11-20'
+    'WP20201234',
+    'PR',
+    'Buddhist',
+    '1990-06-15'
 );

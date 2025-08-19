@@ -24,8 +24,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
         {
             var accessLevels = await _context.AccessLevels
                 .Where(al => !al.IsDeleted)
-                .Include(al => al.CreatedByEmployee)
-                .Include(al => al.UpdatedByEmployee)
+                .Include(al => al.CreatedByUser)
+                .Include(al => al.UpdatedByUser)
                 .Select(al => new AccessLevelDto
                 {
                     ID = al.ID,
@@ -33,10 +33,10 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     Description = al.Description,
                     CreatedDate = al.CreatedDate,
                     UpdatedDate = al.UpdatedDate,
-                    CreatedByUserName = al.CreatedByEmployee != null ?
-                        al.CreatedByEmployee.FirstName + " " + al.CreatedByEmployee.LastName : null,
-                    UpdatedByUserName = al.UpdatedByEmployee != null ?
-                        al.UpdatedByEmployee.FirstName + " " + al.UpdatedByEmployee.LastName : null
+                    CreatedByUserName = al.CreatedByUser != null ?
+                        al.CreatedByUser.FirstName + " " + al.CreatedByUser.LastName : null,
+                    UpdatedByUserName = al.UpdatedByUser != null ?
+                        al.UpdatedByUser.FirstName + " " + al.UpdatedByUser.LastName : null
                 })
                 .ToListAsync();
 
@@ -49,8 +49,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
         {
             var accessLevel = await _context.AccessLevels
                 .Where(al => al.ID == id && !al.IsDeleted)
-                .Include(al => al.CreatedByEmployee)
-                .Include(al => al.UpdatedByEmployee)
+                .Include(al => al.CreatedByUser)
+                .Include(al => al.UpdatedByUser)
                 .Select(al => new AccessLevelDto
                 {
                     ID = al.ID,
@@ -58,10 +58,10 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     Description = al.Description,
                     CreatedDate = al.CreatedDate,
                     UpdatedDate = al.UpdatedDate,
-                    CreatedByUserName = al.CreatedByEmployee != null ?
-                        al.CreatedByEmployee.FirstName + " " + al.CreatedByEmployee.LastName : null,
-                    UpdatedByUserName = al.UpdatedByEmployee != null ?
-                        al.UpdatedByEmployee.FirstName + " " + al.UpdatedByEmployee.LastName : null
+                    CreatedByUserName = al.CreatedByUser != null ?
+                        al.CreatedByUser.FirstName + " " + al.CreatedByUser.LastName : null,
+                    UpdatedByUserName = al.UpdatedByUser != null ?
+                        al.UpdatedByUser.FirstName + " " + al.UpdatedByUser.LastName : null
                 })
                 .FirstOrDefaultAsync();
 

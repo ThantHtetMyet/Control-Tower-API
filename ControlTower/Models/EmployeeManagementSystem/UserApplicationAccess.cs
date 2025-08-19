@@ -9,7 +9,7 @@ namespace ControlTower.Models.EmployeeManagementSystem
         public Guid ID { get; set; }
 
         [ForeignKey("Employee")]
-        public Guid EmployeeID { get; set; }
+        public Guid UserID { get; set; }
 
         [ForeignKey("Application")]
         public Guid ApplicationID { get; set; }
@@ -23,7 +23,7 @@ namespace ControlTower.Models.EmployeeManagementSystem
 
         public DateTime? RevokedDate { get; set; }
 
-        [ForeignKey("GrantedByEmployee")]
+        [ForeignKey("GrantedByUser")]
         public Guid? GrantedBy { get; set; }
 
         [StringLength(200)]
@@ -35,18 +35,18 @@ namespace ControlTower.Models.EmployeeManagementSystem
 
         public DateTime UpdatedDate { get; set; }
 
-        [ForeignKey("CreatedByEmployee")]
+        [ForeignKey("CreatedByUser")]
         public Guid? CreatedBy { get; set; }
 
-        [ForeignKey("UpdatedByEmployee")]
+        [ForeignKey("UpdatedByUser")]
         public Guid? UpdatedBy { get; set; }
 
         // Navigation properties
-        public virtual User Employee { get; set; }
+        public virtual User User { get; set; }
         public virtual Application Application { get; set; }
         public virtual AccessLevel AccessLevel { get; set; }
-        public virtual User? GrantedByEmployee { get; set; }
-        public virtual User? CreatedByEmployee { get; set; }
-        public virtual User? UpdatedByEmployee { get; set; }
+        public virtual User? GrantedByUser { get; set; }
+        public virtual User? CreatedByUser { get; set; }
+        public virtual User? UpdatedByUser { get; set; }
     }
 }

@@ -22,8 +22,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
         public async Task<ActionResult<IEnumerable<ApplicationDto>>> GetApplications()
         {
             var applications = await _context.Applications
-                .Include(a => a.CreatedByEmployee)
-                .Include(a => a.UpdatedByEmployee)
+                .Include(a => a.CreatedByUser)
+                .Include(a => a.UpdatedByUser)
                 .Where(a => !a.IsDeleted)
                 .Select(a => new ApplicationDto
                 {
@@ -34,8 +34,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     Rating = a.Rating,
                     CreatedDate = a.CreatedDate,
                     UpdatedDate = a.UpdatedDate,
-                    CreatedByUserName = a.CreatedByEmployee != null ? $"{a.CreatedByEmployee.FirstName} {a.CreatedByEmployee.LastName}" : null,
-                    UpdatedByUserName = a.UpdatedByEmployee != null ? $"{a.UpdatedByEmployee.FirstName} {a.UpdatedByEmployee.LastName}" : null
+                    CreatedByUserName = a.CreatedByUser != null ? $"{a.CreatedByUser.FirstName} {a.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = a.UpdatedByUser != null ? $"{a.UpdatedByUser.FirstName} {a.UpdatedByUser.LastName}" : null
                 })
                 .ToListAsync();
 
@@ -47,8 +47,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
         public async Task<ActionResult<ApplicationDto>> GetApplication(Guid id)
         {
             var application = await _context.Applications
-                .Include(a => a.CreatedByEmployee)
-                .Include(a => a.UpdatedByEmployee)
+                .Include(a => a.CreatedByUser)
+                .Include(a => a.UpdatedByUser)
                 .Where(a => a.ID == id && !a.IsDeleted)
                 .Select(a => new ApplicationDto
                 {
@@ -59,8 +59,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     Rating = a.Rating,
                     CreatedDate = a.CreatedDate,
                     UpdatedDate = a.UpdatedDate,
-                    CreatedByUserName = a.CreatedByEmployee != null ? $"{a.CreatedByEmployee.FirstName} {a.CreatedByEmployee.LastName}" : null,
-                    UpdatedByUserName = a.UpdatedByEmployee != null ? $"{a.UpdatedByEmployee.FirstName} {a.UpdatedByEmployee.LastName}" : null
+                    CreatedByUserName = a.CreatedByUser != null ? $"{a.CreatedByUser.FirstName} {a.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = a.UpdatedByUser != null ? $"{a.UpdatedByUser.FirstName} {a.UpdatedByUser.LastName}" : null
                 })
                 .FirstOrDefaultAsync();
 

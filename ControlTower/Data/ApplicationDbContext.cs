@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ControlTower.Models.EmployeeManagementSystem;
 using ControlTower.Models.ServiceReportSystem;
+using ControlTower.Models.NewsPortalSystem;
 
 namespace ControlTower.Data
 {
@@ -10,6 +11,7 @@ namespace ControlTower.Data
         {
         }
 
+        // Employee Management System
         public DbSet<Models.EmployeeManagementSystem.User> Users { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Occupation> Occupations { get; set; }
@@ -17,7 +19,7 @@ namespace ControlTower.Data
         public DbSet<AccessLevel> AccessLevels { get; set; }
         public DbSet<UserApplicationAccess> UserApplicationAccesses { get; set; }
 
-
+        // Service Report System
         public DbSet<ServiceReportForm> ServiceReportForms { get; set; }
         public DbSet<ProjectNoWarehouse> ProjectNoWarehouses { get; set; }
         public DbSet<SystemWarehouse> SystemWarehouses { get; set; }
@@ -28,13 +30,17 @@ namespace ControlTower.Data
         public DbSet<IssueReported> IssueReported { get; set; }
         public DbSet<IssueFound> IssueFound { get; set; }
         public DbSet<ActionTaken> ActionTaken { get; set; }
-        public DbSet<MaterialUsed> MaterialsUsed { get; set; } // Add this line
-        //public DbSet<IssueReportWarehouse> IssueReportWarehouses { get; set; }
-        //public DbSet<IssueFoundWarehouse> IssueFoundWarehouses { get; set; }
-        //public DbSet<ActionTakenWarehouse> ActionTakenWarehouses { get; set; }
+        public DbSet<MaterialUsed> MaterialsUsed { get; set; }
         public DbSet<FurtherActionTakenWarehouse> FurtherActionTakenWarehouses { get; set; }
         public DbSet<ImportFormTypes> ImportFormTypes { get; set; }
         public DbSet<ImportFileRecords> ImportFileRecords { get; set; }
+
+        // News Portal System
+        public DbSet<News> News { get; set; }
+        public DbSet<NewsCategory> NewsCategories { get; set; }
+        public DbSet<NewsImages> NewsImages { get; set; }
+        public DbSet<NewsComments> NewsComments { get; set; }
+        public DbSet<NewsReactions> NewsReactions { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -43,51 +49,51 @@ namespace ControlTower.Data
             // Configure Employee relationships
             modelBuilder.Entity<Models.EmployeeManagementSystem.User>()
                 .HasOne(e => e.Department)
-                .WithMany(d => d.Employees)
+                .WithMany(d => d.Users)
                 .HasForeignKey(e => e.DepartmentID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Models.EmployeeManagementSystem.User>()
                 .HasOne(e => e.Occupation)
-                .WithMany(o => o.Employees)
+                .WithMany(o => o.Users)
                 .HasForeignKey(e => e.OccupationID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             // Configure self-referencing relationships for Employee
             modelBuilder.Entity<Models.EmployeeManagementSystem.User>()
-                .HasOne(e => e.CreatedByEmployee)
-                .WithMany(e => e.CreatedEmployees)
+                .HasOne(e => e.CreatedByUser)
+                .WithMany(e => e.CreatedUsers)
                 .HasForeignKey(e => e.CreatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Models.EmployeeManagementSystem.User>()
-                .HasOne(e => e.UpdatedByEmployee)
-                .WithMany(e => e.UpdatedEmployees)
+                .HasOne(e => e.UpdatedByUser)
+                .WithMany(e => e.UpdatedUsers)
                 .HasForeignKey(e => e.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
             // Configure Department relationships
             modelBuilder.Entity<Department>()
-                .HasOne(d => d.CreatedByEmployee)
+                .HasOne(d => d.CreatedByUser)
                 .WithMany(e => e.CreatedDepartments)
                 .HasForeignKey(d => d.CreatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Department>()
-                .HasOne(d => d.UpdatedByEmployee)
+                .HasOne(d => d.UpdatedByUser)
                 .WithMany(e => e.UpdatedDepartments)
                 .HasForeignKey(d => d.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
             // Configure Occupation relationships
             modelBuilder.Entity<Occupation>()
-                .HasOne(o => o.CreatedByEmployee)
+                .HasOne(o => o.CreatedByUser)
                 .WithMany(e => e.CreatedOccupations)
                 .HasForeignKey(o => o.CreatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Occupation>()
-                .HasOne(o => o.UpdatedByEmployee)
+                .HasOne(o => o.UpdatedByUser)
                 .WithMany(e => e.UpdatedOccupations)
                 .HasForeignKey(o => o.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
@@ -111,13 +117,13 @@ namespace ControlTower.Data
 
             // Configure Application relationships
             modelBuilder.Entity<Application>()
-                .HasOne(a => a.CreatedByEmployee)
+                .HasOne(a => a.CreatedByUser)
                 .WithMany()
                 .HasForeignKey(a => a.CreatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Application>()
-                .HasOne(a => a.UpdatedByEmployee)
+                .HasOne(a => a.UpdatedByUser)
                 .WithMany()
                 .HasForeignKey(a => a.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
@@ -129,9 +135,9 @@ namespace ControlTower.Data
 
             // Configure EmployeeApplicationAccess relationships
             modelBuilder.Entity<UserApplicationAccess>()
-                .HasOne(eaa => eaa.Employee)
+                .HasOne(eaa => eaa.User)
                 .WithMany()
-                .HasForeignKey(eaa => eaa.EmployeeID)
+                .HasForeignKey(eaa => eaa.UserID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<UserApplicationAccess>()
@@ -141,26 +147,26 @@ namespace ControlTower.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<UserApplicationAccess>()
-                .HasOne(eaa => eaa.GrantedByEmployee)
+                .HasOne(eaa => eaa.GrantedByUser)
                 .WithMany()
                 .HasForeignKey(eaa => eaa.GrantedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<UserApplicationAccess>()
-                .HasOne(eaa => eaa.CreatedByEmployee)
+                .HasOne(eaa => eaa.CreatedByUser)
                 .WithMany()
                 .HasForeignKey(eaa => eaa.CreatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<UserApplicationAccess>()
-                .HasOne(eaa => eaa.UpdatedByEmployee)
+                .HasOne(eaa => eaa.UpdatedByUser)
                 .WithMany()
                 .HasForeignKey(eaa => eaa.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
             // Create unique index for Employee-Application combination
             modelBuilder.Entity<UserApplicationAccess>()
-                .HasIndex(eaa => new { eaa.EmployeeID, eaa.ApplicationID })
+                .HasIndex(eaa => new { eaa.UserID, eaa.ApplicationID })
                 .IsUnique();
         
             // AccessLevel configurations
@@ -169,13 +175,13 @@ namespace ControlTower.Data
                 .IsUnique();
                 
             modelBuilder.Entity<AccessLevel>()
-                .HasOne(al => al.CreatedByEmployee)
+                .HasOne(al => al.CreatedByUser)
                 .WithMany()
                 .HasForeignKey(al => al.CreatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
                 
             modelBuilder.Entity<AccessLevel>()
-                .HasOne(al => al.UpdatedByEmployee)
+                .HasOne(al => al.UpdatedByUser)
                 .WithMany()
                 .HasForeignKey(al => al.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
@@ -186,6 +192,41 @@ namespace ControlTower.Data
                 .WithMany(al => al.UserApplicationAccesses)
                 .HasForeignKey(eaa => eaa.AccessLevelID)
                 .OnDelete(DeleteBehavior.Restrict);
+        
+            // News Portal System configurations
+            
+            // Category self-referencing relationship
+            modelBuilder.Entity<NewsCategory>()
+                .HasOne(c => c.ParentCategory)
+                .WithMany(c => c.SubCategories)
+                .HasForeignKey(c => c.ParentCategoryID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Category unique constraints
+            modelBuilder.Entity<NewsCategory>()
+                .HasIndex(c => c.Name)
+                .IsUnique();
+
+            modelBuilder.Entity<NewsCategory>()
+                .HasIndex(c => c.Slug)
+                .IsUnique();
+
+            // News unique constraints
+            modelBuilder.Entity<News>()
+                .HasIndex(n => n.Slug)
+                .IsUnique();
+
+            // Comments self-referencing relationship
+            modelBuilder.Entity<NewsComments>()
+                .HasOne(c => c.ParentComment)
+                .WithMany(c => c.Replies)
+                .HasForeignKey(c => c.ParentCommentID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Reactions unique constraint (one reaction per user per news)
+            modelBuilder.Entity<NewsReactions>()
+                .HasIndex(r => new { r.NewsID, r.UserID })
+                .IsUnique();
         }
     }
 }

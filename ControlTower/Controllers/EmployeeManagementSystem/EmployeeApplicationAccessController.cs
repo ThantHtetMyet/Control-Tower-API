@@ -22,16 +22,16 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
         public async Task<ActionResult<IEnumerable<UserApplicationAccessDto>>> GetUserApplicationAccesses()
         {
             var accesses = await _context.UserApplicationAccesses
-                .Include(eaa => eaa.Employee)
+                .Include(eaa => eaa.User)
                 .Include(eaa => eaa.Application)
-                .Include(eaa => eaa.GrantedByEmployee)
-                .Include(eaa => eaa.CreatedByEmployee)
-                .Include(eaa => eaa.UpdatedByEmployee)
+                .Include(eaa => eaa.GrantedByUser)
+                .Include(eaa => eaa.CreatedByUser)
+                .Include(eaa => eaa.UpdatedByUser)
                 .Where(eaa => !eaa.IsDeleted)
                 .Select(eaa => new UserApplicationAccessDto
                 {
                     ID = eaa.ID,
-                    EmployeeID = eaa.EmployeeID,
+                    UserID = eaa.UserID,
                     ApplicationID = eaa.ApplicationID,
                     AccessLevelID = eaa.AccessLevelID,
                     GrantedDate = eaa.GrantedDate,
@@ -41,12 +41,12 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     Remark = eaa.Remark,
                     CreatedDate = eaa.CreatedDate,
                     UpdatedDate = eaa.UpdatedDate,
-                    EmployeeName = $"{eaa.Employee.FirstName} {eaa.Employee.LastName}",
-                    EmployeeStaffCardID = eaa.Employee.StaffCardID,
+                    UserName = $"{eaa.User.FirstName} {eaa.User.LastName}",
+                    UserStaffCardID = eaa.User.StaffCardID,
                     ApplicationName = eaa.Application.ApplicationName,
-                    GrantedByUserName = eaa.GrantedByEmployee != null ? $"{eaa.GrantedByEmployee.FirstName} {eaa.GrantedByEmployee.LastName}" : null,
-                    CreatedByUserName = eaa.CreatedByEmployee != null ? $"{eaa.CreatedByEmployee.FirstName} {eaa.CreatedByEmployee.LastName}" : null,
-                    UpdatedByUserName = eaa.UpdatedByEmployee != null ? $"{eaa.UpdatedByEmployee.FirstName} {eaa.UpdatedByEmployee.LastName}" : null
+                    GrantedByUserName = eaa.GrantedByUser != null ? $"{eaa.GrantedByUser.FirstName} {eaa.GrantedByUser.LastName}" : null,
+                    CreatedByUserName = eaa.CreatedByUser != null ? $"{eaa.CreatedByUser.FirstName} {eaa.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = eaa.UpdatedByUser != null ? $"{eaa.UpdatedByUser.FirstName} {eaa.UpdatedByUser.LastName}" : null
                 })
                 .ToListAsync();
 
@@ -58,16 +58,16 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
         public async Task<ActionResult<UserApplicationAccessDto>> GetEmployeeApplicationAccess(Guid id)
         {
             var access = await _context.UserApplicationAccesses
-                .Include(eaa => eaa.Employee)
+                .Include(eaa => eaa.User)
                 .Include(eaa => eaa.Application)
-                .Include(eaa => eaa.GrantedByEmployee)
-                .Include(eaa => eaa.CreatedByEmployee)
-                .Include(eaa => eaa.UpdatedByEmployee)
+                .Include(eaa => eaa.GrantedByUser)
+                .Include(eaa => eaa.CreatedByUser)
+                .Include(eaa => eaa.UpdatedByUser)
                 .Where(eaa => eaa.ID == id && !eaa.IsDeleted)
                 .Select(eaa => new UserApplicationAccessDto
                 {
                     ID = eaa.ID,
-                    EmployeeID = eaa.EmployeeID,
+                    UserID = eaa.UserID,
                     ApplicationID = eaa.ApplicationID,
                     AccessLevelID = eaa.AccessLevelID,
                     GrantedDate = eaa.GrantedDate,
@@ -77,12 +77,12 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     Remark = eaa.Remark,
                     CreatedDate = eaa.CreatedDate,
                     UpdatedDate = eaa.UpdatedDate,
-                    EmployeeName = $"{eaa.Employee.FirstName} {eaa.Employee.LastName}",
-                    EmployeeStaffCardID = eaa.Employee.StaffCardID,
+                    UserName = $"{eaa.User.FirstName} {eaa.User.LastName}",
+                    UserStaffCardID = eaa.User.StaffCardID,
                     ApplicationName = eaa.Application.ApplicationName,
-                    GrantedByUserName = eaa.GrantedByEmployee != null ? $"{eaa.GrantedByEmployee.FirstName} {eaa.GrantedByEmployee.LastName}" : null,
-                    CreatedByUserName = eaa.CreatedByEmployee != null ? $"{eaa.CreatedByEmployee.FirstName} {eaa.CreatedByEmployee.LastName}" : null,
-                    UpdatedByUserName = eaa.UpdatedByEmployee != null ? $"{eaa.UpdatedByEmployee.FirstName} {eaa.UpdatedByEmployee.LastName}" : null
+                    GrantedByUserName = eaa.GrantedByUser != null ? $"{eaa.GrantedByUser.FirstName} {eaa.GrantedByUser.LastName}" : null,
+                    CreatedByUserName = eaa.CreatedByUser != null ? $"{eaa.CreatedByUser.FirstName} {eaa.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = eaa.UpdatedByUser != null ? $"{eaa.UpdatedByUser.FirstName} {eaa.UpdatedByUser.LastName}" : null
                 })
                 .FirstOrDefaultAsync();
 
@@ -96,19 +96,19 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
 
         // GET: api/EmployeeApplicationAccess/employee/5
         [HttpGet("employee/{employeeId}")]
-        public async Task<ActionResult<IEnumerable<UserApplicationAccessDto>>> GetUserApplicationAccessesByEmployee(Guid employeeId)
+        public async Task<ActionResult<IEnumerable<UserApplicationAccessDto>>> GetUserApplicationAccessesByUser(Guid employeeId)
         {
             var accesses = await _context.UserApplicationAccesses
-                .Include(eaa => eaa.Employee)
+                .Include(eaa => eaa.User)
                 .Include(eaa => eaa.Application)
-                .Include(eaa => eaa.GrantedByEmployee)
-                .Include(eaa => eaa.CreatedByEmployee)
-                .Include(eaa => eaa.UpdatedByEmployee)
-                .Where(eaa => eaa.EmployeeID == employeeId && !eaa.IsDeleted)
+                .Include(eaa => eaa.GrantedByUser)
+                .Include(eaa => eaa.CreatedByUser)
+                .Include(eaa => eaa.UpdatedByUser)
+                .Where(eaa => eaa.UserID == employeeId && !eaa.IsDeleted)
                 .Select(eaa => new UserApplicationAccessDto
                 {
                     ID = eaa.ID,
-                    EmployeeID = eaa.EmployeeID,
+                    UserID = eaa.UserID,
                     ApplicationID = eaa.ApplicationID,
                     AccessLevelID = eaa.AccessLevelID,
                     GrantedDate = eaa.GrantedDate,
@@ -118,12 +118,12 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     Remark = eaa.Remark,
                     CreatedDate = eaa.CreatedDate,
                     UpdatedDate = eaa.UpdatedDate,
-                    EmployeeName = $"{eaa.Employee.FirstName} {eaa.Employee.LastName}",
-                    EmployeeStaffCardID = eaa.Employee.StaffCardID,
+                    UserName = $"{eaa.User.FirstName} {eaa.User.LastName}",
+                    UserStaffCardID = eaa.User.StaffCardID,
                     ApplicationName = eaa.Application.ApplicationName,
-                    GrantedByUserName = eaa.GrantedByEmployee != null ? $"{eaa.GrantedByEmployee.FirstName} {eaa.GrantedByEmployee.LastName}" : null,
-                    CreatedByUserName = eaa.CreatedByEmployee != null ? $"{eaa.CreatedByEmployee.FirstName} {eaa.CreatedByEmployee.LastName}" : null,
-                    UpdatedByUserName = eaa.UpdatedByEmployee != null ? $"{eaa.UpdatedByEmployee.FirstName} {eaa.UpdatedByEmployee.LastName}" : null
+                    GrantedByUserName = eaa.GrantedByUser != null ? $"{eaa.GrantedByUser.FirstName} {eaa.GrantedByUser.LastName}" : null,
+                    CreatedByUserName = eaa.CreatedByUser != null ? $"{eaa.CreatedByUser.FirstName} {eaa.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = eaa.UpdatedByUser != null ? $"{eaa.UpdatedByUser.FirstName} {eaa.UpdatedByUser.LastName}" : null
                 })
                 .ToListAsync();
 
@@ -155,7 +155,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
 
             // Check if access already exists
             var existingAccess = await _context.UserApplicationAccesses
-                .AnyAsync(eaa => eaa.EmployeeID == createDto.EmployeeID && 
+                .AnyAsync(eaa => eaa.UserID == createDto.EmployeeID && 
                                eaa.ApplicationID == createDto.ApplicationID && 
                                !eaa.IsDeleted);
             if (existingAccess)
@@ -166,7 +166,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             var access = new UserApplicationAccess
             {
                 ID = Guid.NewGuid(),
-                EmployeeID = createDto.EmployeeID,
+                UserID = createDto.EmployeeID,
                 ApplicationID = createDto.ApplicationID,
                 AccessLevelID = createDto.AccessLevelID,
                 GrantedDate = createDto.GrantedDate,
@@ -221,7 +221,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             }
 
             // Update properties
-            access.EmployeeID = updateDto.EmployeeID;
+            access.UserID = updateDto.EmployeeID;
             access.ApplicationID = updateDto.ApplicationID;
             access.AccessLevelID = updateDto.AccessLevelID;
             access.GrantedDate = updateDto.GrantedDate;

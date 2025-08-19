@@ -24,8 +24,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             var Users = await _context.Users
                 .Include(e => e.Department)
                 .Include(e => e.Occupation)
-                .Include(e => e.CreatedByEmployee)
-                .Include(e => e.UpdatedByEmployee)
+                .Include(e => e.CreatedByUser)
+                .Include(e => e.UpdatedByUser)
                 .Where(e => !e.IsDeleted)
                 .Select(e => new UserDto
                 {
@@ -50,8 +50,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     Nationality = e.Nationality,
                     Religion = e.Religion,
                     DateOfBirth = e.DateOfBirth,
-                    CreatedByUserName = e.CreatedByEmployee != null ? $"{e.CreatedByEmployee.FirstName} {e.CreatedByEmployee.LastName}" : null,
-                    UpdatedByUserName = e.UpdatedByEmployee != null ? $"{e.UpdatedByEmployee.FirstName} {e.UpdatedByEmployee.LastName}" : null,
+                    CreatedByUserName = e.CreatedByUser != null ? $"{e.CreatedByUser.FirstName} {e.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = e.UpdatedByUser != null ? $"{e.UpdatedByUser.FirstName} {e.UpdatedByUser.LastName}" : null,
                     DepartmentName = e.Department.Name,
                     OccupationName = e.Occupation.OccupationName
                 })
@@ -67,8 +67,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             var employee = await _context.Users
                 .Include(e => e.Department)
                 .Include(e => e.Occupation)
-                .Include(e => e.CreatedByEmployee)
-                .Include(e => e.UpdatedByEmployee)
+                .Include(e => e.CreatedByUser)
+                .Include(e => e.UpdatedByUser)
                 .Where(e => e.ID == id && !e.IsDeleted)
                 .Select(e => new UserDto
                 {
@@ -98,8 +98,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     WorkPassCardExpiredDate = e.WorkPassCardExpiredDate,
                     DepartmentName = e.Department.Name,
                     OccupationName = e.Occupation.OccupationName,
-                    CreatedByUserName = e.CreatedByEmployee != null ? e.CreatedByEmployee.FirstName + " " + e.CreatedByEmployee.LastName : null,
-                    UpdatedByUserName = e.UpdatedByEmployee != null ? e.UpdatedByEmployee.FirstName + " " + e.UpdatedByEmployee.LastName : null
+                    CreatedByUserName = e.CreatedByUser != null ? e.CreatedByUser.FirstName + " " + e.CreatedByUser.LastName : null,
+                    UpdatedByUserName = e.UpdatedByUser != null ? e.UpdatedByUser.FirstName + " " + e.UpdatedByUser.LastName : null
                 })
                 .FirstOrDefaultAsync();
 
@@ -112,8 +112,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             var applicationAccesses = await _context.UserApplicationAccesses
                 .Include(eaa => eaa.Application)
                 .Include(eaa => eaa.AccessLevel)
-                .Include(eaa => eaa.GrantedByEmployee)
-                .Where(eaa => eaa.EmployeeID == id && !eaa.IsDeleted)
+                .Include(eaa => eaa.GrantedByUser)
+                .Where(eaa => eaa.UserID == id && !eaa.IsDeleted)
                 .Select(eaa => new EmployeeApplicationAccessDetailsDto
                 {
                     ID = eaa.ID,
@@ -125,7 +125,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     GrantedDate = eaa.GrantedDate,
                     IsRevoked = eaa.IsRevoked,
                     RevokedDate = eaa.RevokedDate,
-                    GrantedByUserName = eaa.GrantedByEmployee != null ? eaa.GrantedByEmployee.FirstName + " " + eaa.GrantedByEmployee.LastName : null,
+                    GrantedByUserName = eaa.GrantedByUser != null ? eaa.GrantedByUser.FirstName + " " + eaa.GrantedByUser.LastName : null,
                     Remark = eaa.Remark,
                     CreatedDate = eaa.CreatedDate
                 })
@@ -267,7 +267,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                         var employeeApplicationAccess = new UserApplicationAccess
                         {
                             ID = Guid.NewGuid(),
-                            EmployeeID = employee.ID,
+                            UserID = employee.ID,
                             ApplicationID = accessDto.ApplicationID,
                             AccessLevelID = accessDto.AccessLevelID,
                             GrantedDate = accessDto.GrantedDate,
@@ -320,8 +320,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                         WorkPassCardExpiredDate = e.WorkPassCardExpiredDate,
                         DepartmentName = e.Department.Name,
                         OccupationName = e.Occupation.OccupationName,
-                        CreatedByUserName = e.CreatedByEmployee != null ? e.CreatedByEmployee.FirstName + " " + e.CreatedByEmployee.LastName : null,
-                        UpdatedByUserName = e.UpdatedByEmployee != null ? e.UpdatedByEmployee.FirstName + " " + e.UpdatedByEmployee.LastName : null
+                        CreatedByUserName = e.CreatedByUser != null ? e.CreatedByUser.FirstName + " " + e.CreatedByUser.LastName : null,
+                        UpdatedByUserName = e.UpdatedByUser != null ? e.UpdatedByUser.FirstName + " " + e.UpdatedByUser.LastName : null
                     })
                     .FirstOrDefaultAsync();
 
