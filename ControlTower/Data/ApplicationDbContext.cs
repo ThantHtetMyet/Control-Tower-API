@@ -37,7 +37,7 @@ namespace ControlTower.Data
 
         // News Portal System
         public DbSet<News> News { get; set; }
-        public DbSet<NewsCategory> NewsCategories { get; set; }
+        public DbSet<NewsCategory> NewsCategory { get; set; }
         public DbSet<NewsImages> NewsImages { get; set; }
         public DbSet<NewsComments> NewsComments { get; set; }
         public DbSet<NewsReactions> NewsReactions { get; set; }

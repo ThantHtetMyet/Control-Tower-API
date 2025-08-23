@@ -27,8 +27,8 @@ namespace ControlTower.Models.NewsPortalSystem
         [StringLength(255)]
         public string? Remark { get; set; }
 
-        [ForeignKey("Category")]
-        public Guid CategoryID { get; set; }
+        [ForeignKey("NewsCategory")]
+        public Guid NewsCategoryID { get; set; }
         [DeleteBehavior(DeleteBehavior.Restrict)]
         public NewsCategory NewsCategory { get; set; }
 

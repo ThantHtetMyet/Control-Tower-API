@@ -6,6 +6,7 @@ using ControlTower.Data;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Features;
 using System.Text.Json;
+using Microsoft.Extensions.FileProviders;
 
 internal class Program
 {
@@ -80,7 +81,18 @@ internal class Program
             app.UseSwaggerUI();
         }
 
-        // If IIS isn�t using HTTPS, comment this line
+        // Configure static file serving for news images
+        var newsFileStoragePath = builder.Configuration["NewsFileStorage:BasePath"];
+        if (!string.IsNullOrEmpty(newsFileStoragePath) && Directory.Exists(newsFileStoragePath))
+        {
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(newsFileStoragePath),
+                RequestPath = "/news-uploads"
+            });
+        }
+
+        // If IIS isn't using HTTPS, comment this line
         // app.UseHttpsRedirection();
 
         // Apply CORS (must be before auth)

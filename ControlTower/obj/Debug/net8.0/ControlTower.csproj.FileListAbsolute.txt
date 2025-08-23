@@ -180,3 +180,4 @@ C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\Contro
 C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Debug\net8.0\ControlTower.pdb
 C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Debug\net8.0\ControlTower.genruntimeconfig.cache
 C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Debug\net8.0\ref\ControlTower.dll
+C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

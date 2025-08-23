@@ -46,3 +46,28 @@ INSERT INTO Applications (
     '11111111-1111-1111-1111-111111111111'
 );
 
+
+INSERT INTO Applications (
+    ID,
+    ApplicationName,
+    Description,
+    Remark,
+    Rating,
+    IsDeleted,
+    CreatedDate,
+    UpdatedDate,
+    CreatedBy,
+    UpdatedBy
+) VALUES (
+    '33333333-3333-3333-3333-333333333333', -- Example GUID
+    'News Portal System',
+    'This is a News Portal description.',
+    'Initial release',
+    5,
+    0,
+    CURRENT_TIMESTAMP,
+    CURRENT_TIMESTAMP,
+    '11111111-1111-1111-1111-111111111111',
+    '11111111-1111-1111-1111-111111111111'
+);
+
