@@ -5,6 +5,9 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
     public class CreateEmployeeDto
     {
         [Required]
+        public Guid CompanyID { get; set; }
+
+        [Required]
         public Guid DepartmentID { get; set; }
 
         [Required]
@@ -83,6 +86,9 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
         public Guid ID { get; set; }
 
         [Required]
+        public Guid CompanyID { get; set; }
+
+        [Required]
         public Guid DepartmentID { get; set; }
 
         [Required]
@@ -150,6 +156,7 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
     public class UserDto
     {
         public Guid ID { get; set; }
+        public Guid CompanyID { get; set; }
         public Guid DepartmentID { get; set; }
         public Guid OccupationID { get; set; }
         public string StaffCardID { get; set; }
@@ -177,6 +184,7 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
         public DateTime? WorkPassCardExpiredDate { get; set; }
 
         // Navigation properties for display
+        public string CompanyName { get; set; }
         public string DepartmentName { get; set; }
         public string OccupationName { get; set; }
         public string? CreatedByUserName { get; set; }

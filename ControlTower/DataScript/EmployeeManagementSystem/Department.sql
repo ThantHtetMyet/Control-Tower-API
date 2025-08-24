@@ -22,3 +22,28 @@ VALUES (
     NULL, -- CreatedBy (can be filled later with EmployeeID)
     NULL  -- UpdatedBy (can be filled later)
 );
+
+INSERT INTO Departments (
+    ID,
+    Name,
+    Description,
+    Remark,
+    Rating,
+    IsDeleted,
+    CreatedDate,
+    UpdatedDate,
+    CreatedBy,
+    UpdatedBy
+)
+VALUES (
+    '22222222-2222-2222-2222-222222222222', -- Use your existing DepartmentID
+    'Software',
+    'Handles software development, testing, and deployment.',
+    'Key department for software operations.',
+    5,
+    0,
+    GETDATE(),
+    GETDATE(),
+    NULL, -- CreatedBy (can be filled later with EmployeeID)
+    NULL  -- UpdatedBy (can be filled later)
+);

@@ -1,5 +1,6 @@
 INSERT INTO Users (
     ID,
+    CompanyID,
     DepartmentID,
     OccupationID,
     StaffCardID,
@@ -27,6 +28,7 @@ INSERT INTO Users (
 )
 VALUES (
     '11111111-1111-1111-1111-111111111111',
+    '11111111-1111-1111-1111-111111111111', -- CompanyID
     '11111111-1111-1111-1111-111111111111', -- DepartmentID
     '11111111-1111-1111-1111-111111111111', -- OccupationID
     1001,

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControlTower.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250804145757_Initial_Migration")]
-    partial class Initial_Migration
+    [Migration("20250824151429_AddNewImageTypeCol")]
+    partial class AddNewImageTypeCol
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -114,6 +114,49 @@ namespace ControlTower.Migrations
                     b.HasIndex("UpdatedBy");
 
                     b.ToTable("Applications");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.Company", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("Company");
                 });
 
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.Department", b =>
@@ -220,6 +263,9 @@ namespace ControlTower.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CompanyID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -324,6 +370,8 @@ namespace ControlTower.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("CompanyID");
+
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DepartmentID");
@@ -359,9 +407,6 @@ namespace ControlTower.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("EmployeeID")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("GrantedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -387,6 +432,9 @@ namespace ControlTower.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("ID");
 
                     b.HasIndex("AccessLevelID");
@@ -399,10 +447,281 @@ namespace ControlTower.Migrations
 
                     b.HasIndex("UpdatedBy");
 
-                    b.HasIndex("EmployeeID", "ApplicationID")
+                    b.HasIndex("UserID", "ApplicationID")
                         .IsUnique();
 
                     b.ToTable("UserApplicationAccesses");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.NewsPortalSystem.News", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Excerpt")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("NewsCategoryID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("PublishDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("Rate")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Remark")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ViewCount")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("NewsCategoryID");
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("News");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.NewsPortalSystem.NewsCategory", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<Guid?>("ParentCategoryID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("ParentCategoryID");
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("NewsCategory");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.NewsPortalSystem.NewsComments", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("NewsID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ParentCommentID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("NewsID");
+
+                    b.HasIndex("ParentCommentID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("NewsComments");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.NewsPortalSystem.NewsImages", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AltText")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Caption")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("ImageType")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsFeatured")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<Guid>("NewsID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("StoredDirectory")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("UploadedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UploadedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UploadedStatus")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("NewsID");
+
+                    b.HasIndex("UploadedBy");
+
+                    b.ToTable("NewsImages");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.NewsPortalSystem.NewsReactions", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("NewsID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ReactionType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("UserID");
+
+                    b.HasIndex("NewsID", "UserID")
+                        .IsUnique();
+
+                    b.ToTable("NewsReactions");
                 });
 
             modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ActionTaken", b =>
@@ -846,6 +1165,50 @@ namespace ControlTower.Migrations
                     b.ToTable("LocationWarehouses");
                 });
 
+            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.MaterialUsed", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SerialNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ServiceReportFormID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("ServiceReportFormID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("MaterialsUsed");
+                });
+
             modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ProjectNoWarehouse", b =>
                 {
                     b.Property<Guid>("ID")
@@ -893,23 +1256,21 @@ namespace ControlTower.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ContactNo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Customer")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("FailureDetectedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("FollowupActionID")
+                    b.Property<Guid?>("FollowupActionID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
@@ -919,22 +1280,22 @@ namespace ControlTower.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid>("LocationID")
+                    b.Property<Guid?>("LocationID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ProjectNoID")
+                    b.Property<Guid?>("ProjectNoID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("ResponseDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("SystemID")
+                    b.Property<Guid?>("SystemID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedDate")
+                    b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("ID");
@@ -1068,103 +1429,128 @@ namespace ControlTower.Migrations
 
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.AccessLevel", b =>
                 {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByEmployee")
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByEmployee")
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
                         .WithMany()
                         .HasForeignKey("UpdatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("CreatedByEmployee");
+                    b.Navigation("CreatedByUser");
 
-                    b.Navigation("UpdatedByEmployee");
+                    b.Navigation("UpdatedByUser");
                 });
 
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.Application", b =>
                 {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByEmployee")
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByEmployee")
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
                         .WithMany()
                         .HasForeignKey("UpdatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("CreatedByEmployee");
+                    b.Navigation("CreatedByUser");
 
-                    b.Navigation("UpdatedByEmployee");
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.Company", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany("CreatedCompanies")
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany("UpdatedCompanies")
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("UpdatedByUser");
                 });
 
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.Department", b =>
                 {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByEmployee")
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
                         .WithMany("CreatedDepartments")
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByEmployee")
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
                         .WithMany("UpdatedDepartments")
                         .HasForeignKey("UpdatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("CreatedByEmployee");
+                    b.Navigation("CreatedByUser");
 
-                    b.Navigation("UpdatedByEmployee");
+                    b.Navigation("UpdatedByUser");
                 });
 
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.Occupation", b =>
                 {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByEmployee")
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
                         .WithMany("CreatedOccupations")
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByEmployee")
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
                         .WithMany("UpdatedOccupations")
                         .HasForeignKey("UpdatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("CreatedByEmployee");
+                    b.Navigation("CreatedByUser");
 
-                    b.Navigation("UpdatedByEmployee");
+                    b.Navigation("UpdatedByUser");
                 });
 
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.User", b =>
                 {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByEmployee")
-                        .WithMany("CreatedEmployees")
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.Company", "Company")
+                        .WithMany("Users")
+                        .HasForeignKey("CompanyID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany("CreatedUsers")
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ControlTower.Models.EmployeeManagementSystem.Department", "Department")
-                        .WithMany("Employees")
+                        .WithMany("Users")
                         .HasForeignKey("DepartmentID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ControlTower.Models.EmployeeManagementSystem.Occupation", "Occupation")
-                        .WithMany("Employees")
+                        .WithMany("Users")
                         .HasForeignKey("OccupationID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByEmployee")
-                        .WithMany("UpdatedEmployees")
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany("UpdatedUsers")
                         .HasForeignKey("UpdatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("CreatedByEmployee");
+                    b.Navigation("Company");
+
+                    b.Navigation("CreatedByUser");
 
                     b.Navigation("Department");
 
                     b.Navigation("Occupation");
 
-                    b.Navigation("UpdatedByEmployee");
+                    b.Navigation("UpdatedByUser");
                 });
 
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.UserApplicationAccess", b =>
@@ -1181,38 +1567,171 @@ namespace ControlTower.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByEmployee")
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "GrantedByEmployee")
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "GrantedByUser")
                         .WithMany()
                         .HasForeignKey("GrantedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByEmployee")
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
                         .WithMany()
                         .HasForeignKey("UpdatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("AccessLevel");
 
                     b.Navigation("Application");
 
-                    b.Navigation("CreatedByEmployee");
+                    b.Navigation("CreatedByUser");
 
-                    b.Navigation("Employee");
+                    b.Navigation("GrantedByUser");
 
-                    b.Navigation("GrantedByEmployee");
+                    b.Navigation("UpdatedByUser");
 
-                    b.Navigation("UpdatedByEmployee");
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.NewsPortalSystem.News", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ControlTower.Models.NewsPortalSystem.NewsCategory", "NewsCategory")
+                        .WithMany("News")
+                        .HasForeignKey("NewsCategoryID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("NewsCategory");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.NewsPortalSystem.NewsCategory", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ControlTower.Models.NewsPortalSystem.NewsCategory", "ParentCategory")
+                        .WithMany("SubCategories")
+                        .HasForeignKey("ParentCategoryID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("ParentCategory");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.NewsPortalSystem.NewsComments", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ControlTower.Models.NewsPortalSystem.News", "News")
+                        .WithMany("NewsComments")
+                        .HasForeignKey("NewsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.NewsPortalSystem.NewsComments", "ParentComment")
+                        .WithMany("Replies")
+                        .HasForeignKey("ParentCommentID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("News");
+
+                    b.Navigation("ParentComment");
+
+                    b.Navigation("UpdatedByUser");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.NewsPortalSystem.NewsImages", b =>
+                {
+                    b.HasOne("ControlTower.Models.NewsPortalSystem.News", "News")
+                        .WithMany("NewsImages")
+                        .HasForeignKey("NewsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UploadedByUser")
+                        .WithMany()
+                        .HasForeignKey("UploadedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("News");
+
+                    b.Navigation("UploadedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.NewsPortalSystem.NewsReactions", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ControlTower.Models.NewsPortalSystem.News", "News")
+                        .WithMany("NewsReactions")
+                        .HasForeignKey("NewsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("News");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ActionTaken", b =>
@@ -1461,6 +1980,27 @@ namespace ControlTower.Migrations
                     b.Navigation("UpdatedByUser");
                 });
 
+            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.MaterialUsed", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("ControlTower.Models.ServiceReportSystem.ServiceReportForm", null)
+                        .WithMany("MaterialsUsed")
+                        .HasForeignKey("ServiceReportFormID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
             modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ProjectNoWarehouse", b =>
                 {
                     b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
@@ -1488,26 +2028,22 @@ namespace ControlTower.Migrations
                     b.HasOne("ControlTower.Models.ServiceReportSystem.FollowupActionWarehouse", "FollowupAction")
                         .WithMany()
                         .HasForeignKey("FollowupActionID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ControlTower.Models.ServiceReportSystem.LocationWarehouse", "Location")
                         .WithMany()
                         .HasForeignKey("LocationID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ControlTower.Models.ServiceReportSystem.ProjectNoWarehouse", "ProjectNo")
                         .WithMany()
                         .HasForeignKey("ProjectNoID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ControlTower.Models.ServiceReportSystem.SystemWarehouse", "System")
                         .WithMany()
                         .HasForeignKey("SystemID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
                         .WithMany()
@@ -1589,29 +2125,59 @@ namespace ControlTower.Migrations
                     b.Navigation("UserApplicationAccesses");
                 });
 
+            modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.Company", b =>
+                {
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.Department", b =>
                 {
-                    b.Navigation("Employees");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.Occupation", b =>
                 {
-                    b.Navigation("Employees");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.User", b =>
                 {
-                    b.Navigation("CreatedDepartments");
+                    b.Navigation("CreatedCompanies");
 
-                    b.Navigation("CreatedEmployees");
+                    b.Navigation("CreatedDepartments");
 
                     b.Navigation("CreatedOccupations");
 
+                    b.Navigation("CreatedUsers");
+
+                    b.Navigation("UpdatedCompanies");
+
                     b.Navigation("UpdatedDepartments");
 
-                    b.Navigation("UpdatedEmployees");
-
                     b.Navigation("UpdatedOccupations");
+
+                    b.Navigation("UpdatedUsers");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.NewsPortalSystem.News", b =>
+                {
+                    b.Navigation("NewsComments");
+
+                    b.Navigation("NewsImages");
+
+                    b.Navigation("NewsReactions");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.NewsPortalSystem.NewsCategory", b =>
+                {
+                    b.Navigation("News");
+
+                    b.Navigation("SubCategories");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.NewsPortalSystem.NewsComments", b =>
+                {
+                    b.Navigation("Replies");
                 });
 
             modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ImportFormTypes", b =>
@@ -1630,6 +2196,8 @@ namespace ControlTower.Migrations
                     b.Navigation("IssueFound");
 
                     b.Navigation("IssueReported");
+
+                    b.Navigation("MaterialsUsed");
 
                     b.Navigation("ServiceType");
                 });

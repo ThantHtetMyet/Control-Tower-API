@@ -23,6 +23,9 @@ namespace ControlTower.DTOs.NewsPortalSystem
         [StringLength(255)]
         public string? Caption { get; set; }
 
+        [StringLength(255)]
+        public string? ImageType { get; set; }
+
         public bool IsFeatured { get; set; } = false;
 
         public string UploadedBy { get; set; }
@@ -43,6 +46,9 @@ namespace ControlTower.DTOs.NewsPortalSystem
         [StringLength(255)]
         public string? Caption { get; set; }
 
+        [StringLength(255)]
+        public string? ImageType { get; set; }
+
         public bool IsFeatured { get; set; }
     }
 
@@ -56,9 +62,46 @@ namespace ControlTower.DTOs.NewsPortalSystem
         public string? UploadedStatus { get; set; }
         public string? AltText { get; set; }
         public string? Caption { get; set; }
+        public string? ImageType { get; set; }
         public bool IsFeatured { get; set; }
         public DateTime UploadedDate { get; set; }
         public string? UploadedByUserName { get; set; }
         public string? ImageUrl { get; set; } // Computed property for full URL
+    }
+
+    // New DTOs for specific image types
+    public class CreateThumbnailImageDto : CreateNewsImageDto
+    {
+        public CreateThumbnailImageDto()
+        {
+            ImageType = "thumbnail";
+        }
+    }
+
+    public class CreateHeaderImageDto : CreateNewsImageDto
+    {
+        public CreateHeaderImageDto()
+        {
+            ImageType = "header";
+        }
+    }
+
+    // New DTOs for file uploads that Swagger can handle
+    public class UploadThumbnailDto
+    {
+        [Required]
+        public IFormFile ThumbnailImage { get; set; }
+        
+        [Required]
+        public string UploadedBy { get; set; }
+    }
+
+    public class UploadHeaderDto
+    {
+        [Required]
+        public IFormFile HeaderImage { get; set; }
+        
+        [Required]
+        public string UploadedBy { get; set; }
     }
 }

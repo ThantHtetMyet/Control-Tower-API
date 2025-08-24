@@ -15,6 +15,7 @@ namespace ControlTower.Data
         public DbSet<Models.EmployeeManagementSystem.User> Users { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Occupation> Occupations { get; set; }
+        public DbSet<Company> Company { get; set; }
         public DbSet<Application> Applications { get; set; }
         public DbSet<AccessLevel> AccessLevels { get; set; }
         public DbSet<UserApplicationAccess> UserApplicationAccesses { get; set; }
@@ -41,7 +42,7 @@ namespace ControlTower.Data
         public DbSet<NewsImages> NewsImages { get; set; }
         public DbSet<NewsComments> NewsComments { get; set; }
         public DbSet<NewsReactions> NewsReactions { get; set; }
-        
+       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -71,6 +72,31 @@ namespace ControlTower.Data
                 .WithMany(e => e.UpdatedUsers)
                 .HasForeignKey(e => e.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Configure User-Company relationship
+            modelBuilder.Entity<Models.EmployeeManagementSystem.User>()
+                .HasOne(u => u.Company)
+                .WithMany(c => c.Users)
+                .HasForeignKey(u => u.CompanyID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configure Company relationships
+            modelBuilder.Entity<Company>()
+                .HasOne(c => c.CreatedByUser)
+                .WithMany(u => u.CreatedCompanies)
+                .HasForeignKey(c => c.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Company>()
+                .HasOne(c => c.UpdatedByUser)
+                .WithMany(u => u.UpdatedCompanies)
+                .HasForeignKey(c => c.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Company unique constraint
+            modelBuilder.Entity<Company>()
+                .HasIndex(c => c.Name)
+                .IsUnique();
 
             // Configure Department relationships
             modelBuilder.Entity<Department>()

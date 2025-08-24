@@ -31,6 +31,9 @@ namespace ControlTower.Models.NewsPortalSystem
         [StringLength(255)]
         public string? Caption { get; set; }
 
+        [StringLength(255)]
+        public string? ImageType { get; set; }
+
         public bool IsFeatured { get; set; } = false;
 
         public bool IsDeleted { get; set; }

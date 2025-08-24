@@ -69,6 +69,25 @@ namespace ControlTower.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Company",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(255)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Remark = table.Column<string>(type: "nvarchar(255)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Company", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Departments",
                 columns: table => new
                 {
@@ -275,6 +294,161 @@ namespace ControlTower.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MaterialsUsed",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ServiceReportFormID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SerialNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MaterialsUsed", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "News",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Excerpt = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Remark = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    NewsCategoryID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Rate = table.Column<int>(type: "int", nullable: true),
+                    ViewCount = table.Column<int>(type: "int", nullable: false),
+                    PublishDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsPublished = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_News", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NewsCategory",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    ParentCategoryID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NewsCategory", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_NewsCategory_NewsCategory_ParentCategoryID",
+                        column: x => x.ParentCategoryID,
+                        principalTable: "NewsCategory",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NewsComments",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NewsID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ParentCommentID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsApproved = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NewsComments", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_NewsComments_NewsComments_ParentCommentID",
+                        column: x => x.ParentCommentID,
+                        principalTable: "NewsComments",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_NewsComments_News_NewsID",
+                        column: x => x.NewsID,
+                        principalTable: "News",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NewsImages",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NewsID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    StoredDirectory = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    UploadedStatus = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    AltText = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Caption = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    IsFeatured = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    UploadedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UploadedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NewsImages", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_NewsImages_News_NewsID",
+                        column: x => x.NewsID,
+                        principalTable: "News",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NewsReactions",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NewsID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ReactionType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NewsReactions", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_NewsReactions_News_NewsID",
+                        column: x => x.NewsID,
+                        principalTable: "News",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Occupations",
                 columns: table => new
                 {
@@ -299,6 +473,7 @@ namespace ControlTower.Migrations
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CompanyID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DepartmentID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OccupationID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StaffCardID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -330,6 +505,12 @@ namespace ControlTower.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Users_Company_CompanyID",
+                        column: x => x.CompanyID,
+                        principalTable: "Company",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Users_Departments_DepartmentID",
                         column: x => x.DepartmentID,
@@ -448,7 +629,7 @@ namespace ControlTower.Migrations
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EmployeeID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ApplicationID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AccessLevelID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     GrantedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -484,12 +665,6 @@ namespace ControlTower.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserApplicationAccesses_Users_EmployeeID",
-                        column: x => x.EmployeeID,
-                        principalTable: "Users",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_UserApplicationAccesses_Users_GrantedBy",
                         column: x => x.GrantedBy,
                         principalTable: "Users",
@@ -501,6 +676,12 @@ namespace ControlTower.Migrations
                         principalTable: "Users",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserApplicationAccesses_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -509,19 +690,19 @@ namespace ControlTower.Migrations
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     JobNumber = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Customer = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProjectNoID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SystemID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LocationID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FollowupActionID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Customer = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContactNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProjectNoID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    SystemID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LocationID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    FollowupActionID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     FailureDetectedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ResponseDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ArrivalDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CompletionDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
@@ -648,6 +829,22 @@ namespace ControlTower.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Applications_UpdatedBy",
                 table: "Applications",
+                column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Company_CreatedBy",
+                table: "Company",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Company_Name",
+                table: "Company",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Company_UpdatedBy",
+                table: "Company",
                 column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
@@ -807,6 +1004,120 @@ namespace ControlTower.Migrations
                 column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MaterialsUsed_CreatedBy",
+                table: "MaterialsUsed",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MaterialsUsed_ServiceReportFormID",
+                table: "MaterialsUsed",
+                column: "ServiceReportFormID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MaterialsUsed_UpdatedBy",
+                table: "MaterialsUsed",
+                column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_News_CreatedBy",
+                table: "News",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_News_NewsCategoryID",
+                table: "News",
+                column: "NewsCategoryID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_News_Slug",
+                table: "News",
+                column: "Slug",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_News_UpdatedBy",
+                table: "News",
+                column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NewsCategory_CreatedBy",
+                table: "NewsCategory",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NewsCategory_Name",
+                table: "NewsCategory",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NewsCategory_ParentCategoryID",
+                table: "NewsCategory",
+                column: "ParentCategoryID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NewsCategory_Slug",
+                table: "NewsCategory",
+                column: "Slug",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NewsCategory_UpdatedBy",
+                table: "NewsCategory",
+                column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NewsComments_CreatedBy",
+                table: "NewsComments",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NewsComments_NewsID",
+                table: "NewsComments",
+                column: "NewsID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NewsComments_ParentCommentID",
+                table: "NewsComments",
+                column: "ParentCommentID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NewsComments_UpdatedBy",
+                table: "NewsComments",
+                column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NewsComments_UserID",
+                table: "NewsComments",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NewsImages_NewsID",
+                table: "NewsImages",
+                column: "NewsID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NewsImages_UploadedBy",
+                table: "NewsImages",
+                column: "UploadedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NewsReactions_CreatedBy",
+                table: "NewsReactions",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NewsReactions_NewsID_UserID",
+                table: "NewsReactions",
+                columns: new[] { "NewsID", "UserID" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NewsReactions_UserID",
+                table: "NewsReactions",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Occupations_CreatedBy",
                 table: "Occupations",
                 column: "CreatedBy");
@@ -913,12 +1224,6 @@ namespace ControlTower.Migrations
                 column: "CreatedBy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserApplicationAccesses_EmployeeID_ApplicationID",
-                table: "UserApplicationAccesses",
-                columns: new[] { "EmployeeID", "ApplicationID" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserApplicationAccesses_GrantedBy",
                 table: "UserApplicationAccesses",
                 column: "GrantedBy");
@@ -927,6 +1232,17 @@ namespace ControlTower.Migrations
                 name: "IX_UserApplicationAccesses_UpdatedBy",
                 table: "UserApplicationAccesses",
                 column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserApplicationAccesses_UserID_ApplicationID",
+                table: "UserApplicationAccesses",
+                columns: new[] { "UserID", "ApplicationID" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_CompanyID",
+                table: "Users",
+                column: "CompanyID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_CreatedBy",
@@ -1009,6 +1325,22 @@ namespace ControlTower.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_Applications_Users_UpdatedBy",
                 table: "Applications",
+                column: "UpdatedBy",
+                principalTable: "Users",
+                principalColumn: "ID",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Company_Users_CreatedBy",
+                table: "Company",
+                column: "CreatedBy",
+                principalTable: "Users",
+                principalColumn: "ID",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Company_Users_UpdatedBy",
+                table: "Company",
                 column: "UpdatedBy",
                 principalTable: "Users",
                 principalColumn: "ID",
@@ -1247,6 +1579,116 @@ namespace ControlTower.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
+                name: "FK_MaterialsUsed_ServiceReportForms_ServiceReportFormID",
+                table: "MaterialsUsed",
+                column: "ServiceReportFormID",
+                principalTable: "ServiceReportForms",
+                principalColumn: "ID",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_MaterialsUsed_Users_CreatedBy",
+                table: "MaterialsUsed",
+                column: "CreatedBy",
+                principalTable: "Users",
+                principalColumn: "ID");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_MaterialsUsed_Users_UpdatedBy",
+                table: "MaterialsUsed",
+                column: "UpdatedBy",
+                principalTable: "Users",
+                principalColumn: "ID");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_News_NewsCategory_NewsCategoryID",
+                table: "News",
+                column: "NewsCategoryID",
+                principalTable: "NewsCategory",
+                principalColumn: "ID",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_News_Users_CreatedBy",
+                table: "News",
+                column: "CreatedBy",
+                principalTable: "Users",
+                principalColumn: "ID",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_News_Users_UpdatedBy",
+                table: "News",
+                column: "UpdatedBy",
+                principalTable: "Users",
+                principalColumn: "ID",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_NewsCategory_Users_CreatedBy",
+                table: "NewsCategory",
+                column: "CreatedBy",
+                principalTable: "Users",
+                principalColumn: "ID",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_NewsCategory_Users_UpdatedBy",
+                table: "NewsCategory",
+                column: "UpdatedBy",
+                principalTable: "Users",
+                principalColumn: "ID",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_NewsComments_Users_CreatedBy",
+                table: "NewsComments",
+                column: "CreatedBy",
+                principalTable: "Users",
+                principalColumn: "ID",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_NewsComments_Users_UpdatedBy",
+                table: "NewsComments",
+                column: "UpdatedBy",
+                principalTable: "Users",
+                principalColumn: "ID",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_NewsComments_Users_UserID",
+                table: "NewsComments",
+                column: "UserID",
+                principalTable: "Users",
+                principalColumn: "ID",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_NewsImages_Users_UploadedBy",
+                table: "NewsImages",
+                column: "UploadedBy",
+                principalTable: "Users",
+                principalColumn: "ID",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_NewsReactions_Users_CreatedBy",
+                table: "NewsReactions",
+                column: "CreatedBy",
+                principalTable: "Users",
+                principalColumn: "ID",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_NewsReactions_Users_UserID",
+                table: "NewsReactions",
+                column: "UserID",
+                principalTable: "Users",
+                principalColumn: "ID",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_Occupations_Users_CreatedBy",
                 table: "Occupations",
                 column: "CreatedBy",
@@ -1266,6 +1708,14 @@ namespace ControlTower.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Company_Users_CreatedBy",
+                table: "Company");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Company_Users_UpdatedBy",
+                table: "Company");
+
             migrationBuilder.DropForeignKey(
                 name: "FK_Departments_Users_CreatedBy",
                 table: "Departments");
@@ -1301,6 +1751,18 @@ namespace ControlTower.Migrations
                 name: "IssueReported");
 
             migrationBuilder.DropTable(
+                name: "MaterialsUsed");
+
+            migrationBuilder.DropTable(
+                name: "NewsComments");
+
+            migrationBuilder.DropTable(
+                name: "NewsImages");
+
+            migrationBuilder.DropTable(
+                name: "NewsReactions");
+
+            migrationBuilder.DropTable(
                 name: "ServiceType");
 
             migrationBuilder.DropTable(
@@ -1316,6 +1778,9 @@ namespace ControlTower.Migrations
                 name: "ImportFormTypes");
 
             migrationBuilder.DropTable(
+                name: "News");
+
+            migrationBuilder.DropTable(
                 name: "ServiceReportForms");
 
             migrationBuilder.DropTable(
@@ -1326,6 +1791,9 @@ namespace ControlTower.Migrations
 
             migrationBuilder.DropTable(
                 name: "Applications");
+
+            migrationBuilder.DropTable(
+                name: "NewsCategory");
 
             migrationBuilder.DropTable(
                 name: "FollowupActionWarehouses");
@@ -1341,6 +1809,9 @@ namespace ControlTower.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Company");
 
             migrationBuilder.DropTable(
                 name: "Departments");

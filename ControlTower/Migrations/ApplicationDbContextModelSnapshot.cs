@@ -113,6 +113,49 @@ namespace ControlTower.Migrations
                     b.ToTable("Applications");
                 });
 
+            modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.Company", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("Company");
+                });
+
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.Department", b =>
                 {
                     b.Property<Guid>("ID")
@@ -215,6 +258,9 @@ namespace ControlTower.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CompanyID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("CreatedBy")
@@ -320,6 +366,8 @@ namespace ControlTower.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("CompanyID");
 
                     b.HasIndex("CreatedBy");
 
@@ -591,6 +639,10 @@ namespace ControlTower.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Caption")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("ImageType")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -1406,6 +1458,23 @@ namespace ControlTower.Migrations
                     b.Navigation("UpdatedByUser");
                 });
 
+            modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.Company", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany("CreatedCompanies")
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany("UpdatedCompanies")
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.Department", b =>
                 {
                     b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
@@ -1442,6 +1511,12 @@ namespace ControlTower.Migrations
 
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.User", b =>
                 {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.Company", "Company")
+                        .WithMany("Users")
+                        .HasForeignKey("CompanyID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
                         .WithMany("CreatedUsers")
                         .HasForeignKey("CreatedBy")
@@ -1463,6 +1538,8 @@ namespace ControlTower.Migrations
                         .WithMany("UpdatedUsers")
                         .HasForeignKey("UpdatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Company");
 
                     b.Navigation("CreatedByUser");
 
@@ -2045,6 +2122,11 @@ namespace ControlTower.Migrations
                     b.Navigation("UserApplicationAccesses");
                 });
 
+            modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.Company", b =>
+                {
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.Department", b =>
                 {
                     b.Navigation("Users");
@@ -2057,11 +2139,15 @@ namespace ControlTower.Migrations
 
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.User", b =>
                 {
+                    b.Navigation("CreatedCompanies");
+
                     b.Navigation("CreatedDepartments");
 
                     b.Navigation("CreatedOccupations");
 
                     b.Navigation("CreatedUsers");
+
+                    b.Navigation("UpdatedCompanies");
 
                     b.Navigation("UpdatedDepartments");
 

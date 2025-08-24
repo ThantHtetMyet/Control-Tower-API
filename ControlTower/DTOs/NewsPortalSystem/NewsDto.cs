@@ -86,6 +86,7 @@ namespace ControlTower.DTOs.NewsPortalSystem
         public int CommentsCount { get; set; }
         public int ReactionsCount { get; set; }
         public int ImagesCount { get; set; }
+        public string FeaturedImageUrl { get; set; }
         public List<NewsImageDto> Images { get; set; } = new List<NewsImageDto>();
     }
 
@@ -95,6 +96,7 @@ namespace ControlTower.DTOs.NewsPortalSystem
         public string Title { get; set; }
         public string Slug { get; set; }
         public string? Excerpt { get; set; }
+        public Guid NewsCategoryID { get; set; }  // Add this missing property
         public string? CategoryName { get; set; }
         public int ViewCount { get; set; }
         public DateTime? PublishDate { get; set; }

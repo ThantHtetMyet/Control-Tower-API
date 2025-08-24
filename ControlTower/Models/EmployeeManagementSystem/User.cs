@@ -8,6 +8,9 @@ namespace ControlTower.Models.EmployeeManagementSystem
         [Key]
         public Guid ID { get; set; }
 
+        [ForeignKey("Company")]
+        public Guid CompanyID { get; set; }
+
         [ForeignKey("Department")]
         public Guid DepartmentID { get; set; }
 
@@ -89,6 +92,7 @@ namespace ControlTower.Models.EmployeeManagementSystem
         public Guid? UpdatedBy { get; set; }
 
         // Navigation properties
+        public virtual Company Company { get; set; }
         public virtual Department Department { get; set; }
         public virtual Occupation Occupation { get; set; }
         public virtual User? CreatedByUser { get; set; }
@@ -101,5 +105,9 @@ namespace ControlTower.Models.EmployeeManagementSystem
         public virtual ICollection<Department> UpdatedDepartments { get; set; } = new List<Department>();
         public virtual ICollection<Occupation> CreatedOccupations { get; set; } = new List<Occupation>();
         public virtual ICollection<Occupation> UpdatedOccupations { get; set; } = new List<Occupation>();
+        
+        // Add these missing Company navigation properties
+        public virtual ICollection<Company> CreatedCompanies { get; set; } = new List<Company>();
+        public virtual ICollection<Company> UpdatedCompanies { get; set; } = new List<Company>();
     }
 }

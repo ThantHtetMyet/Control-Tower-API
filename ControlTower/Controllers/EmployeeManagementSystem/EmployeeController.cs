@@ -22,6 +22,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
         public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
         {
             var Users = await _context.Users
+                .Include(e => e.Company)
                 .Include(e => e.Department)
                 .Include(e => e.Occupation)
                 .Include(e => e.CreatedByUser)
@@ -30,49 +31,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                 .Select(e => new UserDto
                 {
                     ID = e.ID,
-                    DepartmentID = e.DepartmentID,
-                    OccupationID = e.OccupationID,
-                    StaffCardID = e.StaffCardID,
-                    StaffIDCardID = e.StaffRFIDCardID,
-                    FirstName = e.FirstName,
-                    LastName = e.LastName,
-                    Email = e.Email,
-                    MobileNo = e.MobileNo,
-                    Gender = e.Gender,
-                    Remark = e.Remark,
-                    Rating = e.Rating,
-                    CreatedDate = e.CreatedDate,
-                    UpdatedDate = e.UpdatedDate,
-                    LastLogin = e.LastLogin,
-                    StartWorkingDate = e.StartWorkingDate,
-                    LastWorkingDate = e.LastWorkingDate,
-                    WorkPermit = e.WorkPermit,
-                    Nationality = e.Nationality,
-                    Religion = e.Religion,
-                    DateOfBirth = e.DateOfBirth,
-                    CreatedByUserName = e.CreatedByUser != null ? $"{e.CreatedByUser.FirstName} {e.CreatedByUser.LastName}" : null,
-                    UpdatedByUserName = e.UpdatedByUser != null ? $"{e.UpdatedByUser.FirstName} {e.UpdatedByUser.LastName}" : null,
-                    DepartmentName = e.Department.Name,
-                    OccupationName = e.Occupation.OccupationName
-                })
-                .ToListAsync();
-
-            return Ok(Users);
-        }
-
-        // GET: api/Employee/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserDto>> GetEmployee(Guid id)
-        {
-            var employee = await _context.Users
-                .Include(e => e.Department)
-                .Include(e => e.Occupation)
-                .Include(e => e.CreatedByUser)
-                .Include(e => e.UpdatedByUser)
-                .Where(e => e.ID == id && !e.IsDeleted)
-                .Select(e => new UserDto
-                {
-                    ID = e.ID,
+                    CompanyID = e.CompanyID,
                     DepartmentID = e.DepartmentID,
                     OccupationID = e.OccupationID,
                     StaffCardID = e.StaffCardID,
@@ -96,10 +55,60 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     WorkPassCardNumber = e.WorkPassCardNumber,
                     WorkPassCardIssuedDate = e.WorkPassCardIssuedDate,
                     WorkPassCardExpiredDate = e.WorkPassCardExpiredDate,
-                    DepartmentName = e.Department.Name,
-                    OccupationName = e.Occupation.OccupationName,
-                    CreatedByUserName = e.CreatedByUser != null ? e.CreatedByUser.FirstName + " " + e.CreatedByUser.LastName : null,
-                    UpdatedByUserName = e.UpdatedByUser != null ? e.UpdatedByUser.FirstName + " " + e.UpdatedByUser.LastName : null
+                    CompanyName = e.Company != null ? e.Company.Name : null,
+                    DepartmentName = e.Department != null ? e.Department.Name : null,
+                    OccupationName = e.Occupation != null ? e.Occupation.OccupationName : null,
+                    CreatedByUserName = e.CreatedByUser != null ? $"{e.CreatedByUser.FirstName} {e.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = e.UpdatedByUser != null ? $"{e.UpdatedByUser.FirstName} {e.UpdatedByUser.LastName}" : null
+                })
+                .ToListAsync();
+
+            return Ok(Users);
+        }
+
+        // GET: api/Employee/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserDto>> GetEmployee(Guid id)
+        {
+            var employee = await _context.Users
+                .Include(e => e.Company)
+                .Include(e => e.Department)
+                .Include(e => e.Occupation)
+                .Include(e => e.CreatedByUser)
+                .Include(e => e.UpdatedByUser)
+                .Where(e => e.ID == id && !e.IsDeleted)
+                .Select(e => new UserDto
+                {
+                    ID = e.ID,
+                    CompanyID = e.CompanyID,
+                    DepartmentID = e.DepartmentID,
+                    OccupationID = e.OccupationID,
+                    StaffCardID = e.StaffCardID,
+                    StaffIDCardID = e.StaffRFIDCardID,
+                    FirstName = e.FirstName,
+                    LastName = e.LastName,
+                    Email = e.Email,
+                    MobileNo = e.MobileNo,
+                    Gender = e.Gender,
+                    Remark = e.Remark,
+                    Rating = e.Rating,
+                    CreatedDate = e.CreatedDate,
+                    UpdatedDate = e.UpdatedDate,
+                    LastLogin = e.LastLogin,
+                    StartWorkingDate = e.StartWorkingDate,
+                    LastWorkingDate = e.LastWorkingDate,
+                    WorkPermit = e.WorkPermit,
+                    Nationality = e.Nationality,
+                    Religion = e.Religion,
+                    DateOfBirth = e.DateOfBirth,
+                    WorkPassCardNumber = e.WorkPassCardNumber,
+                    WorkPassCardIssuedDate = e.WorkPassCardIssuedDate,
+                    WorkPassCardExpiredDate = e.WorkPassCardExpiredDate,
+                    CompanyName = e.Company != null ? e.Company.Name : null,
+                    DepartmentName = e.Department != null ? e.Department.Name : null,
+                    OccupationName = e.Occupation != null ? e.Occupation.OccupationName : null,
+                    CreatedByUserName = e.CreatedByUser != null ? $"{e.CreatedByUser.FirstName} {e.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = e.UpdatedByUser != null ? $"{e.UpdatedByUser.FirstName} {e.UpdatedByUser.LastName}" : null
                 })
                 .FirstOrDefaultAsync();
 
@@ -198,8 +207,20 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
 
         // POST: api/Employee
         [HttpPost]
-        public async Task<ActionResult<UserDto>> PostEmployee(CreateEmployeeDto createEmployeeDto)
+        public async Task<ActionResult<UserDto>> CreateEmployee(CreateEmployeeDto createEmployeeDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Validate CompanyID exists
+            var companyExists = await _context.Company.AnyAsync(c => c.ID == createEmployeeDto.CompanyID && !c.IsDeleted);
+            if (!companyExists)
+            {
+                return BadRequest("Invalid Company ID");
+            }
+
             using var transaction = await _context.Database.BeginTransactionAsync();
             
             try
@@ -208,6 +229,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                 var employee = new User
                 {
                     ID = Guid.NewGuid(),
+                    CompanyID = createEmployeeDto.CompanyID,
                     DepartmentID = createEmployeeDto.DepartmentID,
                     OccupationID = createEmployeeDto.OccupationID,
                     StaffCardID = createEmployeeDto.StaffCardID,

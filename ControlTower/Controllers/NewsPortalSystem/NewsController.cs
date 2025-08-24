@@ -4,6 +4,7 @@ using ControlTower.Data;
 using ControlTower.Models.NewsPortalSystem;
 using ControlTower.DTOs.NewsPortalSystem;
 using ControlTower.DTOs;
+using System.IO; // Add this if missing
 
 namespace ControlTower.Controllers.NewsPortalSystem
 {
@@ -29,6 +30,9 @@ namespace ControlTower.Controllers.NewsPortalSystem
             [FromQuery] Guid? categoryId = null,
             [FromQuery] bool? isPublished = null)
         {
+            // Get the base URL from configuration
+            var apiBaseUrl = _configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7145";
+            
             if (page < 1) page = 1;
             if (pageSize < 1) pageSize = 10;
             if (pageSize > 100) pageSize = 100;
@@ -62,7 +66,7 @@ namespace ControlTower.Controllers.NewsPortalSystem
             var totalCount = await query.CountAsync();
 
             var news = await query
-                .OrderByDescending(n => n.UpdatedDate > n.CreatedDate ? n.UpdatedDate : n.CreatedDate)
+                .OrderByDescending(n => n.CreatedDate)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .Select(n => new NewsListDto
@@ -71,6 +75,7 @@ namespace ControlTower.Controllers.NewsPortalSystem
                     Title = n.Title,
                     Slug = n.Slug,
                     Excerpt = n.Excerpt,
+                    NewsCategoryID = n.NewsCategoryID,  // Now this property exists
                     CategoryName = n.NewsCategory.Name,
                     ViewCount = n.ViewCount,
                     PublishDate = n.PublishDate,
@@ -80,7 +85,7 @@ namespace ControlTower.Controllers.NewsPortalSystem
                     CommentsCount = n.NewsComments.Count(c => !c.IsDeleted),
                     ReactionsCount = n.NewsReactions.Count(r => !r.IsDeleted),
                     FeaturedImageUrl = n.NewsImages.FirstOrDefault(img => img.IsFeatured && !img.IsDeleted) != null ? 
-                                     n.NewsImages.FirstOrDefault(img => img.IsFeatured && !img.IsDeleted).StoredDirectory + "/" + n.NewsImages.FirstOrDefault(img => img.IsFeatured && !img.IsDeleted).Name : null
+                  $"{apiBaseUrl}/api/News/image/{n.ID}/{n.NewsImages.FirstOrDefault(img => img.IsFeatured && !img.IsDeleted).Name}" : null
                 })
                 .ToListAsync();
 
@@ -97,6 +102,9 @@ namespace ControlTower.Controllers.NewsPortalSystem
         [HttpGet("{id}")]
         public async Task<ActionResult<NewsDto>> GetNews(Guid id)
         {
+            // Get the base URL from configuration
+            var apiBaseUrl = _configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7145";
+
             var news = await _context.News
                 .Include(n => n.NewsCategory)
                 .Include(n => n.CreatedByUser)
@@ -126,7 +134,9 @@ namespace ControlTower.Controllers.NewsPortalSystem
                     CommentsCount = n.NewsComments.Count(c => !c.IsDeleted),
                     ReactionsCount = n.NewsReactions.Count(r => !r.IsDeleted),
                     ImagesCount = n.NewsImages.Count(img => !img.IsDeleted),
-                    Images = n.NewsImages.Where(img => !img.IsDeleted).Select(img => new NewsImageDto
+                    FeaturedImageUrl = n.NewsImages.FirstOrDefault(img => img.IsFeatured && !img.IsDeleted && img.ImageType == "header") != null ? 
+                      $"{apiBaseUrl}/api/News/image/{n.ID}/{n.NewsImages.FirstOrDefault(img => img.IsFeatured && !img.IsDeleted).Name}" : null,
+                    Images = n.NewsImages.Where(img => !img.IsDeleted && img.ImageType == "header").Select(img => new NewsImageDto
                     {
                         ID = img.ID,
                         NewsID = img.NewsID,
@@ -136,7 +146,7 @@ namespace ControlTower.Controllers.NewsPortalSystem
                         Caption = img.Caption,
                         IsFeatured = img.IsFeatured,
                         UploadedDate = img.UploadedDate,
-                        ImageUrl = img.StoredDirectory + "/" + img.Name
+                        ImageUrl = $"{apiBaseUrl}/api/News/image/{n.ID}/{img.Name}"
                     }).ToList()
                 })
                 .FirstOrDefaultAsync();
@@ -160,7 +170,10 @@ namespace ControlTower.Controllers.NewsPortalSystem
         // GET: api/News/slug/{slug}
         [HttpGet("slug/{slug}")]
         public async Task<ActionResult<NewsDto>> GetNewsBySlug(string slug)
-        {
+        { 
+            // Get the base URL from configuration
+            var apiBaseUrl = _configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7145";
+
             var news = await _context.News
                 .Include(n => n.NewsCategory)
                 .Include(n => n.CreatedByUser)
@@ -190,7 +203,8 @@ namespace ControlTower.Controllers.NewsPortalSystem
                     CommentsCount = n.NewsComments.Count(c => !c.IsDeleted),
                     ReactionsCount = n.NewsReactions.Count(r => !r.IsDeleted),
                     ImagesCount = n.NewsImages.Count(img => !img.IsDeleted),
-                    Images = n.NewsImages.Where(img => !img.IsDeleted).Select(img => new NewsImageDto
+                    // Around line 203 in GetNewsBySlug method
+                    Images = n.NewsImages.Where(img => !img.IsDeleted && img.ImageType == "header").Select(img => new NewsImageDto
                     {
                         ID = img.ID,
                         NewsID = img.NewsID,
@@ -200,7 +214,7 @@ namespace ControlTower.Controllers.NewsPortalSystem
                         Caption = img.Caption,
                         IsFeatured = img.IsFeatured,
                         UploadedDate = img.UploadedDate,
-                        ImageUrl = img.StoredDirectory + "/" + img.Name
+                        ImageUrl = $"{apiBaseUrl}/api/News/image/{img.NewsID}/{img.Name}"
                     }).ToList()
                 })
                 .FirstOrDefaultAsync();
@@ -223,27 +237,32 @@ namespace ControlTower.Controllers.NewsPortalSystem
 
         // POST: api/News
         [HttpPost]
-        public async Task<ActionResult<NewsDto>> PostNews([FromForm] CreateNewsDto createDto, [FromForm] List<IFormFile>? images = null)
+        public async Task<ActionResult<NewsDto>> PostNews([FromForm] CreateNewsDto createDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
+        
             // Check if category exists
             var categoryExists = await _context.NewsCategory.AnyAsync(c => c.ID == createDto.NewsCategoryID && !c.IsDeleted);
             if (!categoryExists)
             {
                 return BadRequest("Invalid category ID");
             }
-
+        
             // Check if slug is unique
             var slugExists = await _context.News.AnyAsync(n => n.Slug == createDto.Slug && !n.IsDeleted);
             if (slugExists)
             {
                 return BadRequest("Slug already exists");
             }
-
+        
+            if (!Guid.TryParse(createDto.CreatedBy, out var createdByGuid))
+            {
+                return BadRequest("Invalid CreatedBy ID");
+            }
+        
             var news = new News
             {
                 ID = Guid.NewGuid(),
@@ -260,68 +279,13 @@ namespace ControlTower.Controllers.NewsPortalSystem
                 IsDeleted = false,
                 CreatedDate = DateTime.UtcNow,
                 UpdatedDate = DateTime.UtcNow,
-                CreatedBy = Guid.Parse(createDto.CreatedBy),
-                UpdatedBy = Guid.Parse(createDto.CreatedBy)
+                CreatedBy = createdByGuid,
+                UpdatedBy = createdByGuid
             };
-
+        
             _context.News.Add(news);
             await _context.SaveChangesAsync();
-
-            // Handle image uploads if provided
-            if (images != null && images.Any())
-            {
-                var basePath = _configuration["NewsFileStorage:BasePath"] ?? "C:\\Temp\\NewsImages";
-                var newsDirectory = Path.Combine(basePath, "NewsImages", news.ID.ToString());
-                
-                if (!Directory.Exists(newsDirectory))
-                {
-                    Directory.CreateDirectory(newsDirectory);
-                }
-
-                bool isFirstImage = true;
-                foreach (var image in images)
-                {
-                    // Validate file type
-                    var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
-                    var fileExtension = Path.GetExtension(image.FileName).ToLowerInvariant();
-                    if (!allowedExtensions.Contains(fileExtension))
-                    {
-                        continue; // Skip invalid files
-                    }
-
-                    // Generate unique filename
-                    var fileName = $"{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid():N}{fileExtension}";
-                    var filePath = Path.Combine(newsDirectory, fileName);
-
-                    // Save file
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await image.CopyToAsync(stream);
-                    }
-
-                    // Create database record
-                    var newsImage = new NewsImages
-                    {
-                        ID = Guid.NewGuid(),
-                        NewsID = news.ID,
-                        Name = fileName,
-                        StoredDirectory = newsDirectory,
-                        UploadedStatus = "Uploaded",
-                        AltText = null,
-                        Caption = null,
-                        IsFeatured = isFirstImage, // First image is featured by default
-                        IsDeleted = false,
-                        UploadedDate = DateTime.UtcNow,
-                        UploadedBy = Guid.Parse(createDto.CreatedBy)
-                    };
-
-                    _context.NewsImages.Add(newsImage);
-                    isFirstImage = false;
-                }
-
-                await _context.SaveChangesAsync();
-            }
-
+        
             return await GetNews(news.ID);
         }
 
@@ -449,5 +413,150 @@ namespace ControlTower.Controllers.NewsPortalSystem
         {
             return _context.News.Any(e => e.ID == id && !e.IsDeleted);
         }
+            
+        // POST: api/News/{id}/thumbnail
+        [HttpPost("{id}/thumbnail")]
+        public async Task<IActionResult> UploadThumbnail(Guid id, [FromForm] UploadThumbnailDto uploadDto)
+        {
+            var news = await _context.News.FindAsync(id);
+            if (news == null || news.IsDeleted)
+            {
+                return NotFound("News not found");
+            }
+
+            if (uploadDto.ThumbnailImage == null)
+            {
+                return BadRequest("Thumbnail image is required");
+            }
+
+            // Remove existing thumbnail if any
+            var existingThumbnail = await _context.NewsImages
+                .FirstOrDefaultAsync(img => img.NewsID == id && img.ImageType == "thumbnail" && !img.IsDeleted);
+            if (existingThumbnail != null)
+            {
+                existingThumbnail.IsDeleted = true;
+            }
+
+            var basePath = _configuration["NewsFileStorage:BasePath"] ?? "C:\\Temp\\NewsImages";
+            if (!Directory.Exists(basePath))
+            {
+                Directory.CreateDirectory(basePath);
+            }
+
+            await SaveNewsImage(uploadDto.ThumbnailImage, id, "thumbnail", basePath, uploadDto.UploadedBy);
+            await _context.SaveChangesAsync();
+
+            return Ok("Thumbnail uploaded successfully");
+        }
+
+        // POST: api/News/{id}/header
+        [HttpPost("{id}/header")]
+        public async Task<IActionResult> UploadHeader(Guid id, [FromForm] UploadHeaderDto uploadDto)
+        {
+            var news = await _context.News.FindAsync(id);
+            if (news == null || news.IsDeleted)
+            {
+                return NotFound("News not found");
+            }
+
+            if (uploadDto.HeaderImage == null)
+            {
+                return BadRequest("Header image is required");
+            }
+
+            // Remove existing header if any
+            var existingHeader = await _context.NewsImages
+                .FirstOrDefaultAsync(img => img.NewsID == id && img.ImageType == "header" && !img.IsDeleted);
+            if (existingHeader != null)
+            {
+                existingHeader.IsDeleted = true;
+            }
+
+            var basePath = _configuration["NewsFileStorage:BasePath"] ?? "C:\\Temp\\NewsImages";
+            if (!Directory.Exists(basePath))
+            {
+                Directory.CreateDirectory(basePath);
+            }
+
+            await SaveNewsImage(uploadDto.HeaderImage, id, "header", basePath, uploadDto.UploadedBy);
+            await _context.SaveChangesAsync();
+
+            return Ok("Header image uploaded successfully");
+        }
+
+        // Helper method for saving news images
+        private async Task SaveNewsImage(IFormFile image, Guid newsId, string imageType, string basePath, string uploadedBy)
+        {
+            // Validate file type
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+            var fileExtension = Path.GetExtension(image.FileName).ToLowerInvariant();
+            if (!allowedExtensions.Contains(fileExtension))
+            {
+                return; // Skip invalid files
+            }
+
+            // Create news-specific directory
+            var newsDirectory = Path.Combine(basePath, newsId.ToString());
+            if (!Directory.Exists(newsDirectory))
+            {
+                Directory.CreateDirectory(newsDirectory);
+            }
+
+            // Generate unique filename with image type prefix
+            var fileName = $"{imageType}_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid():N}{fileExtension}";
+            var filePath = Path.Combine(newsDirectory, fileName);
+
+            // Save file to news-specific directory
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await image.CopyToAsync(stream);
+            }
+
+            // Create database record
+            var newsImage = new NewsImages
+            {
+                ID = Guid.NewGuid(),
+                NewsID = newsId,
+                Name = fileName,
+                StoredDirectory = newsDirectory,
+                UploadedStatus = "Uploaded",
+                AltText = null,
+                Caption = null,
+                ImageType = imageType,
+                IsFeatured = imageType == "thumbnail", // Thumbnail is featured by default
+                IsDeleted = false,
+                UploadedDate = DateTime.UtcNow,
+                UploadedBy = Guid.Parse(uploadedBy)
+            };
+
+            _context.NewsImages.Add(newsImage);
+        }
+
+                // GET: api/News/image/{newsId}/{imageName}
+        [HttpGet("image/{newsId}/{imageName}")]
+        public async Task<IActionResult> GetNewsImage(Guid newsId, string imageName)
+        {
+            var basePath = _configuration["NewsFileStorage:BasePath"] ?? "C:\\Temp\\NewsImages";
+            var fullPath = Path.Combine(basePath, newsId.ToString(), imageName);
+
+            if (!System.IO.File.Exists(fullPath))
+                return NotFound();
+
+            // Detect content type dynamically
+            var extension = Path.GetExtension(imageName).ToLowerInvariant();
+            var contentType = extension switch
+            {
+                ".jpg" or ".jpeg" => "image/jpeg",
+                ".png" => "image/png",
+                ".gif" => "image/gif",
+                ".webp" => "image/webp",
+                _ => "image/jpeg"
+            };
+
+            var fileBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
+            return File(fileBytes, contentType);
+        }
     }
+
 }
+
