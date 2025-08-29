@@ -231,11 +231,13 @@ namespace ControlTower.Data
             // Category unique constraints
             modelBuilder.Entity<NewsCategory>()
                 .HasIndex(c => c.Name)
-                .IsUnique();
-
+                .IsUnique()
+                .HasFilter("[IsDeleted] = 0");
+            
             modelBuilder.Entity<NewsCategory>()
                 .HasIndex(c => c.Slug)
-                .IsUnique();
+                .IsUnique()
+                .HasFilter("[IsDeleted] = 0");
 
             // News unique constraints
             modelBuilder.Entity<News>()

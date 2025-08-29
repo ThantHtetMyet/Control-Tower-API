@@ -58,6 +58,7 @@ VALUES (
 
 INSERT INTO Users (
     ID,
+    CompanyID,
     DepartmentID,
     OccupationID,
     StaffCardID,
@@ -85,14 +86,72 @@ INSERT INTO Users (
 )
 VALUES (
     '22222222-2222-2222-2222-222222222222',
+    '11111111-1111-1111-1111-111111111111', -- CompanyID
     '11111111-1111-1111-1111-111111111111', -- DepartmentID
     '11111111-1111-1111-1111-111111111111', -- OccupationID
     3001,
     3001,
+    'Thant',
+    'Htet Myet',
+    'thant@gmail.com',
+    '83816401',
+    'Male',
+    '12345',
+    'Software Developer',
+    4,
+    0,
+    GETDATE(),
+    GETDATE(),
+    NULL,
+    NULL,
+    '1900-01-01',   -- LastLogin set to placeholder instead of NULL
+    '2020-03-01',
+    NULL,
+    'WP20201234',
+    'WorkPass',
+    'Buddhist',
+    '1990-06-15'
+);
+
+INSERT INTO Users (
+    ID,
+    CompanyID,
+    DepartmentID,
+    OccupationID,
+    StaffCardID,
+    StaffRFIDCardID,
+    FirstName,
+    LastName,
+    Email,
+    MobileNo,
+    Gender,
+    LoginPassword,
+    Remark,
+    Rating,
+    IsDeleted,
+    CreatedDate,
+    UpdatedDate,
+    CreatedBy,
+    UpdatedBy,
+    LastLogin,
+    StartWorkingDate,
+    LastWorkingDate,
+    WorkPermit,
+    Nationality,
+    Religion,
+    DateOfBirth
+)
+VALUES (
+    '33333333-3333-3333-3333-333333333333',
+    '11111111-1111-1111-1111-111111111111', -- CompanyID
+    '11111111-1111-1111-1111-111111111111', -- DepartmentID
+    '11111111-1111-1111-1111-111111111111', -- OccupationID
+    3002,
+    3002,
     'Shwe',
     'Sin',
     'shwesin@willowglen.com.sg',
-    '91234567',
+    '2468012',
     'Female',
     'Willowglen@12345',
     'Software Manager',

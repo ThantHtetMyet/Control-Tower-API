@@ -409,6 +409,7 @@ namespace ControlTower.Migrations
                     UploadedStatus = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     AltText = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Caption = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    ImageType = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     IsFeatured = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     UploadedDate = table.Column<DateTime>(type: "datetime2", nullable: false),

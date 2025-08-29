@@ -4,6 +4,7 @@ using ControlTower.Data;
 using ControlTower.Models.NewsPortalSystem;
 using ControlTower.DTOs.NewsPortalSystem;
 using ControlTower.DTOs;
+using ControlTower.Attributes; // Add this import
 
 namespace ControlTower.Controllers.NewsPortalSystem
 {
@@ -20,6 +21,7 @@ namespace ControlTower.Controllers.NewsPortalSystem
 
         // GET: api/NewsCategory
         [HttpGet]
+        [NewsPortalAuthorization("User")] // Allow users to read categories
         public async Task<ActionResult<IEnumerable<NewsCategoryListDto>>> GetNewsCategory()
         {
             var categories = await _context.NewsCategory
@@ -34,6 +36,7 @@ namespace ControlTower.Controllers.NewsPortalSystem
                     Slug = c.Slug,
                     Description = c.Description,
                     ParentCategoryName = c.ParentCategory != null ? c.ParentCategory.Name : null,
+                    ParentCategoryID = c.ParentCategoryID != null ? c.ParentCategoryID : null,
                     CreatedDate = c.CreatedDate,
                     NewsCount = c.News.Count(n => !n.IsDeleted),
                     SubCategoriesCount = c.SubCategories.Count(sc => !sc.IsDeleted)
@@ -46,6 +49,7 @@ namespace ControlTower.Controllers.NewsPortalSystem
 
         // GET: api/NewsCategory/tree
         [HttpGet("tree")]
+        [NewsPortalAuthorization("User")] // Allow users to read category tree
         public async Task<ActionResult<IEnumerable<NewsCategoryDto>>> GetNewsCategoryTree()
         {
             var categories = await _context.NewsCategory
@@ -88,6 +92,7 @@ namespace ControlTower.Controllers.NewsPortalSystem
 
         // GET: api/NewsCategory/5
         [HttpGet("{id}")]
+        [NewsPortalAuthorization("User")] // Allow users to read individual categories
         public async Task<ActionResult<NewsCategoryDto>> GetNewsCategory(Guid id)
         {
             var category = await _context.NewsCategory
@@ -136,6 +141,7 @@ namespace ControlTower.Controllers.NewsPortalSystem
 
         // POST: api/NewsCategory
         [HttpPost]
+        [ApplicationAuthorization("News Portal System", "Admin")] // Only admins can create
         public async Task<ActionResult<NewsCategoryDto>> PostNewsCategory(CreateNewsCategoryDto createDto)
         {
             if (!ModelState.IsValid)
@@ -182,6 +188,7 @@ namespace ControlTower.Controllers.NewsPortalSystem
 
         // PUT: api/NewsCategory/5
         [HttpPut("{id}")]
+        [ApplicationAuthorization("News Portal System", "Admin")] // Only admins can update
         public async Task<IActionResult> PutNewsCategory(Guid id, UpdateNewsCategoryDto updateDto)
         {
             if (id != updateDto.ID)
@@ -257,6 +264,7 @@ namespace ControlTower.Controllers.NewsPortalSystem
 
         // DELETE: api/NewsCategory/5
         [HttpDelete("{id}")]
+        [ApplicationAuthorization("News Portal System", "Admin")] // Only admins can delete
         public async Task<IActionResult> DeleteNewsCategory(Guid id)
         {
             var category = await _context.NewsCategory

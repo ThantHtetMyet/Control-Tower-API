@@ -4,7 +4,8 @@ using ControlTower.Data;
 using ControlTower.Models.NewsPortalSystem;
 using ControlTower.DTOs.NewsPortalSystem;
 using ControlTower.DTOs;
-using System.IO; // Add this if missing
+using System.IO;
+using ControlTower.Attributes; // Add this if missing
 
 namespace ControlTower.Controllers.NewsPortalSystem
 {
@@ -23,6 +24,7 @@ namespace ControlTower.Controllers.NewsPortalSystem
 
         // GET: api/News
         [HttpGet]
+        [NewsPortalAuthorization("User")]
         public async Task<ActionResult<PagedResult<NewsListDto>>> GetNews(
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10,
@@ -134,12 +136,15 @@ namespace ControlTower.Controllers.NewsPortalSystem
                     CommentsCount = n.NewsComments.Count(c => !c.IsDeleted),
                     ReactionsCount = n.NewsReactions.Count(r => !r.IsDeleted),
                     ImagesCount = n.NewsImages.Count(img => !img.IsDeleted),
-                    FeaturedImageUrl = n.NewsImages.FirstOrDefault(img => img.IsFeatured && !img.IsDeleted && img.ImageType == "header") != null ? 
+                    FeaturedHeaderImageUrl = n.NewsImages.FirstOrDefault(img => img.IsFeatured && !img.IsDeleted && img.ImageType == "header") != null ? 
                       $"{apiBaseUrl}/api/News/image/{n.ID}/{n.NewsImages.FirstOrDefault(img => img.IsFeatured && !img.IsDeleted).Name}" : null,
-                    Images = n.NewsImages.Where(img => !img.IsDeleted && img.ImageType == "header").Select(img => new NewsImageDto
+                    FeaturedThumbnailImageUrl = n.NewsImages.FirstOrDefault(img => img.IsFeatured && !img.IsDeleted && img.ImageType == "thumbnail") != null ? 
+                      $"{apiBaseUrl}/api/News/image/{n.ID}/{n.NewsImages.FirstOrDefault(img => img.IsFeatured && !img.IsDeleted && img.ImageType == "thumbnail").Name}" : null,
+                    Images = n.NewsImages.Where(img => !img.IsDeleted).Select(img => new NewsImageDto
                     {
                         ID = img.ID,
                         NewsID = img.NewsID,
+                        ImageType = img.ImageType, 
                         Name = img.Name,
                         StoredDirectory = img.StoredDirectory,
                         AltText = img.AltText,
@@ -203,8 +208,8 @@ namespace ControlTower.Controllers.NewsPortalSystem
                     CommentsCount = n.NewsComments.Count(c => !c.IsDeleted),
                     ReactionsCount = n.NewsReactions.Count(r => !r.IsDeleted),
                     ImagesCount = n.NewsImages.Count(img => !img.IsDeleted),
-                    // Around line 203 in GetNewsBySlug method
-                    Images = n.NewsImages.Where(img => !img.IsDeleted && img.ImageType == "header").Select(img => new NewsImageDto
+                    // Around line 210 - Same fix for GetNewsBySlug method
+                    Images = n.NewsImages.Where(img => !img.IsDeleted).Select(img => new NewsImageDto
                     {
                         ID = img.ID,
                         NewsID = img.NewsID,
@@ -212,9 +217,10 @@ namespace ControlTower.Controllers.NewsPortalSystem
                         StoredDirectory = img.StoredDirectory,
                         AltText = img.AltText,
                         Caption = img.Caption,
+                        ImageType = img.ImageType, // Add this line
                         IsFeatured = img.IsFeatured,
                         UploadedDate = img.UploadedDate,
-                        ImageUrl = $"{apiBaseUrl}/api/News/image/{img.NewsID}/{img.Name}"
+                        ImageUrl = $"{apiBaseUrl}/api/News/image/{n.ID}/{img.Name}"
                     }).ToList()
                 })
                 .FirstOrDefaultAsync();
@@ -237,6 +243,7 @@ namespace ControlTower.Controllers.NewsPortalSystem
 
         // POST: api/News
         [HttpPost]
+        [ApplicationAuthorization("News Portal System", "Admin")]
         public async Task<ActionResult<NewsDto>> PostNews([FromForm] CreateNewsDto createDto)
         {
             if (!ModelState.IsValid)
@@ -291,7 +298,7 @@ namespace ControlTower.Controllers.NewsPortalSystem
 
         // PUT: api/News/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutNews(Guid id, UpdateNewsDto updateDto)
+        public async Task<IActionResult> PutNews(Guid id, [FromForm] UpdateNewsDto updateDto)
         {
             if (id != updateDto.ID)
             {

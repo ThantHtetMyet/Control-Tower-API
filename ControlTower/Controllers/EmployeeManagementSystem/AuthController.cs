@@ -71,8 +71,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                 employee.LastLogin = DateTime.UtcNow;
                 await _context.SaveChangesAsync();
 
-                // Generate JWT token
-                var token = GenerateJwtToken(employee);
+                // Generate JWT token with all application access levels
+                var token = await GenerateJwtTokenAsync(employee);
                 var expiresAt = DateTime.UtcNow.AddHours(24);
 
                 var response = new AuthResponseDto
@@ -100,27 +100,58 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             }
         }
 
-        private string GenerateJwtToken(User employee)
+        /// <summary>
+        /// Generates a comprehensive JWT token with user information and application access levels
+        /// </summary>
+        /// <param name="user">The user for whom to generate the token</param>
+        /// <returns>JWT token string</returns>
+        private async Task<string> GenerateJwtTokenAsync(User user)
         {
             var jwtSettings = _configuration.GetSection("JwtSettings");
-            // ✅ Fix: Change "SecretKey" to "Key"
             var secretKey = jwtSettings["Key"] ?? "YourDefaultSecretKeyThatIsAtLeast32CharactersLong!";
-            // ✅ Fix: Update default values to match appsettings.json
             var issuer = jwtSettings["Issuer"] ?? "ServiceReportSystem";
             var audience = jwtSettings["Audience"] ?? "ServiceReportSystemUsers";
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var claims = new[]
+            // Base claims for all users
+            var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, employee.ID.ToString()),
-                new Claim(ClaimTypes.Email, employee.Email),
-                new Claim(ClaimTypes.Name, $"{employee.FirstName} {employee.LastName}"),
-                new Claim("StaffCardID", employee.StaffCardID),
-                new Claim("DepartmentID", employee.DepartmentID.ToString()),
-                new Claim("OccupationID", employee.OccupationID.ToString())
+                new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+                new Claim("StaffCardID", user.StaffCardID),
+                new Claim("DepartmentID", user.DepartmentID.ToString()),
+                new Claim("OccupationID", user.OccupationID.ToString())
             };
+
+            // Add News Portal access level claim if user has access
+            var applicationName = _configuration["NewsPortalSettings:ApplicationName"] ?? "News Portal System";
+            var newsPortalApp = await _context.Applications
+                .FirstOrDefaultAsync(app => app.ApplicationName == applicationName && !app.IsDeleted);
+
+            if (newsPortalApp != null)
+            {
+                var newsPortalAccess = await _context.UserApplicationAccesses
+                    .Include(uaa => uaa.AccessLevel)
+                    .FirstOrDefaultAsync(uaa =>
+                        uaa.UserID == user.ID &&
+                        uaa.ApplicationID == newsPortalApp.ID &&
+                        !uaa.IsDeleted &&
+                        !uaa.IsRevoked);
+
+                if (newsPortalAccess != null)
+                {
+                    claims.Add(new Claim("NewsPortalAccessLevel", newsPortalAccess.AccessLevel.LevelName));
+                }
+            }
+
+            // You can add more application access levels here in the future
+            // Example for other applications:
+            // var serviceReportApp = await _context.Applications
+            //     .FirstOrDefaultAsync(app => app.ApplicationName == "Service Report System" && !app.IsDeleted);
+            // if (serviceReportApp != null) { ... }
 
             var token = new JwtSecurityToken(
                 issuer: issuer,
@@ -132,128 +163,5 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        /*
-        [HttpPost("signup")]
-        public async Task<ActionResult<AuthResponseDto>> SignUp(SignUpDto signUpDto)
-        {
-            if (signUpDto.Password != signUpDto.ConfirmPassword)
-            {
-                return BadRequest(new AuthResponseDto
-                {
-                    Success = false,
-                    Message = "Passwords do not match"
-                });
-            }
-
-            var userExists = await _context.Users.AnyAsync(u => u.Email == signUpDto.Email);
-            if (userExists)
-            {
-                return BadRequest(new AuthResponseDto
-                {
-                    Success = false,
-                    Message = "Email already registered"
-                });
-            }
-
-            var user = new User
-            {
-                FirstName = signUpDto.FirstName,
-                LastName = signUpDto.LastName,
-                Email = signUpDto.Email,
-                MobileNo = signUpDto.MobileNo,
-                Gender = signUpDto.Gender,
-                LoginPassword = BCrypt.Net.BCrypt.HashPassword(signUpDto.Password),
-                IsDeleted = false,
-                LastLogin = DateTime.Now
-            };
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            var token = GenerateJwtToken(user);
-
-            return Ok(new AuthResponseDto
-            {
-                Success = true,
-                Message = "User registered successfully",
-                Token = token,
-                User = MapToUserDto(user)
-            });
-        }
-
-        [HttpPost("forgot-password")]
-        public async Task<ActionResult<AuthResponseDto>> ForgotPassword(ForgotPasswordDto forgotPasswordDto)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == forgotPasswordDto.Email && !u.IsDeleted);
-
-            if (user == null)
-            {
-                return BadRequest(new AuthResponseDto
-                {
-                    Success = false,
-                    Message = "User not found"
-                });
-            }
-
-            // Generate password reset token
-            var resetToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
-
-            // TODO: Implement email sending logic here
-            // For now, we'll just return the token in the response
-            return Ok(new AuthResponseDto
-            {
-                Success = true,
-                Message = "Password reset instructions sent to your email",
-                Token = resetToken
-            });
-        }
-
-        [HttpPost("reset-password")]
-        public async Task<ActionResult<AuthResponseDto>> ResetPassword(ResetPasswordDto resetPasswordDto)
-        {
-            if (resetPasswordDto.NewPassword != resetPasswordDto.ConfirmPassword)
-            {
-                return BadRequest(new AuthResponseDto
-                {
-                    Success = false,
-                    Message = "Passwords do not match"
-                });
-            }
-
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == resetPasswordDto.Email && !u.IsDeleted);
-
-            if (user == null)
-            {
-                return BadRequest(new AuthResponseDto
-                {
-                    Success = false,
-                    Message = "User not found"
-                });
-            }
-
-            // TODO: Validate reset token
-            // For now, we'll just update the password
-            user.LoginPassword = BCrypt.Net.BCrypt.HashPassword(resetPasswordDto.NewPassword);
-            await _context.SaveChangesAsync();
-
-            return Ok(new AuthResponseDto
-            {
-                Success = true,
-                Message = "Password reset successful"
-            });
-        }
-        private UserDto MapToUserDto(User user)
-        {
-            return new UserDto
-            {
-                ID = user.ID,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                MobileNo = user.MobileNo,
-                Gender = user.Gender
-            };
-        }
-        */
     }
 }

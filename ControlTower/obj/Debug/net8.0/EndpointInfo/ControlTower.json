@@ -2189,19 +2189,97 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateNewsDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateNewsDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateNewsDto"
+                "required": [
+                  "ID",
+                  "NewsCategoryID",
+                  "Slug",
+                  "Title"
+                ],
+                "type": "object",
+                "properties": {
+                  "ID": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "Title": {
+                    "maxLength": 255,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "Slug": {
+                    "maxLength": 255,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  },
+                  "Excerpt": {
+                    "maxLength": 500,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "Remark": {
+                    "maxLength": 255,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "NewsCategoryID": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "Rate": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "PublishDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "IsPublished": {
+                    "type": "boolean"
+                  },
+                  "UpdatedBy": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "ID": {
+                  "style": "form"
+                },
+                "Title": {
+                  "style": "form"
+                },
+                "Slug": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "Excerpt": {
+                  "style": "form"
+                },
+                "Remark": {
+                  "style": "form"
+                },
+                "NewsCategoryID": {
+                  "style": "form"
+                },
+                "Rate": {
+                  "style": "form"
+                },
+                "PublishDate": {
+                  "style": "form"
+                },
+                "IsPublished": {
+                  "style": "form"
+                },
+                "UpdatedBy": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -5300,6 +5378,11 @@
             "type": "string",
             "nullable": true
           },
+          "parentCategoryID": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
           "createdDate": {
             "type": "string",
             "format": "date-time"
@@ -5395,7 +5478,11 @@
             "type": "integer",
             "format": "int32"
           },
-          "featuredImageUrl": {
+          "featuredHeaderImageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "featuredThumbnailImageUrl": {
             "type": "string",
             "nullable": true
           },
@@ -6530,69 +6617,6 @@
             "type": "string",
             "format": "uuid",
             "nullable": true
-          },
-          "updatedBy": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateNewsDto": {
-        "required": [
-          "id",
-          "newsCategoryID",
-          "slug",
-          "title"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "maxLength": 255,
-            "minLength": 0,
-            "type": "string"
-          },
-          "slug": {
-            "maxLength": 255,
-            "minLength": 0,
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "excerpt": {
-            "maxLength": 500,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "remark": {
-            "maxLength": 255,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "newsCategoryID": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "rate": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "publishDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "isPublished": {
-            "type": "boolean"
           },
           "updatedBy": {
             "type": "string",

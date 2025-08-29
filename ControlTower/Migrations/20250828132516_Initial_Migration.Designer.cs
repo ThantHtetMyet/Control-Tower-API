@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControlTower.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250824134617_Initial_Migration")]
+    [Migration("20250828132516_Initial_Migration")]
     partial class Initial_Migration
     {
         /// <inheritdoc />
@@ -642,6 +642,10 @@ namespace ControlTower.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Caption")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("ImageType")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 

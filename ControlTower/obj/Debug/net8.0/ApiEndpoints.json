@@ -1272,9 +1272,59 @@
         "IsRequired": true
       },
       {
-        "Name": "updateDto",
-        "Type": "ControlTower.DTOs.NewsPortalSystem.UpdateNewsDto",
-        "IsRequired": true
+        "Name": "ID",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "Title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Slug",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Description",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Excerpt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Remark",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "NewsCategoryID",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "Rate",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "PublishDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "IsPublished",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "UpdatedBy",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

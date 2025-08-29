@@ -65,6 +65,7 @@ namespace ControlTower.DTOs.NewsPortalSystem
         public string Slug { get; set; }
         public string? Description { get; set; }
         public string? ParentCategoryName { get; set; }
+        public Guid? ParentCategoryID { get; set; }
         public DateTime CreatedDate { get; set; }
         public int NewsCount { get; set; }
         public int SubCategoriesCount { get; set; }

@@ -86,7 +86,8 @@ namespace ControlTower.DTOs.NewsPortalSystem
         public int CommentsCount { get; set; }
         public int ReactionsCount { get; set; }
         public int ImagesCount { get; set; }
-        public string FeaturedImageUrl { get; set; }
+        public string FeaturedHeaderImageUrl { get; set; }
+        public string FeaturedThumbnailImageUrl { get; set; }
         public List<NewsImageDto> Images { get; set; } = new List<NewsImageDto>();
     }
 

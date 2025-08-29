@@ -564,12 +564,14 @@ namespace ControlTower.Migrations
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("Name")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[IsDeleted] = 0");
 
                     b.HasIndex("ParentCategoryID");
 
                     b.HasIndex("Slug")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[IsDeleted] = 0");
 
                     b.HasIndex("UpdatedBy");
 

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControlTower.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250824151429_AddNewImageTypeCol")]
-    partial class AddNewImageTypeCol
+    [Migration("20250829022630_FixUniqueConstraintsForSoftDelete")]
+    partial class FixUniqueConstraintsForSoftDelete
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -567,12 +567,14 @@ namespace ControlTower.Migrations
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("Name")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[IsDeleted] = 0");
 
                     b.HasIndex("ParentCategoryID");
 
                     b.HasIndex("Slug")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[IsDeleted] = 0");
 
                     b.HasIndex("UpdatedBy");
 

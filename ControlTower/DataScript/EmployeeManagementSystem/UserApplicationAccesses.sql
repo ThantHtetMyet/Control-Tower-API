@@ -180,7 +180,7 @@ INSERT INTO UserApplicationAccesses (
     '55555555-5555-5555-5555-555555555555', -- Example new GUID for this access record
     '22222222-2222-2222-2222-222222222222', -- Employee/User ID
     '33333333-3333-3333-3333-333333333333', -- Application ID
-    '11111111-1111-1111-1111-111111111111', -- Example Access Level ID (Replace this!)
+    '22222222-2222-2222-2222-222222222222', -- Example Access Level ID (Replace this!)
     CURRENT_TIMESTAMP,                    -- GrantedDate
     0,                                -- IsRevoked
     NULL,                                 -- RevokedDate

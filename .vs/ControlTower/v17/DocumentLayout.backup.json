@@ -7,12 +7,36 @@
       "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\controllers\\newsportalsystem\\newscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\dtos\\newsportalsystem\\newscategorydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\dtos\\newsportalsystem\\newscategorydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\controllers\\newsportalsystem\\newscategorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\controllers\\newsportalsystem\\newscategorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\dtos\\newsportalsystem\\newsdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\dtos\\newsportalsystem\\newsdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\models\\newsportalsystem\\newscategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\models\\newsportalsystem\\newscategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\controllers\\employeemanagementsystem\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\controllers\\employeemanagementsystem\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\models\\newsportalsystem\\newsimages.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -35,31 +59,11 @@
       "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\models\\employeemanagementsystem\\company.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\thanthtet.myet\\AppData\\Local\\Temp\\.vsdbgsrc\\8dba25c295f2052ae7dbffb56e8dd25f542c646f4219e426c2fa98fec6617869\\LowLevelLifoSemaphore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\models\\newsportalsystem\\news.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\models\\newsportalsystem\\news.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\controllers\\newsportalsystem\\newscategorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\controllers\\newsportalsystem\\newscategorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\models\\newsportalsystem\\newscategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\models\\newsportalsystem\\newscategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\dtos\\employeemanagementsystem\\userapplicationaccessdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -133,33 +137,59 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "NewsCategoryController.cs",
+              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\NewsPortalSystem\\NewsCategoryController.cs",
+              "RelativeDocumentMoniker": "ControlTower\\Controllers\\NewsPortalSystem\\NewsCategoryController.cs",
+              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\NewsPortalSystem\\NewsCategoryController.cs",
+              "RelativeToolTip": "ControlTower\\Controllers\\NewsPortalSystem\\NewsCategoryController.cs",
+              "ViewState": "AgIAALcAAAAAAAAAAAAowMEAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T14:53:46.869Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Program.cs",
+              "RelativeDocumentMoniker": "ControlTower\\Program.cs",
+              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Program.cs",
+              "RelativeToolTip": "ControlTower\\Program.cs",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAvwGsAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-19T06:18:46.099Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "NewsCategoryDto.cs",
+              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\DTOs\\NewsPortalSystem\\NewsCategoryDto.cs",
+              "RelativeDocumentMoniker": "ControlTower\\DTOs\\NewsPortalSystem\\NewsCategoryDto.cs",
+              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\DTOs\\NewsPortalSystem\\NewsCategoryDto.cs",
+              "RelativeToolTip": "ControlTower\\DTOs\\NewsPortalSystem\\NewsCategoryDto.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAIA7wEMAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-29T01:36:09.839Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "NewsController.cs",
+              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\NewsPortalSystem\\NewsController.cs",
+              "RelativeDocumentMoniker": "ControlTower\\Controllers\\NewsPortalSystem\\NewsController.cs",
+              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\NewsPortalSystem\\NewsController.cs",
+              "RelativeToolTip": "ControlTower\\Controllers\\NewsPortalSystem\\NewsController.cs",
+              "ViewState": "AgIAACgBAAAAAAAAAAAvwC4BAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T14:56:20.342Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Data\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "ControlTower\\Data\\ApplicationDbContext.cs",
-              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Data\\ApplicationDbContext.cs",
-              "RelativeToolTip": "ControlTower\\Data\\ApplicationDbContext.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAD4vxEAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-19T15:42:47.915Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Models\\EmployeeManagementSystem\\User.cs",
-              "RelativeDocumentMoniker": "ControlTower\\Models\\EmployeeManagementSystem\\User.cs",
-              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Models\\EmployeeManagementSystem\\User.cs",
-              "RelativeToolTip": "ControlTower\\Models\\EmployeeManagementSystem\\User.cs",
-              "ViewState": "AgIAAGUAAAAAAAAAAIAzwF4AAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-19T15:34:22.345Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\appsettings.Development.json",
               "RelativeDocumentMoniker": "ControlTower\\appsettings.Development.json",
@@ -171,33 +201,70 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "NewsController.cs",
-              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\NewsPortalSystem\\NewsController.cs",
-              "RelativeDocumentMoniker": "ControlTower\\Controllers\\NewsPortalSystem\\NewsController.cs",
-              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\NewsPortalSystem\\NewsController.cs",
-              "RelativeToolTip": "ControlTower\\Controllers\\NewsPortalSystem\\NewsController.cs",
-              "ViewState": "AgIAAHoAAAAAAAAAAAAQwIoAAABFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-21T14:56:20.342Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Program.cs",
-              "RelativeDocumentMoniker": "ControlTower\\Program.cs",
-              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Program.cs",
-              "RelativeToolTip": "ControlTower\\Program.cs",
-              "ViewState": "AgIAAEwAAAAAAAAAAAAAwEwAAAA5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-19T06:18:46.099Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "NewsDto.cs",
+              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\DTOs\\NewsPortalSystem\\NewsDto.cs",
+              "RelativeDocumentMoniker": "ControlTower\\DTOs\\NewsPortalSystem\\NewsDto.cs",
+              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\DTOs\\NewsPortalSystem\\NewsDto.cs",
+              "RelativeToolTip": "ControlTower\\DTOs\\NewsPortalSystem\\NewsDto.cs",
+              "ViewState": "AgIAAEgAAAAAAAAAAIA5wFkAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-23T16:25:15.14Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "ControlTower\\Data\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "ControlTower\\Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAApwCgAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-19T15:42:47.915Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "NewsCategory.cs",
+              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Models\\NewsPortalSystem\\NewsCategory.cs",
+              "RelativeDocumentMoniker": "ControlTower\\Models\\NewsPortalSystem\\NewsCategory.cs",
+              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Models\\NewsPortalSystem\\NewsCategory.cs",
+              "RelativeToolTip": "ControlTower\\Models\\NewsPortalSystem\\NewsCategory.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAQwBkAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T15:29:59.18Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\EmployeeManagementSystem\\AuthController.cs",
+              "RelativeDocumentMoniker": "ControlTower\\Controllers\\EmployeeManagementSystem\\AuthController.cs",
+              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\EmployeeManagementSystem\\AuthController.cs",
+              "RelativeToolTip": "ControlTower\\Controllers\\EmployeeManagementSystem\\AuthController.cs",
+              "ViewState": "AgIAAGgAAAAAAAAAAAAQwG8AAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-26T11:54:35.385Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Models\\EmployeeManagementSystem\\User.cs",
+              "RelativeDocumentMoniker": "ControlTower\\Models\\EmployeeManagementSystem\\User.cs",
+              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Models\\EmployeeManagementSystem\\User.cs",
+              "RelativeToolTip": "ControlTower\\Models\\EmployeeManagementSystem\\User.cs",
+              "ViewState": "AgIAAGUAAAAAAAAAAIAzwF4AAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-19T15:34:22.345Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "NewsImages.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Models\\NewsPortalSystem\\NewsImages.cs",
               "RelativeDocumentMoniker": "ControlTower\\Models\\NewsPortalSystem\\NewsImages.cs",
@@ -205,37 +272,11 @@
               "RelativeToolTip": "ControlTower\\Models\\NewsPortalSystem\\NewsImages.cs",
               "ViewState": "AgIAABwAAAAAAAAAAAA/wCoAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-24T15:13:07.913Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-24T15:13:07.913Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 10,
-              "Title": "News.cs",
-              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Models\\NewsPortalSystem\\News.cs",
-              "RelativeDocumentMoniker": "ControlTower\\Models\\NewsPortalSystem\\News.cs",
-              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Models\\NewsPortalSystem\\News.cs",
-              "RelativeToolTip": "ControlTower\\Models\\NewsPortalSystem\\News.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAswBoAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-19T17:06:14.344Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "NewsDto.cs",
-              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\DTOs\\NewsPortalSystem\\NewsDto.cs",
-              "RelativeDocumentMoniker": "ControlTower\\DTOs\\NewsPortalSystem\\NewsDto.cs",
-              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\DTOs\\NewsPortalSystem\\NewsDto.cs",
-              "RelativeToolTip": "ControlTower\\DTOs\\NewsPortalSystem\\NewsDto.cs",
-              "ViewState": "AgIAAFIAAAAAAAAAAAA8wFgAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-23T16:25:15.14Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
               "Title": "EmployeeController.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\EmployeeManagementSystem\\EmployeeController.cs",
               "RelativeDocumentMoniker": "ControlTower\\Controllers\\EmployeeManagementSystem\\EmployeeController.cs",
@@ -243,12 +284,11 @@
               "RelativeToolTip": "ControlTower\\Controllers\\EmployeeManagementSystem\\EmployeeController.cs",
               "ViewState": "AgIAANAAAAAAAAAAAAAewNkAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-19T15:45:13.453Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-19T15:45:13.453Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 11,
               "Title": "CompanyController.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\EmployeeManagementSystem\\CompanyController.cs",
               "RelativeDocumentMoniker": "ControlTower\\Controllers\\EmployeeManagementSystem\\CompanyController.cs",
@@ -256,12 +296,11 @@
               "RelativeToolTip": "ControlTower\\Controllers\\EmployeeManagementSystem\\CompanyController.cs",
               "ViewState": "AgIAACgAAAAAAAAAAAAjwDIAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-24T14:57:50.756Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-24T14:57:50.756Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 13,
               "Title": "Company.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Models\\EmployeeManagementSystem\\Company.cs",
               "RelativeDocumentMoniker": "ControlTower\\Models\\EmployeeManagementSystem\\Company.cs",
@@ -269,12 +308,11 @@
               "RelativeToolTip": "ControlTower\\Models\\EmployeeManagementSystem\\Company.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAABkAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-24T13:22:49.271Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-24T13:22:49.271Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 15,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\appsettings.json",
               "RelativeDocumentMoniker": "ControlTower\\appsettings.json",
@@ -286,7 +324,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 14,
               "Title": "LowLevelLifoSemaphore.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\AppData\\Local\\Temp\\.vsdbgsrc\\8dba25c295f2052ae7dbffb56e8dd25f542c646f4219e426c2fa98fec6617869\\LowLevelLifoSemaphore.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\AppData\\Local\\Temp\\.vsdbgsrc\\8dba25c295f2052ae7dbffb56e8dd25f542c646f4219e426c2fa98fec6617869\\LowLevelLifoSemaphore.cs",
@@ -299,7 +337,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "EmployeeApplicationAccessController.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\EmployeeManagementSystem\\EmployeeApplicationAccessController.cs",
               "RelativeDocumentMoniker": "ControlTower\\Controllers\\EmployeeManagementSystem\\EmployeeApplicationAccessController.cs",
@@ -311,31 +349,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "NewsCategoryController.cs",
-              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\NewsPortalSystem\\NewsCategoryController.cs",
-              "RelativeDocumentMoniker": "ControlTower\\Controllers\\NewsPortalSystem\\NewsCategoryController.cs",
-              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\NewsPortalSystem\\NewsCategoryController.cs",
-              "RelativeToolTip": "ControlTower\\Controllers\\NewsPortalSystem\\NewsCategoryController.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAowDgAAAAwAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-21T14:53:46.869Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "NewsCategory.cs",
-              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Models\\NewsPortalSystem\\NewsCategory.cs",
-              "RelativeDocumentMoniker": "ControlTower\\Models\\NewsPortalSystem\\NewsCategory.cs",
-              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Models\\NewsPortalSystem\\NewsCategory.cs",
-              "RelativeToolTip": "ControlTower\\Models\\NewsPortalSystem\\NewsCategory.cs",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAswCkAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-21T15:29:59.18Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "UserApplicationAccessDto.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\DTOs\\EmployeeManagementSystem\\UserApplicationAccessDto.cs",
               "RelativeDocumentMoniker": "ControlTower\\DTOs\\EmployeeManagementSystem\\UserApplicationAccessDto.cs",
@@ -347,7 +361,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "DepartmentController.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\EmployeeManagementSystem\\DepartmentController.cs",
               "RelativeDocumentMoniker": "ControlTower\\Controllers\\EmployeeManagementSystem\\DepartmentController.cs",
@@ -359,7 +373,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "Department.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Models\\EmployeeManagementSystem\\Department.cs",
               "RelativeDocumentMoniker": "ControlTower\\Models\\EmployeeManagementSystem\\Department.cs",
@@ -371,7 +385,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "Application.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Models\\EmployeeManagementSystem\\Application.cs",
               "RelativeDocumentMoniker": "ControlTower\\Models\\EmployeeManagementSystem\\Application.cs",
@@ -383,7 +397,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 21,
               "Title": "ApplicationController.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\EmployeeManagementSystem\\ApplicationController.cs",
               "RelativeDocumentMoniker": "ControlTower\\Controllers\\EmployeeManagementSystem\\ApplicationController.cs",
@@ -395,7 +409,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "AccessLevelController.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\EmployeeManagementSystem\\AccessLevelController.cs",
               "RelativeDocumentMoniker": "ControlTower\\Controllers\\EmployeeManagementSystem\\AccessLevelController.cs",
@@ -407,7 +421,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 23,
               "Title": "AccessLevel.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Models\\EmployeeManagementSystem\\AccessLevel.cs",
               "RelativeDocumentMoniker": "ControlTower\\Models\\EmployeeManagementSystem\\AccessLevel.cs",
@@ -419,7 +433,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 24,
               "Title": "UserApplicationAccess.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Models\\EmployeeManagementSystem\\UserApplicationAccess.cs",
               "RelativeDocumentMoniker": "ControlTower\\Models\\EmployeeManagementSystem\\UserApplicationAccess.cs",
@@ -431,7 +445,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 26,
               "Title": "ServiceReportController.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\ServiceReportSystem\\ServiceReportController.cs",
               "RelativeDocumentMoniker": "ControlTower\\Controllers\\ServiceReportSystem\\ServiceReportController.cs",
@@ -443,7 +457,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 25,
               "Title": "ServiceType.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Models\\ServiceReportSystem\\ServiceType.cs",
               "RelativeDocumentMoniker": "ControlTower\\Models\\ServiceReportSystem\\ServiceType.cs",
