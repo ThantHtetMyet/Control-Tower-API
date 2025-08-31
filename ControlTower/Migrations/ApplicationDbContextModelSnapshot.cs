@@ -205,6 +205,44 @@ namespace ControlTower.Migrations
                     b.ToTable("Departments");
                 });
 
+            modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.ImageType", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageTypeName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("ImageTypeName")
+                        .IsUnique();
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("ImageTypes");
+                });
+
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.Occupation", b =>
                 {
                     b.Property<Guid>("ID")
@@ -279,6 +317,17 @@ namespace ControlTower.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("EmergencyContactName")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int?>("EmergencyContactNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EmergencyRelationship")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -445,9 +494,73 @@ namespace ControlTower.Migrations
                     b.HasIndex("UpdatedBy");
 
                     b.HasIndex("UserID", "ApplicationID")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[IsDeleted] = 0");
 
                     b.ToTable("UserApplicationAccesses");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.UserImage", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<Guid>("ImageTypeID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("StoredDirectory")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UploadedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UploadedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UploadedStatus")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("ImageTypeID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("UploadedBy");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("UserImages");
                 });
 
             modelBuilder.Entity("ControlTower.Models.NewsPortalSystem.News", b =>
@@ -1494,6 +1607,23 @@ namespace ControlTower.Migrations
                     b.Navigation("UpdatedByUser");
                 });
 
+            modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.ImageType", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.Occupation", b =>
                 {
                     b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
@@ -1596,6 +1726,47 @@ namespace ControlTower.Migrations
                     b.Navigation("GrantedByUser");
 
                     b.Navigation("UpdatedByUser");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.UserImage", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.ImageType", "ImageType")
+                        .WithMany("UserImages")
+                        .HasForeignKey("ImageTypeID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UploadedByUser")
+                        .WithMany()
+                        .HasForeignKey("UploadedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "User")
+                        .WithMany("UserImages")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("ImageType");
+
+                    b.Navigation("UpdatedByUser");
+
+                    b.Navigation("UploadedByUser");
 
                     b.Navigation("User");
                 });
@@ -2134,6 +2305,11 @@ namespace ControlTower.Migrations
                     b.Navigation("Users");
                 });
 
+            modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.ImageType", b =>
+                {
+                    b.Navigation("UserImages");
+                });
+
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.Occupation", b =>
                 {
                     b.Navigation("Users");
@@ -2156,6 +2332,8 @@ namespace ControlTower.Migrations
                     b.Navigation("UpdatedOccupations");
 
                     b.Navigation("UpdatedUsers");
+
+                    b.Navigation("UserImages");
                 });
 
             modelBuilder.Entity("ControlTower.Models.NewsPortalSystem.News", b =>

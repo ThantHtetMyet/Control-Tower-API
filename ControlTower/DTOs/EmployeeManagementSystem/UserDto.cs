@@ -73,10 +73,22 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
 
         public DateTime? WorkPassCardExpiredDate { get; set; }
 
+        // Emergency Contact Information
+        [StringLength(200)]
+        public string? EmergencyContactName { get; set; }
+    
+        public int? EmergencyContactNumber { get; set; }
+    
+        [StringLength(200)]
+        public string? EmergencyRelationship { get; set; }
+
         public Guid CreatedBy { get; set; }
 
         // Add application access list
         public List<CreateEmployeeApplicationAccessDto>? ApplicationAccesses { get; set; }
+    
+        // Add image upload field
+        public IFormFile? ProfileImage { get; set; }
     }
 
 
@@ -150,7 +162,19 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
 
         public DateTime? WorkPassCardExpiredDate { get; set; }
 
+        // Emergency Contact Information
+        [StringLength(200)]
+        public string? EmergencyContactName { get; set; }
+    
+        public int? EmergencyContactNumber { get; set; }
+    
+        [StringLength(200)]
+        public string? EmergencyRelationship { get; set; }
+
         public Guid? UpdatedBy { get; set; }
+    
+        // Add image upload field
+        public IFormFile? ProfileImage { get; set; }
     }
 
     public class UserDto
@@ -183,6 +207,14 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
         public DateTime? WorkPassCardIssuedDate { get; set; }
         public DateTime? WorkPassCardExpiredDate { get; set; }
 
+        // Emergency Contact Information
+        public string? EmergencyContactName { get; set; }
+        public int? EmergencyContactNumber { get; set; }
+        public string? EmergencyRelationship { get; set; }
+
+        // Add profile image URL
+        public string? ProfileImageUrl { get; set; }
+
         // Navigation properties for display
         public string CompanyName { get; set; }
         public string DepartmentName { get; set; }
@@ -208,5 +240,33 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
         public string? GrantedByUserName { get; set; }
         public string? Remark { get; set; }
         public DateTime CreatedDate { get; set; }
+    }
+
+    public class UpdateApplicationAccessDto
+    {
+        [Required]
+        public bool IsDeleted { get; set; }
+        
+        [Required]
+        public Guid UpdatedBy { get; set; }
+    }
+    
+    public class CreateApplicationAccessDto
+    {
+        public Guid ApplicationID { get; set; }
+        public Guid AccessLevelID { get; set; }
+        public DateTime GrantedDate { get; set; }
+        public Guid GrantedBy { get; set; }
+        public string? Remark { get; set; }
+        public Guid CreatedBy { get; set; }
+    }
+
+    public class UploadProfileImageDto
+    {
+        [Required]
+        public IFormFile ProfileImage { get; set; }
+        
+        [Required]
+        public Guid UploadedBy { get; set; }
     }
 }

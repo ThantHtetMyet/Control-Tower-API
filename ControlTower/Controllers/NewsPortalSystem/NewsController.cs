@@ -363,19 +363,31 @@ namespace ControlTower.Controllers.NewsPortalSystem
 
         // DELETE: api/News/5
         [HttpDelete("{id}")]
+        [ApplicationAuthorization("News Portal System", "Admin")] // Add authorization like categories
         public async Task<IActionResult> DeleteNews(Guid id)
         {
             var news = await _context.News.FindAsync(id);
             if (news == null || news.IsDeleted)
             {
-                return NotFound();
+                return NotFound("News article not found or already deleted");
             }
-
+        
+            // Optional: Check if user has permission to delete this specific news
+            // You could add additional checks here if needed
+        
             news.IsDeleted = true;
             news.UpdatedDate = DateTime.UtcNow;
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            
+            try
+            {
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                return StatusCode(500, "An error occurred while deleting the news article");
+            }
         }
 
         // POST: api/News/5/publish

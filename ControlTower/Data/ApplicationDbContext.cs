@@ -19,6 +19,8 @@ namespace ControlTower.Data
         public DbSet<Application> Applications { get; set; }
         public DbSet<AccessLevel> AccessLevels { get; set; }
         public DbSet<UserApplicationAccess> UserApplicationAccesses { get; set; }
+        public DbSet<UserImage> UserImages { get; set; }
+        public DbSet<ImageType> ImageTypes { get; set; }
 
         // Service Report System
         public DbSet<ServiceReportForm> ServiceReportForms { get; set; }
@@ -190,10 +192,11 @@ namespace ControlTower.Data
                 .HasForeignKey(eaa => eaa.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Create unique index for Employee-Application combination
+            // Create unique index for Employee-Application combination (excluding soft-deleted records)
             modelBuilder.Entity<UserApplicationAccess>()
                 .HasIndex(eaa => new { eaa.UserID, eaa.ApplicationID })
-                .IsUnique();
+                .IsUnique()
+                .HasFilter("[IsDeleted] = 0");
         
             // AccessLevel configurations
             modelBuilder.Entity<AccessLevel>()
@@ -217,6 +220,54 @@ namespace ControlTower.Data
                 .HasOne(eaa => eaa.AccessLevel)
                 .WithMany(al => al.UserApplicationAccesses)
                 .HasForeignKey(eaa => eaa.AccessLevelID)
+                .OnDelete(DeleteBehavior.Restrict);
+        
+            // UserImage configurations
+            modelBuilder.Entity<UserImage>()
+                .HasOne(ui => ui.User)
+                .WithMany(u => u.UserImages)
+                .HasForeignKey(ui => ui.UserID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserImage>()
+                .HasOne(ui => ui.ImageType)
+                .WithMany(it => it.UserImages)
+                .HasForeignKey(ui => ui.ImageTypeID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserImage>()
+                .HasOne(ui => ui.UploadedByUser)
+                .WithMany()
+                .HasForeignKey(ui => ui.UploadedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserImage>()
+                .HasOne(ui => ui.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(ui => ui.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserImage>()
+                .HasOne(ui => ui.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(ui => ui.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // ImageType configurations
+            modelBuilder.Entity<ImageType>()
+                .HasIndex(it => it.ImageTypeName)
+                .IsUnique();
+
+            modelBuilder.Entity<ImageType>()
+                .HasOne(it => it.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(it => it.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ImageType>()
+                .HasOne(it => it.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(it => it.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
         
             // News Portal System configurations

@@ -3,6 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using ControlTower.Data;
 using ControlTower.Models.EmployeeManagementSystem;
 using ControlTower.DTOs.EmployeeManagementSystem;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using System.Drawing;
+// Add IConfiguration for appsettings access
+using Microsoft.Extensions.Configuration;
 
 namespace ControlTower.Controllers.EmployeeManagementSystem
 {
@@ -11,10 +16,15 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
     public class EmployeeController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IConfiguration _configuration;
 
-        public EmployeeController(ApplicationDbContext context)
+        // Update constructor to include IConfiguration
+        public EmployeeController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
+            _configuration = configuration;
         }
 
         // GET: api/Employee
@@ -104,7 +114,10 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     WorkPassCardNumber = e.WorkPassCardNumber,
                     WorkPassCardIssuedDate = e.WorkPassCardIssuedDate,
                     WorkPassCardExpiredDate = e.WorkPassCardExpiredDate,
-                    CompanyName = e.Company != null ? e.Company.Name : null,
+                    EmergencyContactName = e.EmergencyContactName,
+                    EmergencyContactNumber = e.EmergencyContactNumber,
+                    EmergencyRelationship = e.EmergencyRelationship,
+                    CompanyName = e.Company.Name,
                     DepartmentName = e.Department != null ? e.Department.Name : null,
                     OccupationName = e.Occupation != null ? e.Occupation.OccupationName : null,
                     CreatedByUserName = e.CreatedByUser != null ? $"{e.CreatedByUser.FirstName} {e.CreatedByUser.LastName}" : null,
@@ -178,9 +191,13 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             employee.Religion = updateEmployeeDto.Religion;
             employee.DateOfBirth = updateEmployeeDto.DateOfBirth;
             // Add missing work pass card fields
+            // In the UpdateEmployee method
             employee.WorkPassCardNumber = updateEmployeeDto.WorkPassCardNumber;
             employee.WorkPassCardIssuedDate = updateEmployeeDto.WorkPassCardIssuedDate;
             employee.WorkPassCardExpiredDate = updateEmployeeDto.WorkPassCardExpiredDate;
+            employee.EmergencyContactName = updateEmployeeDto.EmergencyContactName;
+            employee.EmergencyContactNumber = updateEmployeeDto.EmergencyContactNumber;
+            employee.EmergencyRelationship = updateEmployeeDto.EmergencyRelationship;
             employee.UpdatedDate = DateTime.UtcNow;
             employee.UpdatedBy = updateEmployeeDto.UpdatedBy;
 
@@ -190,29 +207,21 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!EmployeeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
 
             return NoContent();
         }
 
         // POST: api/Employee
+        // Remove the ValidateStaffCardImage method call from CreateEmployee
         [HttpPost]
-        public async Task<ActionResult<UserDto>> CreateEmployee(CreateEmployeeDto createEmployeeDto)
+        public async Task<ActionResult<UserDto>> CreateEmployee([FromForm] CreateEmployeeDto createEmployeeDto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            // Remove this line:
+            // var validationResult = ValidateStaffCardImage(createEmployeeDto.ProfileImage);
 
             // Validate CompanyID exists
             var companyExists = await _context.Company.AnyAsync(c => c.ID == createEmployeeDto.CompanyID && !c.IsDeleted);
@@ -222,7 +231,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             }
 
             using var transaction = await _context.Database.BeginTransactionAsync();
-            
+
             try
             {
                 // Create the employee first
@@ -255,14 +264,17 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     WorkPassCardNumber = createEmployeeDto.WorkPassCardNumber,
                     WorkPassCardIssuedDate = createEmployeeDto.WorkPassCardIssuedDate,
                     WorkPassCardExpiredDate = createEmployeeDto.WorkPassCardExpiredDate,
+                    EmergencyContactName = createEmployeeDto.EmergencyContactName,
+                    EmergencyContactNumber = createEmployeeDto.EmergencyContactNumber,
+                    EmergencyRelationship = createEmployeeDto.EmergencyRelationship,
                     CreatedBy = createEmployeeDto.CreatedBy,
                     UpdatedBy = createEmployeeDto.CreatedBy
                 };
-            
+
                 _context.Users.Add(employee);
                 await _context.SaveChangesAsync();
-            
-                // Create application accesses if provided
+
+                // Handle application accesses if provided
                 if (createEmployeeDto.ApplicationAccesses != null && createEmployeeDto.ApplicationAccesses.Any())
                 {
                     foreach (var accessDto in createEmployeeDto.ApplicationAccesses)
@@ -305,48 +317,14 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
 
                         _context.UserApplicationAccesses.Add(employeeApplicationAccess);
                     }
-                    
+
                     await _context.SaveChangesAsync();
                 }
 
                 await transaction.CommitAsync();
 
-                // Return the created employee with department and occupation names
-                var result = await _context.Users
-                    .Where(e => e.ID == employee.ID)
-                    .Select(e => new UserDto
-                    {
-                        ID = e.ID,
-                        DepartmentID = e.DepartmentID,
-                        OccupationID = e.OccupationID,
-                        StaffCardID = e.StaffCardID,
-                        StaffIDCardID = e.StaffRFIDCardID,
-                        FirstName = e.FirstName,
-                        LastName = e.LastName,
-                        Email = e.Email,
-                        MobileNo = e.MobileNo,
-                        Gender = e.Gender,
-                        Remark = e.Remark,
-                        Rating = e.Rating,
-                        CreatedDate = e.CreatedDate,
-                        UpdatedDate = e.UpdatedDate,
-                        LastLogin = e.LastLogin,
-                        StartWorkingDate = e.StartWorkingDate,
-                        LastWorkingDate = e.LastWorkingDate,
-                        WorkPermit = e.WorkPermit,
-                        Nationality = e.Nationality,
-                        Religion = e.Religion,
-                        DateOfBirth = e.DateOfBirth,
-                        WorkPassCardNumber = e.WorkPassCardNumber,
-                        WorkPassCardIssuedDate = e.WorkPassCardIssuedDate,
-                        WorkPassCardExpiredDate = e.WorkPassCardExpiredDate,
-                        DepartmentName = e.Department.Name,
-                        OccupationName = e.Occupation.OccupationName,
-                        CreatedByUserName = e.CreatedByUser != null ? e.CreatedByUser.FirstName + " " + e.CreatedByUser.LastName : null,
-                        UpdatedByUserName = e.UpdatedByUser != null ? e.UpdatedByUser.FirstName + " " + e.UpdatedByUser.LastName : null
-                    })
-                    .FirstOrDefaultAsync();
-
+                // Return the created employee with image details
+                var result = await GetEmployeeWithDetails(employee.ID);
                 return CreatedAtAction("GetEmployee", new { id = employee.ID }, result);
             }
             catch (Exception ex)
@@ -374,9 +352,274 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             return NoContent();
         }
 
+        [HttpPost("{employeeId}/application-access")]
+        public async Task<IActionResult> CreateApplicationAccess(Guid employeeId, [FromBody] CreateApplicationAccessDto dto)
+        {
+            // Validate employee exists
+            var employeeExists = await _context.Users
+                .AnyAsync(e => e.ID == employeeId && !e.IsDeleted);
+            if (!employeeExists)
+                return NotFound("Employee not found");
+
+            // Validate application exists
+            var applicationExists = await _context.Applications
+                .AnyAsync(a => a.ID == dto.ApplicationID && !a.IsDeleted);
+            if (!applicationExists)
+                return BadRequest($"Application with ID {dto.ApplicationID} not found.");
+
+            // Validate access level exists
+            var accessLevelExists = await _context.AccessLevels
+                .AnyAsync(al => al.ID == dto.AccessLevelID && !al.IsDeleted);
+            if (!accessLevelExists)
+                return BadRequest($"Access level with ID {dto.AccessLevelID} not found.");
+
+            // Check if access already exists (not soft deleted)
+            var existingAccess = await _context.UserApplicationAccesses
+                .FirstOrDefaultAsync(a => a.UserID == employeeId && a.ApplicationID == dto.ApplicationID && !a.IsDeleted);
+            if (existingAccess != null)
+                return BadRequest("Application access already exists for this employee.");
+
+            // Create the application access
+            var applicationAccess = new UserApplicationAccess
+            {
+                ID = Guid.NewGuid(),
+                UserID = employeeId,
+                ApplicationID = dto.ApplicationID,
+                AccessLevelID = dto.AccessLevelID,
+                GrantedDate = dto.GrantedDate,
+                IsRevoked = false,
+                GrantedBy = dto.GrantedBy,
+                Remark = dto.Remark,
+                IsDeleted = false,
+                CreatedDate = DateTime.UtcNow,
+                UpdatedDate = DateTime.UtcNow,
+                CreatedBy = dto.CreatedBy,
+                UpdatedBy = dto.CreatedBy
+            };
+
+            _context.UserApplicationAccesses.Add(applicationAccess);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetEmployee", new { id = employeeId }, new { id = applicationAccess.ID });
+        }
+
+        [HttpPatch("{employeeId}/application-access/{accessId}")]
+        public async Task<IActionResult> SoftDeleteApplicationAccess(Guid employeeId, Guid accessId, [FromBody] UpdateApplicationAccessDto dto)
+        {
+            var access = await _context.UserApplicationAccesses
+                .FirstOrDefaultAsync(a => a.ID == accessId && a.UserID == employeeId && !a.IsDeleted);
+
+            if (access == null)
+                return NotFound();
+
+            access.IsDeleted = dto.IsDeleted;
+            access.UpdatedBy = dto.UpdatedBy;
+            access.UpdatedDate = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
         private bool EmployeeExists(Guid id)
         {
             return _context.Users.Any(e => e.ID == id && !e.IsDeleted);
+        }
+
+
+        // Add these methods at the end of the class, before the closing brace
+        // Image validation method
+        private (bool IsValid, string ErrorMessage) ValidateStaffCardImage(IFormFile imageFile)
+        {
+            // Check file size (max 5MB)
+            if (imageFile.Length > 5 * 1024 * 1024)
+            {
+                return (false, "Image file size must not exceed 5MB");
+            }
+
+            // Check file type
+            var allowedTypes = new[] { "image/jpeg", "image/jpg", "image/png" };
+            if (!allowedTypes.Contains(imageFile.ContentType.ToLower()))
+            {
+                return (false, "Only JPEG and PNG image formats are allowed");
+            }
+
+            // Check image dimensions for staff card (recommended: 350x220 pixels)
+            try
+            {
+                using var stream = imageFile.OpenReadStream();
+                using var image = System.Drawing.Image.FromStream(stream);
+
+                // Recommended staff card dimensions
+                const int recommendedWidth = 350;
+                const int recommendedHeight = 220;
+                const double tolerance = 0.1; // 10% tolerance
+
+                var widthDiff = Math.Abs(image.Width - recommendedWidth) / (double)recommendedWidth;
+                var heightDiff = Math.Abs(image.Height - recommendedHeight) / (double)recommendedHeight;
+
+                if (widthDiff > tolerance || heightDiff > tolerance)
+                {
+                    return (false, $"Image dimensions should be approximately {recommendedWidth}x{recommendedHeight} pixels for optimal staff card display. Current: {image.Width}x{image.Height}");
+                }
+            }
+            catch
+            {
+                return (false, "Invalid image file");
+            }
+
+            return (true, string.Empty);
+        }
+
+
+        // Get employee with image details
+        private async Task<UserDto> GetEmployeeWithDetails(Guid employeeId)
+        {
+            var employee = await _context.Users
+                .Include(u => u.Company)
+                .Include(u => u.Department)
+                .Include(u => u.Occupation)
+                .Include(u => u.CreatedByUser)
+                .Include(u => u.UpdatedByUser)
+                .Include(u => u.UserImages.Where(ui => !ui.IsDeleted))
+                    .ThenInclude(ui => ui.ImageType)
+                .FirstOrDefaultAsync(u => u.ID == employeeId && !u.IsDeleted);
+
+            if (employee == null) return null;
+
+            var userDto = new UserDto
+            {
+                ID = employee.ID,
+                CompanyID = employee.CompanyID,
+                DepartmentID = employee.DepartmentID,
+                OccupationID = employee.OccupationID,
+                StaffCardID = employee.StaffCardID,
+                StaffIDCardID = employee.StaffRFIDCardID,
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                Email = employee.Email,
+                MobileNo = employee.MobileNo,
+                Gender = employee.Gender,
+                Remark = employee.Remark,
+                Rating = employee.Rating,
+                CreatedDate = employee.CreatedDate,
+                UpdatedDate = employee.UpdatedDate,
+                LastLogin = employee.LastLogin,
+                StartWorkingDate = employee.StartWorkingDate,
+                LastWorkingDate = employee.LastWorkingDate,
+                WorkPermit = employee.WorkPermit,
+                Nationality = employee.Nationality,
+                Religion = employee.Religion,
+                DateOfBirth = employee.DateOfBirth,
+                WorkPassCardNumber = employee.WorkPassCardNumber,
+                WorkPassCardIssuedDate = employee.WorkPassCardIssuedDate,
+                WorkPassCardExpiredDate = employee.WorkPassCardExpiredDate,
+                EmergencyContactName = employee.EmergencyContactName,
+                EmergencyContactNumber = employee.EmergencyContactNumber,
+                EmergencyRelationship = employee.EmergencyRelationship,
+                DepartmentName = employee.Department?.Name,
+                OccupationName = employee.Occupation?.OccupationName,
+                CreatedByUserName = employee.CreatedByUser != null ? employee.CreatedByUser.FirstName + " " + employee.CreatedByUser.LastName : null,
+                UpdatedByUserName = employee.UpdatedByUser != null ? employee.UpdatedByUser.FirstName + " " + employee.UpdatedByUser.LastName : null,
+                // Add profile image URL if exists
+                ProfileImageUrl = employee.UserImages
+                    .FirstOrDefault(ui => ui.ImageType.ImageTypeName == "User Profile Image")
+                    ?.StoredDirectory != null ?
+                    $"/uploads/profile-images/{employee.UserImages.FirstOrDefault(ui => ui.ImageType.ImageTypeName == "User Profile Image")?.ImageName}" : null
+            };
+
+            return userDto;
+        }
+
+        // Add new endpoint for profile image upload
+        [HttpPost("{id}/profile-image")]
+        public async Task<IActionResult> UploadProfileImage(Guid id, [FromForm] UploadProfileImageDto uploadDto)
+        {
+            var employee = await _context.Users.FindAsync(id);
+            if (employee == null || employee.IsDeleted)
+            {
+                return NotFound("Employee not found");
+            }
+
+            if (uploadDto.ProfileImage == null)
+            {
+                return BadRequest("Profile image is required");
+            }
+
+            // Remove existing profile image if any
+            var existingImage = await _context.UserImages
+                .FirstOrDefaultAsync(img => img.UserID == id && !img.IsDeleted);
+            if (existingImage != null)
+            {
+                existingImage.IsDeleted = true;
+            }
+
+            var basePath = _configuration["EmployeeManagementSystemFileStorage:BasePath"] ?? "C:\\Temp\\EmployeeImages";
+            if (!Directory.Exists(basePath))
+            {
+                Directory.CreateDirectory(basePath);
+            }
+
+            await SaveEmployeeImage(uploadDto.ProfileImage, id, basePath, uploadDto.UploadedBy);
+            await _context.SaveChangesAsync();
+
+            return Ok("Profile image uploaded successfully");
+        }
+
+        // Helper method for saving employee images
+        private async Task SaveEmployeeImage(IFormFile image, Guid userId, string basePath, Guid uploadedBy)
+        {
+            // Create employee-specific directory
+            var userDirectory = Path.Combine(basePath, userId.ToString());
+            if (!Directory.Exists(userDirectory))
+            {
+                Directory.CreateDirectory(userDirectory);
+            }
+
+            // Generate unique filename
+            var fileExtension = Path.GetExtension(image.FileName).ToLowerInvariant();
+            var fileName = $"profile_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid():N}{fileExtension}";
+            var filePath = Path.Combine(userDirectory, fileName);
+
+            // Save file
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await image.CopyToAsync(stream);
+            }
+
+            // Get default image type
+            var imageType = await _context.ImageTypes
+                .FirstOrDefaultAsync(it => it.ImageTypeName == "User Profile Image");
+
+            if (imageType == null)
+            {
+                // Create default image type if it doesn't exist
+                imageType = new ImageType
+                {
+                    ID = Guid.NewGuid(),
+                    ImageTypeName = "User Profile Image",
+                    IsDeleted = false,
+                    CreatedDate = DateTime.UtcNow,
+                    CreatedBy = uploadedBy
+                };
+                _context.ImageTypes.Add(imageType);
+                await _context.SaveChangesAsync();
+            }
+
+            // Create database record
+            var userImage = new UserImage
+            {
+                ID = Guid.NewGuid(),
+                UserID = userId,
+                ImageTypeID = imageType.ID,
+                ImageName = fileName,
+                StoredDirectory = userDirectory,
+                UploadedStatus = "Uploaded",
+                IsDeleted = false,
+                UploadedDate = DateTime.UtcNow,
+                UploadedBy = uploadedBy
+            };
+
+            _context.UserImages.Add(userImage);
         }
     }
 }

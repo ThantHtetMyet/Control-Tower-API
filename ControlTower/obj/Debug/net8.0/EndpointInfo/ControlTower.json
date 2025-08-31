@@ -874,19 +874,235 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/CreateEmployeeDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateEmployeeDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateEmployeeDto"
+                "required": [
+                  "CompanyID",
+                  "DateOfBirth",
+                  "DepartmentID",
+                  "Email",
+                  "FirstName",
+                  "Gender",
+                  "LastName",
+                  "LoginPassword",
+                  "MobileNo",
+                  "OccupationID",
+                  "StaffCardID",
+                  "StaffIDCardID",
+                  "StartWorkingDate"
+                ],
+                "type": "object",
+                "properties": {
+                  "CompanyID": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "DepartmentID": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "OccupationID": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "StaffCardID": {
+                    "maxLength": 50,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "StaffIDCardID": {
+                    "maxLength": 50,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "FirstName": {
+                    "maxLength": 100,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "LastName": {
+                    "maxLength": 100,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "Email": {
+                    "maxLength": 100,
+                    "minLength": 0,
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "MobileNo": {
+                    "maxLength": 20,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "Gender": {
+                    "maxLength": 10,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "LoginPassword": {
+                    "maxLength": 100,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "Remark": {
+                    "maxLength": 200,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "StartWorkingDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "LastWorkingDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "WorkPermit": {
+                    "maxLength": 100,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "Nationality": {
+                    "maxLength": 100,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "Religion": {
+                    "maxLength": 100,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "DateOfBirth": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "WorkPassCardNumber": {
+                    "maxLength": 50,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "WorkPassCardIssuedDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "WorkPassCardExpiredDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "EmergencyContactName": {
+                    "maxLength": 200,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "EmergencyContactNumber": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "EmergencyRelationship": {
+                    "maxLength": 200,
+                    "minLength": 0,
+                    "type": "string"
+                  },
+                  "CreatedBy": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "ApplicationAccesses": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/CreateEmployeeApplicationAccessDto"
+                    }
+                  },
+                  "ProfileImage": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "CompanyID": {
+                  "style": "form"
+                },
+                "DepartmentID": {
+                  "style": "form"
+                },
+                "OccupationID": {
+                  "style": "form"
+                },
+                "StaffCardID": {
+                  "style": "form"
+                },
+                "StaffIDCardID": {
+                  "style": "form"
+                },
+                "FirstName": {
+                  "style": "form"
+                },
+                "LastName": {
+                  "style": "form"
+                },
+                "Email": {
+                  "style": "form"
+                },
+                "MobileNo": {
+                  "style": "form"
+                },
+                "Gender": {
+                  "style": "form"
+                },
+                "LoginPassword": {
+                  "style": "form"
+                },
+                "Remark": {
+                  "style": "form"
+                },
+                "StartWorkingDate": {
+                  "style": "form"
+                },
+                "LastWorkingDate": {
+                  "style": "form"
+                },
+                "WorkPermit": {
+                  "style": "form"
+                },
+                "Nationality": {
+                  "style": "form"
+                },
+                "Religion": {
+                  "style": "form"
+                },
+                "DateOfBirth": {
+                  "style": "form"
+                },
+                "WorkPassCardNumber": {
+                  "style": "form"
+                },
+                "WorkPassCardIssuedDate": {
+                  "style": "form"
+                },
+                "WorkPassCardExpiredDate": {
+                  "style": "form"
+                },
+                "EmergencyContactName": {
+                  "style": "form"
+                },
+                "EmergencyContactNumber": {
+                  "style": "form"
+                },
+                "EmergencyRelationship": {
+                  "style": "form"
+                },
+                "CreatedBy": {
+                  "style": "form"
+                },
+                "ApplicationAccesses": {
+                  "style": "form"
+                },
+                "ProfileImage": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -960,9 +1176,228 @@
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "ID",
             "in": "path",
             "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "CompanyID",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "DepartmentID",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "OccupationID",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "StaffCardID",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "maxLength": 50,
+              "minLength": 0,
+              "type": "string"
+            }
+          },
+          {
+            "name": "StaffIDCardID",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "maxLength": 50,
+              "minLength": 0,
+              "type": "string"
+            }
+          },
+          {
+            "name": "FirstName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "maxLength": 100,
+              "minLength": 0,
+              "type": "string"
+            }
+          },
+          {
+            "name": "LastName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "maxLength": 100,
+              "minLength": 0,
+              "type": "string"
+            }
+          },
+          {
+            "name": "Email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "maxLength": 100,
+              "minLength": 0,
+              "type": "string",
+              "format": "email"
+            }
+          },
+          {
+            "name": "MobileNo",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "maxLength": 20,
+              "minLength": 0,
+              "type": "string"
+            }
+          },
+          {
+            "name": "Gender",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "maxLength": 10,
+              "minLength": 0,
+              "type": "string"
+            }
+          },
+          {
+            "name": "Remark",
+            "in": "query",
+            "schema": {
+              "maxLength": 200,
+              "minLength": 0,
+              "type": "string"
+            }
+          },
+          {
+            "name": "StartWorkingDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "LastWorkingDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "WorkPermit",
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "minLength": 0,
+              "type": "string"
+            }
+          },
+          {
+            "name": "Nationality",
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "minLength": 0,
+              "type": "string"
+            }
+          },
+          {
+            "name": "Religion",
+            "in": "query",
+            "schema": {
+              "maxLength": 100,
+              "minLength": 0,
+              "type": "string"
+            }
+          },
+          {
+            "name": "DateOfBirth",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "WorkPassCardNumber",
+            "in": "query",
+            "schema": {
+              "maxLength": 50,
+              "minLength": 0,
+              "type": "string"
+            }
+          },
+          {
+            "name": "WorkPassCardIssuedDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "WorkPassCardExpiredDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "EmergencyContactName",
+            "in": "query",
+            "schema": {
+              "maxLength": 200,
+              "minLength": 0,
+              "type": "string"
+            }
+          },
+          {
+            "name": "EmergencyContactNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "EmergencyRelationship",
+            "in": "query",
+            "schema": {
+              "maxLength": 200,
+              "minLength": 0,
+              "type": "string"
+            }
+          },
+          {
+            "name": "UpdatedBy",
+            "in": "query",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -971,19 +1406,20 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateEmployeeDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateEmployeeDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateEmployeeDto"
+                "type": "object",
+                "properties": {
+                  "ProfileImage": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "ProfileImage": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -1009,6 +1445,153 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Employee/{employeeId}/application-access": {
+      "post": {
+        "tags": [
+          "Employee"
+        ],
+        "parameters": [
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateApplicationAccessDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateApplicationAccessDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateApplicationAccessDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Employee/{employeeId}/application-access/{accessId}": {
+      "patch": {
+        "tags": [
+          "Employee"
+        ],
+        "parameters": [
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "accessId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateApplicationAccessDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateApplicationAccessDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateApplicationAccessDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Employee/{id}/profile-image": {
+      "post": {
+        "tags": [
+          "Employee"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "ProfileImage",
+                  "UploadedBy"
+                ],
+                "type": "object",
+                "properties": {
+                  "ProfileImage": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "UploadedBy": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              },
+              "encoding": {
+                "ProfileImage": {
+                  "style": "form"
+                },
+                "UploadedBy": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -1288,6 +1871,58 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/EmployeeImage/{userId}": {
+      "get": {
+        "tags": [
+          "EmployeeImage"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "EmployeeImage"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "deletedBy",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -3691,6 +4326,124 @@
           }
         }
       }
+    },
+    "/api/UserImage/user/{userId}": {
+      "get": {
+        "tags": [
+          "UserImage"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserImageDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserImageDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserImageDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/UserImage/{id}": {
+      "get": {
+        "tags": [
+          "UserImage"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserImageDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserImageDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserImageDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "UserImage"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "deletedBy",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -4094,6 +4847,36 @@
         },
         "additionalProperties": false
       },
+      "CreateApplicationAccessDto": {
+        "type": "object",
+        "properties": {
+          "applicationID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "accessLevelID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "grantedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "grantedBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remark": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
       "CreateApplicationDto": {
         "required": [
           "applicationName"
@@ -4223,144 +5006,6 @@
           "createdBy": {
             "type": "string",
             "format": "uuid"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CreateEmployeeDto": {
-        "required": [
-          "companyID",
-          "dateOfBirth",
-          "departmentID",
-          "email",
-          "firstName",
-          "gender",
-          "lastName",
-          "loginPassword",
-          "mobileNo",
-          "occupationID",
-          "staffCardID",
-          "staffIDCardID",
-          "startWorkingDate"
-        ],
-        "type": "object",
-        "properties": {
-          "companyID": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "departmentID": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "occupationID": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "staffCardID": {
-            "maxLength": 50,
-            "minLength": 0,
-            "type": "string"
-          },
-          "staffIDCardID": {
-            "maxLength": 50,
-            "minLength": 0,
-            "type": "string"
-          },
-          "firstName": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string"
-          },
-          "lastName": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string"
-          },
-          "email": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string",
-            "format": "email"
-          },
-          "mobileNo": {
-            "maxLength": 20,
-            "minLength": 0,
-            "type": "string"
-          },
-          "gender": {
-            "maxLength": 10,
-            "minLength": 0,
-            "type": "string"
-          },
-          "loginPassword": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string"
-          },
-          "remark": {
-            "maxLength": 200,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "startWorkingDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "lastWorkingDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "workPermit": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "nationality": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "religion": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "dateOfBirth": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "workPassCardNumber": {
-            "maxLength": 50,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "workPassCardIssuedDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "workPassCardExpiredDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "createdBy": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "applicationAccesses": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CreateEmployeeApplicationAccessDto"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -4997,6 +5642,58 @@
           },
           "updatedByUser": {
             "$ref": "#/components/schemas/User"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ImageType": {
+        "required": [
+          "imageTypeName"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "imageTypeName": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "createdByUser": {
+            "$ref": "#/components/schemas/User"
+          },
+          "updatedByUser": {
+            "$ref": "#/components/schemas/User"
+          },
+          "userImages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserImage"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -6200,6 +6897,23 @@
         },
         "additionalProperties": false
       },
+      "UpdateApplicationAccessDto": {
+        "required": [
+          "isDeleted",
+          "updatedBy"
+        ],
+        "type": "object",
+        "properties": {
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
       "UpdateApplicationDto": {
         "required": [
           "applicationName",
@@ -6354,137 +7068,6 @@
             "maxLength": 200,
             "minLength": 0,
             "type": "string",
-            "nullable": true
-          },
-          "updatedBy": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateEmployeeDto": {
-        "required": [
-          "companyID",
-          "dateOfBirth",
-          "departmentID",
-          "email",
-          "firstName",
-          "gender",
-          "id",
-          "lastName",
-          "mobileNo",
-          "occupationID",
-          "staffCardID",
-          "staffIDCardID",
-          "startWorkingDate"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "companyID": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "departmentID": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "occupationID": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "staffCardID": {
-            "maxLength": 50,
-            "minLength": 0,
-            "type": "string"
-          },
-          "staffIDCardID": {
-            "maxLength": 50,
-            "minLength": 0,
-            "type": "string"
-          },
-          "firstName": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string"
-          },
-          "lastName": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string"
-          },
-          "email": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string",
-            "format": "email"
-          },
-          "mobileNo": {
-            "maxLength": 20,
-            "minLength": 0,
-            "type": "string"
-          },
-          "gender": {
-            "maxLength": 10,
-            "minLength": 0,
-            "type": "string"
-          },
-          "remark": {
-            "maxLength": 200,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "startWorkingDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "lastWorkingDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "workPermit": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "nationality": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "religion": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "dateOfBirth": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "workPassCardNumber": {
-            "maxLength": 50,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "workPassCardIssuedDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "workPassCardExpiredDate": {
-            "type": "string",
-            "format": "date-time",
             "nullable": true
           },
           "updatedBy": {
@@ -6914,6 +7497,23 @@
             "format": "date-time",
             "nullable": true
           },
+          "emergencyContactName": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "emergencyContactNumber": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "emergencyRelationship": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
           "createdBy": {
             "type": "string",
             "format": "uuid",
@@ -6992,6 +7592,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Company"
+            },
+            "nullable": true
+          },
+          "userImages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserImage"
             },
             "nullable": true
           }
@@ -7263,6 +7870,23 @@
             "format": "date-time",
             "nullable": true
           },
+          "emergencyContactName": {
+            "type": "string",
+            "nullable": true
+          },
+          "emergencyContactNumber": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "emergencyRelationship": {
+            "type": "string",
+            "nullable": true
+          },
+          "profileImageUrl": {
+            "type": "string",
+            "nullable": true
+          },
           "companyName": {
             "type": "string",
             "nullable": true
@@ -7288,6 +7912,141 @@
             "items": {
               "$ref": "#/components/schemas/EmployeeApplicationAccessDetailsDto"
             },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserImage": {
+        "required": [
+          "imageName",
+          "imageTypeID",
+          "storedDirectory",
+          "uploadedBy",
+          "uploadedStatus",
+          "userID"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "imageTypeID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "imageName": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "storedDirectory": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string"
+          },
+          "uploadedStatus": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "uploadedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "uploadedBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "imageType": {
+            "$ref": "#/components/schemas/ImageType"
+          },
+          "uploadedByUser": {
+            "$ref": "#/components/schemas/User"
+          },
+          "createdByUser": {
+            "$ref": "#/components/schemas/User"
+          },
+          "updatedByUser": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserImageDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "imageTypeID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "imageName": {
+            "type": "string",
+            "nullable": true
+          },
+          "storedDirectory": {
+            "type": "string",
+            "nullable": true
+          },
+          "uploadedStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "uploadedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "uploadedBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userFullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageTypeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "uploadedByName": {
+            "type": "string",
             "nullable": true
           }
         },

@@ -510,9 +510,139 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "createEmployeeDto",
-        "Type": "ControlTower.DTOs.EmployeeManagementSystem.CreateEmployeeDto",
-        "IsRequired": true
+        "Name": "CompanyID",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "DepartmentID",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "OccupationID",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "StaffCardID",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "StaffIDCardID",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FirstName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "LastName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "MobileNo",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Gender",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "LoginPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Remark",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "StartWorkingDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "LastWorkingDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkPermit",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Nationality",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Religion",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "DateOfBirth",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkPassCardNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkPassCardIssuedDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkPassCardExpiredDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "EmergencyContactName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EmergencyContactNumber",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "EmergencyRelationship",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "CreatedBy",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "ApplicationAccesses",
+        "Type": "System.Collections.Generic.List\u00601[[ControlTower.DTOs.EmployeeManagementSystem.CreateEmployeeApplicationAccessDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "ProfileImage",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [
@@ -526,6 +656,53 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.EmployeeManagementSystem.EmployeeController",
+    "Method": "CreateApplicationAccess",
+    "RelativePath": "api/Employee/{employeeId}/application-access",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "ControlTower.DTOs.EmployeeManagementSystem.CreateApplicationAccessDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.EmployeeManagementSystem.EmployeeController",
+    "Method": "SoftDeleteApplicationAccess",
+    "RelativePath": "api/Employee/{employeeId}/application-access/{accessId}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "accessId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "ControlTower.DTOs.EmployeeManagementSystem.UpdateApplicationAccessDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "ControlTower.Controllers.EmployeeManagementSystem.EmployeeController",
@@ -562,14 +739,134 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
+        "Name": "ID",
         "Type": "System.Guid",
         "IsRequired": true
       },
       {
-        "Name": "updateEmployeeDto",
-        "Type": "ControlTower.DTOs.EmployeeManagementSystem.UpdateEmployeeDto",
-        "IsRequired": true
+        "Name": "CompanyID",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "DepartmentID",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "OccupationID",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "StaffCardID",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "StaffIDCardID",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FirstName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "LastName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "MobileNo",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Gender",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Remark",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "StartWorkingDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "LastWorkingDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkPermit",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Nationality",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Religion",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "DateOfBirth",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkPassCardNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkPassCardIssuedDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "WorkPassCardExpiredDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "EmergencyContactName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "EmergencyContactNumber",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "EmergencyRelationship",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "UpdatedBy",
+        "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "ProfileImage",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -586,6 +883,32 @@
         "Name": "id",
         "Type": "System.Guid",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.EmployeeManagementSystem.EmployeeController",
+    "Method": "UploadProfileImage",
+    "RelativePath": "api/Employee/{id}/profile-image",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "ProfileImage",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "UploadedBy",
+        "Type": "System.Guid",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -745,6 +1068,43 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.EmployeeManagementSystem.EmployeeImageController",
+    "Method": "GetProfileImage",
+    "RelativePath": "api/EmployeeImage/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.EmployeeManagementSystem.EmployeeImageController",
+    "Method": "DeleteProfileImage",
+    "RelativePath": "api/EmployeeImage/{userId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "deletedBy",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "ControlTower.Controllers.ServiceReportSystem.FollowupActionWarehouseController",
@@ -2142,6 +2502,79 @@
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.Models.ServiceReportSystem.SystemWarehouse, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.EmployeeManagementSystem.UserImageController",
+    "Method": "GetUserImage",
+    "RelativePath": "api/UserImage/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.EmployeeManagementSystem.UserImageDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.EmployeeManagementSystem.UserImageController",
+    "Method": "DeleteUserImage",
+    "RelativePath": "api/UserImage/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "deletedBy",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.EmployeeManagementSystem.UserImageController",
+    "Method": "GetUserImages",
+    "RelativePath": "api/UserImage/user/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.EmployeeManagementSystem.UserImageDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

@@ -85,6 +85,15 @@ namespace ControlTower.Models.EmployeeManagementSystem
 
         public DateTime? WorkPassCardExpiredDate { get; set; }
 
+        // Emergency Contact Information
+        [StringLength(200)]
+        public string? EmergencyContactName { get; set; }
+
+        public int? EmergencyContactNumber { get; set; }
+
+        [StringLength(200)]
+        public string? EmergencyRelationship { get; set; }
+
         [ForeignKey("CreatedByUser")]
         public Guid? CreatedBy { get; set; }
 
@@ -109,5 +118,8 @@ namespace ControlTower.Models.EmployeeManagementSystem
         // Add these missing Company navigation properties
         public virtual ICollection<Company> CreatedCompanies { get; set; } = new List<Company>();
         public virtual ICollection<Company> UpdatedCompanies { get; set; } = new List<Company>();
+        
+        // UserImage navigation property
+        public virtual ICollection<UserImage> UserImages { get; set; } = new List<UserImage>();
     }
 }
