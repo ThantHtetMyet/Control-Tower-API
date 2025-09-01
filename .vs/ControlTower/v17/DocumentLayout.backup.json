@@ -62,8 +62,7 @@
               "RelativeToolTip": "ControlTower\\Controllers\\EmployeeManagementSystem\\EmployeeImageController.cs",
               "ViewState": "AgIAABgAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-01T12:11:22.902Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-01T12:11:22.902Z"
             },
             {
               "$type": "Document",
@@ -75,8 +74,7 @@
               "RelativeToolTip": "ControlTower\\DTOs\\EmployeeManagementSystem\\UserDto.cs",
               "ViewState": "AgIAAOkAAAAAAAAAAAApwOwAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-01T10:07:21.294Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-01T10:07:21.294Z"
             },
             {
               "$type": "Document",
@@ -86,7 +84,7 @@
               "RelativeDocumentMoniker": "ControlTower\\Controllers\\EmployeeManagementSystem\\EmployeeController.cs",
               "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\EmployeeManagementSystem\\EmployeeController.cs",
               "RelativeToolTip": "ControlTower\\Controllers\\EmployeeManagementSystem\\EmployeeController.cs",
-              "ViewState": "AgIAAKgBAAAAAAAAAAAgwLEBAABNAAAAAAAAAA==",
+              "ViewState": "AgIAAKMBAAAAAAAAAAAYwLUBAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-19T15:45:13.453Z",
               "EditorCaption": ""
@@ -101,8 +99,7 @@
               "RelativeToolTip": "ControlTower\\Controllers\\NewsPortalSystem\\NewsController.cs",
               "ViewState": "AgIAACMBAAAAAAAAAAAowCwBAABSAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-01T10:03:10.913Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-01T10:03:10.913Z"
             },
             {
               "$type": "Document",
@@ -114,8 +111,7 @@
               "RelativeToolTip": "ControlTower\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-01T02:25:46.691Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-01T02:25:46.691Z"
             },
             {
               "$type": "Document",
@@ -127,8 +123,7 @@
               "RelativeToolTip": "ControlTower\\appsettings.Development.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-01T02:25:44.638Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-01T02:25:44.638Z"
             }
           ]
         }
