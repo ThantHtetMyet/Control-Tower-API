@@ -16,14 +16,11 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
     public class EmployeeController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IConfiguration _configuration;
 
-        // Update constructor to include IConfiguration
-        public EmployeeController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
+        public EmployeeController(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
-            _webHostEnvironment = webHostEnvironment;
             _configuration = configuration;
         }
 
@@ -45,7 +42,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     DepartmentID = e.DepartmentID,
                     OccupationID = e.OccupationID,
                     StaffCardID = e.StaffCardID,
-                    StaffIDCardID = e.StaffRFIDCardID,
+                    StaffRFIDCardID = e.StaffRFIDCardID,
                     FirstName = e.FirstName,
                     LastName = e.LastName,
                     Email = e.Email,
@@ -80,6 +77,9 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetEmployee(Guid id)
         {
+            // Get the base URL from configuration
+            var apiBaseUrl = _configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7145";
+            
             var employee = await _context.Users
                 .Include(e => e.Company)
                 .Include(e => e.Department)
@@ -94,7 +94,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     DepartmentID = e.DepartmentID,
                     OccupationID = e.OccupationID,
                     StaffCardID = e.StaffCardID,
-                    StaffIDCardID = e.StaffRFIDCardID,
+                    StaffRFIDCardID = e.StaffRFIDCardID,
                     FirstName = e.FirstName,
                     LastName = e.LastName,
                     Email = e.Email,
@@ -115,8 +115,15 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     WorkPassCardIssuedDate = e.WorkPassCardIssuedDate,
                     WorkPassCardExpiredDate = e.WorkPassCardExpiredDate,
                     EmergencyContactName = e.EmergencyContactName,
-                    EmergencyContactNumber = e.EmergencyContactNumber,
+                    EmergencyContactNumber = Convert.ToString(e.EmergencyContactNumber),
                     EmergencyRelationship = e.EmergencyRelationship,
+                    // Add ProfileImageUrl construction similar to NewsController
+                    ProfileImageUrl = _context.UserImages
+                        .Where(ui => ui.UserID == e.ID && 
+                                   ui.ImageType.ImageTypeName == "User Profile Image" && 
+                                   !ui.IsDeleted)
+                        .Select(ui => $"{apiBaseUrl}/api/EmployeeImage/{e.ID}")
+                        .FirstOrDefault(),
                     CompanyName = e.Company.Name,
                     DepartmentName = e.Department != null ? e.Department.Name : null,
                     OccupationName = e.Occupation != null ? e.Occupation.OccupationName : null,
@@ -174,10 +181,11 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             }
 
             // Update employee properties
+            employee.CompanyID = updateEmployeeDto.CompanyID;  // Add this line
             employee.DepartmentID = updateEmployeeDto.DepartmentID;
             employee.OccupationID = updateEmployeeDto.OccupationID;
             employee.StaffCardID = updateEmployeeDto.StaffCardID;
-            employee.StaffRFIDCardID = updateEmployeeDto.StaffIDCardID;
+            employee.StaffRFIDCardID = updateEmployeeDto.StaffRFIDCardID;
             employee.FirstName = updateEmployeeDto.FirstName;
             employee.LastName = updateEmployeeDto.LastName;
             employee.Email = updateEmployeeDto.Email;
@@ -196,7 +204,16 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             employee.WorkPassCardIssuedDate = updateEmployeeDto.WorkPassCardIssuedDate;
             employee.WorkPassCardExpiredDate = updateEmployeeDto.WorkPassCardExpiredDate;
             employee.EmergencyContactName = updateEmployeeDto.EmergencyContactName;
-            employee.EmergencyContactNumber = updateEmployeeDto.EmergencyContactNumber;
+            if (!string.IsNullOrEmpty(updateEmployeeDto.EmergencyContactNumber) &&
+                    int.TryParse(updateEmployeeDto.EmergencyContactNumber, out int number))
+            {
+                employee.EmergencyContactNumber = number;
+            }
+            else
+            {
+                employee.EmergencyContactNumber = null; // or keep existing value
+            }
+
             employee.EmergencyRelationship = updateEmployeeDto.EmergencyRelationship;
             employee.UpdatedDate = DateTime.UtcNow;
             employee.UpdatedBy = updateEmployeeDto.UpdatedBy;
@@ -242,7 +259,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     DepartmentID = createEmployeeDto.DepartmentID,
                     OccupationID = createEmployeeDto.OccupationID,
                     StaffCardID = createEmployeeDto.StaffCardID,
-                    StaffRFIDCardID = createEmployeeDto.StaffIDCardID,
+                    StaffRFIDCardID = createEmployeeDto.StaffRFIDCardID,
                     FirstName = createEmployeeDto.FirstName,
                     LastName = createEmployeeDto.LastName,
                     Email = createEmployeeDto.Email,
@@ -403,19 +420,26 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             return CreatedAtAction("GetEmployee", new { id = employeeId }, new { id = applicationAccess.ID });
         }
 
-        [HttpPatch("{employeeId}/application-access/{accessId}")]
-        public async Task<IActionResult> SoftDeleteApplicationAccess(Guid employeeId, Guid accessId, [FromBody] UpdateApplicationAccessDto dto)
+        [HttpPut("{employeeId}/application-access/{accessId}")]
+        public async Task<IActionResult> UpdateApplicationAccess(Guid employeeId, Guid accessId, [FromBody] UpdateApplicationAccessDto dto)
         {
             var access = await _context.UserApplicationAccesses
                 .FirstOrDefaultAsync(a => a.ID == accessId && a.UserID == employeeId && !a.IsDeleted);
-
+        
             if (access == null)
                 return NotFound();
-
-            access.IsDeleted = dto.IsDeleted;
+        
+            // Validate access level exists
+            var accessLevelExists = await _context.AccessLevels
+                .AnyAsync(al => al.ID == dto.AccessLevelID && !al.IsDeleted);
+            if (!accessLevelExists)
+                return BadRequest($"Access level with ID {dto.AccessLevelID} not found.");
+        
+            // Update the access level
+            access.AccessLevelID = dto.AccessLevelID;
             access.UpdatedBy = dto.UpdatedBy;
             access.UpdatedDate = DateTime.UtcNow;
-
+        
             await _context.SaveChangesAsync();
             return Ok();
         }
@@ -493,7 +517,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                 DepartmentID = employee.DepartmentID,
                 OccupationID = employee.OccupationID,
                 StaffCardID = employee.StaffCardID,
-                StaffIDCardID = employee.StaffRFIDCardID,
+                StaffRFIDCardID = employee.StaffRFIDCardID,
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,
                 Email = employee.Email,
@@ -514,7 +538,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                 WorkPassCardIssuedDate = employee.WorkPassCardIssuedDate,
                 WorkPassCardExpiredDate = employee.WorkPassCardExpiredDate,
                 EmergencyContactName = employee.EmergencyContactName,
-                EmergencyContactNumber = employee.EmergencyContactNumber,
+                EmergencyContactNumber = Convert.ToString(employee.EmergencyContactNumber),
                 EmergencyRelationship = employee.EmergencyRelationship,
                 DepartmentName = employee.Department?.Name,
                 OccupationName = employee.Occupation?.OccupationName,
@@ -522,9 +546,9 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                 UpdatedByUserName = employee.UpdatedByUser != null ? employee.UpdatedByUser.FirstName + " " + employee.UpdatedByUser.LastName : null,
                 // Add profile image URL if exists
                 ProfileImageUrl = employee.UserImages
-                    .FirstOrDefault(ui => ui.ImageType.ImageTypeName == "User Profile Image")
+                    .FirstOrDefault(ui => ui.ImageType.ImageTypeName == "User Profile Image" && !ui.IsDeleted)
                     ?.StoredDirectory != null ?
-                    $"/uploads/profile-images/{employee.UserImages.FirstOrDefault(ui => ui.ImageType.ImageTypeName == "User Profile Image")?.ImageName}" : null
+                    $"/uploads/profile-images/{employee.UserImages.FirstOrDefault(ui => ui.ImageType.ImageTypeName == "User Profile Image" && !ui.IsDeleted)?.ImageName}" : null
             };
 
             return userDto;

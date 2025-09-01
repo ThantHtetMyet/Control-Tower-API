@@ -530,7 +530,7 @@
         "IsRequired": false
       },
       {
-        "Name": "StaffIDCardID",
+        "Name": "StaffRFIDCardID",
         "Type": "System.String",
         "IsRequired": false
       },
@@ -680,9 +680,9 @@
   },
   {
     "ContainingType": "ControlTower.Controllers.EmployeeManagementSystem.EmployeeController",
-    "Method": "SoftDeleteApplicationAccess",
+    "Method": "UpdateApplicationAccess",
     "RelativePath": "api/Employee/{employeeId}/application-access/{accessId}",
-    "HttpMethod": "PATCH",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -739,134 +739,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "ID",
+        "Name": "id",
         "Type": "System.Guid",
         "IsRequired": true
       },
       {
-        "Name": "CompanyID",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "DepartmentID",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "OccupationID",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "StaffCardID",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "StaffIDCardID",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "FirstName",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "LastName",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Email",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "MobileNo",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Gender",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Remark",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "StartWorkingDate",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
-        "Name": "LastWorkingDate",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "WorkPermit",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Nationality",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Religion",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "DateOfBirth",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
-        "Name": "WorkPassCardNumber",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "WorkPassCardIssuedDate",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "WorkPassCardExpiredDate",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "EmergencyContactName",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "EmergencyContactNumber",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "EmergencyRelationship",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "UpdatedBy",
-        "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "ProfileImage",
-        "Type": "Microsoft.AspNetCore.Http.IFormFile",
-        "IsRequired": false
+        "Name": "updateEmployeeDto",
+        "Type": "ControlTower.DTOs.EmployeeManagementSystem.UpdateEmployeeDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

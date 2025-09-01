@@ -19,7 +19,7 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
 
         [Required]
         [StringLength(50)]
-        public string StaffIDCardID { get; set; }
+        public string StaffRFIDCardID { get; set; }
 
         [Required]
         [StringLength(100)]
@@ -107,35 +107,27 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
         public Guid OccupationID { get; set; }
 
         [Required]
-        [StringLength(50)]
         public string StaffCardID { get; set; }
 
         [Required]
-        [StringLength(50)]
-        public string StaffIDCardID { get; set; }
+        public string StaffRFIDCardID { get; set; }
 
         [Required]
-        [StringLength(100)]
         public string FirstName { get; set; }
 
         [Required]
-        [StringLength(100)]
         public string LastName { get; set; }
 
         [Required]
-        [EmailAddress]
-        [StringLength(100)]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(20)]
         public string MobileNo { get; set; }
 
         [Required]
-        [StringLength(10)]
         public string Gender { get; set; }
 
-        [StringLength(200)]
+        
         public string? Remark { get; set; }
 
         [Required]
@@ -166,7 +158,7 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
         [StringLength(200)]
         public string? EmergencyContactName { get; set; }
     
-        public int? EmergencyContactNumber { get; set; }
+        public string? EmergencyContactNumber { get; set; }
     
         [StringLength(200)]
         public string? EmergencyRelationship { get; set; }
@@ -174,7 +166,7 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
         public Guid? UpdatedBy { get; set; }
     
         // Add image upload field
-        public IFormFile? ProfileImage { get; set; }
+        //public IFormFile? ProfileImage { get; set; }
     }
 
     public class UserDto
@@ -184,7 +176,7 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
         public Guid DepartmentID { get; set; }
         public Guid OccupationID { get; set; }
         public string StaffCardID { get; set; }
-        public string StaffIDCardID { get; set; }
+        public string StaffRFIDCardID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -209,7 +201,7 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
 
         // Emergency Contact Information
         public string? EmergencyContactName { get; set; }
-        public int? EmergencyContactNumber { get; set; }
+        public string? EmergencyContactNumber { get; set; }
         public string? EmergencyRelationship { get; set; }
 
         // Add profile image URL
@@ -244,6 +236,9 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
 
     public class UpdateApplicationAccessDto
     {
+        [Required]
+        public Guid AccessLevelID { get; set; }
+        
         [Required]
         public bool IsDeleted { get; set; }
         

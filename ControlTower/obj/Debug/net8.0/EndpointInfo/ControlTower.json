@@ -888,7 +888,7 @@
                   "MobileNo",
                   "OccupationID",
                   "StaffCardID",
-                  "StaffIDCardID",
+                  "StaffRFIDCardID",
                   "StartWorkingDate"
                 ],
                 "type": "object",
@@ -910,7 +910,7 @@
                     "minLength": 0,
                     "type": "string"
                   },
-                  "StaffIDCardID": {
+                  "StaffRFIDCardID": {
                     "maxLength": 50,
                     "minLength": 0,
                     "type": "string"
@@ -1034,7 +1034,7 @@
                 "StaffCardID": {
                   "style": "form"
                 },
-                "StaffIDCardID": {
+                "StaffRFIDCardID": {
                   "style": "form"
                 },
                 "FirstName": {
@@ -1176,228 +1176,9 @@
         ],
         "parameters": [
           {
-            "name": "ID",
+            "name": "id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "CompanyID",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "DepartmentID",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "OccupationID",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "StaffCardID",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "maxLength": 50,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "StaffIDCardID",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "maxLength": 50,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "FirstName",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "maxLength": 100,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "LastName",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "maxLength": 100,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "Email",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "maxLength": 100,
-              "minLength": 0,
-              "type": "string",
-              "format": "email"
-            }
-          },
-          {
-            "name": "MobileNo",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "maxLength": 20,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "Gender",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "maxLength": 10,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "Remark",
-            "in": "query",
-            "schema": {
-              "maxLength": 200,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "StartWorkingDate",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "LastWorkingDate",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "WorkPermit",
-            "in": "query",
-            "schema": {
-              "maxLength": 100,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "Nationality",
-            "in": "query",
-            "schema": {
-              "maxLength": 100,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "Religion",
-            "in": "query",
-            "schema": {
-              "maxLength": 100,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "DateOfBirth",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "WorkPassCardNumber",
-            "in": "query",
-            "schema": {
-              "maxLength": 50,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "WorkPassCardIssuedDate",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "WorkPassCardExpiredDate",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "EmergencyContactName",
-            "in": "query",
-            "schema": {
-              "maxLength": 200,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "EmergencyContactNumber",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "EmergencyRelationship",
-            "in": "query",
-            "schema": {
-              "maxLength": 200,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "UpdatedBy",
-            "in": "query",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -1406,20 +1187,19 @@
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "ProfileImage": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              },
-              "encoding": {
-                "ProfileImage": {
-                  "style": "form"
-                }
+                "$ref": "#/components/schemas/UpdateEmployeeDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEmployeeDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEmployeeDto"
               }
             }
           }
@@ -1495,7 +1275,7 @@
       }
     },
     "/api/Employee/{employeeId}/application-access/{accessId}": {
-      "patch": {
+      "put": {
         "tags": [
           "Employee"
         ],
@@ -6899,11 +6679,16 @@
       },
       "UpdateApplicationAccessDto": {
         "required": [
+          "accessLevelID",
           "isDeleted",
           "updatedBy"
         ],
         "type": "object",
         "properties": {
+          "accessLevelID": {
+            "type": "string",
+            "format": "uuid"
+          },
           "isDeleted": {
             "type": "boolean"
           },
@@ -7065,6 +6850,143 @@
             "nullable": true
           },
           "remark": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateEmployeeDto": {
+        "required": [
+          "companyID",
+          "dateOfBirth",
+          "departmentID",
+          "email",
+          "firstName",
+          "gender",
+          "id",
+          "lastName",
+          "mobileNo",
+          "occupationID",
+          "staffCardID",
+          "staffRFIDCardID",
+          "startWorkingDate"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "companyID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "departmentID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "occupationID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "staffCardID": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "staffRFIDCardID": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "firstName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "lastName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "email": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "mobileNo": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "gender": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "remark": {
+            "type": "string",
+            "nullable": true
+          },
+          "startWorkingDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastWorkingDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "workPermit": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "nationality": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "religion": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "workPassCardNumber": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "workPassCardIssuedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "workPassCardExpiredDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "emergencyContactName": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "emergencyContactNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "emergencyRelationship": {
             "maxLength": 200,
             "minLength": 0,
             "type": "string",
@@ -7787,7 +7709,7 @@
             "type": "string",
             "nullable": true
           },
-          "staffIDCardID": {
+          "staffRFIDCardID": {
             "type": "string",
             "nullable": true
           },
@@ -7875,8 +7797,7 @@
             "nullable": true
           },
           "emergencyContactNumber": {
-            "type": "integer",
-            "format": "int32",
+            "type": "string",
             "nullable": true
           },
           "emergencyRelationship": {
