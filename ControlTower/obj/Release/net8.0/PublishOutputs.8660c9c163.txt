@@ -47,6 +47,7 @@ C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\Contro
 C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Release\net8.0\PubTmp\Out\System.Configuration.ConfigurationManager.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Release\net8.0\PubTmp\Out\System.Diagnostics.DiagnosticSource.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Release\net8.0\PubTmp\Out\System.Drawing.Common.dll
+C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Release\net8.0\PubTmp\Out\System.Private.Windows.Core.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Release\net8.0\PubTmp\Out\System.Formats.Asn1.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Release\net8.0\PubTmp\Out\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Release\net8.0\PubTmp\Out\System.IO.Pipelines.dll
@@ -65,9 +66,7 @@ C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\Contro
 C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Release\net8.0\PubTmp\Out\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Release\net8.0\PubTmp\Out\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Release\net8.0\PubTmp\Out\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Release\net8.0\PubTmp\Out\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Release\net8.0\PubTmp\Out\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Release\net8.0\PubTmp\Out\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Release\net8.0\PubTmp\Out\runtimes\win\lib\net8.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Release\net8.0\PubTmp\Out\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Release\net8.0\PubTmp\Out\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Release\net8.0\PubTmp\Out\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll

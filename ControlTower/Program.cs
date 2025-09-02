@@ -33,6 +33,8 @@ internal class Program
                     .WithOrigins(
                         "http://192.3.71.120:5002", // React app URL
                         "http://192.3.71.120:5001", // API URL (for same-origin requests)
+                        "http://localhost:5001",    // API URL
+                        "http://localhost:8080",    // Development React
                         "http://localhost:3000",    // Development React
                         "https://localhost:7145"    // Development API
                     )
