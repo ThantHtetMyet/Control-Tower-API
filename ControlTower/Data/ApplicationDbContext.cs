@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ControlTower.Models.EmployeeManagementSystem;
 using ControlTower.Models.ServiceReportSystem;
 using ControlTower.Models.NewsPortalSystem;
+using ControlTower.Models.RoomBookingSystem;
 
 namespace ControlTower.Data
 {
@@ -21,6 +22,11 @@ namespace ControlTower.Data
         public DbSet<UserApplicationAccess> UserApplicationAccesses { get; set; }
         public DbSet<UserImage> UserImages { get; set; }
         public DbSet<ImageType> ImageTypes { get; set; }
+        public DbSet<Building> Buildings { get; set; }
+        public DbSet<Room> Rooms { get; set; } // Add this line
+        public DbSet<RoomBookingStatus> RoomBookingStatus { get; set; }
+        public DbSet<RoomBooking> RoomBookings { get; set; } // Add this line
+
 
         // Service Report System
         public DbSet<ServiceReportForm> ServiceReportForms { get; set; }
@@ -306,6 +312,20 @@ namespace ControlTower.Data
             modelBuilder.Entity<NewsReactions>()
                 .HasIndex(r => new { r.NewsID, r.UserID })
                 .IsUnique();
+
+
+            // Configure Building relationships
+            modelBuilder.Entity<Building>()
+                .HasOne(b => b.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(b => b.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Building>()
+                .HasOne(b => b.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(b => b.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

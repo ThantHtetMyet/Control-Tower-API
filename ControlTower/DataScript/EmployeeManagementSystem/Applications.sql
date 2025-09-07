@@ -46,7 +46,6 @@ INSERT INTO Applications (
     '11111111-1111-1111-1111-111111111111'
 );
 
-
 INSERT INTO Applications (
     ID,
     ApplicationName,
@@ -71,3 +70,27 @@ INSERT INTO Applications (
     '11111111-1111-1111-1111-111111111111'
 );
 
+
+INSERT INTO Applications (
+    ID,
+    ApplicationName,
+    Description,
+    Remark,
+    Rating,
+    IsDeleted,
+    CreatedDate,
+    UpdatedDate,
+    CreatedBy,
+    UpdatedBy
+) VALUES (
+    '44444444-4444-4444-4444-444444444444', -- Example GUID
+    'Room Booking System',
+    'This is a room booking description.',
+    'Initial release',
+    5,
+    0,
+    CURRENT_TIMESTAMP,
+    CURRENT_TIMESTAMP,
+    '11111111-1111-1111-1111-111111111111',
+    '11111111-1111-1111-1111-111111111111'
+);

@@ -3,8 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\controllers\\roombookingsystem\\roombookingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\controllers\\roombookingsystem\\roombookingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\controllers\\roombookingsystem\\roombookingstatuscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\controllers\\roombookingsystem\\roombookingstatuscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\dtos\\roombookingsystem\\bookingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\dtos\\roombookingsystem\\bookingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\controllers\\employeemanagementsystem\\employeecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -38,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,20 +70,59 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Program.cs",
-              "RelativeDocumentMoniker": "ControlTower\\Program.cs",
-              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Program.cs",
-              "RelativeToolTip": "ControlTower\\Program.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAAQwCQAAAAuAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "BookingDto.cs",
+              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\DTOs\\RoomBookingSystem\\BookingDto.cs",
+              "RelativeDocumentMoniker": "ControlTower\\DTOs\\RoomBookingSystem\\BookingDto.cs",
+              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\DTOs\\RoomBookingSystem\\BookingDto.cs",
+              "RelativeToolTip": "ControlTower\\DTOs\\RoomBookingSystem\\BookingDto.cs",
+              "ViewState": "AgIAAHkAAAAAAAAAAAAUwC4AAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-02T15:49:59.63Z",
+              "WhenOpened": "2025-09-07T05:33:15.276Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "RoomBookingController.cs",
+              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\RoomBookingSystem\\RoomBookingController.cs",
+              "RelativeDocumentMoniker": "ControlTower\\Controllers\\RoomBookingSystem\\RoomBookingController.cs",
+              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\RoomBookingSystem\\RoomBookingController.cs",
+              "RelativeToolTip": "ControlTower\\Controllers\\RoomBookingSystem\\RoomBookingController.cs",
+              "ViewState": "AgIAAJcAAAAAAAAAAAAYwI0AAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-06T18:18:11.884Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RoomBookingStatusController.cs",
+              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\RoomBookingSystem\\RoomBookingStatusController.cs",
+              "RelativeDocumentMoniker": "ControlTower\\Controllers\\RoomBookingSystem\\RoomBookingStatusController.cs",
+              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\RoomBookingSystem\\RoomBookingStatusController.cs",
+              "RelativeToolTip": "ControlTower\\Controllers\\RoomBookingSystem\\RoomBookingStatusController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-06T17:56:29.218Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "ControlTower\\Data\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "ControlTower\\Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAAMwB4AAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-04T03:39:43.114Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "EmployeeImageController.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\EmployeeManagementSystem\\EmployeeImageController.cs",
               "RelativeDocumentMoniker": "ControlTower\\Controllers\\EmployeeManagementSystem\\EmployeeImageController.cs",
@@ -79,12 +130,11 @@
               "RelativeToolTip": "ControlTower\\Controllers\\EmployeeManagementSystem\\EmployeeImageController.cs",
               "ViewState": "AgIAABgAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-01T12:11:22.902Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-01T12:11:22.902Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "UserDto.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\DTOs\\EmployeeManagementSystem\\UserDto.cs",
               "RelativeDocumentMoniker": "ControlTower\\DTOs\\EmployeeManagementSystem\\UserDto.cs",
@@ -92,12 +142,11 @@
               "RelativeToolTip": "ControlTower\\DTOs\\EmployeeManagementSystem\\UserDto.cs",
               "ViewState": "AgIAAOkAAAAAAAAAAAApwOwAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-01T10:07:21.294Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-01T10:07:21.294Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "EmployeeController.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\EmployeeManagementSystem\\EmployeeController.cs",
               "RelativeDocumentMoniker": "ControlTower\\Controllers\\EmployeeManagementSystem\\EmployeeController.cs",
@@ -110,7 +159,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "NewsController.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\NewsPortalSystem\\NewsController.cs",
               "RelativeDocumentMoniker": "ControlTower\\Controllers\\NewsPortalSystem\\NewsController.cs",
@@ -118,12 +167,11 @@
               "RelativeToolTip": "ControlTower\\Controllers\\NewsPortalSystem\\NewsController.cs",
               "ViewState": "AgIAACMBAAAAAAAAAAAowCwBAABSAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-01T10:03:10.913Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-01T10:03:10.913Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\appsettings.json",
               "RelativeDocumentMoniker": "ControlTower\\appsettings.json",
@@ -135,7 +183,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\appsettings.Development.json",
               "RelativeDocumentMoniker": "ControlTower\\appsettings.Development.json",
