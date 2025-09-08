@@ -15,7 +15,9 @@ namespace ControlTower.Data
         // Employee Management System
         public DbSet<Models.EmployeeManagementSystem.User> Users { get; set; }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<SubDepartment> SubDepartments { get; set; }
         public DbSet<Occupation> Occupations { get; set; }
+        public DbSet<OccupationLevel> OccupationLevels { get; set; }
         public DbSet<Company> Company { get; set; }
         public DbSet<Application> Applications { get; set; }
         public DbSet<AccessLevel> AccessLevels { get; set; }
@@ -23,9 +25,9 @@ namespace ControlTower.Data
         public DbSet<UserImage> UserImages { get; set; }
         public DbSet<ImageType> ImageTypes { get; set; }
         public DbSet<Building> Buildings { get; set; }
-        public DbSet<Room> Rooms { get; set; } // Add this line
+        public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomBookingStatus> RoomBookingStatus { get; set; }
-        public DbSet<RoomBooking> RoomBookings { get; set; } // Add this line
+        public DbSet<RoomBooking> RoomBookings { get; set; }
 
 
         // Service Report System
@@ -55,11 +57,10 @@ namespace ControlTower.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configure Employee relationships
-            modelBuilder.Entity<Models.EmployeeManagementSystem.User>()
-                .HasOne(e => e.Department)
-                .WithMany(d => d.Users)
-                .HasForeignKey(e => e.DepartmentID)
+            modelBuilder.Entity<User>()
+                .HasOne(e => e.SubDepartment)
+                .WithMany(sd => sd.Users)
+                .HasForeignKey(e => e.SubDepartmentID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Models.EmployeeManagementSystem.User>()
@@ -101,22 +102,31 @@ namespace ControlTower.Data
                 .HasForeignKey(c => c.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Company unique constraint
+            // Company unique constraint - Updated to handle soft deletion
             modelBuilder.Entity<Company>()
                 .HasIndex(c => c.Name)
-                .IsUnique();
+                .IsUnique()
+                .HasFilter("[IsDeleted] = 0");
 
-            // Configure Department relationships
-            modelBuilder.Entity<Department>()
-                .HasOne(d => d.CreatedByUser)
-                .WithMany(e => e.CreatedDepartments)
-                .HasForeignKey(d => d.CreatedBy)
+
+            // Configure SubDepartment relationships
+            modelBuilder.Entity<SubDepartment>()
+                .HasOne(sd => sd.Department)
+                .WithMany(d => d.SubDepartments)
+                .HasForeignKey(sd => sd.DepartmentID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Department>()
-                .HasOne(d => d.UpdatedByUser)
-                .WithMany(e => e.UpdatedDepartments)
-                .HasForeignKey(d => d.UpdatedBy)
+            // Replace the existing SubDepartment relationship configurations (around lines 110-120)
+            modelBuilder.Entity<SubDepartment>()
+                .HasOne(sd => sd.CreatedByUser)
+                .WithMany(u => u.CreatedSubDepartments)
+                .HasForeignKey(sd => sd.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+            
+            modelBuilder.Entity<SubDepartment>()
+                .HasOne(sd => sd.UpdatedByUser)
+                .WithMany(u => u.UpdatedSubDepartments)
+                .HasForeignKey(sd => sd.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
             // Configure Occupation relationships
@@ -132,22 +142,45 @@ namespace ControlTower.Data
                 .HasForeignKey(o => o.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Configure unique constraints
+            // Configure OccupationLevel relationships
+            modelBuilder.Entity<OccupationLevel>()
+                .HasOne(ol => ol.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(ol => ol.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<OccupationLevel>()
+                .HasOne(ol => ol.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(ol => ol.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configure unique constraints - Updated to handle soft deletion
             modelBuilder.Entity<Models.EmployeeManagementSystem.User>()
                 .HasIndex(e => e.StaffCardID)
-                .IsUnique();
+                .IsUnique()
+                .HasFilter("[IsDeleted] = 0");
 
             modelBuilder.Entity<Models.EmployeeManagementSystem.User>()
                 .HasIndex(e => e.Email)
-                .IsUnique();
+                .IsUnique()
+                .HasFilter("[IsDeleted] = 0");
 
             modelBuilder.Entity<Department>()
                 .HasIndex(d => d.Name)
-                .IsUnique();
+                .IsUnique()
+                .HasFilter("[IsDeleted] = 0");
 
+            // Updated constraint - allows same name with different levels
             modelBuilder.Entity<Occupation>()
-                .HasIndex(o => o.OccupationName)
-                .IsUnique();
+            .HasIndex(o => new { o.OccupationName, o.OccupationLevelID })
+            .IsUnique()
+            .HasFilter("[IsDeleted] = 0");
+
+            modelBuilder.Entity<OccupationLevel>()
+                .HasIndex(ol => ol.LevelName)
+                .IsUnique()
+                .HasFilter("[IsDeleted] = 0");
 
             // Configure Application relationships
             modelBuilder.Entity<Application>()
@@ -162,10 +195,11 @@ namespace ControlTower.Data
                 .HasForeignKey(a => a.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Configure unique constraints
+            // Configure unique constraints - Updated to handle soft deletion
             modelBuilder.Entity<Application>()
                 .HasIndex(a => a.ApplicationName)
-                .IsUnique();
+                .IsUnique()
+                .HasFilter("[IsDeleted] = 0");
 
             // Configure EmployeeApplicationAccess relationships
             modelBuilder.Entity<UserApplicationAccess>()
@@ -207,7 +241,8 @@ namespace ControlTower.Data
             // AccessLevel configurations
             modelBuilder.Entity<AccessLevel>()
                 .HasIndex(al => al.LevelName)
-                .IsUnique();
+                .IsUnique()
+                .HasFilter("[IsDeleted] = 0");
                 
             modelBuilder.Entity<AccessLevel>()
                 .HasOne(al => al.CreatedByUser)
@@ -259,10 +294,11 @@ namespace ControlTower.Data
                 .HasForeignKey(ui => ui.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // ImageType configurations
+            // ImageType configurations - Updated to handle soft deletion
             modelBuilder.Entity<ImageType>()
                 .HasIndex(it => it.ImageTypeName)
-                .IsUnique();
+                .IsUnique()
+                .HasFilter("[IsDeleted] = 0");
 
             modelBuilder.Entity<ImageType>()
                 .HasOne(it => it.CreatedByUser)
@@ -276,6 +312,48 @@ namespace ControlTower.Data
                 .HasForeignKey(it => it.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
         
+            // Building configurations - Updated to use correct property name
+            modelBuilder.Entity<Building>()
+                .HasIndex(b => b.Name)
+                .IsUnique()
+                .HasFilter("[IsDeleted] = 0");
+
+            modelBuilder.Entity<Building>()
+                .HasOne(b => b.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(b => b.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Building>()
+                .HasOne(b => b.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(b => b.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Room configurations - Updated to use correct property names
+            modelBuilder.Entity<Room>()
+                .HasIndex(r => new { r.Name, r.BuildingID })
+                .IsUnique()
+                .HasFilter("[IsDeleted] = 0");
+
+            modelBuilder.Entity<Room>()
+                .HasOne(r => r.Building)
+                .WithMany() // Building doesn't have Rooms navigation property
+                .HasForeignKey(r => r.BuildingID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Room>()
+                .HasOne(r => r.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(r => r.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Room>()
+                .HasOne(r => r.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(r => r.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // News Portal System configurations
             
             // Category self-referencing relationship
@@ -296,10 +374,11 @@ namespace ControlTower.Data
                 .IsUnique()
                 .HasFilter("[IsDeleted] = 0");
 
-            // News unique constraints
+            // News unique constraints - Updated to handle soft deletion
             modelBuilder.Entity<News>()
                 .HasIndex(n => n.Slug)
-                .IsUnique();
+                .IsUnique()
+                .HasFilter("[IsDeleted] = 0");
 
             // Comments self-referencing relationship
             modelBuilder.Entity<NewsComments>()
@@ -311,21 +390,8 @@ namespace ControlTower.Data
             // Reactions unique constraint (one reaction per user per news)
             modelBuilder.Entity<NewsReactions>()
                 .HasIndex(r => new { r.NewsID, r.UserID })
-                .IsUnique();
-
-
-            // Configure Building relationships
-            modelBuilder.Entity<Building>()
-                .HasOne(b => b.CreatedByUser)
-                .WithMany()
-                .HasForeignKey(b => b.CreatedBy)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Building>()
-                .HasOne(b => b.UpdatedByUser)
-                .WithMany()
-                .HasForeignKey(b => b.UpdatedBy)
-                .OnDelete(DeleteBehavior.Restrict);
+                .IsUnique()
+                .HasFilter("[IsDeleted] = 0");
         }
     }
 }

@@ -8,7 +8,7 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
         public Guid CompanyID { get; set; }
 
         [Required]
-        public Guid DepartmentID { get; set; }
+        public Guid SubDepartmentID { get; set; }  // Changed from DepartmentID
 
         [Required]
         public Guid OccupationID { get; set; }
@@ -101,7 +101,7 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
         public Guid CompanyID { get; set; }
 
         [Required]
-        public Guid DepartmentID { get; set; }
+        public Guid SubDepartmentID { get; set; }  // Changed from DepartmentID
 
         [Required]
         public Guid OccupationID { get; set; }
@@ -173,7 +173,7 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
     {
         public Guid ID { get; set; }
         public Guid CompanyID { get; set; }
-        public Guid DepartmentID { get; set; }
+        public Guid SubDepartmentID { get; set; }  // Changed from DepartmentID
         public Guid OccupationID { get; set; }
         public string StaffCardID { get; set; }
         public string StaffRFIDCardID { get; set; }
@@ -209,7 +209,8 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
 
         // Navigation properties for display
         public string CompanyName { get; set; }
-        public string DepartmentName { get; set; }
+        public string SubDepartmentName { get; set; }  // Changed from DepartmentName
+        public string DepartmentName { get; set; }     // Keep this for display (from SubDepartment.Department)
         public string OccupationName { get; set; }
         public string? CreatedByUserName { get; set; }
         public string? UpdatedByUserName { get; set; }

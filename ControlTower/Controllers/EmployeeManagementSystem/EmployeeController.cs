@@ -30,7 +30,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
         {
             var Users = await _context.Users
                 .Include(e => e.Company)
-                .Include(e => e.Department)
+                .Include(e => e.SubDepartment)
                 .Include(e => e.Occupation)
                 .Include(e => e.CreatedByUser)
                 .Include(e => e.UpdatedByUser)
@@ -39,7 +39,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                 {
                     ID = e.ID,
                     CompanyID = e.CompanyID,
-                    DepartmentID = e.DepartmentID,
+                    SubDepartmentID = e.SubDepartmentID,
                     OccupationID = e.OccupationID,
                     StaffCardID = e.StaffCardID,
                     StaffRFIDCardID = e.StaffRFIDCardID,
@@ -63,7 +63,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     WorkPassCardIssuedDate = e.WorkPassCardIssuedDate,
                     WorkPassCardExpiredDate = e.WorkPassCardExpiredDate,
                     CompanyName = e.Company != null ? e.Company.Name : null,
-                    DepartmentName = e.Department != null ? e.Department.Name : null,
+                    DepartmentName = e.SubDepartment != null ? e.SubDepartment.Name : null,
                     OccupationName = e.Occupation != null ? e.Occupation.OccupationName : null,
                     CreatedByUserName = e.CreatedByUser != null ? $"{e.CreatedByUser.FirstName} {e.CreatedByUser.LastName}" : null,
                     UpdatedByUserName = e.UpdatedByUser != null ? $"{e.UpdatedByUser.FirstName} {e.UpdatedByUser.LastName}" : null
@@ -82,7 +82,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             
             var employee = await _context.Users
                 .Include(e => e.Company)
-                .Include(e => e.Department)
+                .Include(e => e.SubDepartment)
                 .Include(e => e.Occupation)
                 .Include(e => e.CreatedByUser)
                 .Include(e => e.UpdatedByUser)
@@ -91,7 +91,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                 {
                     ID = e.ID,
                     CompanyID = e.CompanyID,
-                    DepartmentID = e.DepartmentID,
+                    SubDepartmentID = e.SubDepartmentID,
                     OccupationID = e.OccupationID,
                     StaffCardID = e.StaffCardID,
                     StaffRFIDCardID = e.StaffRFIDCardID,
@@ -125,7 +125,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                         .Select(ui => $"{apiBaseUrl}/api/EmployeeImage/{e.ID}")
                         .FirstOrDefault(),
                     CompanyName = e.Company.Name,
-                    DepartmentName = e.Department != null ? e.Department.Name : null,
+                    DepartmentName = e.SubDepartment != null ? e.SubDepartment.Name : null,
                     OccupationName = e.Occupation != null ? e.Occupation.OccupationName : null,
                     CreatedByUserName = e.CreatedByUser != null ? $"{e.CreatedByUser.FirstName} {e.CreatedByUser.LastName}" : null,
                     UpdatedByUserName = e.UpdatedByUser != null ? $"{e.UpdatedByUser.FirstName} {e.UpdatedByUser.LastName}" : null
@@ -182,7 +182,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
 
             // Update employee properties
             employee.CompanyID = updateEmployeeDto.CompanyID;  // Add this line
-            employee.DepartmentID = updateEmployeeDto.DepartmentID;
+            employee.SubDepartmentID = updateEmployeeDto.SubDepartmentID;
             employee.OccupationID = updateEmployeeDto.OccupationID;
             employee.StaffCardID = updateEmployeeDto.StaffCardID;
             employee.StaffRFIDCardID = updateEmployeeDto.StaffRFIDCardID;
@@ -256,7 +256,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                 {
                     ID = Guid.NewGuid(),
                     CompanyID = createEmployeeDto.CompanyID,
-                    DepartmentID = createEmployeeDto.DepartmentID,
+                    SubDepartmentID = createEmployeeDto.SubDepartmentID,
                     OccupationID = createEmployeeDto.OccupationID,
                     StaffCardID = createEmployeeDto.StaffCardID,
                     StaffRFIDCardID = createEmployeeDto.StaffRFIDCardID,
@@ -500,7 +500,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
         {
             var employee = await _context.Users
                 .Include(u => u.Company)
-                .Include(u => u.Department)
+                .Include(u => u.SubDepartment)
                 .Include(u => u.Occupation)
                 .Include(u => u.CreatedByUser)
                 .Include(u => u.UpdatedByUser)
@@ -514,7 +514,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             {
                 ID = employee.ID,
                 CompanyID = employee.CompanyID,
-                DepartmentID = employee.DepartmentID,
+                SubDepartmentID = employee.SubDepartmentID,
                 OccupationID = employee.OccupationID,
                 StaffCardID = employee.StaffCardID,
                 StaffRFIDCardID = employee.StaffRFIDCardID,
@@ -540,7 +540,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                 EmergencyContactName = employee.EmergencyContactName,
                 EmergencyContactNumber = Convert.ToString(employee.EmergencyContactNumber),
                 EmergencyRelationship = employee.EmergencyRelationship,
-                DepartmentName = employee.Department?.Name,
+                SubDepartmentName = employee.SubDepartment?.Name,
                 OccupationName = employee.Occupation?.OccupationName,
                 CreatedByUserName = employee.CreatedByUser != null ? employee.CreatedByUser.FirstName + " " + employee.CreatedByUser.LastName : null,
                 UpdatedByUserName = employee.UpdatedByUser != null ? employee.UpdatedByUser.FirstName + " " + employee.UpdatedByUser.LastName : null,

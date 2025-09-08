@@ -180,7 +180,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
 
             // Check if department has active Users
             var hasActiveUsers = await _context.Users
-                .AnyAsync(e => e.DepartmentID == id && !e.IsDeleted);
+                .Include(e => e.SubDepartment)
+                .AnyAsync(e => e.SubDepartment.DepartmentID == id && !e.IsDeleted);
 
             if (hasActiveUsers)
             {

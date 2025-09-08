@@ -33,7 +33,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             {
                 // Find employee by email
                 var employee = await _context.Users
-                    .Include(e => e.Department)
+                    .Include(e => e.SubDepartment)
+                        .ThenInclude(sd => sd.Department)
                     .Include(e => e.Occupation)
                     .FirstOrDefaultAsync(e => e.Email == signInDto.Email && !e.IsDeleted);
 
@@ -86,7 +87,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                         FirstName = employee.FirstName,
                         LastName = employee.LastName,
                         StaffCardID = employee.StaffCardID,
-                        DepartmentName = employee.Department?.Name ?? "",
+                        DepartmentName = employee.SubDepartment?.Department?.Name ?? "",
+                        SubDepartmentName = employee.SubDepartment?.Name ?? "",
                         OccupationName = employee.Occupation?.OccupationName ?? "",
                         LastLogin = employee.LastLogin
                     }
@@ -119,10 +121,13 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
-                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Email, user.Email ?? ""),
                 new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
-                new Claim("StaffCardID", user.StaffCardID),
-                new Claim("DepartmentID", user.DepartmentID.ToString()),
+                new Claim("StaffCardID", user.StaffCardID ?? ""),
+                new Claim("SubDepartmentID", user.SubDepartmentID.ToString() ?? ""),
+                new Claim("SubDepartmentName", user.SubDepartment?.Name ?? ""),
+                new Claim("DepartmentID", user.SubDepartment?.DepartmentID.ToString() ?? ""),
+                new Claim("DepartmentName", user.SubDepartment?.Department?.Name ?? ""),
                 new Claim("OccupationID", user.OccupationID.ToString())
             };
 

@@ -9,6 +9,8 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
         public string? Description { get; set; }
         public string? Remark { get; set; }
         public int Rating { get; set; }
+        public Guid? OccupationLevelID { get; set; }
+        public string? OccupationLevelName { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public string? CreatedByUserName { get; set; }
@@ -28,6 +30,8 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
         public string? Remark { get; set; }
 
         public int Rating { get; set; }
+        
+        public Guid? OccupationLevelID { get; set; }
     }
 
     public class UpdateOccupationDto
@@ -43,5 +47,7 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
         public string? Remark { get; set; }
 
         public int Rating { get; set; }
+        
+        public Guid? OccupationLevelID { get; set; }
     }
 }

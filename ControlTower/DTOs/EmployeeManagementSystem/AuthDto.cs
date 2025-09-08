@@ -27,6 +27,7 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
         public string LastName { get; set; }
         public string StaffCardID { get; set; }
         public string DepartmentName { get; set; }
+        public string SubDepartmentName { get; set; }
         public string OccupationName { get; set; }
         public DateTime LastLogin { get; set; }
     }

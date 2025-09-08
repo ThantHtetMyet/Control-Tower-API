@@ -24,6 +24,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             var occupations = await _context.Occupations
                 .Include(o => o.CreatedByUser)
                 .Include(o => o.UpdatedByUser)
+                .Include(o => o.OccupationLevel)
                 .Where(o => !o.IsDeleted)
                 .Select(o => new OccupationDto
                 {
@@ -32,6 +33,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     Description = o.Description,
                     Remark = o.Remark,
                     Rating = o.Rating,
+                    OccupationLevelID = o.OccupationLevelID,
+                    OccupationLevelName = o.OccupationLevel != null ? o.OccupationLevel.LevelName : null,
                     CreatedDate = o.CreatedDate,
                     UpdatedDate = o.UpdatedDate,
                     CreatedByUserName = o.CreatedByUser != null ? $"{o.CreatedByUser.FirstName} {o.CreatedByUser.LastName}" : null,
@@ -49,6 +52,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             var occupation = await _context.Occupations
                 .Include(o => o.CreatedByUser)
                 .Include(o => o.UpdatedByUser)
+                .Include(o => o.OccupationLevel)
                 .Where(o => o.ID == id && !o.IsDeleted)
                 .Select(o => new OccupationDto
                 {
@@ -57,6 +61,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     Description = o.Description,
                     Remark = o.Remark,
                     Rating = o.Rating,
+                    OccupationLevelID = o.OccupationLevelID,
+                    OccupationLevelName = o.OccupationLevel != null ? o.OccupationLevel.LevelName : null,
                     CreatedDate = o.CreatedDate,
                     UpdatedDate = o.UpdatedDate,
                     CreatedByUserName = o.CreatedByUser != null ? $"{o.CreatedByUser.FirstName} {o.CreatedByUser.LastName}" : null,
@@ -83,6 +89,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                 Description = createOccupationDto.Description,
                 Remark = createOccupationDto.Remark,
                 Rating = createOccupationDto.Rating,
+                OccupationLevelID = createOccupationDto.OccupationLevelID,
                 IsDeleted = false,
                 CreatedDate = DateTime.UtcNow,
                 UpdatedDate = DateTime.UtcNow
@@ -94,6 +101,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             var createdOccupation = await _context.Occupations
                 .Include(o => o.CreatedByUser)
                 .Include(o => o.UpdatedByUser)
+                .Include(o => o.OccupationLevel)
                 .Where(o => o.ID == occupation.ID)
                 .Select(o => new OccupationDto
                 {
@@ -102,6 +110,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     Description = o.Description,
                     Remark = o.Remark,
                     Rating = o.Rating,
+                    OccupationLevelID = o.OccupationLevelID,
+                    OccupationLevelName = o.OccupationLevel != null ? o.OccupationLevel.LevelName : null,
                     CreatedDate = o.CreatedDate,
                     UpdatedDate = o.UpdatedDate,
                     CreatedByUserName = o.CreatedByUser != null ? $"{o.CreatedByUser.FirstName} {o.CreatedByUser.LastName}" : null,
@@ -114,15 +124,20 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
 
         // PUT: api/Occupation/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOccupation(Guid id, Occupation occupation)
+        public async Task<IActionResult> PutOccupation(Guid id, UpdateOccupationDto updateOccupationDto)
         {
-            if (id != occupation.ID)
+            var occupation = await _context.Occupations.FindAsync(id);
+            if (occupation == null || occupation.IsDeleted)
             {
-                return BadRequest();
+                return NotFound();
             }
 
+            occupation.OccupationName = updateOccupationDto.OccupationName;
+            occupation.Description = updateOccupationDto.Description;
+            occupation.Remark = updateOccupationDto.Remark;
+            occupation.Rating = updateOccupationDto.Rating;
+            occupation.OccupationLevelID = updateOccupationDto.OccupationLevelID;
             occupation.UpdatedDate = DateTime.UtcNow;
-            _context.Entry(occupation).State = EntityState.Modified;
 
             try
             {

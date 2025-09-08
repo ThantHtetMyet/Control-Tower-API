@@ -3,14 +3,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ControlTower.Models.EmployeeManagementSystem
 {
-    public class Occupation
+    public class SubDepartment
     {
         [Key]
         public Guid ID { get; set; }
 
+        [ForeignKey("Department")]
+        public Guid DepartmentID { get; set; }
+
         [Required]
         [StringLength(100)]
-        public string OccupationName { get; set; }
+        public string Name { get; set; }
 
         [StringLength(500)]
         public string? Description { get; set; }
@@ -18,10 +21,7 @@ namespace ControlTower.Models.EmployeeManagementSystem
         [StringLength(200)]
         public string? Remark { get; set; }
 
-        public int Rating { get; set; }
-
-        [ForeignKey("OccupationLevel")]
-        public Guid? OccupationLevelID { get; set; }
+        public int? Rating { get; set; }
 
         public bool IsDeleted { get; set; }
 
@@ -36,9 +36,9 @@ namespace ControlTower.Models.EmployeeManagementSystem
         public Guid? UpdatedBy { get; set; }
 
         // Navigation properties
+        public virtual Department Department { get; set; }
         public virtual User? CreatedByUser { get; set; }
         public virtual User? UpdatedByUser { get; set; }
-        public virtual OccupationLevel? OccupationLevel { get; set; }
         public virtual ICollection<User> Users { get; set; } = new List<User>();
     }
 }

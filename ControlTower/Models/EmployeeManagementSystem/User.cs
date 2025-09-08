@@ -11,8 +11,8 @@ namespace ControlTower.Models.EmployeeManagementSystem
         [ForeignKey("Company")]
         public Guid CompanyID { get; set; }
 
-        [ForeignKey("Department")]
-        public Guid DepartmentID { get; set; }
+        [ForeignKey("SubDepartment")]
+        public Guid SubDepartmentID { get; set; }
 
         [ForeignKey("Occupation")]
         public Guid OccupationID { get; set; }
@@ -102,7 +102,7 @@ namespace ControlTower.Models.EmployeeManagementSystem
 
         // Navigation properties
         public virtual Company Company { get; set; }
-        public virtual Department Department { get; set; }
+        public virtual SubDepartment SubDepartment { get; set; }
         public virtual Occupation Occupation { get; set; }
         public virtual User? CreatedByUser { get; set; }
         public virtual User? UpdatedByUser { get; set; }
@@ -110,8 +110,8 @@ namespace ControlTower.Models.EmployeeManagementSystem
         // Self-referencing collections
         public virtual ICollection<User> CreatedUsers { get; set; } = new List<User>();
         public virtual ICollection<User> UpdatedUsers { get; set; } = new List<User>();
-        public virtual ICollection<Department> CreatedDepartments { get; set; } = new List<Department>();
-        public virtual ICollection<Department> UpdatedDepartments { get; set; } = new List<Department>();
+        public virtual ICollection<SubDepartment> CreatedSubDepartments { get; set; } = new List<SubDepartment>();
+        public virtual ICollection<SubDepartment> UpdatedSubDepartments { get; set; } = new List<SubDepartment>();
         public virtual ICollection<Occupation> CreatedOccupations { get; set; } = new List<Occupation>();
         public virtual ICollection<Occupation> UpdatedOccupations { get; set; } = new List<Occupation>();
         

@@ -36,5 +36,6 @@ namespace ControlTower.Models.EmployeeManagementSystem
         public virtual User? CreatedByUser { get; set; }
         public virtual User? UpdatedByUser { get; set; }
         public virtual ICollection<User> Users { get; set; } = new List<User>();
+        public virtual ICollection<SubDepartment> SubDepartments { get; set; } = new List<SubDepartment>();
     }
 }
