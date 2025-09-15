@@ -179,3 +179,4 @@ C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\Contro
 C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Debug\net8.0\ref\ControlTower.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\System.Private.Windows.Core.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\runtimes\win\lib\net8.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\thanthtet.myet\Documents\01_Willowglen\02_Workplace\ControlTower\ControlTower\ControlTower\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

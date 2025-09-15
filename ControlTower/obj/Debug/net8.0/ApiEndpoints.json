@@ -109,26 +109,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ActionTakenWarehouseController",
-    "Method": "GetActionTakenWarehouses",
-    "RelativePath": "api/ActionTakenWarehouse",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.Models.ServiceReportSystem.ActionTakenWarehouse, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
     "ContainingType": "ControlTower.Controllers.EmployeeManagementSystem.ApplicationController",
     "Method": "GetApplications",
     "RelativePath": "api/Application",
@@ -371,6 +351,141 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.CMReportFormController",
+    "Method": "GetCMReportForms",
+    "RelativePath": "api/CMReportForm",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.CMReportFormDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.CMReportFormController",
+    "Method": "CreateCMReportForm",
+    "RelativePath": "api/CMReportForm",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreateCMReportFormDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CMReportFormDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.CMReportFormController",
+    "Method": "GetCMReportForm",
+    "RelativePath": "api/CMReportForm/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CMReportFormDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.CMReportFormController",
+    "Method": "UpdateCMReportForm",
+    "RelativePath": "api/CMReportForm/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdateCMReportFormDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.CMReportFormController",
+    "Method": "DeleteCMReportForm",
+    "RelativePath": "api/CMReportForm/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.CMReportFormController",
+    "Method": "GetCMReportFormsByReportForm",
+    "RelativePath": "api/CMReportForm/ByReportForm/{reportFormId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reportFormId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.CMReportFormDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "ControlTower.Controllers.EmployeeManagementSystem.CompanyController",
@@ -624,7 +739,7 @@
         "IsRequired": false
       },
       {
-        "Name": "DepartmentID",
+        "Name": "SubDepartmentID",
         "Type": "System.Guid",
         "IsRequired": false
       },
@@ -1096,27 +1211,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.FollowupActionWarehouseController",
-    "Method": "GetFollowupActionWarehouses",
-    "RelativePath": "api/FollowupActionWarehouse",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.Models.ServiceReportSystem.FollowupActionWarehouse, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.FormStatusWarehouseController",
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.FormStatusWarehouseController",
     "Method": "GetFormStatusWarehouses",
     "RelativePath": "api/FormStatusWarehouse",
     "HttpMethod": "GET",
@@ -1125,7 +1220,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.Models.ServiceReportSystem.FormStatusWarehouses, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.FormStatusWarehouseDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1136,7 +1231,96 @@
     ]
   },
   {
-    "ContainingType": "ServiceReportSystem.Controllers.FurtherActionTakenWarehouseController",
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.FormStatusWarehouseController",
+    "Method": "CreateFormStatusWarehouse",
+    "RelativePath": "api/FormStatusWarehouse",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreateFormStatusWarehouseDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.FormStatusWarehouseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.FormStatusWarehouseController",
+    "Method": "GetFormStatusWarehouse",
+    "RelativePath": "api/FormStatusWarehouse/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.FormStatusWarehouseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.FormStatusWarehouseController",
+    "Method": "UpdateFormStatusWarehouse",
+    "RelativePath": "api/FormStatusWarehouse/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdateFormStatusWarehouseDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.FormStatusWarehouseController",
+    "Method": "DeleteFormStatusWarehouse",
+    "RelativePath": "api/FormStatusWarehouse/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.FurtherActionTakenWarehouseController",
     "Method": "GetFurtherActionTakenWarehouses",
     "RelativePath": "api/FurtherActionTakenWarehouse",
     "HttpMethod": "GET",
@@ -1145,7 +1329,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.Models.ServiceReportSystem.FurtherActionTakenWarehouse, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.FurtherActionTakenWarehouseDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1156,7 +1340,96 @@
     ]
   },
   {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ImportFileRecordsController",
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.FurtherActionTakenWarehouseController",
+    "Method": "CreateFurtherActionTakenWarehouse",
+    "RelativePath": "api/FurtherActionTakenWarehouse",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreateFurtherActionTakenWarehouseDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.FurtherActionTakenWarehouseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.FurtherActionTakenWarehouseController",
+    "Method": "GetFurtherActionTakenWarehouse",
+    "RelativePath": "api/FurtherActionTakenWarehouse/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.FurtherActionTakenWarehouseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.FurtherActionTakenWarehouseController",
+    "Method": "UpdateFurtherActionTakenWarehouse",
+    "RelativePath": "api/FurtherActionTakenWarehouse/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdateFurtherActionTakenWarehouseDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.FurtherActionTakenWarehouseController",
+    "Method": "DeleteFurtherActionTakenWarehouse",
+    "RelativePath": "api/FurtherActionTakenWarehouse/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ImportFileRecordsController",
     "Method": "GetImportFileRecords",
     "RelativePath": "api/ImportFileRecords",
     "HttpMethod": "GET",
@@ -1165,7 +1438,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ServiceReportSystem.ImportFileRecordsDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.ImportFileRecordsDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1176,7 +1449,7 @@
     ]
   },
   {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ImportFileRecordsController",
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ImportFileRecordsController",
     "Method": "CreateImportFileRecord",
     "RelativePath": "api/ImportFileRecords",
     "HttpMethod": "POST",
@@ -1185,13 +1458,13 @@
     "Parameters": [
       {
         "Name": "createDto",
-        "Type": "ControlTower.DTOs.ServiceReportSystem.CreateImportFileRecordsDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreateImportFileRecordsDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "ControlTower.DTOs.ServiceReportSystem.ImportFileRecordsDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.ImportFileRecordsDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1202,7 +1475,7 @@
     ]
   },
   {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ImportFileRecordsController",
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ImportFileRecordsController",
     "Method": "GetImportFileRecord",
     "RelativePath": "api/ImportFileRecords/{id}",
     "HttpMethod": "GET",
@@ -1217,7 +1490,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ControlTower.DTOs.ServiceReportSystem.ImportFileRecordsDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.ImportFileRecordsDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1228,7 +1501,7 @@
     ]
   },
   {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ImportFileRecordsController",
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ImportFileRecordsController",
     "Method": "UpdateImportFileRecord",
     "RelativePath": "api/ImportFileRecords/{id}",
     "HttpMethod": "PUT",
@@ -1242,14 +1515,14 @@
       },
       {
         "Name": "updateDto",
-        "Type": "ControlTower.DTOs.ServiceReportSystem.UpdateImportFileRecordsDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdateImportFileRecordsDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ImportFileRecordsController",
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ImportFileRecordsController",
     "Method": "DeleteImportFileRecord",
     "RelativePath": "api/ImportFileRecords/{id}",
     "HttpMethod": "DELETE",
@@ -1260,38 +1533,38 @@
         "Name": "id",
         "Type": "System.Guid",
         "IsRequired": true
-      },
-      {
-        "Name": "deletedBy",
-        "Type": "System.String",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ImportFileRecordsController",
-    "Method": "ProcessImportData",
-    "RelativePath": "api/ImportFileRecords/ProcessImportData",
-    "HttpMethod": "POST",
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ImportFileRecordsController",
+    "Method": "GetImportFileRecordsByFormType",
+    "RelativePath": "api/ImportFileRecords/by-form-type/{formTypeId}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "file",
-        "Type": "Microsoft.AspNetCore.Http.IFormFile",
-        "IsRequired": false
-      },
-      {
-        "Name": "importFormTypeId",
+        "Name": "formTypeId",
         "Type": "System.Guid",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.ImportFileRecordsDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ImportFormTypesController",
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ImportFormTypesController",
     "Method": "GetImportFormTypes",
     "RelativePath": "api/ImportFormTypes",
     "HttpMethod": "GET",
@@ -1300,7 +1573,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ServiceReportSystem.ImportFormTypesDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.ImportFormTypesDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1311,8 +1584,8 @@
     ]
   },
   {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ImportFormTypesController",
-    "Method": "CreateImportFormType",
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ImportFormTypesController",
+    "Method": "CreateImportFormTypes",
     "RelativePath": "api/ImportFormTypes",
     "HttpMethod": "POST",
     "IsController": true,
@@ -1320,13 +1593,13 @@
     "Parameters": [
       {
         "Name": "createDto",
-        "Type": "ControlTower.DTOs.ServiceReportSystem.CreateImportFormTypesDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreateImportFormTypesDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "ControlTower.DTOs.ServiceReportSystem.ImportFormTypesDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.ImportFormTypesDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1337,8 +1610,8 @@
     ]
   },
   {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ImportFormTypesController",
-    "Method": "GetImportFormType",
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ImportFormTypesController",
+    "Method": "GetImportFormTypes",
     "RelativePath": "api/ImportFormTypes/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -1352,7 +1625,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ControlTower.DTOs.ServiceReportSystem.ImportFormTypesDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.ImportFormTypesDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1363,8 +1636,8 @@
     ]
   },
   {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ImportFormTypesController",
-    "Method": "UpdateImportFormType",
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ImportFormTypesController",
+    "Method": "UpdateImportFormTypes",
     "RelativePath": "api/ImportFormTypes/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
@@ -1377,15 +1650,15 @@
       },
       {
         "Name": "updateDto",
-        "Type": "ControlTower.DTOs.ServiceReportSystem.UpdateImportFormTypesDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdateImportFormTypesDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ImportFormTypesController",
-    "Method": "DeleteImportFormType",
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ImportFormTypesController",
+    "Method": "DeleteImportFormTypes",
     "RelativePath": "api/ImportFormTypes/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -1395,26 +1668,21 @@
         "Name": "id",
         "Type": "System.Guid",
         "IsRequired": true
-      },
-      {
-        "Name": "deletedBy",
-        "Type": "System.String",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ServiceReportSystem.Controllers.IssueFoundWarehouseController",
-    "Method": "GetIssueFoundWarehouses",
-    "RelativePath": "api/IssueFoundWarehouse",
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.MaterialUsedController",
+    "Method": "GetMaterialUsed",
+    "RelativePath": "api/MaterialUsed",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.Models.ServiceReportSystem.IssueFoundWarehouse, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.MaterialUsedDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1425,16 +1693,22 @@
     ]
   },
   {
-    "ContainingType": "ServiceReportSystem.Controllers.IssueReportWarehouseController",
-    "Method": "GetIssueReportWarehouses",
-    "RelativePath": "api/IssueReportWarehouse",
-    "HttpMethod": "GET",
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.MaterialUsedController",
+    "Method": "PostMaterialUsed",
+    "RelativePath": "api/MaterialUsed",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreateMaterialUsedDto",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.Models.ServiceReportSystem.IssueReportWarehouse, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.MaterialUsedDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1445,16 +1719,85 @@
     ]
   },
   {
-    "ContainingType": "ServiceReportSystem.Controllers.LocationWarehouseController",
-    "Method": "GetLocationWarehouses",
-    "RelativePath": "api/LocationWarehouse",
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.MaterialUsedController",
+    "Method": "GetMaterialUsed",
+    "RelativePath": "api/MaterialUsed/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.Models.ServiceReportSystem.LocationWarehouse, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.MaterialUsedDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.MaterialUsedController",
+    "Method": "PutMaterialUsed",
+    "RelativePath": "api/MaterialUsed/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdateMaterialUsedDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.MaterialUsedController",
+    "Method": "DeleteMaterialUsed",
+    "RelativePath": "api/MaterialUsed/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.MaterialUsedController",
+    "Method": "GetMaterialUsedByCMReportForm",
+    "RelativePath": "api/MaterialUsed/ByCMReportForm/{cmReportFormId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cmReportFormId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.MaterialUsedDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -2318,16 +2661,16 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ServiceReportSystem.Controllers.ProjectNoWarehouseController",
-    "Method": "GetProjectNoWarehouses",
-    "RelativePath": "api/ProjectNoWarehouse",
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormController",
+    "Method": "GetReportForms",
+    "RelativePath": "api/ReportForm",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.Models.ServiceReportSystem.ProjectNoWarehouse, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.ReportFormDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -2338,22 +2681,22 @@
     ]
   },
   {
-    "ContainingType": "ServiceReportSystem.Controllers.ProjectNoWarehouseController",
-    "Method": "GetProjectNoByProjectNumber",
-    "RelativePath": "api/ProjectNoWarehouse/projectnumber/{projectNumber}",
-    "HttpMethod": "GET",
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormController",
+    "Method": "PostReportForm",
+    "RelativePath": "api/ReportForm",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "projectNumber",
-        "Type": "System.String",
+        "Name": "createDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreateReportFormDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "ControlTower.Models.ServiceReportSystem.ProjectNoWarehouse",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.ReportFormDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -2362,6 +2705,482 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormController",
+    "Method": "GetReportForm",
+    "RelativePath": "api/ReportForm/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.ReportFormDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormController",
+    "Method": "PutReportForm",
+    "RelativePath": "api/ReportForm/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdateReportFormDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormController",
+    "Method": "DeleteReportForm",
+    "RelativePath": "api/ReportForm/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormController",
+    "Method": "GetReportFormsByType",
+    "RelativePath": "api/ReportForm/ByReportFormType/{reportFormTypeId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reportFormTypeId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.ReportFormDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormImageController",
+    "Method": "GetReportFormImages",
+    "RelativePath": "api/ReportFormImage",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.ReportFormImageDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormImageController",
+    "Method": "CreateReportFormImage",
+    "RelativePath": "api/ReportFormImage",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreateReportFormImageDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.ReportFormImageDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormImageController",
+    "Method": "GetReportFormImage",
+    "RelativePath": "api/ReportFormImage/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.ReportFormImageDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormImageController",
+    "Method": "UpdateReportFormImage",
+    "RelativePath": "api/ReportFormImage/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdateReportFormImageDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormImageController",
+    "Method": "DeleteReportFormImage",
+    "RelativePath": "api/ReportFormImage/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormImageController",
+    "Method": "GetImagesByReportForm",
+    "RelativePath": "api/ReportFormImage/ByReportForm/{reportFormId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reportFormId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.ReportFormImageDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormImageController",
+    "Method": "UploadReportFormImage",
+    "RelativePath": "api/ReportFormImage/upload",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ReportFormId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "ImageFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "ReportFormImageTypeId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.ReportFormImageDto",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormImageTypeController",
+    "Method": "GetReportFormImageTypes",
+    "RelativePath": "api/ReportFormImageType",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.ReportFormImageTypeDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormImageTypeController",
+    "Method": "CreateReportFormImageType",
+    "RelativePath": "api/ReportFormImageType",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreateReportFormImageTypeDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.ReportFormImageTypeDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormImageTypeController",
+    "Method": "GetReportFormImageType",
+    "RelativePath": "api/ReportFormImageType/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.ReportFormImageTypeDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormImageTypeController",
+    "Method": "UpdateReportFormImageType",
+    "RelativePath": "api/ReportFormImageType/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdateReportFormImageTypeDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormImageTypeController",
+    "Method": "DeleteReportFormImageType",
+    "RelativePath": "api/ReportFormImageType/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormTypeController",
+    "Method": "GetReportFormTypes",
+    "RelativePath": "api/ReportFormType",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.ReportFormTypeDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormTypeController",
+    "Method": "CreateReportFormType",
+    "RelativePath": "api/ReportFormType",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreateReportFormTypeDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.ReportFormTypeDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormTypeController",
+    "Method": "GetReportFormType",
+    "RelativePath": "api/ReportFormType/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.ReportFormTypeDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormTypeController",
+    "Method": "UpdateReportFormType",
+    "RelativePath": "api/ReportFormType/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdateReportFormTypeDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormTypeController",
+    "Method": "DeleteReportFormType",
+    "RelativePath": "api/ReportFormType/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "ControlTower.Controllers.RoomBookingSystem.RoomController",
@@ -2790,232 +3609,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ServiceReportController",
-    "Method": "GetServiceReports",
-    "RelativePath": "api/ServiceReport",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "page",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageSize",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "ControlTower.DTOs.PagedResult\u00601[[ControlTower.DTOs.ServiceReportSystem.ServiceReportDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ServiceReportController",
-    "Method": "CreateServiceReport",
-    "RelativePath": "api/ServiceReport",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "createDto",
-        "Type": "ControlTower.DTOs.ServiceReportSystem.CreateServiceReportDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "ControlTower.DTOs.ServiceReportSystem.ServiceReportDto",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ServiceReportController",
-    "Method": "GetServiceReport",
-    "RelativePath": "api/ServiceReport/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Guid",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "ControlTower.DTOs.ServiceReportSystem.ServiceReportDto",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ServiceReportController",
-    "Method": "UpdateServiceReport",
-    "RelativePath": "api/ServiceReport/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Guid",
-        "IsRequired": true
-      },
-      {
-        "Name": "updateDto",
-        "Type": "ControlTower.DTOs.ServiceReportSystem.UpdateServiceReportDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ServiceReportController",
-    "Method": "DeleteServiceReport",
-    "RelativePath": "api/ServiceReport/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Guid",
-        "IsRequired": true
-      },
-      {
-        "Name": "updatedBy",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ServiceReportController",
-    "Method": "GetDashboardStats",
-    "RelativePath": "api/ServiceReport/dashboard-stats",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ServiceReportController",
-    "Method": "GetNextJobNumber",
-    "RelativePath": "api/ServiceReport/NextJobNumber",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.String",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "ControlTower.Controllers.ServiceReportSystem.ServiceReportController",
-    "Method": "SearchServiceReports",
-    "RelativePath": "api/ServiceReport/search",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "page",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageSize",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "searchField",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "searchValue",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "startDate",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "endDate",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "ControlTower.DTOs.PagedResult\u00601[[ControlTower.DTOs.ServiceReportSystem.ServiceReportDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "ServiceReportSystem.Controllers.ServiceTypeWarehouseController",
-    "Method": "GetServiceTypeWarehouses",
-    "RelativePath": "api/ServiceTypeWarehouse",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.Models.ServiceReportSystem.ServiceTypeWarehouse, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
     "ContainingType": "ControlTower.Controllers.EmployeeManagementSystem.SubDepartmentController",
     "Method": "GetSubDepartments",
     "RelativePath": "api/SubDepartment",
@@ -3144,26 +3737,6 @@
       }
     ],
     "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ServiceReportSystem.Controllers.SystemWarehouseController",
-    "Method": "GetSystemWarehouses",
-    "RelativePath": "api/SystemWarehouse",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.Models.ServiceReportSystem.SystemWarehouse, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
   },
   {
     "ContainingType": "ControlTower.Controllers.EmployeeManagementSystem.UserImageController",

@@ -190,44 +190,6 @@
         }
       }
     },
-    "/api/ActionTakenWarehouse": {
-      "get": {
-        "tags": [
-          "ActionTakenWarehouse"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ActionTakenWarehouse"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ActionTakenWarehouse"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ActionTakenWarehouse"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/Application": {
       "get": {
         "tags": [
@@ -642,6 +604,240 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/CMReportForm": {
+      "get": {
+        "tags": [
+          "CMReportForm"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CMReportFormDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CMReportFormDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CMReportFormDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "CMReportForm"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCMReportFormDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCMReportFormDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCMReportFormDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CMReportFormDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CMReportFormDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CMReportFormDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CMReportForm/{id}": {
+      "get": {
+        "tags": [
+          "CMReportForm"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CMReportFormDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CMReportFormDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CMReportFormDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "CMReportForm"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCMReportFormDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCMReportFormDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCMReportFormDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "CMReportForm"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/CMReportForm/ByReportForm/{reportFormId}": {
+      "get": {
+        "tags": [
+          "CMReportForm"
+        ],
+        "parameters": [
+          {
+            "name": "reportFormId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CMReportFormDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CMReportFormDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CMReportFormDto"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1064,7 +1260,6 @@
                 "required": [
                   "CompanyID",
                   "DateOfBirth",
-                  "DepartmentID",
                   "Email",
                   "FirstName",
                   "Gender",
@@ -1074,7 +1269,8 @@
                   "OccupationID",
                   "StaffCardID",
                   "StaffRFIDCardID",
-                  "StartWorkingDate"
+                  "StartWorkingDate",
+                  "SubDepartmentID"
                 ],
                 "type": "object",
                 "properties": {
@@ -1082,7 +1278,7 @@
                     "type": "string",
                     "format": "uuid"
                   },
-                  "DepartmentID": {
+                  "SubDepartmentID": {
                     "type": "string",
                     "format": "uuid"
                   },
@@ -1210,7 +1406,7 @@
                 "CompanyID": {
                   "style": "form"
                 },
-                "DepartmentID": {
+                "SubDepartmentID": {
                   "style": "form"
                 },
                 "OccupationID": {
@@ -1895,44 +2091,6 @@
         }
       }
     },
-    "/api/FollowupActionWarehouse": {
-      "get": {
-        "tags": [
-          "FollowupActionWarehouse"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/FollowupActionWarehouse"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/FollowupActionWarehouse"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/FollowupActionWarehouse"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/FormStatusWarehouse": {
       "get": {
         "tags": [
@@ -1946,7 +2104,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/FormStatusWarehouses"
+                    "$ref": "#/components/schemas/FormStatusWarehouseDto"
                   }
                 }
               },
@@ -1954,7 +2112,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/FormStatusWarehouses"
+                    "$ref": "#/components/schemas/FormStatusWarehouseDto"
                   }
                 }
               },
@@ -1962,11 +2120,158 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/FormStatusWarehouses"
+                    "$ref": "#/components/schemas/FormStatusWarehouseDto"
                   }
                 }
               }
             }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "FormStatusWarehouse"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFormStatusWarehouseDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFormStatusWarehouseDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFormStatusWarehouseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormStatusWarehouseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormStatusWarehouseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormStatusWarehouseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/FormStatusWarehouse/{id}": {
+      "get": {
+        "tags": [
+          "FormStatusWarehouse"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormStatusWarehouseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormStatusWarehouseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormStatusWarehouseDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "FormStatusWarehouse"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFormStatusWarehouseDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFormStatusWarehouseDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFormStatusWarehouseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "FormStatusWarehouse"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -1984,7 +2289,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/FurtherActionTakenWarehouse"
+                    "$ref": "#/components/schemas/FurtherActionTakenWarehouseDto"
                   }
                 }
               },
@@ -1992,7 +2297,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/FurtherActionTakenWarehouse"
+                    "$ref": "#/components/schemas/FurtherActionTakenWarehouseDto"
                   }
                 }
               },
@@ -2000,11 +2305,158 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/FurtherActionTakenWarehouse"
+                    "$ref": "#/components/schemas/FurtherActionTakenWarehouseDto"
                   }
                 }
               }
             }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "FurtherActionTakenWarehouse"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFurtherActionTakenWarehouseDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFurtherActionTakenWarehouseDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFurtherActionTakenWarehouseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FurtherActionTakenWarehouseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FurtherActionTakenWarehouseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FurtherActionTakenWarehouseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/FurtherActionTakenWarehouse/{id}": {
+      "get": {
+        "tags": [
+          "FurtherActionTakenWarehouse"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FurtherActionTakenWarehouseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FurtherActionTakenWarehouseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FurtherActionTakenWarehouseDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "FurtherActionTakenWarehouse"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFurtherActionTakenWarehouseDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFurtherActionTakenWarehouseDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFurtherActionTakenWarehouseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "FurtherActionTakenWarehouse"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -2185,13 +2637,6 @@
               "type": "string",
               "format": "uuid"
             }
-          },
-          {
-            "name": "deletedBy",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -2201,41 +2646,51 @@
         }
       }
     },
-    "/api/ImportFileRecords/ProcessImportData": {
-      "post": {
+    "/api/ImportFileRecords/by-form-type/{formTypeId}": {
+      "get": {
         "tags": [
           "ImportFileRecords"
         ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  },
-                  "importFormTypeId": {
-                    "type": "string",
-                    "format": "uuid"
+        "parameters": [
+          {
+            "name": "formTypeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImportFileRecordsDto"
                   }
                 }
               },
-              "encoding": {
-                "file": {
-                  "style": "form"
-                },
-                "importFormTypeId": {
-                  "style": "form"
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImportFileRecordsDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImportFileRecordsDto"
+                  }
                 }
               }
             }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }
@@ -2416,12 +2871,190 @@
               "type": "string",
               "format": "uuid"
             }
-          },
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/MaterialUsed": {
+      "get": {
+        "tags": [
+          "MaterialUsed"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MaterialUsedDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MaterialUsedDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MaterialUsedDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "MaterialUsed"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMaterialUsedDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMaterialUsedDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMaterialUsedDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaterialUsedDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaterialUsedDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaterialUsedDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MaterialUsed/{id}": {
+      "get": {
+        "tags": [
+          "MaterialUsed"
+        ],
+        "parameters": [
           {
-            "name": "deletedBy",
-            "in": "query",
+            "name": "id",
+            "in": "path",
+            "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaterialUsedDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaterialUsedDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaterialUsedDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "MaterialUsed"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMaterialUsedDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMaterialUsedDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMaterialUsedDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "MaterialUsed"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -2432,48 +3065,21 @@
         }
       }
     },
-    "/api/IssueFoundWarehouse": {
+    "/api/MaterialUsed/ByCMReportForm/{cmReportFormId}": {
       "get": {
         "tags": [
-          "IssueFoundWarehouse"
+          "MaterialUsed"
         ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/IssueFoundWarehouse"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/IssueFoundWarehouse"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/IssueFoundWarehouse"
-                  }
-                }
-              }
+        "parameters": [
+          {
+            "name": "cmReportFormId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
             }
           }
-        }
-      }
-    },
-    "/api/IssueReportWarehouse": {
-      "get": {
-        "tags": [
-          "IssueReportWarehouse"
         ],
         "responses": {
           "200": {
@@ -2483,7 +3089,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/IssueReportWarehouse"
+                    "$ref": "#/components/schemas/MaterialUsedDto"
                   }
                 }
               },
@@ -2491,7 +3097,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/IssueReportWarehouse"
+                    "$ref": "#/components/schemas/MaterialUsedDto"
                   }
                 }
               },
@@ -2499,45 +3105,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/IssueReportWarehouse"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/LocationWarehouse": {
-      "get": {
-        "tags": [
-          "LocationWarehouse"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/LocationWarehouse"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/LocationWarehouse"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/LocationWarehouse"
+                    "$ref": "#/components/schemas/MaterialUsedDto"
                   }
                 }
               }
@@ -4001,10 +4569,10 @@
         }
       }
     },
-    "/api/ProjectNoWarehouse": {
+    "/api/ReportForm": {
       "get": {
         "tags": [
-          "ProjectNoWarehouse"
+          "ReportForm"
         ],
         "responses": {
           "200": {
@@ -4014,7 +4582,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProjectNoWarehouse"
+                    "$ref": "#/components/schemas/ReportFormDto"
                   }
                 }
               },
@@ -4022,7 +4590,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProjectNoWarehouse"
+                    "$ref": "#/components/schemas/ReportFormDto"
                   }
                 }
               },
@@ -4030,7 +4598,203 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProjectNoWarehouse"
+                    "$ref": "#/components/schemas/ReportFormDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ReportForm"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReportFormDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReportFormDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReportFormDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ReportForm/{id}": {
+      "get": {
+        "tags": [
+          "ReportForm"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ReportForm"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReportFormDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReportFormDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReportFormDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ReportForm"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ReportForm/ByReportFormType/{reportFormTypeId}": {
+      "get": {
+        "tags": [
+          "ReportForm"
+        ],
+        "parameters": [
+          {
+            "name": "reportFormTypeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportFormDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportFormDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportFormDto"
                   }
                 }
               }
@@ -4039,18 +4803,103 @@
         }
       }
     },
-    "/api/ProjectNoWarehouse/projectnumber/{projectNumber}": {
+    "/api/ReportFormImage": {
       "get": {
         "tags": [
-          "ProjectNoWarehouse"
+          "ReportFormImage"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportFormImageDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportFormImageDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportFormImageDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ReportFormImage"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReportFormImageDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReportFormImageDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReportFormImageDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormImageDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormImageDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormImageDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ReportFormImage/{id}": {
+      "get": {
+        "tags": [
+          "ReportFormImage"
         ],
         "parameters": [
           {
-            "name": "projectNumber",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -4060,20 +4909,553 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProjectNoWarehouse"
+                  "$ref": "#/components/schemas/ReportFormImageDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProjectNoWarehouse"
+                  "$ref": "#/components/schemas/ReportFormImageDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProjectNoWarehouse"
+                  "$ref": "#/components/schemas/ReportFormImageDto"
                 }
               }
             }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ReportFormImage"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReportFormImageDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReportFormImageDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReportFormImageDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ReportFormImage"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ReportFormImage/ByReportForm/{reportFormId}": {
+      "get": {
+        "tags": [
+          "ReportFormImage"
+        ],
+        "parameters": [
+          {
+            "name": "reportFormId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportFormImageDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportFormImageDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportFormImageDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ReportFormImage/upload": {
+      "post": {
+        "tags": [
+          "ReportFormImage"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ReportFormId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "ImageFile": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "ReportFormImageTypeId": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              },
+              "encoding": {
+                "ReportFormId": {
+                  "style": "form"
+                },
+                "ImageFile": {
+                  "style": "form"
+                },
+                "ReportFormImageTypeId": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormImageDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ReportFormImageType": {
+      "get": {
+        "tags": [
+          "ReportFormImageType"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportFormImageTypeDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportFormImageTypeDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportFormImageTypeDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ReportFormImageType"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReportFormImageTypeDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReportFormImageTypeDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReportFormImageTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormImageTypeDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormImageTypeDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormImageTypeDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ReportFormImageType/{id}": {
+      "get": {
+        "tags": [
+          "ReportFormImageType"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormImageTypeDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormImageTypeDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormImageTypeDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ReportFormImageType"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReportFormImageTypeDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReportFormImageTypeDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReportFormImageTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ReportFormImageType"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ReportFormType": {
+      "get": {
+        "tags": [
+          "ReportFormType"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportFormTypeDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportFormTypeDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportFormTypeDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ReportFormType"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReportFormTypeDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReportFormTypeDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReportFormTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormTypeDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormTypeDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormTypeDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ReportFormType/{id}": {
+      "get": {
+        "tags": [
+          "ReportFormType"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormTypeDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormTypeDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportFormTypeDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ReportFormType"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReportFormTypeDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReportFormTypeDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReportFormTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ReportFormType"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -4823,367 +6205,6 @@
         }
       }
     },
-    "/api/ServiceReport/search": {
-      "get": {
-        "tags": [
-          "ServiceReport"
-        ],
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 1
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 10
-            }
-          },
-          {
-            "name": "searchField",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "searchValue",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "startDate",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "endDate",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServiceReportDtoPagedResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServiceReportDtoPagedResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServiceReportDtoPagedResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ServiceReport": {
-      "get": {
-        "tags": [
-          "ServiceReport"
-        ],
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 1
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 10
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServiceReportDtoPagedResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServiceReportDtoPagedResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServiceReportDtoPagedResult"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "ServiceReport"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateServiceReportDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateServiceReportDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateServiceReportDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServiceReportDto"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServiceReportDto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServiceReportDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ServiceReport/{id}": {
-      "get": {
-        "tags": [
-          "ServiceReport"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServiceReportDto"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServiceReportDto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServiceReportDto"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "ServiceReport"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateServiceReportDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateServiceReportDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateServiceReportDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "ServiceReport"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "updatedBy",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/ServiceReport/NextJobNumber": {
-      "get": {
-        "tags": [
-          "ServiceReport"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ServiceReport/dashboard-stats": {
-      "get": {
-        "tags": [
-          "ServiceReport"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/ServiceTypeWarehouse": {
-      "get": {
-        "tags": [
-          "ServiceTypeWarehouse"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ServiceTypeWarehouse"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ServiceTypeWarehouse"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ServiceTypeWarehouse"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/SubDepartment": {
       "get": {
         "tags": [
@@ -5391,44 +6412,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/SystemWarehouse": {
-      "get": {
-        "tags": [
-          "SystemWarehouse"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SystemWarehouse"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SystemWarehouse"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SystemWarehouse"
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -5642,68 +6625,6 @@
           "updatedByUserName": {
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ActionTakenDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "remark": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ActionTakenWarehouse": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "isDeleted": {
-            "type": "boolean"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "createdBy": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "createdByUser": {
-            "$ref": "#/components/schemas/User"
-          },
-          "updatedBy": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "updatedByUser": {
-            "$ref": "#/components/schemas/User"
           }
         },
         "additionalProperties": false
@@ -5995,6 +6916,125 @@
           "updatedDate": {
             "type": "string",
             "format": "date-time"
+          },
+          "createdByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedByUserName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CMReportFormDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reportFormID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "furtherActionTakenID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formstatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "customer": {
+            "type": "string",
+            "nullable": true
+          },
+          "projectNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "systemDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "issueReportedDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "issueFoundDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "actionTakenDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "failureDetectedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "responseDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "arrivalDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "completionDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "attendedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "remark": {
+            "type": "string",
+            "nullable": true
+          },
+          "reportFormTypeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "furtherActionTakenName": {
+            "type": "string",
+            "nullable": true
+          },
+          "formStatusName": {
+            "type": "string",
+            "nullable": true
           },
           "createdByUserName": {
             "type": "string",
@@ -6355,6 +7395,94 @@
         },
         "additionalProperties": false
       },
+      "CreateCMReportFormDto": {
+        "required": [
+          "createdBy",
+          "formstatusID",
+          "furtherActionTakenID",
+          "reportFormID"
+        ],
+        "type": "object",
+        "properties": {
+          "reportFormID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "furtherActionTakenID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formstatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "stationName": {
+            "type": "string",
+            "nullable": true
+          },
+          "customer": {
+            "type": "string",
+            "nullable": true
+          },
+          "projectNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "systemDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "issueReportedDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "issueFoundDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "actionTakenDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "failureDetectedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "responseDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "arrivalDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "completionDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "attendedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "remark": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
       "CreateCompanyDto": {
         "required": [
           "name"
@@ -6458,10 +7586,41 @@
         },
         "additionalProperties": false
       },
+      "CreateFormStatusWarehouseDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateFurtherActionTakenWarehouseDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
       "CreateImportFileRecordsDto": {
         "required": [
+          "importedStatus",
           "importFormTypeID",
-          "name"
+          "name",
+          "storedDirectory",
+          "uploadedStatus"
         ],
         "type": "object",
         "properties": {
@@ -6477,20 +7636,17 @@
           "storedDirectory": {
             "maxLength": 500,
             "minLength": 0,
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "importedStatus": {
             "maxLength": 50,
             "minLength": 0,
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "uploadedStatus": {
             "maxLength": 50,
             "minLength": 0,
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "uploadedDate": {
             "type": "string",
@@ -6499,10 +7655,7 @@
           },
           "uploadedBy": {
             "type": "string",
-            "nullable": true
-          },
-          "createdBy": {
-            "type": "string",
+            "format": "uuid",
             "nullable": true
           }
         },
@@ -6510,36 +7663,56 @@
       },
       "CreateImportFormTypesDto": {
         "required": [
+          "createdBy",
           "name"
         ],
         "type": "object",
         "properties": {
           "name": {
-            "maxLength": 100,
+            "maxLength": 255,
             "minLength": 0,
             "type": "string"
           },
           "createdBy": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           }
         },
         "additionalProperties": false
       },
       "CreateMaterialUsedDto": {
+        "required": [
+          "cmReportFormID",
+          "createdBy",
+          "quantity"
+        ],
         "type": "object",
         "properties": {
+          "cmReportFormID": {
+            "type": "string",
+            "format": "uuid"
+          },
           "quantity": {
+            "maximum": 2147483647,
+            "minimum": 1,
             "type": "integer",
             "format": "int32"
           },
           "description": {
+            "maxLength": 1000,
+            "minLength": 0,
             "type": "string",
             "nullable": true
           },
           "serialNo": {
+            "maxLength": 500,
+            "minLength": 0,
             "type": "string",
             "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -6643,6 +7816,112 @@
         },
         "additionalProperties": false
       },
+      "CreateReportFormDto": {
+        "required": [
+          "reportFormTypeID"
+        ],
+        "type": "object",
+        "properties": {
+          "reportFormTypeID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "uploadStatus": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "uploadHostname": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "uploadIPAddress": {
+            "maxLength": 45,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "formStatus": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateReportFormImageDto": {
+        "required": [
+          "imageName",
+          "reportFormID",
+          "reportImageTypeID",
+          "storedDirectory",
+          "uploadedBy",
+          "uploadedStatus"
+        ],
+        "type": "object",
+        "properties": {
+          "reportFormID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reportImageTypeID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "imageName": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "storedDirectory": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string"
+          },
+          "uploadedStatus": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "uploadedBy": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateReportFormImageTypeDto": {
+        "required": [
+          "imageTypeName"
+        ],
+        "type": "object",
+        "properties": {
+          "imageTypeName": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateReportFormTypeDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
       "CreateRoomDto": {
         "required": [
           "buildingID",
@@ -6674,117 +7953,6 @@
             "maxLength": 300,
             "minLength": 0,
             "type": "string",
-            "nullable": true
-          },
-          "createdBy": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CreateServiceReportDto": {
-        "type": "object",
-        "properties": {
-          "jobNumber": {
-            "type": "string",
-            "nullable": true
-          },
-          "contactNo": {
-            "type": "string",
-            "nullable": true
-          },
-          "customer": {
-            "type": "string",
-            "nullable": true
-          },
-          "projectNoID": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "systemID": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "locationID": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "followupActionID": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "failureDetectedDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "responseDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "arrivalDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "completionDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "formStatus": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TempItem"
-            },
-            "nullable": true
-          },
-          "serviceType": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TempItem"
-            },
-            "nullable": true
-          },
-          "issueReported": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TempItemTwo"
-            },
-            "nullable": true
-          },
-          "issueFound": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TempItemTwo"
-            },
-            "nullable": true
-          },
-          "actionTaken": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TempItemTwo"
-            },
-            "nullable": true
-          },
-          "furtherAction": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TempItem"
-            },
-            "nullable": true
-          },
-          "materialsUsed": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CreateMaterialUsedDto"
-            },
             "nullable": true
           },
           "createdBy": {
@@ -7032,6 +8200,10 @@
             "type": "string",
             "nullable": true
           },
+          "subDepartmentName": {
+            "type": "string",
+            "nullable": true
+          },
           "occupationName": {
             "type": "string",
             "nullable": true
@@ -7043,19 +8215,16 @@
         },
         "additionalProperties": false
       },
-      "FollowupActionWarehouse": {
-        "required": [
-          "followupActionNo"
-        ],
+      "FormStatusWarehouseDto": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
             "format": "uuid"
           },
-          "followupActionNo": {
-            "minLength": 1,
-            "type": "string"
+          "name": {
+            "type": "string",
+            "nullable": true
           },
           "isDeleted": {
             "type": "boolean"
@@ -7073,21 +8242,23 @@
             "format": "uuid",
             "nullable": true
           },
-          "createdByUser": {
-            "$ref": "#/components/schemas/User"
-          },
           "updatedBy": {
             "type": "string",
             "format": "uuid",
             "nullable": true
           },
-          "updatedByUser": {
-            "$ref": "#/components/schemas/User"
+          "createdByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedByUserName": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "FormStatusDto": {
+      "FurtherActionTakenWarehouseDto": {
         "type": "object",
         "properties": {
           "id": {
@@ -7097,27 +8268,6 @@
           "name": {
             "type": "string",
             "nullable": true
-          },
-          "remark": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "FormStatusWarehouses": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "minLength": 1,
-            "type": "string"
           },
           "isDeleted": {
             "type": "boolean"
@@ -7135,78 +8285,18 @@
             "format": "uuid",
             "nullable": true
           },
-          "createdByUser": {
-            "$ref": "#/components/schemas/User"
-          },
           "updatedBy": {
             "type": "string",
             "format": "uuid",
             "nullable": true
           },
-          "updatedByUser": {
-            "$ref": "#/components/schemas/User"
-          }
-        },
-        "additionalProperties": false
-      },
-      "FurtherActionDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "description": {
+          "createdByUserName": {
             "type": "string",
             "nullable": true
           },
-          "remark": {
+          "updatedByUserName": {
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "FurtherActionTakenWarehouse": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "isDeleted": {
-            "type": "boolean"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "createdBy": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "createdByUser": {
-            "$ref": "#/components/schemas/User"
-          },
-          "updatedBy": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "updatedByUser": {
-            "$ref": "#/components/schemas/User"
           }
         },
         "additionalProperties": false
@@ -7274,10 +8364,6 @@
             "type": "string",
             "format": "uuid"
           },
-          "importFormTypeName": {
-            "type": "string",
-            "nullable": true
-          },
           "name": {
             "type": "string",
             "nullable": true
@@ -7297,6 +8383,16 @@
           "isDeleted": {
             "type": "boolean"
           },
+          "uploadedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "uploadedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
           "createdDate": {
             "type": "string",
             "format": "date-time"
@@ -7305,9 +8401,18 @@
             "type": "string",
             "format": "date-time"
           },
-          "uploadedDate": {
+          "createdBy": {
             "type": "string",
-            "format": "date-time",
+            "format": "uuid",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "importFormTypeName": {
+            "type": "string",
             "nullable": true
           },
           "uploadedByUserName": {
@@ -7354,181 +8459,6 @@
           "updatedByUserName": {
             "type": "string",
             "nullable": true
-          },
-          "importFileRecords": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ImportFileRecordsDto"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "IssueFoundDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "remark": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "IssueFoundWarehouse": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "isDeleted": {
-            "type": "boolean"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "createdBy": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "createdByUser": {
-            "$ref": "#/components/schemas/User"
-          },
-          "updatedBy": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "updatedByUser": {
-            "$ref": "#/components/schemas/User"
-          }
-        },
-        "additionalProperties": false
-      },
-      "IssueReportWarehouse": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "isDeleted": {
-            "type": "boolean"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "createdBy": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "createdByUser": {
-            "$ref": "#/components/schemas/User"
-          },
-          "updatedBy": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "updatedByUser": {
-            "$ref": "#/components/schemas/User"
-          }
-        },
-        "additionalProperties": false
-      },
-      "IssueReportedDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "remark": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "LocationWarehouse": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "isDeleted": {
-            "type": "boolean"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "createdBy": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "createdByUser": {
-            "$ref": "#/components/schemas/User"
-          },
-          "updatedBy": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "updatedByUser": {
-            "$ref": "#/components/schemas/User"
           }
         },
         "additionalProperties": false
@@ -7540,6 +8470,14 @@
             "type": "string",
             "format": "uuid"
           },
+          "cmReportFormID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "cmReportFormName": {
+            "type": "string",
+            "nullable": true
+          },
           "quantity": {
             "type": "integer",
             "format": "int32"
@@ -7549,6 +8487,32 @@
             "nullable": true
           },
           "serialNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "updatedByName": {
             "type": "string",
             "nullable": true
           }
@@ -8140,50 +9104,6 @@
         },
         "additionalProperties": false
       },
-      "ProjectNoWarehouse": {
-        "required": [
-          "projectNumber"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "projectNumber": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "isDeleted": {
-            "type": "boolean"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "createdBy": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "createdByUser": {
-            "$ref": "#/components/schemas/User"
-          },
-          "updatedBy": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "updatedByUser": {
-            "$ref": "#/components/schemas/User"
-          }
-        },
-        "additionalProperties": false
-      },
       "RejectBookingDto": {
         "required": [
           "id",
@@ -8203,6 +9123,208 @@
           "rowVersion": {
             "type": "string",
             "format": "byte",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReportFormDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reportFormTypeID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reportFormTypeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "updatedByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "uploadStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "uploadHostname": {
+            "type": "string",
+            "nullable": true
+          },
+          "uploadIPAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "formStatus": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReportFormImageDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reportFormID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reportImageTypeID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "imageName": {
+            "type": "string",
+            "nullable": true
+          },
+          "storedDirectory": {
+            "type": "string",
+            "nullable": true
+          },
+          "uploadedStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "uploadedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "uploadedBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reportFormTypeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageTypeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "uploadedByUserName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReportFormImageTypeDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "imageTypeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "createdByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedByUserName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReportFormTypeDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "createdByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedByUserName": {
+            "type": "string",
             "nullable": true
           }
         },
@@ -8254,285 +9376,6 @@
           "updatedByUserName": {
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ServiceReportDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "jobNumber": {
-            "type": "string",
-            "nullable": true
-          },
-          "customer": {
-            "type": "string",
-            "nullable": true
-          },
-          "contactNo": {
-            "type": "string",
-            "nullable": true
-          },
-          "projectNoID": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "projectNumberName": {
-            "type": "string",
-            "nullable": true
-          },
-          "systemID": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "systemName": {
-            "type": "string",
-            "nullable": true
-          },
-          "locationID": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "locationName": {
-            "type": "string",
-            "nullable": true
-          },
-          "followupActionID": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "followupActionNo": {
-            "type": "string",
-            "nullable": true
-          },
-          "serviceTypeID": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "serviceTypeName": {
-            "type": "string",
-            "nullable": true
-          },
-          "formStatusID": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "formStatusName": {
-            "type": "string",
-            "nullable": true
-          },
-          "failureDetectedDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "responseDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "arrivalDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "completionDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "createdByUserName": {
-            "type": "string",
-            "nullable": true
-          },
-          "updatedDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "updatedByUserName": {
-            "type": "string",
-            "nullable": true
-          },
-          "serviceTypeRemark": {
-            "type": "string",
-            "nullable": true
-          },
-          "issueReportedRemark": {
-            "type": "string",
-            "nullable": true
-          },
-          "issueFoundRemark": {
-            "type": "string",
-            "nullable": true
-          },
-          "actionTakenRemark": {
-            "type": "string",
-            "nullable": true
-          },
-          "furtherActionTakenRemark": {
-            "type": "string",
-            "nullable": true
-          },
-          "formStatusRemark": {
-            "type": "string",
-            "nullable": true
-          },
-          "serviceType": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ServiceTypeDto"
-            },
-            "nullable": true
-          },
-          "formStatus": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FormStatusDto"
-            },
-            "nullable": true
-          },
-          "issueReported": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IssueReportedDto"
-            },
-            "nullable": true
-          },
-          "issueFound": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IssueFoundDto"
-            },
-            "nullable": true
-          },
-          "actionTaken": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ActionTakenDto"
-            },
-            "nullable": true
-          },
-          "furtherActionTaken": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FurtherActionDto"
-            },
-            "nullable": true
-          },
-          "materialsUsed": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MaterialUsedDto"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ServiceReportDtoPagedResult": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ServiceReportDto"
-            },
-            "nullable": true
-          },
-          "totalCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "page": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalPages": {
-            "type": "integer",
-            "format": "int32",
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ServiceTypeDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "remark": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ServiceTypeWarehouse": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "isDeleted": {
-            "type": "boolean"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "createdBy": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "createdByUser": {
-            "$ref": "#/components/schemas/User"
-          },
-          "updatedBy": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "updatedByUser": {
-            "$ref": "#/components/schemas/User"
           }
         },
         "additionalProperties": false
@@ -8722,79 +9565,6 @@
             "type": "integer",
             "format": "int32",
             "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "SystemWarehouse": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "isDeleted": {
-            "type": "boolean"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "createdBy": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "createdByUser": {
-            "$ref": "#/components/schemas/User"
-          },
-          "updatedBy": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "updatedByUser": {
-            "$ref": "#/components/schemas/User"
-          }
-        },
-        "additionalProperties": false
-      },
-      "TempItem": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "remark": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TempItemTwo": {
-        "type": "object",
-        "properties": {
-          "remark": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -8997,6 +9767,85 @@
         },
         "additionalProperties": false
       },
+      "UpdateCMReportFormDto": {
+        "required": [
+          "formstatusID",
+          "furtherActionTakenID"
+        ],
+        "type": "object",
+        "properties": {
+          "furtherActionTakenID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formstatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "customer": {
+            "type": "string",
+            "nullable": true
+          },
+          "projectNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "systemDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "issueReportedDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "issueFoundDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "actionTakenDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "failureDetectedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "responseDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "arrivalDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "completionDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "attendedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "remark": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "UpdateCompanyDto": {
         "required": [
           "id",
@@ -9129,7 +9978,6 @@
         "required": [
           "companyID",
           "dateOfBirth",
-          "departmentID",
           "email",
           "firstName",
           "gender",
@@ -9139,7 +9987,8 @@
           "occupationID",
           "staffCardID",
           "staffRFIDCardID",
-          "startWorkingDate"
+          "startWorkingDate",
+          "subDepartmentID"
         ],
         "type": "object",
         "properties": {
@@ -9151,7 +10000,7 @@
             "type": "string",
             "format": "uuid"
           },
-          "departmentID": {
+          "subDepartmentID": {
             "type": "string",
             "format": "uuid"
           },
@@ -9262,9 +10111,41 @@
         },
         "additionalProperties": false
       },
-      "UpdateImportFileRecordsDto": {
+      "UpdateFormStatusWarehouseDto": {
         "required": [
           "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateFurtherActionTakenWarehouseDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateImportFileRecordsDto": {
+        "required": [
+          "importedStatus",
+          "importFormTypeID",
+          "name",
+          "storedDirectory",
+          "uploadedStatus"
         ],
         "type": "object",
         "properties": {
@@ -9280,20 +10161,17 @@
           "storedDirectory": {
             "maxLength": 500,
             "minLength": 0,
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "importedStatus": {
             "maxLength": 50,
             "minLength": 0,
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "uploadedStatus": {
             "maxLength": 50,
             "minLength": 0,
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "uploadedDate": {
             "type": "string",
@@ -9302,10 +10180,7 @@
           },
           "uploadedBy": {
             "type": "string",
-            "nullable": true
-          },
-          "updatedBy": {
-            "type": "string",
+            "format": "uuid",
             "nullable": true
           }
         },
@@ -9313,41 +10188,51 @@
       },
       "UpdateImportFormTypesDto": {
         "required": [
-          "name"
+          "name",
+          "updatedBy"
         ],
         "type": "object",
         "properties": {
           "name": {
-            "maxLength": 100,
+            "maxLength": 255,
             "minLength": 0,
             "type": "string"
           },
           "updatedBy": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           }
         },
         "additionalProperties": false
       },
       "UpdateMaterialUsedDto": {
+        "required": [
+          "quantity",
+          "updatedBy"
+        ],
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
           "quantity": {
+            "maximum": 2147483647,
+            "minimum": 1,
             "type": "integer",
             "format": "int32"
           },
           "description": {
+            "maxLength": 1000,
+            "minLength": 0,
             "type": "string",
             "nullable": true
           },
           "serialNo": {
+            "maxLength": 500,
+            "minLength": 0,
             "type": "string",
             "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -9501,6 +10386,102 @@
         },
         "additionalProperties": false
       },
+      "UpdateReportFormDto": {
+        "required": [
+          "reportFormTypeID"
+        ],
+        "type": "object",
+        "properties": {
+          "reportFormTypeID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "uploadStatus": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "uploadHostname": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "uploadIPAddress": {
+            "maxLength": 45,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "formStatus": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateReportFormImageDto": {
+        "required": [
+          "imageName",
+          "reportImageTypeID",
+          "storedDirectory",
+          "uploadedStatus"
+        ],
+        "type": "object",
+        "properties": {
+          "reportImageTypeID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "imageName": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "storedDirectory": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string"
+          },
+          "uploadedStatus": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateReportFormImageTypeDto": {
+        "required": [
+          "imageTypeName"
+        ],
+        "type": "object",
+        "properties": {
+          "imageTypeName": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateReportFormTypeDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
       "UpdateRoomDto": {
         "required": [
           "buildingID",
@@ -9537,113 +10518,6 @@
             "maxLength": 300,
             "minLength": 0,
             "type": "string",
-            "nullable": true
-          },
-          "updatedBy": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateServiceReportDto": {
-        "type": "object",
-        "properties": {
-          "customer": {
-            "type": "string",
-            "nullable": true
-          },
-          "contactNo": {
-            "type": "string",
-            "nullable": true
-          },
-          "projectNoID": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "systemID": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "locationID": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "followupActionID": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
-          },
-          "failureDetectedDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "responseDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "arrivalDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "completionDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "serviceType": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TempItem"
-            },
-            "nullable": true
-          },
-          "formStatus": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TempItem"
-            },
-            "nullable": true
-          },
-          "issueReported": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TempItemTwo"
-            },
-            "nullable": true
-          },
-          "issueFound": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TempItemTwo"
-            },
-            "nullable": true
-          },
-          "actionTaken": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TempItemTwo"
-            },
-            "nullable": true
-          },
-          "furtherAction": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TempItem"
-            },
-            "nullable": true
-          },
-          "materialsUsed": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/UpdateMaterialUsedDto"
-            },
             "nullable": true
           },
           "updatedBy": {
@@ -9715,7 +10589,7 @@
             "type": "string",
             "format": "uuid"
           },
-          "departmentID": {
+          "subDepartmentID": {
             "type": "string",
             "format": "uuid"
           },
@@ -9866,8 +10740,8 @@
           "company": {
             "$ref": "#/components/schemas/Company"
           },
-          "department": {
-            "$ref": "#/components/schemas/Department"
+          "subDepartment": {
+            "$ref": "#/components/schemas/SubDepartment"
           },
           "occupation": {
             "$ref": "#/components/schemas/Occupation"
@@ -9892,17 +10766,17 @@
             },
             "nullable": true
           },
-          "createdDepartments": {
+          "createdSubDepartments": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Department"
+              "$ref": "#/components/schemas/SubDepartment"
             },
             "nullable": true
           },
-          "updatedDepartments": {
+          "updatedSubDepartments": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Department"
+              "$ref": "#/components/schemas/SubDepartment"
             },
             "nullable": true
           },
@@ -9931,20 +10805,6 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Company"
-            },
-            "nullable": true
-          },
-          "createdSubDepartments": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SubDepartment"
-            },
-            "nullable": true
-          },
-          "updatedSubDepartments": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SubDepartment"
             },
             "nullable": true
           },
@@ -10128,7 +10988,7 @@
             "type": "string",
             "format": "uuid"
           },
-          "departmentID": {
+          "subDepartmentID": {
             "type": "string",
             "format": "uuid"
           },
@@ -10243,12 +11103,25 @@
             "type": "string",
             "nullable": true
           },
+          "subDepartmentName": {
+            "type": "string",
+            "nullable": true
+          },
           "departmentName": {
             "type": "string",
             "nullable": true
           },
           "occupationName": {
             "type": "string",
+            "nullable": true
+          },
+          "occupationLevelName": {
+            "type": "string",
+            "nullable": true
+          },
+          "occupationLevelRank": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
           "createdByUserName": {

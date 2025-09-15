@@ -31,7 +31,9 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             var Users = await _context.Users
                 .Include(e => e.Company)
                 .Include(e => e.SubDepartment)
+                    .ThenInclude(sd => sd.Department)
                 .Include(e => e.Occupation)
+                    .ThenInclude(o => o.OccupationLevel)  // Add this line
                 .Include(e => e.CreatedByUser)
                 .Include(e => e.UpdatedByUser)
                 .Where(e => !e.IsDeleted)
@@ -63,8 +65,11 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                     WorkPassCardIssuedDate = e.WorkPassCardIssuedDate,
                     WorkPassCardExpiredDate = e.WorkPassCardExpiredDate,
                     CompanyName = e.Company != null ? e.Company.Name : null,
-                    DepartmentName = e.SubDepartment != null ? e.SubDepartment.Name : null,
+                    DepartmentName = e.SubDepartment.Department != null ? e.SubDepartment.Department.Name : null,
+                    SubDepartmentName = e.SubDepartment != null ? e.SubDepartment.Name : null,
                     OccupationName = e.Occupation != null ? e.Occupation.OccupationName : null,
+                    OccupationLevelName = e.Occupation != null && e.Occupation.OccupationLevel != null ? e.Occupation.OccupationLevel.LevelName : null,
+                    OccupationLevelRank = e.Occupation != null && e.Occupation.OccupationLevel != null ? e.Occupation.OccupationLevel.Rank : null,
                     CreatedByUserName = e.CreatedByUser != null ? $"{e.CreatedByUser.FirstName} {e.CreatedByUser.LastName}" : null,
                     UpdatedByUserName = e.UpdatedByUser != null ? $"{e.UpdatedByUser.FirstName} {e.UpdatedByUser.LastName}" : null
                 })
@@ -83,6 +88,7 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
             var employee = await _context.Users
                 .Include(e => e.Company)
                 .Include(e => e.SubDepartment)
+                    .ThenInclude(sd => sd.Department)  // Include Department through SubDepartment
                 .Include(e => e.Occupation)
                 .Include(e => e.CreatedByUser)
                 .Include(e => e.UpdatedByUser)
@@ -125,7 +131,8 @@ namespace ControlTower.Controllers.EmployeeManagementSystem
                         .Select(ui => $"{apiBaseUrl}/api/EmployeeImage/{e.ID}")
                         .FirstOrDefault(),
                     CompanyName = e.Company.Name,
-                    DepartmentName = e.SubDepartment != null ? e.SubDepartment.Name : null,
+                    SubDepartmentName = e.SubDepartment != null ? e.SubDepartment.Name : null,  // Correct SubDepartment name
+                    DepartmentName = e.SubDepartment != null && e.SubDepartment.Department != null ? e.SubDepartment.Department.Name : null,  // Actual Department name
                     OccupationName = e.Occupation != null ? e.Occupation.OccupationName : null,
                     CreatedByUserName = e.CreatedByUser != null ? $"{e.CreatedByUser.FirstName} {e.CreatedByUser.LastName}" : null,
                     UpdatedByUserName = e.UpdatedByUser != null ? $"{e.UpdatedByUser.FirstName} {e.UpdatedByUser.LastName}" : null

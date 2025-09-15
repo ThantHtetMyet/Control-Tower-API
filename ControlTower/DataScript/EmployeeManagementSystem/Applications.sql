@@ -35,8 +35,8 @@ INSERT INTO Applications (
     UpdatedBy
 ) VALUES (
     '22222222-2222-2222-2222-222222222222', -- Example GUID
-    'Service Report System',
-    'This is a Service Report description.',
+    'Report Management System',
+    'This is a Report Management description.',
     'Initial release',
     5,
     0,

@@ -209,9 +209,11 @@ namespace ControlTower.DTOs.EmployeeManagementSystem
 
         // Navigation properties for display
         public string CompanyName { get; set; }
-        public string SubDepartmentName { get; set; }  // Changed from DepartmentName
-        public string DepartmentName { get; set; }     // Keep this for display (from SubDepartment.Department)
+        public string SubDepartmentName { get; set; }
+        public string DepartmentName { get; set; }
         public string OccupationName { get; set; }
+        public string? OccupationLevelName { get; set; }  // Add this
+        public int? OccupationLevelRank { get; set; }     // Add this
         public string? CreatedByUserName { get; set; }
         public string? UpdatedByUserName { get; set; }
 

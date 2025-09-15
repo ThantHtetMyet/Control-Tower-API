@@ -73,6 +73,7 @@ internal class Program
         {
             options.MultipartBodyLengthLimit = 100 * 1024 * 1024; // 100MB
         });
+        builder.Services.AddAuthorization();
 
         var app = builder.Build();
 

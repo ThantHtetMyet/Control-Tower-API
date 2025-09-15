@@ -958,6 +958,481 @@ namespace ControlTower.Migrations
                     b.ToTable("NewsReactions");
                 });
 
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.CMReportForm", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ActionTakenDescription")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("ApprovedBy")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime?>("ArrivalDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("AttendedBy")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime?>("CompletionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Customer")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime?>("FailureDetectedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("FormstatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("FurtherActionTakenID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("IssueFoundDescription")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("IssueReportedDescription")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("ProjectNo")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Remark")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid>("ReportFormID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ResponseDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("StationName")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("SystemDescription")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("FormstatusID");
+
+                    b.HasIndex("FurtherActionTakenID");
+
+                    b.HasIndex("ReportFormID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("CMReportForms");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.FormStatusWarehouse", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("FormStatusWarehouses");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.FurtherActionTakenWarehouse", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("FurtherActionTakenWarehouses");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.ImportFileRecords", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ImportFormTypeID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImportedStatus")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("StoredDirectory")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UploadedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UploadedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UploadedStatus")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("ImportFormTypeID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("UploadedBy");
+
+                    b.ToTable("ImportFileRecords");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.ImportFormTypes", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("ImportFormTypes");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.MaterialUsed", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CMReportFormID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SerialNo")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CMReportFormID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("MaterialUsed");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.ReportForm", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FormStatus")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ReportFormTypeID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UploadHostname")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("UploadIPAddress")
+                        .HasMaxLength(45)
+                        .HasColumnType("nvarchar(45)");
+
+                    b.Property<string>("UploadStatus")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("ReportFormTypeID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("ReportForms");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.ReportFormImage", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImageName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ReportFormID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ReportImageTypeID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("StoredDirectory")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid>("UploadedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UploadedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UploadedStatus")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ReportFormID");
+
+                    b.HasIndex("ReportImageTypeID");
+
+                    b.HasIndex("UploadedBy");
+
+                    b.ToTable("ReportFormImages");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.ReportFormImageType", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageTypeName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("ReportFormImageTypes");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.ReportFormType", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("ReportFormTypes");
+                });
+
             modelBuilder.Entity("ControlTower.Models.RoomBookingSystem.Building", b =>
                 {
                     b.Property<Guid>("ID")
@@ -1168,709 +1643,6 @@ namespace ControlTower.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("RoomBookingStatus");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ActionTaken", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Remark")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ServiceReportFormID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("ServiceReportFormID");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("ActionTaken");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.FollowupActionWarehouse", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FollowupActionNo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("FollowupActionWarehouses");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.FormStatus", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("FormStatusWarehouseID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Remark")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ServiceReportFormID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("FormStatusWarehouseID");
-
-                    b.HasIndex("ServiceReportFormID");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("FormStatus");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.FormStatusWarehouses", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("FormStatusWarehouses");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.FurtherActionTaken", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("FurtherActionTakenWarehouseID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Remark")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ServiceReportFormID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("FurtherActionTakenWarehouseID");
-
-                    b.HasIndex("ServiceReportFormID");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("FurtherActionTaken");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.FurtherActionTakenWarehouse", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("FurtherActionTakenWarehouses");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ImportFileRecords", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("ImportFormTypeID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ImportedStatus")
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("StoredDirectory")
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("UploadedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UploadedDate")
-                        .HasColumnType("Date");
-
-                    b.Property<string>("UploadedStatus")
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("ImportFormTypeID");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.HasIndex("UploadedBy");
-
-                    b.ToTable("ImportFileRecords");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ImportFormTypes", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("ImportFormTypes");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.IssueFound", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Remark")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ServiceReportFormID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("ServiceReportFormID");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("IssueFound");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.IssueReported", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Remark")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ServiceReportFormID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("ServiceReportFormID");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("IssueReported");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.LocationWarehouse", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("LocationWarehouses");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.MaterialUsed", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SerialNo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ServiceReportFormID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("ServiceReportFormID");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("MaterialsUsed");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ProjectNoWarehouse", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ProjectNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("ProjectNoWarehouses");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ServiceReportForm", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("ArrivalDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("CompletionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ContactNo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Customer")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("FailureDetectedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("FollowupActionID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("JobNumber")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<Guid?>("LocationID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ProjectNoID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("ResponseDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("SystemID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("FollowupActionID");
-
-                    b.HasIndex("LocationID");
-
-                    b.HasIndex("ProjectNoID");
-
-                    b.HasIndex("SystemID");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("ServiceReportForms");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ServiceType", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Remark")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("ServiceReportFormID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ServiceTypeWarehouseID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ServiceReportFormID");
-
-                    b.HasIndex("ServiceTypeWarehouseID");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("ServiceType");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ServiceTypeWarehouse", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("ServiceTypeWarehouses");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.SystemWarehouse", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("SystemWarehouses");
                 });
 
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.AccessLevel", b =>
@@ -2292,6 +2064,237 @@ namespace ControlTower.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.CMReportForm", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.FormStatusWarehouse", "FormStatusWarehouse")
+                        .WithMany()
+                        .HasForeignKey("FormstatusID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.FurtherActionTakenWarehouse", "FurtherActionTakenWarehouse")
+                        .WithMany()
+                        .HasForeignKey("FurtherActionTakenID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.ReportForm", "ReportForm")
+                        .WithMany()
+                        .HasForeignKey("ReportFormID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("FormStatusWarehouse");
+
+                    b.Navigation("FurtherActionTakenWarehouse");
+
+                    b.Navigation("ReportForm");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.FormStatusWarehouse", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.FurtherActionTakenWarehouse", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.ImportFileRecords", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.ImportFormTypes", "ImportFormType")
+                        .WithMany()
+                        .HasForeignKey("ImportFormTypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UploadedByUser")
+                        .WithMany()
+                        .HasForeignKey("UploadedBy");
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("ImportFormType");
+
+                    b.Navigation("UpdatedByUser");
+
+                    b.Navigation("UploadedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.ImportFormTypes", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.MaterialUsed", b =>
+                {
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.CMReportForm", "CMReportForm")
+                        .WithMany()
+                        .HasForeignKey("CMReportFormID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("CMReportForm");
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.ReportForm", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.ReportFormType", "ReportFormType")
+                        .WithMany()
+                        .HasForeignKey("ReportFormTypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("ReportFormType");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.ReportFormImage", b =>
+                {
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.ReportForm", "ServiceReportForm")
+                        .WithMany()
+                        .HasForeignKey("ReportFormID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.ReportFormImageType", "ReportFormImageType")
+                        .WithMany()
+                        .HasForeignKey("ReportImageTypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UploadedByUser")
+                        .WithMany()
+                        .HasForeignKey("UploadedBy")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("ReportFormImageType");
+
+                    b.Navigation("ServiceReportForm");
+
+                    b.Navigation("UploadedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.ReportFormImageType", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.ReportFormType", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
             modelBuilder.Entity("ControlTower.Models.RoomBookingSystem.Building", b =>
                 {
                     b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
@@ -2385,392 +2388,6 @@ namespace ControlTower.Migrations
                     b.Navigation("UpdatedByUser");
                 });
 
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ActionTaken", b =>
-                {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy");
-
-                    b.HasOne("ControlTower.Models.ServiceReportSystem.ServiceReportForm", "ServiceReportForm")
-                        .WithMany("ActionTaken")
-                        .HasForeignKey("ServiceReportFormID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy");
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("ServiceReportForm");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.FollowupActionWarehouse", b =>
-                {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.FormStatus", b =>
-                {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy");
-
-                    b.HasOne("ControlTower.Models.ServiceReportSystem.FormStatusWarehouses", "FormStatusWarehouse")
-                        .WithMany()
-                        .HasForeignKey("FormStatusWarehouseID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ControlTower.Models.ServiceReportSystem.ServiceReportForm", null)
-                        .WithMany("FormStatus")
-                        .HasForeignKey("ServiceReportFormID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy");
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("FormStatusWarehouse");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.FormStatusWarehouses", b =>
-                {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.FurtherActionTaken", b =>
-                {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy");
-
-                    b.HasOne("ControlTower.Models.ServiceReportSystem.FurtherActionTakenWarehouse", "FurtherActionTakenWarehouse")
-                        .WithMany()
-                        .HasForeignKey("FurtherActionTakenWarehouseID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ControlTower.Models.ServiceReportSystem.ServiceReportForm", "ServiceReportForm")
-                        .WithMany("FurtherActionTaken")
-                        .HasForeignKey("ServiceReportFormID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy");
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("FurtherActionTakenWarehouse");
-
-                    b.Navigation("ServiceReportForm");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.FurtherActionTakenWarehouse", b =>
-                {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ImportFileRecords", b =>
-                {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ControlTower.Models.ServiceReportSystem.ImportFormTypes", "ImportFormType")
-                        .WithMany("ImportFileRecords")
-                        .HasForeignKey("ImportFormTypeID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UploadedByUser")
-                        .WithMany()
-                        .HasForeignKey("UploadedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("ImportFormType");
-
-                    b.Navigation("UpdatedByUser");
-
-                    b.Navigation("UploadedByUser");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ImportFormTypes", b =>
-                {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.IssueFound", b =>
-                {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy");
-
-                    b.HasOne("ControlTower.Models.ServiceReportSystem.ServiceReportForm", "ServiceReportForm")
-                        .WithMany("IssueFound")
-                        .HasForeignKey("ServiceReportFormID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy");
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("ServiceReportForm");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.IssueReported", b =>
-                {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy");
-
-                    b.HasOne("ControlTower.Models.ServiceReportSystem.ServiceReportForm", "ServiceReportForm")
-                        .WithMany("IssueReported")
-                        .HasForeignKey("ServiceReportFormID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy");
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("ServiceReportForm");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.LocationWarehouse", b =>
-                {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.MaterialUsed", b =>
-                {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy");
-
-                    b.HasOne("ControlTower.Models.ServiceReportSystem.ServiceReportForm", null)
-                        .WithMany("MaterialsUsed")
-                        .HasForeignKey("ServiceReportFormID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy");
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ProjectNoWarehouse", b =>
-                {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ServiceReportForm", b =>
-                {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ControlTower.Models.ServiceReportSystem.FollowupActionWarehouse", "FollowupAction")
-                        .WithMany()
-                        .HasForeignKey("FollowupActionID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ControlTower.Models.ServiceReportSystem.LocationWarehouse", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ControlTower.Models.ServiceReportSystem.ProjectNoWarehouse", "ProjectNo")
-                        .WithMany()
-                        .HasForeignKey("ProjectNoID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ControlTower.Models.ServiceReportSystem.SystemWarehouse", "System")
-                        .WithMany()
-                        .HasForeignKey("SystemID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("FollowupAction");
-
-                    b.Navigation("Location");
-
-                    b.Navigation("ProjectNo");
-
-                    b.Navigation("System");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ServiceType", b =>
-                {
-                    b.HasOne("ControlTower.Models.ServiceReportSystem.ServiceReportForm", null)
-                        .WithMany("ServiceType")
-                        .HasForeignKey("ServiceReportFormID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ControlTower.Models.ServiceReportSystem.ServiceTypeWarehouse", "ServiceTypeWarehouse")
-                        .WithMany()
-                        .HasForeignKey("ServiceTypeWarehouseID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy");
-
-                    b.Navigation("ServiceTypeWarehouse");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ServiceTypeWarehouse", b =>
-                {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.SystemWarehouse", b =>
-                {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
             modelBuilder.Entity("ControlTower.Models.EmployeeManagementSystem.AccessLevel", b =>
                 {
                     b.Navigation("UserApplicationAccesses");
@@ -2848,28 +2465,6 @@ namespace ControlTower.Migrations
             modelBuilder.Entity("ControlTower.Models.NewsPortalSystem.NewsComments", b =>
                 {
                     b.Navigation("Replies");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ImportFormTypes", b =>
-                {
-                    b.Navigation("ImportFileRecords");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ServiceReportSystem.ServiceReportForm", b =>
-                {
-                    b.Navigation("ActionTaken");
-
-                    b.Navigation("FormStatus");
-
-                    b.Navigation("FurtherActionTaken");
-
-                    b.Navigation("IssueFound");
-
-                    b.Navigation("IssueReported");
-
-                    b.Navigation("MaterialsUsed");
-
-                    b.Navigation("ServiceType");
                 });
 #pragma warning restore 612, 618
         }

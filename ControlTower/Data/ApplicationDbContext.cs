@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using ControlTower.Models.EmployeeManagementSystem;
-using ControlTower.Models.ServiceReportSystem;
 using ControlTower.Models.NewsPortalSystem;
 using ControlTower.Models.RoomBookingSystem;
+using ControlTower.Models.ReportManagementSystem;
 
 namespace ControlTower.Data
 {
@@ -28,23 +28,7 @@ namespace ControlTower.Data
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomBookingStatus> RoomBookingStatus { get; set; }
         public DbSet<RoomBooking> RoomBookings { get; set; }
-
-
-        // Service Report System
-        public DbSet<ServiceReportForm> ServiceReportForms { get; set; }
-        public DbSet<ProjectNoWarehouse> ProjectNoWarehouses { get; set; }
-        public DbSet<SystemWarehouse> SystemWarehouses { get; set; }
-        public DbSet<LocationWarehouse> LocationWarehouses { get; set; }
-        public DbSet<FollowupActionWarehouse> FollowupActionWarehouses { get; set; }
-        public DbSet<ServiceTypeWarehouse> ServiceTypeWarehouses { get; set; }
-        public DbSet<FormStatusWarehouses> FormStatusWarehouses { get; set; }
-        public DbSet<IssueReported> IssueReported { get; set; }
-        public DbSet<IssueFound> IssueFound { get; set; }
-        public DbSet<ActionTaken> ActionTaken { get; set; }
-        public DbSet<MaterialUsed> MaterialsUsed { get; set; }
-        public DbSet<FurtherActionTakenWarehouse> FurtherActionTakenWarehouses { get; set; }
-        public DbSet<ImportFormTypes> ImportFormTypes { get; set; }
-        public DbSet<ImportFileRecords> ImportFileRecords { get; set; }
+        public DbSet<MaterialUsed> MaterialUsed { get; set; }
 
         // News Portal System
         public DbSet<News> News { get; set; }
@@ -52,7 +36,18 @@ namespace ControlTower.Data
         public DbSet<NewsImages> NewsImages { get; set; }
         public DbSet<NewsComments> NewsComments { get; set; }
         public DbSet<NewsReactions> NewsReactions { get; set; }
-       
+
+        // Report Management System
+        public DbSet<ImportFormTypes> ImportFormTypes { get; set; }
+        public DbSet<ImportFileRecords> ImportFileRecords { get; set; }
+        public DbSet<ReportFormType> ReportFormTypes { get; set; }
+        public DbSet<FormStatusWarehouse> FormStatusWarehouses { get; set; }
+        public DbSet<FurtherActionTakenWarehouse> FurtherActionTakenWarehouses { get; set; }
+        public DbSet<ReportForm> ReportForms { get; set; }
+        public DbSet<ReportFormImageType> ReportFormImageTypes { get; set; }
+        public DbSet<ReportFormImage> ReportFormImages { get; set; }
+        public DbSet<CMReportForm> CMReportForms { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -122,7 +117,7 @@ namespace ControlTower.Data
                 .WithMany(u => u.CreatedSubDepartments)
                 .HasForeignKey(sd => sd.CreatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
-            
+
             modelBuilder.Entity<SubDepartment>()
                 .HasOne(sd => sd.UpdatedByUser)
                 .WithMany(u => u.UpdatedSubDepartments)
@@ -237,32 +232,32 @@ namespace ControlTower.Data
                 .HasIndex(eaa => new { eaa.UserID, eaa.ApplicationID })
                 .IsUnique()
                 .HasFilter("[IsDeleted] = 0");
-        
+
             // AccessLevel configurations
             modelBuilder.Entity<AccessLevel>()
                 .HasIndex(al => al.LevelName)
                 .IsUnique()
                 .HasFilter("[IsDeleted] = 0");
-                
+
             modelBuilder.Entity<AccessLevel>()
                 .HasOne(al => al.CreatedByUser)
                 .WithMany()
                 .HasForeignKey(al => al.CreatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
-                
+
             modelBuilder.Entity<AccessLevel>()
                 .HasOne(al => al.UpdatedByUser)
                 .WithMany()
                 .HasForeignKey(al => al.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
-                
+
             // Update EmployeeApplicationAccess configuration
             modelBuilder.Entity<UserApplicationAccess>()
                 .HasOne(eaa => eaa.AccessLevel)
                 .WithMany(al => al.UserApplicationAccesses)
                 .HasForeignKey(eaa => eaa.AccessLevelID)
                 .OnDelete(DeleteBehavior.Restrict);
-        
+
             // UserImage configurations
             modelBuilder.Entity<UserImage>()
                 .HasOne(ui => ui.User)
@@ -311,7 +306,7 @@ namespace ControlTower.Data
                 .WithMany()
                 .HasForeignKey(it => it.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
-        
+
             // Building configurations - Updated to use correct property name
             modelBuilder.Entity<Building>()
                 .HasIndex(b => b.Name)
@@ -355,7 +350,7 @@ namespace ControlTower.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             // News Portal System configurations
-            
+
             // Category self-referencing relationship
             modelBuilder.Entity<NewsCategory>()
                 .HasOne(c => c.ParentCategory)
@@ -368,7 +363,7 @@ namespace ControlTower.Data
                 .HasIndex(c => c.Name)
                 .IsUnique()
                 .HasFilter("[IsDeleted] = 0");
-            
+
             modelBuilder.Entity<NewsCategory>()
                 .HasIndex(c => c.Slug)
                 .IsUnique()
@@ -392,6 +387,79 @@ namespace ControlTower.Data
                 .HasIndex(r => new { r.NewsID, r.UserID })
                 .IsUnique()
                 .HasFilter("[IsDeleted] = 0");
+
+
+            // Configure MaterialUsed foreign key relationships
+            modelBuilder.Entity<MaterialUsed>()
+                .HasOne(m => m.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(m => m.CreatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<MaterialUsed>()
+                .HasOne(m => m.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(m => m.UpdatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // Configure CMReportForm foreign key relationships
+            modelBuilder.Entity<CMReportForm>()
+                .HasOne(c => c.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(c => c.CreatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<CMReportForm>()
+                .HasOne(c => c.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(c => c.UpdatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // Configure ReportForm foreign key relationships
+            modelBuilder.Entity<ReportForm>()
+                .HasOne(r => r.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(r => r.CreatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ReportForm>()
+                .HasOne(r => r.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(r => r.UpdatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // Configure ReportFormType foreign key relationships
+            modelBuilder.Entity<ReportFormType>()
+                .HasOne(rt => rt.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(rt => rt.CreatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ReportFormType>()
+                .HasOne(rt => rt.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(rt => rt.UpdatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // Configure ReportFormImageType foreign key relationships
+            modelBuilder.Entity<ReportFormImageType>()
+                .HasOne(rit => rit.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(rit => rit.CreatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ReportFormImageType>()
+                .HasOne(rit => rit.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(rit => rit.UpdatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // Configure ReportFormImage foreign key relationships
+            modelBuilder.Entity<ReportFormImage>()
+                .HasOne(ri => ri.UploadedByUser)
+                .WithMany()
+                .HasForeignKey(ri => ri.UploadedBy)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
