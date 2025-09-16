@@ -39,7 +39,6 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     FormstatusID = c.FormstatusID,
                     Customer = c.Customer,
                     ProjectNo = c.ProjectNo,
-                    SystemDescription = c.SystemDescription,
                     IssueReportedDescription = c.IssueReportedDescription,
                     IssueFoundDescription = c.IssueFoundDescription,
                     ActionTakenDescription = c.ActionTakenDescription,
@@ -85,7 +84,6 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     FormstatusID = c.FormstatusID,
                     Customer = c.Customer,
                     ProjectNo = c.ProjectNo,
-                    SystemDescription = c.SystemDescription,
                     IssueReportedDescription = c.IssueReportedDescription,
                     IssueFoundDescription = c.IssueFoundDescription,
                     ActionTakenDescription = c.ActionTakenDescription,
@@ -136,7 +134,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     FormstatusID = c.FormstatusID,
                     Customer = c.Customer,
                     ProjectNo = c.ProjectNo,
-                    SystemDescription = c.SystemDescription,
+                    // Removed: SystemDescription = c.SystemDescription,
                     IssueReportedDescription = c.IssueReportedDescription,
                     IssueFoundDescription = c.IssueFoundDescription,
                     ActionTakenDescription = c.ActionTakenDescription,
@@ -206,10 +204,8 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 ReportFormID = createDto.ReportFormID,
                 FurtherActionTakenID = createDto.FurtherActionTakenID,
                 FormstatusID = createDto.FormstatusID,
-                StationName = createDto.StationName,
                 Customer = createDto.Customer,
                 ProjectNo = createDto.ProjectNo,
-                SystemDescription = createDto.SystemDescription,
                 IssueReportedDescription = createDto.IssueReportedDescription,
                 IssueFoundDescription = createDto.IssueFoundDescription,
                 ActionTakenDescription = createDto.ActionTakenDescription,
@@ -282,7 +278,6 @@ namespace ControlTower.Controllers.ReportManagementSystem
             cmReportForm.FormstatusID = updateDto.FormstatusID;
             cmReportForm.Customer = updateDto.Customer;
             cmReportForm.ProjectNo = updateDto.ProjectNo;
-            cmReportForm.SystemDescription = updateDto.SystemDescription;
             cmReportForm.IssueReportedDescription = updateDto.IssueReportedDescription;
             cmReportForm.IssueFoundDescription = updateDto.IssueFoundDescription;
             cmReportForm.ActionTakenDescription = updateDto.ActionTakenDescription;

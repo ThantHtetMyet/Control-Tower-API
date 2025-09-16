@@ -2,7 +2,6 @@ using ControlTower.Models.EmployeeManagementSystem;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-
 namespace ControlTower.Models.ReportManagementSystem
 {
     public class ReportForm
@@ -12,6 +11,16 @@ namespace ControlTower.Models.ReportManagementSystem
 
         [Required]
         public Guid ReportFormTypeID { get; set; }
+
+        [Required]
+        [StringLength(255)]
+        public string JobNo { get; set; }
+
+        [Required]
+        public Guid SystemNameWarehouseID { get; set; }
+
+        [Required]
+        public Guid StationNameWarehouseID { get; set; }
 
         [Required]
         public bool IsDeleted { get; set; } = false;
@@ -41,6 +50,12 @@ namespace ControlTower.Models.ReportManagementSystem
         // Navigation Properties
         [ForeignKey("ReportFormTypeID")]
         public virtual ReportFormType ReportFormType { get; set; }
+
+        [ForeignKey("SystemNameWarehouseID")]
+        public virtual SystemNameWarehouse SystemNameWarehouse { get; set; }
+
+        [ForeignKey("StationNameWarehouseID")]
+        public virtual StationNameWarehouse StationNameWarehouse { get; set; }
 
         [ForeignKey("CreatedBy")]
         public virtual User CreatedByUser { get; set; }

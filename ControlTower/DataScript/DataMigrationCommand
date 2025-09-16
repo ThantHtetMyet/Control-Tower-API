@@ -3,3 +3,7 @@ dotnet ef database update
 
 dotnet ef migrations add AddNewTableMaterialUsed
 dotnet ef database update
+
+dotnet ef migrations remove
+
+dotnet ef database update 20250915093626_ADDPMReport

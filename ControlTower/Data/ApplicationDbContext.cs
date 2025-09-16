@@ -41,12 +41,22 @@ namespace ControlTower.Data
         public DbSet<ImportFormTypes> ImportFormTypes { get; set; }
         public DbSet<ImportFileRecords> ImportFileRecords { get; set; }
         public DbSet<ReportFormType> ReportFormTypes { get; set; }
+        public DbSet<PMReportFormType> PMReportFormTypes { get; set; }
         public DbSet<FormStatusWarehouse> FormStatusWarehouses { get; set; }
         public DbSet<FurtherActionTakenWarehouse> FurtherActionTakenWarehouses { get; set; }
         public DbSet<ReportForm> ReportForms { get; set; }
+        public DbSet<SystemNameWarehouse> SystemNameWarehouses { get; set; }
+        public DbSet<StationNameWarehouse> StationNameWarehouses { get; set; }
         public DbSet<ReportFormImageType> ReportFormImageTypes { get; set; }
         public DbSet<ReportFormImage> ReportFormImages { get; set; }
         public DbSet<CMReportForm> CMReportForms { get; set; }
+
+        // PM Report Management System
+        public DbSet<PMReportFormRTU> PMReportFormRTU { get; set; }
+        public DbSet<PMMainRtuCabinet> PMMainRtuCabinets { get; set; }
+        public DbSet<PMChamberMagneticContact> PMChamberMagneticContacts { get; set; }
+        public DbSet<PMRTUCabinetCooling> PMRTUCabinetCoolings { get; set; }
+        public DbSet<PMDVREquipment> PMDVREquipments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -428,6 +438,28 @@ namespace ControlTower.Data
                 .HasForeignKey(r => r.UpdatedBy)
                 .OnDelete(DeleteBehavior.NoAction);
 
+                        
+            // In your OnModelCreating method, add these configurations:
+            modelBuilder.Entity<ReportForm>()
+                .HasOne(r => r.SystemNameWarehouse)
+                .WithMany(s => s.ReportForms)
+                .HasForeignKey(r => r.SystemNameWarehouseID)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ReportForm>()
+                .HasOne(r => r.StationNameWarehouse)
+                .WithMany(s => s.ReportForms)
+                .HasForeignKey(r => r.StationNameWarehouseID)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<StationNameWarehouse>()
+                .HasOne(s => s.SystemNameWarehouse)
+                .WithMany(sys => sys.StationNameWarehouses)
+                .HasForeignKey(s => s.SystemNameWarehouseID)
+                .OnDelete(DeleteBehavior.NoAction);
+
+    
+                
             // Configure ReportFormType foreign key relationships
             modelBuilder.Entity<ReportFormType>()
                 .HasOne(rt => rt.CreatedByUser)
@@ -460,6 +492,107 @@ namespace ControlTower.Data
                 .WithMany()
                 .HasForeignKey(ri => ri.UploadedBy)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            // Configure PMReportForm relationships
+            modelBuilder.Entity<PMReportFormRTU>()
+                .HasOne(p => p.ReportForm)
+                .WithMany()
+                .HasForeignKey(p => p.ReportFormID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PMReportFormRTU>()
+                .HasOne(p => p.PMReportFormType)
+                .WithMany()
+                .HasForeignKey(p => p.PMReportFormTypeID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PMReportFormRTU>()
+                .HasOne(p => p.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(p => p.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PMReportFormRTU>()
+                .HasOne(p => p.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(p => p.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configure PMMainRtuCabinet relationships
+            modelBuilder.Entity<PMMainRtuCabinet>()
+                .HasOne(p => p.PMReportForm)
+                .WithMany(r => r.PMMainRtuCabinets)
+                .HasForeignKey(p => p.PMReportFormRTUID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PMMainRtuCabinet>()
+                .HasOne(p => p.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(p => p.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PMMainRtuCabinet>()
+                .HasOne(p => p.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(p => p.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configure PMChamberMagneticContact relationships
+            modelBuilder.Entity<PMChamberMagneticContact>()
+                .HasOne(p => p.PMReportForm)
+                .WithMany(r => r.PMChamberMagneticContacts)
+                .HasForeignKey(p => p.PMReportFormRTUID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PMChamberMagneticContact>()
+                .HasOne(p => p.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(p => p.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PMChamberMagneticContact>()
+                .HasOne(p => p.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(p => p.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configure PMRTUCabinetCooling relationships
+            modelBuilder.Entity<PMRTUCabinetCooling>()
+                .HasOne(p => p.PMReportForm)
+                .WithMany(r => r.PMRTUCabinetCoolings)
+                .HasForeignKey(p => p.PMReportFormRTUID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PMRTUCabinetCooling>()
+                .HasOne(p => p.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(p => p.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PMRTUCabinetCooling>()
+                .HasOne(p => p.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(p => p.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configure PMDVREquipment relationships
+            modelBuilder.Entity<PMDVREquipment>()
+                .HasOne(p => p.PMReportForm)
+                .WithMany(r => r.PMDVREquipments)
+                .HasForeignKey(p => p.PMReportFormRTUID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PMDVREquipment>()
+                .HasOne(p => p.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(p => p.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PMDVREquipment>()
+                .HasOne(p => p.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(p => p.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

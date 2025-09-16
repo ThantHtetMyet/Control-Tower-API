@@ -4569,10 +4569,10 @@
         }
       }
     },
-    "/api/ReportForm": {
+    "/api/PMChamberMagneticContact": {
       "get": {
         "tags": [
-          "ReportForm"
+          "PMChamberMagneticContact"
         ],
         "responses": {
           "200": {
@@ -4582,7 +4582,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ReportFormDto"
+                    "$ref": "#/components/schemas/PMChamberMagneticContactDto"
                   }
                 }
               },
@@ -4590,7 +4590,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ReportFormDto"
+                    "$ref": "#/components/schemas/PMChamberMagneticContactDto"
                   }
                 }
               },
@@ -4598,11 +4598,1147 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ReportFormDto"
+                    "$ref": "#/components/schemas/PMChamberMagneticContactDto"
                   }
                 }
               }
             }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PMChamberMagneticContact"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMChamberMagneticContactDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMChamberMagneticContactDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMChamberMagneticContactDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMChamberMagneticContactDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMChamberMagneticContactDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMChamberMagneticContactDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PMChamberMagneticContact/{id}": {
+      "get": {
+        "tags": [
+          "PMChamberMagneticContact"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMChamberMagneticContactDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMChamberMagneticContactDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMChamberMagneticContactDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "PMChamberMagneticContact"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMChamberMagneticContactDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMChamberMagneticContactDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMChamberMagneticContactDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "PMChamberMagneticContact"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PMDVREquipment": {
+      "get": {
+        "tags": [
+          "PMDVREquipment"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMDVREquipmentDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMDVREquipmentDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMDVREquipmentDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PMDVREquipment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMDVREquipmentDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMDVREquipmentDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMDVREquipmentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMDVREquipmentDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMDVREquipmentDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMDVREquipmentDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PMDVREquipment/{id}": {
+      "get": {
+        "tags": [
+          "PMDVREquipment"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMDVREquipmentDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMDVREquipmentDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMDVREquipmentDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "PMDVREquipment"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMDVREquipmentDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMDVREquipmentDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMDVREquipmentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "PMDVREquipment"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PMMainRtuCabinet": {
+      "get": {
+        "tags": [
+          "PMMainRtuCabinet"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMMainRtuCabinetDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMMainRtuCabinetDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMMainRtuCabinetDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PMMainRtuCabinet"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMMainRtuCabinetDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMMainRtuCabinetDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMMainRtuCabinetDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMMainRtuCabinetDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMMainRtuCabinetDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMMainRtuCabinetDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PMMainRtuCabinet/{id}": {
+      "get": {
+        "tags": [
+          "PMMainRtuCabinet"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMMainRtuCabinetDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMMainRtuCabinetDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMMainRtuCabinetDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "PMMainRtuCabinet"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMMainRtuCabinetDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMMainRtuCabinetDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMMainRtuCabinetDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "PMMainRtuCabinet"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PMReportFormRTU": {
+      "get": {
+        "tags": [
+          "PMReportFormRTU"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMReportFormRTUDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMReportFormRTUDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMReportFormRTUDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PMReportFormRTU"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMReportFormRTUDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMReportFormRTUDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMReportFormRTUDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMReportFormRTUDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMReportFormRTUDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMReportFormRTUDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PMReportFormRTU/{id}": {
+      "get": {
+        "tags": [
+          "PMReportFormRTU"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMReportFormRTUDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMReportFormRTUDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMReportFormRTUDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "PMReportFormRTU"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMReportFormRTUDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMReportFormRTUDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMReportFormRTUDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "PMReportFormRTU"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PMReportFormType": {
+      "get": {
+        "tags": [
+          "PMReportFormType"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMReportFormTypeDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMReportFormTypeDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMReportFormTypeDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PMReportFormType"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMReportFormTypeDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMReportFormTypeDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMReportFormTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMReportFormTypeDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMReportFormTypeDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMReportFormTypeDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PMReportFormType/{id}": {
+      "get": {
+        "tags": [
+          "PMReportFormType"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMReportFormTypeDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMReportFormTypeDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMReportFormTypeDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "PMReportFormType"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMReportFormTypeDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMReportFormTypeDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMReportFormTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "PMReportFormType"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PMRTUCabinetCooling": {
+      "get": {
+        "tags": [
+          "PMRTUCabinetCooling"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMRTUCabinetCoolingDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMRTUCabinetCoolingDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMRTUCabinetCoolingDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PMRTUCabinetCooling"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMRTUCabinetCoolingDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMRTUCabinetCoolingDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMRTUCabinetCoolingDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMRTUCabinetCoolingDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMRTUCabinetCoolingDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMRTUCabinetCoolingDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PMRTUCabinetCooling/{id}": {
+      "get": {
+        "tags": [
+          "PMRTUCabinetCooling"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMRTUCabinetCoolingDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMRTUCabinetCoolingDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMRTUCabinetCoolingDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "PMRTUCabinetCooling"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMRTUCabinetCoolingDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMRTUCabinetCoolingDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMRTUCabinetCoolingDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "PMRTUCabinetCooling"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ReportForm": {
+      "get": {
+        "tags": [
+          "ReportForm"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "reportFormTypeId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "SystemNameWarehouseID",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "StationNameWarehouseID",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       },
@@ -4799,6 +5935,110 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/ReportForm/BySystemName/{SystemNameWarehouseID}": {
+      "get": {
+        "tags": [
+          "ReportForm"
+        ],
+        "parameters": [
+          {
+            "name": "SystemNameWarehouseID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportFormDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportFormDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportFormDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ReportForm/ByStationName/{StationNameWarehouseID}": {
+      "get": {
+        "tags": [
+          "ReportForm"
+        ],
+        "parameters": [
+          {
+            "name": "StationNameWarehouseID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ReportForm/NextJobNumber": {
+      "get": {
+        "tags": [
+          "ReportForm"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -6205,6 +7445,250 @@
         }
       }
     },
+    "/api/StationNameWarehouse": {
+      "get": {
+        "tags": [
+          "StationNameWarehouse"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "SystemNameWarehouseID",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "StationNameWarehouse"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStationNameWarehouseDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStationNameWarehouseDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStationNameWarehouseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StationNameWarehouseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StationNameWarehouseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StationNameWarehouseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/StationNameWarehouse/{id}": {
+      "get": {
+        "tags": [
+          "StationNameWarehouse"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StationNameWarehouseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StationNameWarehouseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StationNameWarehouseDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "StationNameWarehouse"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStationNameWarehouseDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStationNameWarehouseDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStationNameWarehouseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "StationNameWarehouse"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/StationNameWarehouse/BySystemName/{SystemNameWarehouseID}": {
+      "get": {
+        "tags": [
+          "StationNameWarehouse"
+        ],
+        "parameters": [
+          {
+            "name": "SystemNameWarehouseID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StationNameWarehouseDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StationNameWarehouseDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StationNameWarehouseDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/SubDepartment": {
       "get": {
         "tags": [
@@ -6397,6 +7881,193 @@
       "delete": {
         "tags": [
           "SubDepartment"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/SystemNameWarehouse": {
+      "get": {
+        "tags": [
+          "SystemNameWarehouse"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "SystemNameWarehouse"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSystemNameWarehouseDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSystemNameWarehouseDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSystemNameWarehouseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemNameWarehouseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemNameWarehouseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemNameWarehouseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SystemNameWarehouse/{id}": {
+      "get": {
+        "tags": [
+          "SystemNameWarehouse"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemNameWarehouseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemNameWarehouseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemNameWarehouseDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "SystemNameWarehouse"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSystemNameWarehouseDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSystemNameWarehouseDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSystemNameWarehouseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "SystemNameWarehouse"
         ],
         "parameters": [
           {
@@ -6955,10 +8626,6 @@
             "type": "string",
             "nullable": true
           },
-          "systemDescription": {
-            "type": "string",
-            "nullable": true
-          },
           "issueReportedDescription": {
             "type": "string",
             "nullable": true
@@ -7416,19 +9083,11 @@
             "type": "string",
             "format": "uuid"
           },
-          "stationName": {
-            "type": "string",
-            "nullable": true
-          },
           "customer": {
             "type": "string",
             "nullable": true
           },
           "projectNo": {
-            "type": "string",
-            "nullable": true
-          },
-          "systemDescription": {
             "type": "string",
             "nullable": true
           },
@@ -7816,13 +9475,258 @@
         },
         "additionalProperties": false
       },
+      "CreatePMChamberMagneticContactDto": {
+        "required": [
+          "pmReportFormRTUID"
+        ],
+        "type": "object",
+        "properties": {
+          "pmReportFormRTUID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "chamberNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "chamberOGBox": {
+            "type": "string",
+            "nullable": true
+          },
+          "chamberContact1": {
+            "type": "string",
+            "nullable": true
+          },
+          "chamberContact2": {
+            "type": "string",
+            "nullable": true
+          },
+          "chamberContact3": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatePMDVREquipmentDto": {
+        "required": [
+          "pmReportFormRTUID"
+        ],
+        "type": "object",
+        "properties": {
+          "pmReportFormRTUID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "dvrComm": {
+            "type": "string",
+            "nullable": true
+          },
+          "dvrraidComm": {
+            "type": "string",
+            "nullable": true
+          },
+          "timeSyncNTPServer": {
+            "type": "string",
+            "nullable": true
+          },
+          "recording24x7": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatePMMainRtuCabinetDto": {
+        "required": [
+          "pmReportFormRTUID"
+        ],
+        "type": "object",
+        "properties": {
+          "pmReportFormRTUID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "rtuCabinet": {
+            "type": "string",
+            "nullable": true
+          },
+          "equipmentRack": {
+            "type": "string",
+            "nullable": true
+          },
+          "monitor": {
+            "type": "string",
+            "nullable": true
+          },
+          "mouseKeyboard": {
+            "type": "string",
+            "nullable": true
+          },
+          "cpU6000Card": {
+            "type": "string",
+            "nullable": true
+          },
+          "inputCard": {
+            "type": "string",
+            "nullable": true
+          },
+          "megapopNTU": {
+            "type": "string",
+            "nullable": true
+          },
+          "networkRouter": {
+            "type": "string",
+            "nullable": true
+          },
+          "networkSwitch": {
+            "type": "string",
+            "nullable": true
+          },
+          "digitalVideoRecorder": {
+            "type": "string",
+            "nullable": true
+          },
+          "rtuDoorContact": {
+            "type": "string",
+            "nullable": true
+          },
+          "powerSupplyUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "upsTakingOverTest": {
+            "type": "string",
+            "nullable": true
+          },
+          "upsBattery": {
+            "type": "string",
+            "nullable": true
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatePMRTUCabinetCoolingDto": {
+        "required": [
+          "pmReportFormRTUID"
+        ],
+        "type": "object",
+        "properties": {
+          "pmReportFormRTUID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "fanNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "functionalStatus": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatePMReportFormRTUDto": {
+        "required": [
+          "pmReportFormTypeID",
+          "reportFormID"
+        ],
+        "type": "object",
+        "properties": {
+          "reportFormID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmReportFormTypeID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "projectNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "customer": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfService": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "cleaningOfCabinet": {
+            "type": "string",
+            "nullable": true
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "attendedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvedBy": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatePMReportFormTypeDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
       "CreateReportFormDto": {
         "required": [
-          "reportFormTypeID"
+          "jobNo",
+          "reportFormTypeID",
+          "stationNameWarehouseID",
+          "systemNameWarehouseID"
         ],
         "type": "object",
         "properties": {
           "reportFormTypeID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "jobNo": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "systemNameWarehouseID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "stationNameWarehouseID": {
             "type": "string",
             "format": "uuid"
           },
@@ -7962,6 +9866,25 @@
         },
         "additionalProperties": false
       },
+      "CreateStationNameWarehouseDto": {
+        "required": [
+          "name",
+          "systemNameWarehouseID"
+        ],
+        "type": "object",
+        "properties": {
+          "systemNameWarehouseID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
       "CreateSubDepartmentDto": {
         "required": [
           "departmentID",
@@ -7994,6 +9917,20 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateSystemNameWarehouseDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -9104,6 +11041,433 @@
         },
         "additionalProperties": false
       },
+      "PMChamberMagneticContactDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmReportFormRTUID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "chamberNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "chamberOGBox": {
+            "type": "string",
+            "nullable": true
+          },
+          "chamberContact1": {
+            "type": "string",
+            "nullable": true
+          },
+          "chamberContact2": {
+            "type": "string",
+            "nullable": true
+          },
+          "chamberContact3": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "createdByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "pmReportFormName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMDVREquipmentDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmReportFormRTUID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "dvrComm": {
+            "type": "string",
+            "nullable": true
+          },
+          "dvrraidComm": {
+            "type": "string",
+            "nullable": true
+          },
+          "timeSyncNTPServer": {
+            "type": "string",
+            "nullable": true
+          },
+          "recording24x7": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "createdByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "pmReportFormName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMMainRtuCabinetDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmReportFormRTUID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "rtuCabinet": {
+            "type": "string",
+            "nullable": true
+          },
+          "equipmentRack": {
+            "type": "string",
+            "nullable": true
+          },
+          "monitor": {
+            "type": "string",
+            "nullable": true
+          },
+          "mouseKeyboard": {
+            "type": "string",
+            "nullable": true
+          },
+          "cpU6000Card": {
+            "type": "string",
+            "nullable": true
+          },
+          "inputCard": {
+            "type": "string",
+            "nullable": true
+          },
+          "megapopNTU": {
+            "type": "string",
+            "nullable": true
+          },
+          "networkRouter": {
+            "type": "string",
+            "nullable": true
+          },
+          "networkSwitch": {
+            "type": "string",
+            "nullable": true
+          },
+          "digitalVideoRecorder": {
+            "type": "string",
+            "nullable": true
+          },
+          "rtuDoorContact": {
+            "type": "string",
+            "nullable": true
+          },
+          "powerSupplyUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "upsTakingOverTest": {
+            "type": "string",
+            "nullable": true
+          },
+          "upsBattery": {
+            "type": "string",
+            "nullable": true
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "createdByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "pmReportFormName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMRTUCabinetCoolingDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmReportFormRTUID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "fanNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "functionalStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "createdByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "pmReportFormName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMReportFormRTUDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reportFormID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmReportFormTypeID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "projectNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "customer": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfService": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "cleaningOfCabinet": {
+            "type": "string",
+            "nullable": true
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "attendedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "pmReportFormTypeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedByUserName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMReportFormTypeDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "createdByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedByUserName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "RejectBookingDto": {
         "required": [
           "id",
@@ -9140,6 +11504,26 @@
             "format": "uuid"
           },
           "reportFormTypeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "jobNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "systemNameWarehouseID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "systemNameWarehouseName": {
+            "type": "string",
+            "nullable": true
+          },
+          "stationNameWarehouseID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "stationNameWarehouseName": {
             "type": "string",
             "nullable": true
           },
@@ -9399,6 +11783,57 @@
         },
         "additionalProperties": false
       },
+      "StationNameWarehouseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "systemNameWarehouseID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "systemNameWarehouseName": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "updatedByUserName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "SubDepartment": {
         "required": [
           "name"
@@ -9565,6 +12000,49 @@
             "type": "integer",
             "format": "int32",
             "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SystemNameWarehouseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "updatedByUserName": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -9787,10 +12265,6 @@
             "nullable": true
           },
           "projectNo": {
-            "type": "string",
-            "nullable": true
-          },
-          "systemDescription": {
             "type": "string",
             "nullable": true
           },
@@ -10386,13 +12860,246 @@
         },
         "additionalProperties": false
       },
+      "UpdatePMChamberMagneticContactDto": {
+        "required": [
+          "pmReportFormRTUID"
+        ],
+        "type": "object",
+        "properties": {
+          "pmReportFormRTUID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "chamberNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "chamberOGBox": {
+            "type": "string",
+            "nullable": true
+          },
+          "chamberContact1": {
+            "type": "string",
+            "nullable": true
+          },
+          "chamberContact2": {
+            "type": "string",
+            "nullable": true
+          },
+          "chamberContact3": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMDVREquipmentDto": {
+        "required": [
+          "pmReportFormRTUID"
+        ],
+        "type": "object",
+        "properties": {
+          "pmReportFormRTUID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "dvrComm": {
+            "type": "string",
+            "nullable": true
+          },
+          "dvrraidComm": {
+            "type": "string",
+            "nullable": true
+          },
+          "timeSyncNTPServer": {
+            "type": "string",
+            "nullable": true
+          },
+          "recording24x7": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMMainRtuCabinetDto": {
+        "required": [
+          "pmReportFormRTUID"
+        ],
+        "type": "object",
+        "properties": {
+          "pmReportFormRTUID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "rtuCabinet": {
+            "type": "string",
+            "nullable": true
+          },
+          "equipmentRack": {
+            "type": "string",
+            "nullable": true
+          },
+          "monitor": {
+            "type": "string",
+            "nullable": true
+          },
+          "mouseKeyboard": {
+            "type": "string",
+            "nullable": true
+          },
+          "cpU6000Card": {
+            "type": "string",
+            "nullable": true
+          },
+          "inputCard": {
+            "type": "string",
+            "nullable": true
+          },
+          "megapopNTU": {
+            "type": "string",
+            "nullable": true
+          },
+          "networkRouter": {
+            "type": "string",
+            "nullable": true
+          },
+          "networkSwitch": {
+            "type": "string",
+            "nullable": true
+          },
+          "digitalVideoRecorder": {
+            "type": "string",
+            "nullable": true
+          },
+          "rtuDoorContact": {
+            "type": "string",
+            "nullable": true
+          },
+          "powerSupplyUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "upsTakingOverTest": {
+            "type": "string",
+            "nullable": true
+          },
+          "upsBattery": {
+            "type": "string",
+            "nullable": true
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMRTUCabinetCoolingDto": {
+        "required": [
+          "pmReportFormRTUID"
+        ],
+        "type": "object",
+        "properties": {
+          "pmReportFormRTUID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "fanNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "functionalStatus": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMReportFormRTUDto": {
+        "type": "object",
+        "properties": {
+          "projectNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "customer": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfService": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "cleaningOfCabinet": {
+            "type": "string",
+            "nullable": true
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "attendedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvedBy": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMReportFormTypeDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
       "UpdateReportFormDto": {
         "required": [
-          "reportFormTypeID"
+          "jobNo",
+          "reportFormTypeID",
+          "stationNameWarehouseID",
+          "systemNameWarehouseID"
         ],
         "type": "object",
         "properties": {
           "reportFormTypeID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "jobNo": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          },
+          "systemNameWarehouseID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "stationNameWarehouseID": {
             "type": "string",
             "format": "uuid"
           },
@@ -10527,6 +13234,25 @@
         },
         "additionalProperties": false
       },
+      "UpdateStationNameWarehouseDto": {
+        "required": [
+          "name",
+          "systemNameWarehouseID"
+        ],
+        "type": "object",
+        "properties": {
+          "systemNameWarehouseID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
       "UpdateSubDepartmentDto": {
         "required": [
           "departmentID",
@@ -10564,6 +13290,20 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateSystemNameWarehouseDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
           }
         },
         "additionalProperties": false

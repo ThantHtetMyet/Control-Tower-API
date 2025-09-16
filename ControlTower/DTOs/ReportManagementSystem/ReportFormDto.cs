@@ -7,6 +7,11 @@ namespace ControlTower.DTOs.ReportManagementSystem
         public Guid ID { get; set; }
         public Guid ReportFormTypeID { get; set; }
         public string ReportFormTypeName { get; set; }
+        public string JobNo { get; set; }
+        public Guid SystemNameWarehouseID { get; set; }
+        public string SystemNameWarehouseName { get; set; }
+        public Guid StationNameWarehouseID { get; set; }
+        public string StationNameWarehouseName { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
@@ -25,6 +30,16 @@ namespace ControlTower.DTOs.ReportManagementSystem
         [Required(ErrorMessage = "ReportFormTypeID is required")]
         public Guid ReportFormTypeID { get; set; }
 
+        [Required(ErrorMessage = "JobNo is required")]
+        [StringLength(255, ErrorMessage = "JobNo cannot exceed 255 characters")]
+        public string JobNo { get; set; }
+
+        [Required(ErrorMessage = "SystemNameWarehouseID is required")]
+        public Guid SystemNameWarehouseID { get; set; }
+
+        [Required(ErrorMessage = "StationNameWarehouseID is required")]
+        public Guid StationNameWarehouseID { get; set; }
+
         [StringLength(255, ErrorMessage = "UploadStatus cannot exceed 255 characters")]
         public string? UploadStatus { get; set; }
 
@@ -42,6 +57,16 @@ namespace ControlTower.DTOs.ReportManagementSystem
     {
         [Required(ErrorMessage = "ReportFormTypeID is required")]
         public Guid ReportFormTypeID { get; set; }
+
+        [Required(ErrorMessage = "JobNo is required")]
+        [StringLength(255, ErrorMessage = "JobNo cannot exceed 255 characters")]
+        public string JobNo { get; set; }
+
+        [Required(ErrorMessage = "SystemNameWarehouseID is required")]
+        public Guid SystemNameWarehouseID { get; set; }
+
+        [Required(ErrorMessage = "StationNameWarehouseID is required")]
+        public Guid StationNameWarehouseID { get; set; }
 
         [StringLength(255, ErrorMessage = "UploadStatus cannot exceed 255 characters")]
         public string? UploadStatus { get; set; }

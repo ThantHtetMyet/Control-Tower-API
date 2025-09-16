@@ -2661,16 +2661,16 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormController",
-    "Method": "GetReportForms",
-    "RelativePath": "api/ReportForm",
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMChamberMagneticContactController",
+    "Method": "GetPMChamberMagneticContacts",
+    "RelativePath": "api/PMChamberMagneticContact",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.ReportFormDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.PMChamberMagneticContactDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -2681,8 +2681,683 @@
     ]
   },
   {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMChamberMagneticContactController",
+    "Method": "PostPMChamberMagneticContact",
+    "RelativePath": "api/PMChamberMagneticContact",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreatePMChamberMagneticContactDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.PMChamberMagneticContactDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMChamberMagneticContactController",
+    "Method": "GetPMChamberMagneticContact",
+    "RelativePath": "api/PMChamberMagneticContact/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.PMChamberMagneticContactDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMChamberMagneticContactController",
+    "Method": "PutPMChamberMagneticContact",
+    "RelativePath": "api/PMChamberMagneticContact/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdatePMChamberMagneticContactDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMChamberMagneticContactController",
+    "Method": "DeletePMChamberMagneticContact",
+    "RelativePath": "api/PMChamberMagneticContact/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMDVREquipmentController",
+    "Method": "GetPMDVREquipments",
+    "RelativePath": "api/PMDVREquipment",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.PMDVREquipmentDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMDVREquipmentController",
+    "Method": "PostPMDVREquipment",
+    "RelativePath": "api/PMDVREquipment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreatePMDVREquipmentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.PMDVREquipmentDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMDVREquipmentController",
+    "Method": "GetPMDVREquipment",
+    "RelativePath": "api/PMDVREquipment/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.PMDVREquipmentDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMDVREquipmentController",
+    "Method": "PutPMDVREquipment",
+    "RelativePath": "api/PMDVREquipment/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdatePMDVREquipmentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMDVREquipmentController",
+    "Method": "DeletePMDVREquipment",
+    "RelativePath": "api/PMDVREquipment/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMMainRtuCabinetController",
+    "Method": "GetPMMainRtuCabinets",
+    "RelativePath": "api/PMMainRtuCabinet",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.PMMainRtuCabinetDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMMainRtuCabinetController",
+    "Method": "PostPMMainRtuCabinet",
+    "RelativePath": "api/PMMainRtuCabinet",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreatePMMainRtuCabinetDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.PMMainRtuCabinetDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMMainRtuCabinetController",
+    "Method": "GetPMMainRtuCabinet",
+    "RelativePath": "api/PMMainRtuCabinet/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.PMMainRtuCabinetDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMMainRtuCabinetController",
+    "Method": "PutPMMainRtuCabinet",
+    "RelativePath": "api/PMMainRtuCabinet/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdatePMMainRtuCabinetDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMMainRtuCabinetController",
+    "Method": "DeletePMMainRtuCabinet",
+    "RelativePath": "api/PMMainRtuCabinet/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMReportFormRTUController",
+    "Method": "GetPMReportFormRTU",
+    "RelativePath": "api/PMReportFormRTU",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.PMReportFormRTUDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMReportFormRTUController",
+    "Method": "CreatePMReportForm",
+    "RelativePath": "api/PMReportFormRTU",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreatePMReportFormRTUDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.PMReportFormRTUDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMReportFormRTUController",
+    "Method": "GetPMReportForm",
+    "RelativePath": "api/PMReportFormRTU/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.PMReportFormRTUDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMReportFormRTUController",
+    "Method": "UpdatePMReportForm",
+    "RelativePath": "api/PMReportFormRTU/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdatePMReportFormRTUDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMReportFormRTUController",
+    "Method": "DeletePMReportForm",
+    "RelativePath": "api/PMReportFormRTU/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMReportFormTypeController",
+    "Method": "GetPMReportFormTypes",
+    "RelativePath": "api/PMReportFormType",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.PMReportFormTypeDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMReportFormTypeController",
+    "Method": "CreatePMReportFormType",
+    "RelativePath": "api/PMReportFormType",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreatePMReportFormTypeDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.PMReportFormTypeDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMReportFormTypeController",
+    "Method": "GetPMReportFormType",
+    "RelativePath": "api/PMReportFormType/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.PMReportFormTypeDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMReportFormTypeController",
+    "Method": "UpdatePMReportFormType",
+    "RelativePath": "api/PMReportFormType/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdatePMReportFormTypeDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMReportFormTypeController",
+    "Method": "DeletePMReportFormType",
+    "RelativePath": "api/PMReportFormType/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMRTUCabinetCoolingController",
+    "Method": "GetPMRTUCabinetCoolings",
+    "RelativePath": "api/PMRTUCabinetCooling",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.PMRTUCabinetCoolingDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMRTUCabinetCoolingController",
+    "Method": "PostPMRTUCabinetCooling",
+    "RelativePath": "api/PMRTUCabinetCooling",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreatePMRTUCabinetCoolingDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.PMRTUCabinetCoolingDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMRTUCabinetCoolingController",
+    "Method": "GetPMRTUCabinetCooling",
+    "RelativePath": "api/PMRTUCabinetCooling/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.PMRTUCabinetCoolingDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMRTUCabinetCoolingController",
+    "Method": "PutPMRTUCabinetCooling",
+    "RelativePath": "api/PMRTUCabinetCooling/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdatePMRTUCabinetCoolingDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMRTUCabinetCoolingController",
+    "Method": "DeletePMRTUCabinetCooling",
+    "RelativePath": "api/PMRTUCabinetCooling/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormController",
-    "Method": "PostReportForm",
+    "Method": "GetReportForms",
+    "RelativePath": "api/ReportForm",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "reportFormTypeId",
+        "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "SystemNameWarehouseID",
+        "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "StationNameWarehouseID",
+        "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormController",
+    "Method": "CreateReportForm",
     "RelativePath": "api/ReportForm",
     "HttpMethod": "POST",
     "IsController": true,
@@ -2734,7 +3409,7 @@
   },
   {
     "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormController",
-    "Method": "PutReportForm",
+    "Method": "UpdateReportForm",
     "RelativePath": "api/ReportForm/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
@@ -2794,6 +3469,68 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormController",
+    "Method": "GetReportFormsByStationName",
+    "RelativePath": "api/ReportForm/ByStationName/{StationNameWarehouseID}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "StationNameWarehouseID",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormController",
+    "Method": "GetReportFormsBySystemName",
+    "RelativePath": "api/ReportForm/BySystemName/{SystemNameWarehouseID}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "SystemNameWarehouseID",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.ReportFormDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormController",
+    "Method": "GetNextJobNumber",
+    "RelativePath": "api/ReportForm/NextJobNumber",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormImageController",
@@ -3609,6 +4346,152 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.StationNameWarehouseController",
+    "Method": "GetStationNameWarehouses",
+    "RelativePath": "api/StationNameWarehouse",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SystemNameWarehouseID",
+        "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.StationNameWarehouseController",
+    "Method": "CreateStationNameWarehouse",
+    "RelativePath": "api/StationNameWarehouse",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreateStationNameWarehouseDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.StationNameWarehouseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.StationNameWarehouseController",
+    "Method": "GetStationNameWarehouse",
+    "RelativePath": "api/StationNameWarehouse/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.StationNameWarehouseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.StationNameWarehouseController",
+    "Method": "UpdateStationNameWarehouse",
+    "RelativePath": "api/StationNameWarehouse/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdateStationNameWarehouseDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.StationNameWarehouseController",
+    "Method": "DeleteStationNameWarehouse",
+    "RelativePath": "api/StationNameWarehouse/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.StationNameWarehouseController",
+    "Method": "GetStationNamesBySystemName",
+    "RelativePath": "api/StationNameWarehouse/BySystemName/{SystemNameWarehouseID}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "SystemNameWarehouseID",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.StationNameWarehouseDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "ControlTower.Controllers.EmployeeManagementSystem.SubDepartmentController",
     "Method": "GetSubDepartments",
     "RelativePath": "api/SubDepartment",
@@ -3726,6 +4609,121 @@
     "ContainingType": "ControlTower.Controllers.EmployeeManagementSystem.SubDepartmentController",
     "Method": "DeleteSubDepartment",
     "RelativePath": "api/SubDepartment/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.SystemNameWarehouseController",
+    "Method": "GetSystemNameWarehouses",
+    "RelativePath": "api/SystemNameWarehouse",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.SystemNameWarehouseController",
+    "Method": "CreateSystemNameWarehouse",
+    "RelativePath": "api/SystemNameWarehouse",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreateSystemNameWarehouseDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.SystemNameWarehouseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.SystemNameWarehouseController",
+    "Method": "GetSystemNameWarehouse",
+    "RelativePath": "api/SystemNameWarehouse/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.SystemNameWarehouseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.SystemNameWarehouseController",
+    "Method": "UpdateSystemNameWarehouse",
+    "RelativePath": "api/SystemNameWarehouse/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdateSystemNameWarehouseDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.SystemNameWarehouseController",
+    "Method": "DeleteSystemNameWarehouse",
+    "RelativePath": "api/SystemNameWarehouse/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,

@@ -10,7 +10,6 @@ namespace ControlTower.DTOs.ReportManagementSystem
         public Guid FormstatusID { get; set; }
         public string? Customer { get; set; }
         public string? ProjectNo { get; set; }
-        public string? SystemDescription { get; set; }
         public string? IssueReportedDescription { get; set; }
         public string? IssueFoundDescription { get; set; }
         public string? ActionTakenDescription { get; set; }
@@ -46,30 +45,19 @@ namespace ControlTower.DTOs.ReportManagementSystem
         [Required]
         public Guid FormstatusID { get; set; }
 
-        public string? StationName { get; set; }
-
         public string? Customer { get; set; }
 
         public string? ProjectNo { get; set; }
 
-        public string? SystemDescription { get; set; }
-
+        // Removed: SystemDescription property
         public string? IssueReportedDescription { get; set; }
-
         public string? IssueFoundDescription { get; set; }
-
         public string? ActionTakenDescription { get; set; }
-
         public DateTime? FailureDetectedDate { get; set; }
-
         public DateTime? ResponseDate { get; set; }
-
         public DateTime? ArrivalDate { get; set; }
-
         public DateTime? CompletionDate { get; set; }
-
         public string? AttendedBy { get; set; }
-
         public string? ApprovedBy { get; set; }
         public string? Remark { get; set; }
 
@@ -89,8 +77,7 @@ namespace ControlTower.DTOs.ReportManagementSystem
 
         public string? ProjectNo { get; set; }
 
-        public string? SystemDescription { get; set; }
-
+        // Removed: SystemDescription property
         public string? IssueReportedDescription { get; set; }
 
         public string? IssueFoundDescription { get; set; }

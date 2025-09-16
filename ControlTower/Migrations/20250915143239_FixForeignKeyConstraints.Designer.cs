@@ -4,6 +4,7 @@ using ControlTower.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControlTower.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250915143239_FixForeignKeyConstraints")]
+    partial class FixForeignKeyConstraints
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1263,19 +1266,40 @@ namespace ControlTower.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ChamberContact1")
+                    b.Property<string>("Chamber1Contact1")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ChamberContact2")
+                    b.Property<string>("Chamber1Contact2")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ChamberContact3")
+                    b.Property<string>("Chamber1Contact3")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ChamberNumber")
+                    b.Property<string>("Chamber1OGBox")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ChamberOGBox")
+                    b.Property<string>("Chamber2Contact1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Chamber2Contact2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Chamber2Contact3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Chamber2OGBox")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Chamber3Contact1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Chamber3Contact2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Chamber3Contact3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Chamber3OGBox")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("CreatedBy")
@@ -1287,7 +1311,7 @@ namespace ControlTower.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("PMReportFormRTUID")
+                    b.Property<Guid>("PMReportFormID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Remarks")
@@ -1303,7 +1327,7 @@ namespace ControlTower.Migrations
 
                     b.HasIndex("CreatedBy");
 
-                    b.HasIndex("PMReportFormRTUID");
+                    b.HasIndex("PMReportFormID");
 
                     b.HasIndex("UpdatedBy");
 
@@ -1331,7 +1355,7 @@ namespace ControlTower.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("PMReportFormRTUID")
+                    b.Property<Guid>("PMReportFormID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Recording24x7")
@@ -1353,7 +1377,7 @@ namespace ControlTower.Migrations
 
                     b.HasIndex("CreatedBy");
 
-                    b.HasIndex("PMReportFormRTUID");
+                    b.HasIndex("PMReportFormID");
 
                     b.HasIndex("UpdatedBy");
 
@@ -1402,7 +1426,7 @@ namespace ControlTower.Migrations
                     b.Property<string>("NetworkSwitch")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PMReportFormRTUID")
+                    b.Property<Guid>("PMReportFormID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PowerSupplyUnit")
@@ -1433,7 +1457,7 @@ namespace ControlTower.Migrations
 
                     b.HasIndex("CreatedBy");
 
-                    b.HasIndex("PMReportFormRTUID");
+                    b.HasIndex("PMReportFormID");
 
                     b.HasIndex("UpdatedBy");
 
@@ -1452,16 +1476,22 @@ namespace ControlTower.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FanNumber")
+                    b.Property<string>("FAN1")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FunctionalStatus")
+                    b.Property<string>("FAN2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FAN3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FAN4")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("PMReportFormRTUID")
+                    b.Property<Guid>("PMReportFormID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Remarks")
@@ -1477,14 +1507,14 @@ namespace ControlTower.Migrations
 
                     b.HasIndex("CreatedBy");
 
-                    b.HasIndex("PMReportFormRTUID");
+                    b.HasIndex("PMReportFormID");
 
                     b.HasIndex("UpdatedBy");
 
                     b.ToTable("PMRTUCabinetCoolings");
                 });
 
-            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMReportFormRTU", b =>
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMReportForm", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
@@ -1545,7 +1575,7 @@ namespace ControlTower.Migrations
 
                     b.HasIndex("UpdatedBy");
 
-                    b.ToTable("PMReportFormRTU");
+                    b.ToTable("PMReportForms");
                 });
 
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMReportFormType", b =>
@@ -2591,9 +2621,9 @@ namespace ControlTower.Migrations
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormRTU", "PMReportForm")
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportForm", "PMReportForm")
                         .WithMany("PMChamberMagneticContacts")
-                        .HasForeignKey("PMReportFormRTUID")
+                        .HasForeignKey("PMReportFormID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -2616,9 +2646,9 @@ namespace ControlTower.Migrations
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormRTU", "PMReportForm")
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportForm", "PMReportForm")
                         .WithMany("PMDVREquipments")
-                        .HasForeignKey("PMReportFormRTUID")
+                        .HasForeignKey("PMReportFormID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -2641,9 +2671,9 @@ namespace ControlTower.Migrations
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormRTU", "PMReportForm")
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportForm", "PMReportForm")
                         .WithMany("PMMainRtuCabinets")
-                        .HasForeignKey("PMReportFormRTUID")
+                        .HasForeignKey("PMReportFormID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -2666,9 +2696,9 @@ namespace ControlTower.Migrations
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormRTU", "PMReportForm")
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportForm", "PMReportForm")
                         .WithMany("PMRTUCabinetCoolings")
-                        .HasForeignKey("PMReportFormRTUID")
+                        .HasForeignKey("PMReportFormID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -2684,7 +2714,7 @@ namespace ControlTower.Migrations
                     b.Navigation("UpdatedByUser");
                 });
 
-            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMReportFormRTU", b =>
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMReportForm", b =>
                 {
                     b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
                         .WithMany()
@@ -3018,7 +3048,7 @@ namespace ControlTower.Migrations
                     b.Navigation("Replies");
                 });
 
-            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMReportFormRTU", b =>
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMReportForm", b =>
                 {
                     b.Navigation("PMChamberMagneticContacts");
 

@@ -14,4 +14,21 @@ VALUES
     0,
     GETDATE(),
     GETDATE()
-);
+),
+(
+    '33333333-3333-3333-3333-333333333333',
+    'PMMainRtuCabinet',
+    0,
+    GETDATE(),
+    GETDATE()
+),
+(
+    '44444444-4444-4444-4444-444444444444',
+    'PMMainRtuCabinet',
+    0,
+    GETDATE(),
+    GETDATE()
+),
+
+;
+

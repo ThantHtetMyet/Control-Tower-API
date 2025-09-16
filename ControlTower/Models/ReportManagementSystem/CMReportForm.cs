@@ -21,16 +21,10 @@ namespace ControlTower.Models.ReportManagementSystem
         public virtual FormStatusWarehouse FormStatusWarehouse { get; set; }
         
         [StringLength(500)]
-        public string? StationName { get; set; }
-
-        [StringLength(500)]
         public string? Customer { get; set; }
 
         [StringLength(500)]
         public string? ProjectNo { get; set; }
-
-        [StringLength(1000)]
-        public string? SystemDescription { get; set; }
 
         [StringLength(1000)]
         public string? IssueReportedDescription { get; set; }

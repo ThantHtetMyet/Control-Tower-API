@@ -4,6 +4,7 @@ using ControlTower.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControlTower.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250916141339_ChangePMReportFormRTUIDInForeignKeyTable")]
+    partial class ChangePMReportFormRTUIDInForeignKeyTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1263,19 +1266,40 @@ namespace ControlTower.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ChamberContact1")
+                    b.Property<string>("Chamber1Contact1")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ChamberContact2")
+                    b.Property<string>("Chamber1Contact2")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ChamberContact3")
+                    b.Property<string>("Chamber1Contact3")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ChamberNumber")
+                    b.Property<string>("Chamber1OGBox")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ChamberOGBox")
+                    b.Property<string>("Chamber2Contact1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Chamber2Contact2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Chamber2Contact3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Chamber2OGBox")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Chamber3Contact1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Chamber3Contact2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Chamber3Contact3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Chamber3OGBox")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("CreatedBy")
@@ -1452,10 +1476,16 @@ namespace ControlTower.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FanNumber")
+                    b.Property<string>("FAN1")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FunctionalStatus")
+                    b.Property<string>("FAN2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FAN3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FAN4")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
