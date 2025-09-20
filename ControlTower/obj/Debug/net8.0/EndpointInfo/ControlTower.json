@@ -5890,6 +5890,29 @@
         }
       }
     },
+    "/api/ReportForm/RTUPMReportForm/{id}": {
+      "get": {
+        "tags": [
+          "ReportForm"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/ReportForm/ByReportFormType/{reportFormTypeId}": {
       "get": {
         "tags": [
@@ -6035,6 +6058,37 @@
       "get": {
         "tags": [
           "ReportForm"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ReportFormImage/image/{reportFormId}/{imageName}": {
+      "get": {
+        "tags": [
+          "ReportFormImage"
+        ],
+        "parameters": [
+          {
+            "name": "reportFormId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "imageName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -6299,6 +6353,9 @@
                   "ReportFormImageTypeId": {
                     "type": "string",
                     "format": "uuid"
+                  },
+                  "SectionName": {
+                    "type": "string"
                   }
                 }
               },
@@ -6310,6 +6367,9 @@
                   "style": "form"
                 },
                 "ReportFormImageTypeId": {
+                  "style": "form"
+                },
+                "SectionName": {
                   "style": "form"
                 }
               }

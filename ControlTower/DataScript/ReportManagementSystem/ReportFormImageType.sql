@@ -24,11 +24,24 @@ VALUES
 ),
 (
     '44444444-4444-4444-4444-444444444444',
-    'PMMainRtuCabinet',
+    'PMChamberMagneticContact',
     0,
     GETDATE(),
     GETDATE()
 ),
-
+(
+    '55555555-5555-5555-5555-555555555555',
+    'PMRTUCabinetCooling',
+    0,
+    GETDATE(),
+    GETDATE()
+),
+(
+    '66666666-6666-6666-6666-666666666666',
+    'PMDVREquipment',
+    0,
+    GETDATE(),
+    GETDATE()
+),
 ;
 

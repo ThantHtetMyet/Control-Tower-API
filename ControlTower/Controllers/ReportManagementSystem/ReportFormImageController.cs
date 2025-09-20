@@ -15,6 +15,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
         public Guid ReportFormId { get; set; }
         public IFormFile ImageFile { get; set; } = default!;
         public Guid ReportFormImageTypeId { get; set; }
+        public string? SectionName { get; set; } // Add optional section name for folder organization
     }
 
     [Route("api/[controller]")]
@@ -25,10 +26,51 @@ namespace ControlTower.Controllers.ReportManagementSystem
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
 
+        private bool ReportFormImageExists(Guid id)
+        {
+            return _context.ReportFormImages.Any(e => e.ID == id && !e.IsDeleted);
+        }
+
         public ReportFormImageController(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
+        }
+
+        // GET: api/ReportFormImage/image/{reportFormId}/{imageName}
+        [HttpGet("image/{reportFormId}/{imageName}")]
+        [AllowAnonymous] // Allow anonymous access for image serving
+        public async Task<IActionResult> GetReportFormImage(Guid reportFormId, string imageName)
+        {
+            var basePath = _configuration["ReportManagementSystemFileStorage:BasePath"] ?? "C:\\Temp\\ReportFormImages";
+
+            // Try to find the image in the report form directory or its subdirectories
+            var reportFormDirectory = Path.Combine(basePath, reportFormId.ToString());
+
+            if (!Directory.Exists(reportFormDirectory))
+                return NotFound();
+
+            // Search for the image file in the report form directory and subdirectories
+            var imageFiles = Directory.GetFiles(reportFormDirectory, imageName, SearchOption.AllDirectories);
+
+            if (imageFiles.Length == 0)
+                return NotFound();
+
+            var fullPath = imageFiles[0]; // Take the first match
+
+            // Detect content type dynamically
+            var extension = Path.GetExtension(imageName).ToLowerInvariant();
+            var contentType = extension switch
+            {
+                ".jpg" or ".jpeg" => "image/jpeg",
+                ".png" => "image/png",
+                ".gif" => "image/gif",
+                ".webp" => "image/webp",
+                _ => "image/jpeg"
+            };
+
+            var fileBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
+            return File(fileBytes, contentType);
         }
 
         // GET: api/ReportFormImage
@@ -246,7 +288,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
             }
         }
         
-        // Add this new upload endpoint after the existing POST method
+        // Modified upload endpoint to support section-based folder organization
         // POST: api/ReportFormImage/upload
         [HttpPost("upload")]
         [Consumes("multipart/form-data")]
@@ -272,8 +314,18 @@ namespace ControlTower.Controllers.ReportManagementSystem
                            ?? "C:\\Temp\\ReportFormImages";
 
             Directory.CreateDirectory(basePath);
+            
+            // Create ReportFormID folder
             var reportFormDirectory = Path.Combine(basePath, req.ReportFormId.ToString());
             Directory.CreateDirectory(reportFormDirectory);
+
+            // Create section-specific subfolder if SectionName is provided
+            string finalDirectory = reportFormDirectory;
+            if (!string.IsNullOrWhiteSpace(req.SectionName))
+            {
+                finalDirectory = Path.Combine(reportFormDirectory, req.SectionName);
+                Directory.CreateDirectory(finalDirectory);
+            }
 
             var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
             var fileExtension = Path.GetExtension(req.ImageFile.FileName).ToLowerInvariant();
@@ -281,7 +333,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 return BadRequest("Invalid file type. Only JPG, PNG, GIF, and WebP are allowed.");
 
             var fileName = $"{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid():N}{fileExtension}";
-            var filePath = Path.Combine(reportFormDirectory, fileName);
+            var filePath = Path.Combine(finalDirectory, fileName);
 
             try
             {
@@ -296,7 +348,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     ReportFormID = req.ReportFormId,
                     ReportImageTypeID = req.ReportFormImageTypeId,
                     ImageName = fileName,
-                    StoredDirectory = reportFormDirectory,
+                    StoredDirectory = finalDirectory, // Store the full path including section folder
                     UploadedStatus = "Uploaded",
                     IsDeleted = false,
                     UploadedDate = DateTime.UtcNow,

@@ -123,8 +123,36 @@ namespace ControlTower.Controllers.ReportManagementSystem
             _context.PMReportFormRTU.Add(pmReportForm);
             await _context.SaveChangesAsync();
 
-            var createdRecord = await GetPMReportForm(pmReportForm.ID);
-            return CreatedAtAction(nameof(GetPMReportForm), new { id = pmReportForm.ID }, createdRecord.Value);
+            // Create the response DTO directly instead of calling GetPMReportForm
+            var createdPMReportForm = await _context.PMReportFormRTU
+                .Include(p => p.PMReportFormType)
+                .Include(p => p.CreatedByUser)
+                .Include(p => p.UpdatedByUser)
+                .Where(p => p.ID == pmReportForm.ID && !p.IsDeleted)
+                .Select(p => new PMReportFormRTUDto
+                {
+                    ID = p.ID,
+                    ReportFormID = p.ReportFormID,
+                    PMReportFormTypeID = p.PMReportFormTypeID,
+                    ProjectNo = p.ProjectNo,
+                    Customer = p.Customer,
+                    DateOfService = p.DateOfService,
+                    CleaningOfCabinet = p.CleaningOfCabinet,
+                    Remarks = p.Remarks,
+                    AttendedBy = p.AttendedBy,
+                    ApprovedBy = p.ApprovedBy,
+                    IsDeleted = p.IsDeleted,
+                    CreatedDate = p.CreatedDate,
+                    UpdatedDate = p.UpdatedDate,
+                    CreatedBy = p.CreatedBy,
+                    UpdatedBy = p.UpdatedBy,
+                    PMReportFormTypeName = p.PMReportFormType != null ? p.PMReportFormType.Name : null,
+                    CreatedByUserName = p.CreatedByUser != null ? $"{p.CreatedByUser.FirstName} {p.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = p.UpdatedByUser != null ? $"{p.UpdatedByUser.FirstName} {p.UpdatedByUser.LastName}" : null
+                })
+                .FirstOrDefaultAsync();
+
+            return CreatedAtAction(nameof(GetPMReportForm), new { id = pmReportForm.ID }, createdPMReportForm);
         }
 
         // PUT: api/PMReportForm/5

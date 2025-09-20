@@ -92,6 +92,14 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     ID = rf.ID,
                     ReportFormTypeID = rf.ReportFormTypeID,
                     ReportFormTypeName = rf.ReportFormType.Name,
+                    // Get specific PM type name if it's a PM report, otherwise use the main report type name
+                    SpecificReportTypeName = rf.ReportFormType.Name == "Preventative Maintenance" 
+                        ? _context.PMReportFormRTU
+                            .Where(pm => pm.ReportFormID == rf.ID && !pm.IsDeleted)
+                            .Include(pm => pm.PMReportFormType)
+                            .Select(pm => pm.PMReportFormType.Name)
+                            .FirstOrDefault() ?? rf.ReportFormType.Name
+                        : rf.ReportFormType.Name,
                     JobNo = rf.JobNo,
                     SystemNameWarehouseID = rf.SystemNameWarehouseID,
                     SystemNameWarehouseName = rf.SystemNameWarehouse.Name,
@@ -180,6 +188,260 @@ namespace ControlTower.Controllers.ReportManagementSystem
             }
 
             return Ok(reportForm);
+        }
+
+        // GET: api/ReportForm/RTUPMReportForm/{id}
+        [HttpGet("RTUPMReportForm/{id}")]
+        public async Task<ActionResult<object>> GetRTUPMReportForm(Guid id)
+        {
+            var reportForm = await _context.ReportForms
+                .Where(rf => rf.ID == id && !rf.IsDeleted)
+                .Include(rf => rf.ReportFormType)
+                .Include(rf => rf.SystemNameWarehouse)
+                .Include(rf => rf.StationNameWarehouse)
+                .Include(rf => rf.CreatedByUser)
+                .Include(rf => rf.UpdatedByUser)
+                .FirstOrDefaultAsync();
+
+            if (reportForm == null)
+            {
+                return NotFound(new { message = "Report form not found" });
+            }
+
+            // Check if this report form has PM RTU data
+            var pmReportFormRTU = await _context.PMReportFormRTU
+                .Where(pm => pm.ReportFormID == id && !pm.IsDeleted)
+                .Include(pm => pm.PMReportFormType)
+                .Include(pm => pm.CreatedByUser)
+                .Include(pm => pm.UpdatedByUser)
+                .FirstOrDefaultAsync();
+
+            if (pmReportFormRTU == null)
+            {
+                return BadRequest(new { message = "This report form is not an RTU PM report form" });
+            }
+
+            // Get PM Main RTU Cabinet data
+            var pmMainRtuCabinet = await _context.PMMainRtuCabinets
+                .Where(mc => mc.PMReportFormRTUID == pmReportFormRTU.ID && !mc.IsDeleted)
+                .Include(mc => mc.CreatedByUser)
+                .Include(mc => mc.UpdatedByUser)
+                .Select(mc => new
+                {
+                    ID = mc.ID,
+                    PMReportFormRTUID = mc.PMReportFormRTUID,
+                    RTUCabinet = mc.RTUCabinet,
+                    EquipmentRack = mc.EquipmentRack,
+                    Monitor = mc.Monitor,
+                    MouseKeyboard = mc.MouseKeyboard,
+                    CPU6000Card = mc.CPU6000Card,
+                    InputCard = mc.InputCard,
+                    MegapopNTU = mc.MegapopNTU,
+                    NetworkRouter = mc.NetworkRouter,
+                    NetworkSwitch = mc.NetworkSwitch,
+                    DigitalVideoRecorder = mc.DigitalVideoRecorder,
+                    RTUDoorContact = mc.RTUDoorContact,
+                    PowerSupplyUnit = mc.PowerSupplyUnit,
+                    UPSTakingOverTest = mc.UPSTakingOverTest,
+                    UPSBattery = mc.UPSBattery,
+                    Remarks = mc.Remarks,
+                    CreatedDate = mc.CreatedDate,
+                    UpdatedDate = mc.UpdatedDate,
+                    CreatedBy = mc.CreatedBy,
+                    CreatedByUserName = mc.CreatedByUser != null ? mc.CreatedByUser.FirstName + " " + mc.CreatedByUser.LastName : null,
+                    UpdatedBy = mc.UpdatedBy,
+                    UpdatedByUserName = mc.UpdatedByUser != null ? mc.UpdatedByUser.FirstName + " " + mc.UpdatedByUser.LastName : null
+                })
+                .ToListAsync();
+
+            // Get PM Chamber Magnetic Contact data
+            var pmChamberMagneticContact = await _context.PMChamberMagneticContacts
+                .Where(cmc => cmc.PMReportFormRTUID == pmReportFormRTU.ID && !cmc.IsDeleted)
+                .Include(cmc => cmc.CreatedByUser)
+                .Include(cmc => cmc.UpdatedByUser)
+                .Select(cmc => new
+                {
+                    ID = cmc.ID,
+                    PMReportFormRTUID = cmc.PMReportFormRTUID,
+                    ChamberNumber = cmc.ChamberNumber,
+                    ChamberOGBox = cmc.ChamberOGBox,
+                    ChamberContact1 = cmc.ChamberContact1,
+                    ChamberContact2 = cmc.ChamberContact2,
+                    ChamberContact3 = cmc.ChamberContact3,
+                    Remarks = cmc.Remarks,
+                    CreatedDate = cmc.CreatedDate,
+                    UpdatedDate = cmc.UpdatedDate,
+                    CreatedBy = cmc.CreatedBy,
+                    CreatedByUserName = cmc.CreatedByUser != null ? cmc.CreatedByUser.FirstName + " " + cmc.CreatedByUser.LastName : null,
+                    UpdatedBy = cmc.UpdatedBy,
+                    UpdatedByUserName = cmc.UpdatedByUser != null ? cmc.UpdatedByUser.FirstName + " " + cmc.UpdatedByUser.LastName : null
+                })
+                .ToListAsync();
+
+            // Get PM RTU Cabinet Cooling data
+            var pmRTUCabinetCooling = await _context.PMRTUCabinetCoolings
+                .Where(cc => cc.PMReportFormRTUID == pmReportFormRTU.ID && !cc.IsDeleted)
+                .Include(cc => cc.CreatedByUser)
+                .Include(cc => cc.UpdatedByUser)
+                .Select(cc => new
+                {
+                    ID = cc.ID,
+                    PMReportFormRTUID = cc.PMReportFormRTUID,
+                    FanNumber = cc.FanNumber,
+                    FunctionalStatus = cc.FunctionalStatus,
+                    Remarks = cc.Remarks,
+                    CreatedDate = cc.CreatedDate,
+                    UpdatedDate = cc.UpdatedDate,
+                    CreatedBy = cc.CreatedBy,
+                    CreatedByUserName = cc.CreatedByUser != null ? cc.CreatedByUser.FirstName + " " + cc.CreatedByUser.LastName : null,
+                    UpdatedBy = cc.UpdatedBy,
+                    UpdatedByUserName = cc.UpdatedByUser != null ? cc.UpdatedByUser.FirstName + " " + cc.UpdatedByUser.LastName : null
+                })
+                .ToListAsync();
+
+            // Get PM DVR Equipment data
+            var pmDVREquipment = await _context.PMDVREquipments
+                .Where(dvr => dvr.PMReportFormRTUID == pmReportFormRTU.ID && !dvr.IsDeleted)
+                .Include(dvr => dvr.CreatedByUser)
+                .Include(dvr => dvr.UpdatedByUser)
+                .Select(dvr => new
+                {
+                    ID = dvr.ID,
+                    PMReportFormRTUID = dvr.PMReportFormRTUID,
+                    DVRComm = dvr.DVRComm,
+                    DVRRAIDComm = dvr.DVRRAIDComm,
+                    TimeSyncNTPServer = dvr.TimeSyncNTPServer,
+                    Recording24x7 = dvr.Recording24x7,
+                    Remarks = dvr.Remarks,
+                    CreatedDate = dvr.CreatedDate,
+                    UpdatedDate = dvr.UpdatedDate,
+                    CreatedBy = dvr.CreatedBy,
+                    CreatedByUserName = dvr.CreatedByUser != null ? dvr.CreatedByUser.FirstName + " " + dvr.CreatedByUser.LastName : null,
+                    UpdatedBy = dvr.UpdatedBy,
+                    UpdatedByUserName = dvr.UpdatedByUser != null ? dvr.UpdatedByUser.FirstName + " " + dvr.UpdatedByUser.LastName : null
+                })
+                .ToListAsync();
+
+            // Get images for each RTU PM section
+            var pmMainRtuCabinetImages = await _context.ReportFormImages
+                .Where(img => img.ReportFormID == id && !img.IsDeleted && 
+                             img.StoredDirectory.Contains("PMMainRtuCabinets"))
+                .Include(img => img.ReportFormImageType)
+                .Select(img => new
+                {
+                    ID = img.ID,
+                    ImageName = img.ImageName,
+                    StoredDirectory = img.StoredDirectory,
+                    ImageTypeName = img.ReportFormImageType.ImageTypeName,
+                    UploadedDate = img.UploadedDate
+                })
+                .ToListAsync();
+
+            var pmChamberMagneticContactImages = await _context.ReportFormImages
+                .Where(img => img.ReportFormID == id && !img.IsDeleted && 
+                             img.StoredDirectory.Contains("PMChamberMagneticContacts"))
+                .Include(img => img.ReportFormImageType)
+                .Select(img => new
+                {
+                    ID = img.ID,
+                    ImageName = img.ImageName,
+                    StoredDirectory = img.StoredDirectory,
+                    ImageTypeName = img.ReportFormImageType.ImageTypeName,
+                    UploadedDate = img.UploadedDate
+                })
+                .ToListAsync();
+
+            var pmRTUCabinetCoolingImages = await _context.ReportFormImages
+                .Where(img => img.ReportFormID == id && !img.IsDeleted && 
+                             img.StoredDirectory.Contains("PMRTUCabinetCoolings"))
+                .Include(img => img.ReportFormImageType)
+                .Select(img => new
+                {
+                    ID = img.ID,
+                    ImageName = img.ImageName,
+                    StoredDirectory = img.StoredDirectory,
+                    ImageTypeName = img.ReportFormImageType.ImageTypeName,
+                    UploadedDate = img.UploadedDate
+                })
+                .ToListAsync();
+
+            var pmDVREquipmentImages = await _context.ReportFormImages
+                .Where(img => img.ReportFormID == id && !img.IsDeleted && 
+                             img.StoredDirectory.Contains("PMDVREquipments"))
+                .Include(img => img.ReportFormImageType)
+                .Select(img => new
+                {
+                    ID = img.ID,
+                    ImageName = img.ImageName,
+                    StoredDirectory = img.StoredDirectory,
+                    ImageTypeName = img.ReportFormImageType.ImageTypeName,
+                    UploadedDate = img.UploadedDate
+                })
+                .ToListAsync();
+
+            var result = new
+            {
+                // Report Form basic information
+                ID = reportForm.ID,
+                ReportFormTypeID = reportForm.ReportFormTypeID,
+                ReportFormTypeName = reportForm.ReportFormType.Name,
+                JobNo = reportForm.JobNo,
+                SystemNameWarehouseID = reportForm.SystemNameWarehouseID,
+                SystemNameWarehouseName = reportForm.SystemNameWarehouse.Name,
+                StationNameWarehouseID = reportForm.StationNameWarehouseID,
+                StationNameWarehouseName = reportForm.StationNameWarehouse.Name,
+                UploadStatus = reportForm.UploadStatus,
+                UploadHostname = reportForm.UploadHostname,
+                UploadIPAddress = reportForm.UploadIPAddress,
+                FormStatus = reportForm.FormStatus,
+                CreatedDate = reportForm.CreatedDate,
+                UpdatedDate = reportForm.UpdatedDate,
+                CreatedBy = reportForm.CreatedBy,
+                CreatedByUserName = reportForm.CreatedByUser != null ? reportForm.CreatedByUser.FirstName + " " + reportForm.CreatedByUser.LastName : null,
+                UpdatedBy = reportForm.UpdatedBy,
+                UpdatedByUserName = reportForm.UpdatedByUser != null ? reportForm.UpdatedByUser.FirstName + " " + reportForm.UpdatedByUser.LastName : null,
+
+                // PM Report RTU specific data
+                PMReportFormRTU = new
+                {
+                    ID = pmReportFormRTU.ID,
+                    PMReportFormTypeID = pmReportFormRTU.PMReportFormTypeID,
+                    PMReportFormTypeName = pmReportFormRTU.PMReportFormType.Name,
+                    ProjectNo = pmReportFormRTU.ProjectNo,
+                    Customer = pmReportFormRTU.Customer,
+                    DateOfService = pmReportFormRTU.DateOfService,
+                    CleaningOfCabinet = pmReportFormRTU.CleaningOfCabinet,
+                    Remarks = pmReportFormRTU.Remarks,
+                    AttendedBy = pmReportFormRTU.AttendedBy,
+                    ApprovedBy = pmReportFormRTU.ApprovedBy,
+                    CreatedDate = pmReportFormRTU.CreatedDate,
+                    UpdatedDate = pmReportFormRTU.UpdatedDate,
+                    CreatedBy = pmReportFormRTU.CreatedBy,
+                    CreatedByUserName = pmReportFormRTU.CreatedByUser != null ? pmReportFormRTU.CreatedByUser.FirstName + " " + pmReportFormRTU.CreatedByUser.LastName : null,
+                    UpdatedBy = pmReportFormRTU.UpdatedBy,
+                    UpdatedByUserName = pmReportFormRTU.UpdatedByUser != null ? pmReportFormRTU.UpdatedByUser.FirstName + " " + pmReportFormRTU.UpdatedByUser.LastName : null
+                },
+
+                // PM Main RTU Cabinet data (array)
+                PMMainRtuCabinet = pmMainRtuCabinet,
+
+                // PM Chamber Magnetic Contact data (array)
+                PMChamberMagneticContact = pmChamberMagneticContact,
+
+                // PM RTU Cabinet Cooling data (array)
+                PMRTUCabinetCooling = pmRTUCabinetCooling,
+
+                // PM DVR Equipment data (array)
+                PMDVREquipment = pmDVREquipment,
+
+                // Images for each section
+                PMMainRtuCabinetImages = pmMainRtuCabinetImages,
+                PMChamberMagneticContactImages = pmChamberMagneticContactImages,
+                PMRTUCabinetCoolingImages = pmRTUCabinetCoolingImages,
+                PMDVREquipmentImages = pmDVREquipmentImages
+            };
+
+            return Ok(result);
         }
 
         // GET: api/ReportForm/ByReportFormType/5

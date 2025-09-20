@@ -3533,6 +3533,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormController",
+    "Method": "GetRTUPMReportForm",
+    "RelativePath": "api/ReportForm/RTUPMReportForm/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormImageController",
     "Method": "GetReportFormImages",
     "RelativePath": "api/ReportFormImage",
@@ -3669,6 +3685,27 @@
   },
   {
     "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormImageController",
+    "Method": "GetReportFormImage",
+    "RelativePath": "api/ReportFormImage/image/{reportFormId}/{imageName}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reportFormId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "imageName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormImageController",
     "Method": "UploadReportFormImage",
     "RelativePath": "api/ReportFormImage/upload",
     "HttpMethod": "POST",
@@ -3688,6 +3725,11 @@
       {
         "Name": "ReportFormImageTypeId",
         "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "SectionName",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
