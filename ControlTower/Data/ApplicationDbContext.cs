@@ -28,8 +28,7 @@ namespace ControlTower.Data
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomBookingStatus> RoomBookingStatus { get; set; }
         public DbSet<RoomBooking> RoomBookings { get; set; }
-        public DbSet<MaterialUsed> MaterialUsed { get; set; }
-
+        public DbSet<CMMaterialUsed> CMMaterialUsed { get; set; }
         // News Portal System
         public DbSet<News> News { get; set; }
         public DbSet<NewsCategory> NewsCategory { get; set; }
@@ -399,18 +398,6 @@ namespace ControlTower.Data
                 .HasFilter("[IsDeleted] = 0");
 
 
-            // Configure MaterialUsed foreign key relationships
-            modelBuilder.Entity<MaterialUsed>()
-                .HasOne(m => m.CreatedByUser)
-                .WithMany()
-                .HasForeignKey(m => m.CreatedBy)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<MaterialUsed>()
-                .HasOne(m => m.UpdatedByUser)
-                .WithMany()
-                .HasForeignKey(m => m.UpdatedBy)
-                .OnDelete(DeleteBehavior.NoAction);
 
             // Configure CMReportForm foreign key relationships
             modelBuilder.Entity<CMReportForm>()
@@ -423,6 +410,25 @@ namespace ControlTower.Data
                 .HasOne(c => c.UpdatedByUser)
                 .WithMany()
                 .HasForeignKey(c => c.UpdatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // Configure CMMaterialUsed foreign key relationships
+            modelBuilder.Entity<CMMaterialUsed>()
+                .HasOne(cm => cm.CMReportForm)
+                .WithMany()
+                .HasForeignKey(cm => cm.CMReportFormID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CMMaterialUsed>()
+                .HasOne(cm => cm.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(cm => cm.CreatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<CMMaterialUsed>()
+                .HasOne(cm => cm.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(cm => cm.UpdatedBy)
                 .OnDelete(DeleteBehavior.NoAction);
 
             // Configure ReportForm foreign key relationships

@@ -3,14 +3,14 @@ INSERT INTO ReportFormImageTypes (ID, ImageTypeName, IsDeleted, CreatedDate, Upd
 VALUES 
 (
     '11111111-1111-1111-1111-111111111111',
-    'Before',
+    'CMBeforeIssueImage',
     0,
     GETDATE(),
     GETDATE()
 ),
 (
     '22222222-2222-2222-2222-222222222222',
-    'After',
+    'CMAfterIssueImage',
     0,
     GETDATE(),
     GETDATE()
@@ -43,5 +43,18 @@ VALUES
     GETDATE(),
     GETDATE()
 ),
-;
+(
+    '77777777-7777-7777-7777-777777777777',
+    'CMMaterialUsedNewSerialNo',
+    0,
+    GETDATE(),
+    GETDATE()
+),
+(
+    '88888888-8888-8888-8888-888888888888',
+    'CMMaterialUsedOldSerialNo',
+    0,
+    GETDATE(),
+    GETDATE()
+);
 

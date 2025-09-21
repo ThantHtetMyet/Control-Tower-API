@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ControlTower.Models.EmployeeManagementSystem;
+
 namespace ControlTower.Models.ReportManagementSystem
 {
-    public class MaterialUsed
+    public class CMMaterialUsed
     {
         [Key]
         public Guid ID { get; set; }
@@ -12,14 +13,16 @@ namespace ControlTower.Models.ReportManagementSystem
         public Guid CMReportFormID { get; set; }
         public virtual CMReportForm CMReportForm { get; set; }
 
+        public string? ItemDescription { get; set; }
+
+        public string? NewSerialNo { get; set; }
+
+        public string? OldSerialNo { get; set; }
+
+        public string? Remark { get; set; }
+
         [Required]
-        public int Quantity { get; set; }
-
-        [StringLength(1000)]
-        public string? Description { get; set; }
-
-        [StringLength(500)]
-        public string? SerialNo { get; set; }
+        public bool IsDeleted { get; set; } = false;
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public DateTime? UpdatedDate { get; set; }

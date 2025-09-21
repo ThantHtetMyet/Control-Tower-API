@@ -153,7 +153,8 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     FurtherActionTakenName = c.FurtherActionTakenWarehouse.Name,
                     FormStatusName = c.FormStatusWarehouse.Name,
                     CreatedByUserName = $"{c.CreatedByUser.FirstName} {c.CreatedByUser.LastName}",
-                    UpdatedByUserName = c.UpdatedByUser != null ? $"{c.UpdatedByUser.FirstName} {c.UpdatedByUser.LastName}" : null
+                    UpdatedByUserName = c.UpdatedByUser != null ? $"{c.UpdatedByUser.FirstName} {c.UpdatedByUser.LastName}" : null,
+                    JobNo = c.ReportForm.JobNo // Add JobNo from parent ReportForm
                 })
                 .ToListAsync();
 
@@ -226,9 +227,33 @@ namespace ControlTower.Controllers.ReportManagementSystem
             _context.CMReportForms.Add(cmReportForm);
             await _context.SaveChangesAsync();
 
-            // Return the created record with navigation properties
-            var createdRecord = await GetCMReportForm(cmReportForm.ID);
-            return CreatedAtAction(nameof(GetCMReportForm), new { id = cmReportForm.ID }, createdRecord);
+            // Return a simple DTO with just the essential data instead of calling GetCMReportForm
+            var responseDto = new CMReportFormDto
+            {
+                ID = cmReportForm.ID,
+                ReportFormID = cmReportForm.ReportFormID,
+                FurtherActionTakenID = cmReportForm.FurtherActionTakenID,
+                FormstatusID = cmReportForm.FormstatusID,
+                Customer = cmReportForm.Customer,
+                ProjectNo = cmReportForm.ProjectNo,
+                IssueReportedDescription = cmReportForm.IssueReportedDescription,
+                IssueFoundDescription = cmReportForm.IssueFoundDescription,
+                ActionTakenDescription = cmReportForm.ActionTakenDescription,
+                FailureDetectedDate = cmReportForm.FailureDetectedDate,
+                ResponseDate = cmReportForm.ResponseDate,
+                ArrivalDate = cmReportForm.ArrivalDate,
+                CompletionDate = cmReportForm.CompletionDate,
+                AttendedBy = cmReportForm.AttendedBy,
+                ApprovedBy = cmReportForm.ApprovedBy,
+                IsDeleted = cmReportForm.IsDeleted,
+                CreatedDate = cmReportForm.CreatedDate,
+                UpdatedDate = cmReportForm.UpdatedDate,
+                CreatedBy = cmReportForm.CreatedBy,
+                UpdatedBy = cmReportForm.UpdatedBy,
+                Remark = cmReportForm.Remark
+            };
+
+            return CreatedAtAction(nameof(GetCMReportForm), new { id = cmReportForm.ID }, responseDto);
         }
 
         // PUT: api/CMReportForm/5
