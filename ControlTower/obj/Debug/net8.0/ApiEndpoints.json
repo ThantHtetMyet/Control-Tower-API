@@ -3524,6 +3524,22 @@
   },
   {
     "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormController",
+    "Method": "GetCMReportForm",
+    "RelativePath": "api/ReportForm/CMReportForm/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormController",
     "Method": "GetNextJobNumber",
     "RelativePath": "api/ReportForm/NextJobNumber",
     "HttpMethod": "GET",

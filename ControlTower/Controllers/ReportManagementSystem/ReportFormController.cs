@@ -93,7 +93,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     ReportFormTypeID = rf.ReportFormTypeID,
                     ReportFormTypeName = rf.ReportFormType.Name,
                     // Get specific PM type name if it's a PM report, otherwise use the main report type name
-                    SpecificReportTypeName = rf.ReportFormType.Name == "Preventative Maintenance" 
+                    SpecificReportTypeName = rf.ReportFormType.Name == "Preventative Maintenance"
                         ? _context.PMReportFormRTU
                             .Where(pm => pm.ReportFormID == rf.ID && !pm.IsDeleted)
                             .Include(pm => pm.PMReportFormType)
@@ -324,7 +324,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
 
             // Get images for each RTU PM section
             var pmMainRtuCabinetImages = await _context.ReportFormImages
-                .Where(img => img.ReportFormID == id && !img.IsDeleted && 
+                .Where(img => img.ReportFormID == id && !img.IsDeleted &&
                              img.StoredDirectory.Contains("PMMainRtuCabinets"))
                 .Include(img => img.ReportFormImageType)
                 .Select(img => new
@@ -338,7 +338,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 .ToListAsync();
 
             var pmChamberMagneticContactImages = await _context.ReportFormImages
-                .Where(img => img.ReportFormID == id && !img.IsDeleted && 
+                .Where(img => img.ReportFormID == id && !img.IsDeleted &&
                              img.StoredDirectory.Contains("PMChamberMagneticContacts"))
                 .Include(img => img.ReportFormImageType)
                 .Select(img => new
@@ -352,7 +352,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 .ToListAsync();
 
             var pmRTUCabinetCoolingImages = await _context.ReportFormImages
-                .Where(img => img.ReportFormID == id && !img.IsDeleted && 
+                .Where(img => img.ReportFormID == id && !img.IsDeleted &&
                              img.StoredDirectory.Contains("PMRTUCabinetCoolings"))
                 .Include(img => img.ReportFormImageType)
                 .Select(img => new
@@ -366,7 +366,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 .ToListAsync();
 
             var pmDVREquipmentImages = await _context.ReportFormImages
-                .Where(img => img.ReportFormID == id && !img.IsDeleted && 
+                .Where(img => img.ReportFormID == id && !img.IsDeleted &&
                              img.StoredDirectory.Contains("PMDVREquipments"))
                 .Include(img => img.ReportFormImageType)
                 .Select(img => new
@@ -741,7 +741,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
         {
             return _context.ReportForms.Any(rf => rf.ID == id && !rf.IsDeleted);
         }
-        
+
         // GET: api/ReportForm/NextJobNumber
         [HttpGet("NextJobNumber")]
         public async Task<ActionResult<object>> GetNextJobNumber()
@@ -758,7 +758,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 var currentUser = await _context.Users
                     .Where(u => u.ID == currentUserId.Value && !u.IsDeleted)
                     .FirstOrDefaultAsync();
-                
+
                 if (currentUser == null)
                 {
                     return NotFound(new { message = "Current user not found" });
@@ -768,9 +768,9 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 var totalCount = await _context.ReportForms
                     .Where(rf => !rf.IsDeleted)
                     .CountAsync();
-                
+
                 var nextSequentialNumber = totalCount + 1;
-                
+
                 // Generate JobNo: StaffCardID + 4-digit sequential number
                 var nextJobNo = $"{currentUser.StaffCardID}{nextSequentialNumber:D4}";
 
@@ -780,6 +780,181 @@ namespace ControlTower.Controllers.ReportManagementSystem
             {
                 return StatusCode(500, new { message = "Error generating next job number", error = ex.Message });
             }
+        }
+
+        // GET: api/ReportForm/CMReportForm/{id}
+        [HttpGet("CMReportForm/{id}")]
+        public async Task<ActionResult<object>> GetCMReportForm(Guid id)
+        {
+            var reportForm = await _context.ReportForms
+                .Where(rf => rf.ID == id && !rf.IsDeleted)
+                .Include(rf => rf.ReportFormType)
+                .Include(rf => rf.SystemNameWarehouse)
+                .Include(rf => rf.StationNameWarehouse)
+                .Include(rf => rf.CreatedByUser)
+                .Include(rf => rf.UpdatedByUser)
+                .FirstOrDefaultAsync();
+
+            if (reportForm == null)
+            {
+                return NotFound(new { message = "Report form not found" });
+            }
+
+            // Check if this report form has CM data
+            var cmReportForm = await _context.CMReportForms
+                .Where(cm => cm.ReportFormID == id && !cm.IsDeleted)
+                .Include(cm => cm.FurtherActionTakenWarehouse)
+                .Include(cm => cm.FormStatusWarehouse)
+                .Include(cm => cm.CreatedByUser)
+                .Include(cm => cm.UpdatedByUser)
+                .FirstOrDefaultAsync();
+
+            if (cmReportForm == null)
+            {
+                return BadRequest(new { message = "This report form is not a CM report form" });
+            }
+
+            // Get Material Used data
+            var materialUsed = await _context.CMMaterialUsed
+                .Where(mu => mu.CMReportFormID == cmReportForm.ID && !mu.IsDeleted)
+                .Include(mu => mu.CreatedByUser)
+                .Include(mu => mu.UpdatedByUser)
+                .Select(mu => new
+                {
+                    ID = mu.ID,
+                    CMReportFormID = mu.CMReportFormID,
+                    MaterialDescription = mu.ItemDescription,
+                    OldSerialNo = mu.OldSerialNo,
+                    NewSerialNo = mu.NewSerialNo,
+                    Remarks = mu.Remark,
+                    CreatedDate = mu.CreatedDate,
+                    UpdatedDate = mu.UpdatedDate,
+                    CreatedBy = mu.CreatedBy,
+                    CreatedByUserName = mu.CreatedByUser != null ? mu.CreatedByUser.FirstName + " " + mu.CreatedByUser.LastName : null,
+                    UpdatedBy = mu.UpdatedBy,
+                    UpdatedByUserName = mu.UpdatedByUser != null ? mu.UpdatedByUser.FirstName + " " + mu.UpdatedByUser.LastName : null
+                })
+                .ToListAsync();
+
+            // Get images for CM report form sections
+            var beforeIssueImages = await _context.ReportFormImages
+                .Where(img => img.ReportFormID == id && !img.IsDeleted &&
+                             img.StoredDirectory.Contains("CMBeforeIssueImage"))
+                .Include(img => img.ReportFormImageType)
+                .Select(img => new
+                {
+                    ID = img.ID,
+                    ImageName = img.ImageName,
+                    StoredDirectory = img.StoredDirectory,
+                    ImageTypeName = img.ReportFormImageType.ImageTypeName,
+                    UploadedDate = img.UploadedDate
+                })
+                .ToListAsync();
+
+            var afterActionImages = await _context.ReportFormImages
+                .Where(img => img.ReportFormID == id && !img.IsDeleted &&
+                             img.StoredDirectory.Contains("CMAfterIssueImage"))
+                .Include(img => img.ReportFormImageType)
+                .Select(img => new
+                {
+                    ID = img.ID,
+                    ImageName = img.ImageName,
+                    StoredDirectory = img.StoredDirectory,
+                    ImageTypeName = img.ReportFormImageType.ImageTypeName,
+                    UploadedDate = img.UploadedDate
+                })
+                .ToListAsync();
+
+            var materialUsedOldSerialImages = await _context.ReportFormImages
+                .Where(img => img.ReportFormID == id && !img.IsDeleted &&
+                             img.StoredDirectory.Contains("CMMaterialUsedOldSerialNo"))
+                .Include(img => img.ReportFormImageType)
+                .Select(img => new
+                {
+                    ID = img.ID,
+                    ImageName = img.ImageName,
+                    StoredDirectory = img.StoredDirectory,
+                    ImageTypeName = img.ReportFormImageType.ImageTypeName,
+                    UploadedDate = img.UploadedDate
+                })
+                .ToListAsync();
+
+            var materialUsedNewSerialImages = await _context.ReportFormImages
+                .Where(img => img.ReportFormID == id && !img.IsDeleted &&
+                             img.StoredDirectory.Contains("CMMaterialUsedNewSerialNo"))
+                .Include(img => img.ReportFormImageType)
+                .Select(img => new
+                {
+                    ID = img.ID,
+                    ImageName = img.ImageName,
+                    StoredDirectory = img.StoredDirectory,
+                    ImageTypeName = img.ReportFormImageType.ImageTypeName,
+                    UploadedDate = img.UploadedDate
+                })
+                .ToListAsync();
+
+            var result = new
+            {
+                // Report Form basic information
+                ID = reportForm.ID,
+                ReportFormTypeID = reportForm.ReportFormTypeID,
+                ReportFormTypeName = reportForm.ReportFormType.Name,
+                JobNo = reportForm.JobNo,
+                SystemNameWarehouseID = reportForm.SystemNameWarehouseID,
+                SystemNameWarehouseName = reportForm.SystemNameWarehouse?.Name,
+                StationNameWarehouseID = reportForm.StationNameWarehouseID,
+                StationNameWarehouseName = reportForm.StationNameWarehouse?.Name,
+                UploadStatus = reportForm.UploadStatus,
+                UploadHostname = reportForm.UploadHostname,
+                UploadIPAddress = reportForm.UploadIPAddress,
+                FormStatus = reportForm.FormStatus,
+                CreatedDate = reportForm.CreatedDate,
+                UpdatedDate = reportForm.UpdatedDate,
+                CreatedBy = reportForm.CreatedBy,
+                CreatedByUserName = reportForm.CreatedByUser != null ? reportForm.CreatedByUser.FirstName + " " + reportForm.CreatedByUser.LastName : null,
+                UpdatedBy = reportForm.UpdatedBy,
+                UpdatedByUserName = reportForm.UpdatedByUser != null ? reportForm.UpdatedByUser.FirstName + " " + reportForm.UpdatedByUser.LastName : null,
+
+                // CM Report Form specific data
+                CMReportForm = new
+                {
+                    ID = cmReportForm.ID,
+                    ReportFormID = cmReportForm.ReportFormID,
+                    FurtherActionTakenID = cmReportForm.FurtherActionTakenID,
+                    FurtherActionTakenName = cmReportForm.FurtherActionTakenWarehouse?.Name,
+                    FormstatusID = cmReportForm.FormstatusID,
+                    FormStatusName = cmReportForm.FormStatusWarehouse?.Name,
+                    Customer = cmReportForm.Customer,
+                    ProjectNo = cmReportForm.ProjectNo,
+                    IssueReportedDescription = cmReportForm.IssueReportedDescription,
+                    IssueFoundDescription = cmReportForm.IssueFoundDescription,
+                    ActionTakenDescription = cmReportForm.ActionTakenDescription,
+                    FailureDetectedDate = cmReportForm.FailureDetectedDate,
+                    ResponseDate = cmReportForm.ResponseDate,
+                    ArrivalDate = cmReportForm.ArrivalDate,
+                    CompletionDate = cmReportForm.CompletionDate,
+                    AttendedBy = cmReportForm.AttendedBy,
+                    ApprovedBy = cmReportForm.ApprovedBy,
+                    Remark = cmReportForm.Remark,
+                    CreatedDate = cmReportForm.CreatedDate,
+                    UpdatedDate = cmReportForm.UpdatedDate,
+                    CreatedBy = cmReportForm.CreatedBy,
+                    CreatedByUserName = cmReportForm.CreatedByUser != null ? cmReportForm.CreatedByUser.FirstName + " " + cmReportForm.CreatedByUser.LastName : null,
+                    UpdatedBy = cmReportForm.UpdatedBy,
+                    UpdatedByUserName = cmReportForm.UpdatedByUser != null ? cmReportForm.UpdatedByUser.FirstName + " " + cmReportForm.UpdatedByUser.LastName : null
+                },
+
+                // Material Used data (array)
+                MaterialUsed = materialUsed,
+
+                // Images for each section
+                BeforeIssueImages = beforeIssueImages,
+                AfterActionImages = afterActionImages,
+                MaterialUsedOldSerialImages = materialUsedOldSerialImages,
+                MaterialUsedNewSerialImages = materialUsedNewSerialImages
+            };
+
+            return Ok(result);
         }
     }
 }

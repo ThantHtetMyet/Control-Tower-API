@@ -3,36 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\controllers\\reportmanagementsystem\\cmmaterialusedcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\controllers\\reportmanagementsystem\\cmmaterialusedcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\controllers\\reportmanagementsystem\\reportformimagecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\controllers\\reportmanagementsystem\\reportformimagecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\controllers\\reportmanagementsystem\\reportformcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\controllers\\reportmanagementsystem\\reportformcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\controllers\\reportmanagementsystem\\pmreportformrtucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\controllers\\reportmanagementsystem\\pmreportformrtucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\controllers\\reportmanagementsystem\\pmdvrequipmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\controllers\\reportmanagementsystem\\pmdvrequipmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\controltower.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
-      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\controltower.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\controllers\\reportmanagementsystem\\pmrtucabinetcoolingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\controllers\\reportmanagementsystem\\pmrtucabinetcoolingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\controllers\\reportmanagementsystem\\pmchambermagneticcontactcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\controllers\\reportmanagementsystem\\pmchambermagneticcontactcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\controllers\\reportmanagementsystem\\pmmainrtucabinetcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\controllers\\reportmanagementsystem\\pmmainrtucabinetcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|c:\\users\\thanthtet.myet\\documents\\01_willowglen\\02_workplace\\controltower\\controltower\\controltower\\controllers\\reportmanagementsystem\\reportformcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E0BCFEB-C1BE-49FC-966D-8D9028E697D4}|ControlTower\\ControlTower.csproj|solutionrelative:controltower\\controllers\\reportmanagementsystem\\reportformcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -63,102 +55,80 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "CMMaterialUsedController.cs",
-              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\ReportManagementSystem\\CMMaterialUsedController.cs",
-              "RelativeDocumentMoniker": "ControlTower\\Controllers\\ReportManagementSystem\\CMMaterialUsedController.cs",
-              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\ReportManagementSystem\\CMMaterialUsedController.cs",
-              "RelativeToolTip": "ControlTower\\Controllers\\ReportManagementSystem\\CMMaterialUsedController.cs",
-              "ViewState": "AgIAAEMAAAAAAAAAAAAIwFYAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-21T17:51:51.731Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Data\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "ControlTower\\Data\\ApplicationDbContext.cs",
-              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Data\\ApplicationDbContext.cs",
-              "RelativeToolTip": "ControlTower\\Data\\ApplicationDbContext.cs",
-              "ViewState": "AgIAAIsBAAAAAAAAAAAAAI8BAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-21T16:09:12.455Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ReportFormImageController.cs",
-              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\ReportManagementSystem\\ReportFormImageController.cs",
-              "RelativeDocumentMoniker": "ControlTower\\Controllers\\ReportManagementSystem\\ReportFormImageController.cs",
-              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\ReportManagementSystem\\ReportFormImageController.cs",
-              "RelativeToolTip": "ControlTower\\Controllers\\ReportManagementSystem\\ReportFormImageController.cs",
-              "ViewState": "AgIAAGEAAAAAAAAAAAAuwG0AAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-15T01:30:04.354Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\appsettings.json",
-              "RelativeDocumentMoniker": "ControlTower\\appsettings.json",
-              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\appsettings.json",
-              "RelativeToolTip": "ControlTower\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-15T01:57:50.167Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ReportFormController.cs",
-              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\ReportManagementSystem\\ReportFormController.cs",
-              "RelativeDocumentMoniker": "ControlTower\\Controllers\\ReportManagementSystem\\ReportFormController.cs",
-              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\ReportManagementSystem\\ReportFormController.cs",
-              "RelativeToolTip": "ControlTower\\Controllers\\ReportManagementSystem\\ReportFormController.cs",
-              "ViewState": "AgIAAJ4BAAAAAAAAAAAawL8BAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-15T01:47:41.181Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
               "Title": "PMReportFormRTUController.cs",
               "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\ReportManagementSystem\\PMReportFormRTUController.cs",
               "RelativeDocumentMoniker": "ControlTower\\Controllers\\ReportManagementSystem\\PMReportFormRTUController.cs",
               "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\ReportManagementSystem\\PMReportFormRTUController.cs",
               "RelativeToolTip": "ControlTower\\Controllers\\ReportManagementSystem\\PMReportFormRTUController.cs",
-              "ViewState": "AgIAAIIAAAAAAAAAAAAAwIsAAAA8AAAAAAAAAA==",
+              "ViewState": "AgIAAJkAAAAAAAAAAAAiwKEAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T13:26:18.223Z"
+              "WhenOpened": "2025-09-20T13:26:18.223Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PMMainRtuCabinetController.cs",
+              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\ReportManagementSystem\\PMMainRtuCabinetController.cs",
+              "RelativeDocumentMoniker": "ControlTower\\Controllers\\ReportManagementSystem\\PMMainRtuCabinetController.cs",
+              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\ReportManagementSystem\\PMMainRtuCabinetController.cs",
+              "RelativeToolTip": "ControlTower\\Controllers\\ReportManagementSystem\\PMMainRtuCabinetController.cs",
+              "ViewState": "AgIAALMAAAAAAAAAAAAcwMIAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-22T10:03:05.193Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PMChamberMagneticContactController.cs",
+              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\ReportManagementSystem\\PMChamberMagneticContactController.cs",
+              "RelativeDocumentMoniker": "ControlTower\\Controllers\\ReportManagementSystem\\PMChamberMagneticContactController.cs",
+              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\ReportManagementSystem\\PMChamberMagneticContactController.cs",
+              "RelativeToolTip": "ControlTower\\Controllers\\ReportManagementSystem\\PMChamberMagneticContactController.cs",
+              "ViewState": "AgIAAI8AAAAAAAAAAAAcwJ4AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-22T09:35:45.606Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PMRTUCabinetCoolingController.cs",
+              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\ReportManagementSystem\\PMRTUCabinetCoolingController.cs",
+              "RelativeDocumentMoniker": "ControlTower\\Controllers\\ReportManagementSystem\\PMRTUCabinetCoolingController.cs",
+              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\ReportManagementSystem\\PMRTUCabinetCoolingController.cs",
+              "RelativeToolTip": "ControlTower\\Controllers\\ReportManagementSystem\\PMRTUCabinetCoolingController.cs",
+              "ViewState": "AgIAAIQAAAAAAAAAAAAcwJMAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-22T10:03:41.988Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PMDVREquipmentController.cs",
+              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\ReportManagementSystem\\PMDVREquipmentController.cs",
+              "RelativeDocumentMoniker": "ControlTower\\Controllers\\ReportManagementSystem\\PMDVREquipmentController.cs",
+              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\ReportManagementSystem\\PMDVREquipmentController.cs",
+              "RelativeToolTip": "ControlTower\\Controllers\\ReportManagementSystem\\PMDVREquipmentController.cs",
+              "ViewState": "AgIAAIsAAAAAAAAAAAAcwJoAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-22T10:03:52.081Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "ControlTower\\Properties\\launchSettings.json",
-              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Properties\\launchSettings.json",
-              "RelativeToolTip": "ControlTower\\Properties\\launchSettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-17T01:07:20.924Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ControlTower.http",
-              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\ControlTower.http",
-              "RelativeDocumentMoniker": "ControlTower\\ControlTower.http",
-              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\ControlTower.http",
-              "RelativeToolTip": "ControlTower\\ControlTower.http",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
-              "WhenOpened": "2025-09-17T01:07:15.9Z"
+              "Title": "ReportFormController.cs",
+              "DocumentMoniker": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\ReportManagementSystem\\ReportFormController.cs",
+              "RelativeDocumentMoniker": "ControlTower\\Controllers\\ReportManagementSystem\\ReportFormController.cs",
+              "ToolTip": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\Controllers\\ReportManagementSystem\\ReportFormController.cs",
+              "RelativeToolTip": "ControlTower\\Controllers\\ReportManagementSystem\\ReportFormController.cs",
+              "ViewState": "AgIAAHcCAAAAAAAAAAAiwIgCAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-15T01:47:41.181Z",
+              "EditorCaption": ""
             }
           ]
         }

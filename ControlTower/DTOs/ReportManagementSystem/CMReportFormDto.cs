@@ -33,6 +33,10 @@ namespace ControlTower.DTOs.ReportManagementSystem
         public string? CreatedByUserName { get; set; }
         public string? UpdatedByUserName { get; set; }
         public string? JobNo { get; set; } // Add JobNo from parent ReportForm
+
+        public string? stationName { get; set; }
+
+        public string? systemDescription { get; set; }
     }
 
     public class CreateCMReportFormDto
