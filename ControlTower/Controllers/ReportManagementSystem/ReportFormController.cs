@@ -658,14 +658,6 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 return NotFound(new { message = "ReportForm not found" });
             }
 
-            // Validate ReportFormType exists
-            var reportFormTypeExists = await _context.ReportFormTypes
-                .AnyAsync(rft => rft.ID == updateDto.ReportFormTypeID && !rft.IsDeleted);
-            if (!reportFormTypeExists)
-            {
-                return BadRequest(new { message = "Invalid ReportFormTypeID" });
-            }
-
             // Validate SystemNameWarehouse exists
             var systemNameExists = await _context.SystemNameWarehouses
                 .AnyAsync(s => s.ID == updateDto.SystemNameWarehouseID && !s.IsDeleted);
@@ -682,7 +674,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 return BadRequest(new { message = "Invalid StationNameWarehouseID or StationName does not belong to the specified SystemName" });
             }
 
-            reportForm.ReportFormTypeID = updateDto.ReportFormTypeID;
+            //reportForm.ReportFormTypeID = updateDto.ReportFormTypeID;
             reportForm.JobNo = updateDto.JobNo;
             reportForm.SystemNameWarehouseID = updateDto.SystemNameWarehouseID;
             reportForm.StationNameWarehouseID = updateDto.StationNameWarehouseID;

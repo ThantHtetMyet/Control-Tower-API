@@ -55,8 +55,7 @@ namespace ControlTower.DTOs.ReportManagementSystem
 
     public class UpdateReportFormDto
     {
-        [Required(ErrorMessage = "ReportFormTypeID is required")]
-        public Guid ReportFormTypeID { get; set; }
+        
 
         [Required(ErrorMessage = "JobNo is required")]
         [StringLength(255, ErrorMessage = "JobNo cannot exceed 255 characters")]

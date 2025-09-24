@@ -13192,16 +13192,11 @@
       "UpdateReportFormDto": {
         "required": [
           "jobNo",
-          "reportFormTypeID",
           "stationNameWarehouseID",
           "systemNameWarehouseID"
         ],
         "type": "object",
         "properties": {
-          "reportFormTypeID": {
-            "type": "string",
-            "format": "uuid"
-          },
           "jobNo": {
             "maxLength": 255,
             "minLength": 0,
