@@ -314,7 +314,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
             cmReportForm.ApprovedBy = updateDto.ApprovedBy;
             cmReportForm.UpdatedDate = DateTime.UtcNow;
             cmReportForm.UpdatedBy = updateDto.UpdatedBy;
-
+            cmReportForm.Remark = updateDto.Remark;
             try
             {
                 await _context.SaveChangesAsync();

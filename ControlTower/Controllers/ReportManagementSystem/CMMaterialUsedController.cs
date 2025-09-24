@@ -159,7 +159,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
             var createdRecord = await GetCMMaterialUsed(cmmaterialUsed.ID);
             return CreatedAtAction(nameof(GetCMMaterialUsed), new { id = cmmaterialUsed.ID }, createdRecord.Value);
         }
-
+         
         // PUT: api/CMMaterialUsed/5
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCMMaterialUsed(Guid id, UpdateCMMaterialUsedDto updateDto)
