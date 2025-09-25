@@ -12,6 +12,10 @@ namespace ControlTower.Models.ReportManagementSystem
         [ForeignKey("ServiceReportForm")]
         public Guid ReportFormID { get; set; }
 
+        [ForeignKey("CMReportFormType")]
+        public Guid CMReportFormTypeID { get; set; }
+        public virtual CMReportFormType CMReportFormType { get; set; }
+
         [ForeignKey("FurtherActionTakenWarehouse")]
         public Guid FurtherActionTakenID { get; set; }
         public virtual FurtherActionTakenWarehouse FurtherActionTakenWarehouse { get; set; }
@@ -22,6 +26,9 @@ namespace ControlTower.Models.ReportManagementSystem
         
         [StringLength(500)]
         public string? Customer { get; set; }
+
+        [StringLength(500)]
+        public string? ReportTitle { get; set; }
 
         [StringLength(500)]
         public string? ProjectNo { get; set; }

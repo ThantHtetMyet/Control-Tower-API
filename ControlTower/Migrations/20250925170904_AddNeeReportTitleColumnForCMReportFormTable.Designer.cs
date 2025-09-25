@@ -4,6 +4,7 @@ using ControlTower.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControlTower.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250925170904_AddNeeReportTitleColumnForCMReportFormTable")]
+    partial class AddNeeReportTitleColumnForCMReportFormTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1026,9 +1029,6 @@ namespace ControlTower.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<Guid>("CMReportFormTypeID")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime?>("CompletionDate")
                         .HasColumnType("datetime2");
 
@@ -1088,8 +1088,6 @@ namespace ControlTower.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("CMReportFormTypeID");
-
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("FormstatusID");
@@ -1101,41 +1099,6 @@ namespace ControlTower.Migrations
                     b.HasIndex("UpdatedBy");
 
                     b.ToTable("CMReportForms");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.CMReportFormType", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("CMReportFormTypes");
                 });
 
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.FormStatusWarehouse", b =>
@@ -2516,12 +2479,6 @@ namespace ControlTower.Migrations
 
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.CMReportForm", b =>
                 {
-                    b.HasOne("ControlTower.Models.ReportManagementSystem.CMReportFormType", "CMReportFormType")
-                        .WithMany()
-                        .HasForeignKey("CMReportFormTypeID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedBy")
@@ -2551,8 +2508,6 @@ namespace ControlTower.Migrations
                         .HasForeignKey("UpdatedBy")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("CMReportFormType");
-
                     b.Navigation("CreatedByUser");
 
                     b.Navigation("FormStatusWarehouse");
@@ -2560,23 +2515,6 @@ namespace ControlTower.Migrations
                     b.Navigation("FurtherActionTakenWarehouse");
 
                     b.Navigation("ReportForm");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.CMReportFormType", b =>
-                {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("CreatedByUser");
 
                     b.Navigation("UpdatedByUser");
                 });

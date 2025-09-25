@@ -40,6 +40,7 @@ namespace ControlTower.Data
         public DbSet<ImportFormTypes> ImportFormTypes { get; set; }
         public DbSet<ImportFileRecords> ImportFileRecords { get; set; }
         public DbSet<ReportFormType> ReportFormTypes { get; set; }
+        public DbSet<CMReportFormType> CMReportFormTypes { get; set; }
         public DbSet<PMReportFormType> PMReportFormTypes { get; set; }
         public DbSet<FormStatusWarehouse> FormStatusWarehouses { get; set; }
         public DbSet<FurtherActionTakenWarehouse> FurtherActionTakenWarehouses { get; set; }
@@ -477,6 +478,38 @@ namespace ControlTower.Data
                 .HasOne(rt => rt.UpdatedByUser)
                 .WithMany()
                 .HasForeignKey(rt => rt.UpdatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // Configure CMReportFormType foreign key relationships
+            modelBuilder.Entity<CMReportFormType>()
+                .HasOne(crt => crt.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(crt => crt.CreatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<CMReportFormType>()
+                .HasOne(crt => crt.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(crt => crt.UpdatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // Configure CMReportForm foreign key relationships
+            modelBuilder.Entity<CMReportForm>()
+                .HasOne(c => c.CMReportFormType)
+                .WithMany()
+                .HasForeignKey(c => c.CMReportFormTypeID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<CMReportForm>()
+                .HasOne(c => c.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(c => c.CreatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<CMReportForm>()
+                .HasOne(c => c.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(c => c.UpdatedBy)
                 .OnDelete(DeleteBehavior.NoAction);
 
             // Configure ReportFormImageType foreign key relationships
