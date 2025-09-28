@@ -1076,6 +1076,191 @@
         }
       }
     },
+    "/api/CMReportFormType": {
+      "get": {
+        "tags": [
+          "CMReportFormType"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CMReportFormTypeDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CMReportFormTypeDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CMReportFormTypeDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "CMReportFormType"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCMReportFormTypeDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCMReportFormTypeDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCMReportFormTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CMReportFormTypeDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CMReportFormTypeDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CMReportFormTypeDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CMReportFormType/{id}": {
+      "get": {
+        "tags": [
+          "CMReportFormType"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CMReportFormTypeDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CMReportFormTypeDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CMReportFormTypeDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "CMReportFormType"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCMReportFormTypeDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCMReportFormTypeDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCMReportFormTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "CMReportFormType"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Company": {
       "get": {
         "tags": [
@@ -8756,6 +8941,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "cmReportFormTypeID": {
+            "type": "string",
+            "format": "uuid"
+          },
           "furtherActionTakenID": {
             "type": "string",
             "format": "uuid"
@@ -8765,6 +8954,10 @@
             "format": "uuid"
           },
           "customer": {
+            "type": "string",
+            "nullable": true
+          },
+          "reportTitle": {
             "type": "string",
             "nullable": true
           },
@@ -8866,6 +9059,50 @@
             "nullable": true
           },
           "systemDescription": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CMReportFormTypeDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "createdByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedByUserName": {
             "type": "string",
             "nullable": true
           }
@@ -9264,6 +9501,7 @@
       },
       "CreateCMReportFormDto": {
         "required": [
+          "cmReportFormTypeID",
           "createdBy",
           "formstatusID",
           "furtherActionTakenID",
@@ -9272,6 +9510,10 @@
         "type": "object",
         "properties": {
           "reportFormID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "cmReportFormTypeID": {
             "type": "string",
             "format": "uuid"
           },
@@ -9284,6 +9526,10 @@
             "format": "uuid"
           },
           "customer": {
+            "type": "string",
+            "nullable": true
+          },
+          "reportTitle": {
             "type": "string",
             "nullable": true
           },
@@ -9338,6 +9584,20 @@
           "createdBy": {
             "type": "string",
             "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateCMReportFormTypeDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -12391,11 +12651,16 @@
       },
       "UpdateCMReportFormDto": {
         "required": [
+          "cmReportFormTypeID",
           "formstatusID",
           "furtherActionTakenID"
         ],
         "type": "object",
         "properties": {
+          "cmReportFormTypeID": {
+            "type": "string",
+            "format": "uuid"
+          },
           "furtherActionTakenID": {
             "type": "string",
             "format": "uuid"
@@ -12405,6 +12670,10 @@
             "format": "uuid"
           },
           "customer": {
+            "type": "string",
+            "nullable": true
+          },
+          "reportTitle": {
             "type": "string",
             "nullable": true
           },
@@ -12460,6 +12729,20 @@
             "type": "string",
             "format": "uuid",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateCMReportFormTypeDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string"
           }
         },
         "additionalProperties": false

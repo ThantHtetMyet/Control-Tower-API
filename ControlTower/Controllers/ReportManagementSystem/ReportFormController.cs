@@ -912,11 +912,13 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 {
                     ID = cmReportForm.ID,
                     ReportFormID = cmReportForm.ReportFormID,
+                    CMReportFormTypeID = cmReportForm.CMReportFormTypeID,
                     FurtherActionTakenID = cmReportForm.FurtherActionTakenID,
                     FurtherActionTakenName = cmReportForm.FurtherActionTakenWarehouse?.Name,
                     FormstatusID = cmReportForm.FormstatusID,
                     FormStatusName = cmReportForm.FormStatusWarehouse?.Name,
                     Customer = cmReportForm.Customer,
+                    ReportTitle = cmReportForm.ReportTitle,
                     ProjectNo = cmReportForm.ProjectNo,
                     IssueReportedDescription = cmReportForm.IssueReportedDescription,
                     IssueFoundDescription = cmReportForm.IssueFoundDescription,

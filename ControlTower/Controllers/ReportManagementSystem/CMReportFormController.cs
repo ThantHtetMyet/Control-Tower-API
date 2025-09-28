@@ -35,9 +35,11 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 {
                     ID = c.ID,
                     ReportFormID = c.ReportFormID,
+                    CMReportFormTypeID = c.CMReportFormTypeID,
                     FurtherActionTakenID = c.FurtherActionTakenID,
                     FormstatusID = c.FormstatusID,
                     Customer = c.Customer,
+                    ReportTitle = c.ReportTitle,
                     ProjectNo = c.ProjectNo,
                     IssueReportedDescription = c.IssueReportedDescription,
                     IssueFoundDescription = c.IssueFoundDescription,
@@ -53,6 +55,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     UpdatedDate = c.UpdatedDate,
                     CreatedBy = c.CreatedBy,
                     UpdatedBy = c.UpdatedBy,
+                    Remark = c.Remark,
                     ReportFormTypeName = c.ReportForm.ReportFormType != null ? c.ReportForm.ReportFormType.Name : null,
                     FurtherActionTakenName = c.FurtherActionTakenWarehouse.Name,
                     FormStatusName = c.FormStatusWarehouse.Name,
@@ -80,9 +83,11 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 {
                     ID = c.ID,
                     ReportFormID = c.ReportFormID,
+                    CMReportFormTypeID = c.CMReportFormTypeID,
                     FurtherActionTakenID = c.FurtherActionTakenID,
                     FormstatusID = c.FormstatusID,
                     Customer = c.Customer,
+                    ReportTitle = c.ReportTitle,
                     ProjectNo = c.ProjectNo,
                     IssueReportedDescription = c.IssueReportedDescription,
                     IssueFoundDescription = c.IssueFoundDescription,
@@ -98,6 +103,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     UpdatedDate = c.UpdatedDate,
                     CreatedBy = c.CreatedBy,
                     UpdatedBy = c.UpdatedBy,
+                    Remark = c.Remark,
                     ReportFormTypeName = c.ReportForm.ReportFormType != null ? c.ReportForm.ReportFormType.Name : null,
                     FurtherActionTakenName = c.FurtherActionTakenWarehouse.Name,
                     FormStatusName = c.FormStatusWarehouse.Name,
@@ -178,6 +184,14 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 return BadRequest(new { message = "Invalid Report Form ID." });
             }
 
+            // Validate CMReportFormTypeID
+            var cmReportFormTypeExists = await _context.CMReportFormTypes
+                .AnyAsync(c => c.ID == createDto.CMReportFormTypeID && !c.IsDeleted);
+            if (!cmReportFormTypeExists)
+            {
+                return BadRequest(new { message = "Invalid CM Report Form Type ID." });
+            }
+
             var furtherActionExists = await _context.FurtherActionTakenWarehouses
                 .AnyAsync(f => f.ID == createDto.FurtherActionTakenID && !f.IsDeleted);
             if (!furtherActionExists)
@@ -203,9 +217,11 @@ namespace ControlTower.Controllers.ReportManagementSystem
             {
                 ID = Guid.NewGuid(),
                 ReportFormID = createDto.ReportFormID,
+                CMReportFormTypeID = createDto.CMReportFormTypeID,
                 FurtherActionTakenID = createDto.FurtherActionTakenID,
                 FormstatusID = createDto.FormstatusID,
                 Customer = createDto.Customer,
+                ReportTitle = createDto.ReportTitle,
                 ProjectNo = createDto.ProjectNo,
                 IssueReportedDescription = createDto.IssueReportedDescription,
                 IssueFoundDescription = createDto.IssueFoundDescription,
@@ -232,9 +248,11 @@ namespace ControlTower.Controllers.ReportManagementSystem
             {
                 ID = cmReportForm.ID,
                 ReportFormID = cmReportForm.ReportFormID,
+                CMReportFormTypeID = cmReportForm.CMReportFormTypeID,
                 FurtherActionTakenID = cmReportForm.FurtherActionTakenID,
                 FormstatusID = cmReportForm.FormstatusID,
                 Customer = cmReportForm.Customer,
+                ReportTitle = cmReportForm.ReportTitle,
                 ProjectNo = cmReportForm.ProjectNo,
                 IssueReportedDescription = cmReportForm.IssueReportedDescription,
                 IssueFoundDescription = cmReportForm.IssueFoundDescription,
