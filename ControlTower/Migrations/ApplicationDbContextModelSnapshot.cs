@@ -958,6 +958,38 @@ namespace ControlTower.Migrations
                     b.ToTable("NewsReactions");
                 });
 
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.ASAFirewallStatus", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CommandInput")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int?>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ASAFirewallStatuses");
+                });
+
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.CMMaterialUsed", b =>
                 {
                     b.Property<Guid>("ID")
@@ -1138,6 +1170,32 @@ namespace ControlTower.Migrations
                     b.ToTable("CMReportFormTypes");
                 });
 
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.FailOverStatus", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int?>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("FailOverStatuses");
+                });
+
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.FormStatusWarehouse", b =>
                 {
                     b.Property<Guid>("ID")
@@ -1303,6 +1361,24 @@ namespace ControlTower.Migrations
                     b.HasIndex("UpdatedBy");
 
                     b.ToTable("ImportFormTypes");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.NetworkStatus", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("NetworkStatuses");
                 });
 
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMChamberMagneticContact", b =>
@@ -1596,6 +1672,76 @@ namespace ControlTower.Migrations
                     b.ToTable("PMReportFormRTU");
                 });
 
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMReportFormServer", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AttendedBy")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime?>("CompletionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Customer")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMReportFormTypeID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProjectNo")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid>("ReportFormID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ReportTitle")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("WitnessedBy")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMReportFormTypeID");
+
+                    b.HasIndex("ReportFormID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PMReportFormServer");
+                });
+
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMReportFormType", b =>
                 {
                     b.Property<Guid>("ID")
@@ -1629,6 +1775,1394 @@ namespace ControlTower.Migrations
                     b.HasIndex("UpdatedBy");
 
                     b.ToTable("PMReportFormTypes");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerASAFirewall", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ASAFirewallStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMReportFormServerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ResultStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ASAFirewallStatusID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMReportFormServerID");
+
+                    b.HasIndex("ResultStatusID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PMServerASAFirewalls");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerCPUAndMemoryUsage", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMReportFormServerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMReportFormServerID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PMServerCPUAndMemoryUsages");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerCPUUsageDetails", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CPUUsage")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMServerCPUAndMemoryUsageID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid>("ResultStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SerialNo")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ServerName")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMServerCPUAndMemoryUsageID");
+
+                    b.HasIndex("ResultStatusID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PMServerCPUUsageDetails");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerDiskUsageHealth", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMReportFormServerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMReportFormServerID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PMServerDiskUsageHealths");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerDiskUsageHealthDetails", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Capacity")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DiskName")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("FreeSpace")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMServerDiskUsageHealthID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid>("ResultStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ServerDiskStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ServerName")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Usage")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMServerDiskUsageHealthID");
+
+                    b.HasIndex("ResultStatusID");
+
+                    b.HasIndex("ServerDiskStatusID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PMServerDiskUsageHealthDetails");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerFailOver", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMReportFormServerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMReportFormServerID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PMServerFailOvers");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerFailOverDetails", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("FailOverStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMServerFailOverID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("YesNoStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("FailOverStatusID");
+
+                    b.HasIndex("PMServerFailOverID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("YesNoStatusID");
+
+                    b.ToTable("PMServerFailOverDetails");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerHardDriveHealth", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMReportFormServerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMReportFormServerID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PMServerHardDriveHealths");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerHardDriveHealthDetails", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMServerHardDriveHealthID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid>("ResultStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ServerName")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMServerHardDriveHealthID");
+
+                    b.HasIndex("ResultStatusID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PMServerHardDriveHealthDetails");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerHealth", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMReportFormServerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMReportFormServerID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PMServerHealths");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerHealthDetails", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMServerHealthID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid>("ResultStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ServerName")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMServerHealthID");
+
+                    b.HasIndex("ResultStatusID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PMServerHealthDetails");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerHotFixes", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMReportFormServerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMReportFormServerID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PMServerHotFixes");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerHotFixesDetails", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LatestHotFixsApplied")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid>("PMServerHotFixesID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid>("ResultStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SerialNo")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ServerName")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMServerHotFixesID");
+
+                    b.HasIndex("ResultStatusID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PMServerHotFixesDetails");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerMemoryUsageDetails", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MemoryInUse")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("MemorySize")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<Guid>("PMServerCPUAndMemoryUsageID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid>("ResultStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SerialNo")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ServerName")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMServerCPUAndMemoryUsageID");
+
+                    b.HasIndex("ResultStatusID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PMServerMemoryUsageDetails");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerMonthlyDatabaseBackup", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LatestBackupFileName")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid>("PMReportFormServerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMReportFormServerID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PMServerMonthlyDatabaseBackups");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerMonthlyDatabaseBackupDetails", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMServerMonthlyDatabaseBackupID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("SerialNo")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ServerName")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("YesNoStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMServerMonthlyDatabaseBackupID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("YesNoStatusID");
+
+                    b.ToTable("PMServerMonthlyDatabaseBackupDetails");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerMonthlyDatabaseCreation", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMReportFormServerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMReportFormServerID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PMServerMonthlyDatabaseCreations");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerMonthlyDatabaseCreationDetails", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMServerMonthlyDatabaseCreationID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("SerialNo")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ServerName")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("YesNoStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMServerMonthlyDatabaseCreationID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("YesNoStatusID");
+
+                    b.ToTable("PMServerMonthlyDatabaseCreationDetails");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerMonthlySCADADataBackupDetails", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMServerMonthlyDatabaseBackupID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("SerialNo")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ServerName")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("YesNoStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMServerMonthlyDatabaseBackupID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("YesNoStatusID");
+
+                    b.ToTable("PMServerMonthlySCADADataBackupDetails");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerNetworkHealth", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateChecked")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("NetworkStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PMReportFormServerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("YesNoStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("NetworkStatusID");
+
+                    b.HasIndex("PMReportFormServerID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("YesNoStatusID");
+
+                    b.ToTable("PMServerNetworkHealths");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerSoftwarePatchSummary", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CurrentPatch")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMReportFormServerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PreviousPatch")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("SerialNo")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ServerName")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMReportFormServerID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PMServerSoftwarePatchSummaries");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerTimeSync", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMReportFormServerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMReportFormServerID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PMServerTimeSyncs");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerTimeSyncDetails", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMServerTimeSyncID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid>("ResultStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SerialNo")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ServerName")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMServerTimeSyncID");
+
+                    b.HasIndex("ResultStatusID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PMServerTimeSyncDetails");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerWillowlynxCCTVCamera", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMReportFormServerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("WillowlynxCCTVCameraStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("YesNoStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMReportFormServerID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("WillowlynxCCTVCameraStatusID");
+
+                    b.HasIndex("YesNoStatusID");
+
+                    b.ToTable("PMServerWillowlynxCCTVCameras");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerWillowlynxHistoricalReport", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMReportFormServerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("WillowlynxHistoricalReportStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("YesNoStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMReportFormServerID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("WillowlynxHistoricalReportStatusID");
+
+                    b.HasIndex("YesNoStatusID");
+
+                    b.ToTable("PMServerWillowlynxHistoricalReports");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerWillowlynxHistoricalTrend", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMReportFormServerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("WillowlynxHistoricalTrendStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("YesNoStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMReportFormServerID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("WillowlynxHistoricalTrendStatusID");
+
+                    b.HasIndex("YesNoStatusID");
+
+                    b.ToTable("PMServerWillowlynxHistoricalTrends");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerWillowlynxNetworkStatus", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMReportFormServerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("WillowlynxNetworkStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("YesNoStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMReportFormServerID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("WillowlynxNetworkStatusID");
+
+                    b.HasIndex("YesNoStatusID");
+
+                    b.ToTable("PMServerWillowlynxNetworkStatuses");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerWillowlynxProcessStatus", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMReportFormServerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("WillowlynxProcessStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("YesNoStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMReportFormServerID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("WillowlynxProcessStatusID");
+
+                    b.HasIndex("YesNoStatusID");
+
+                    b.ToTable("PMServerWillowlynxProcessStatuses");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerWillowlynxRTUStatus", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PMReportFormServerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("WillowlynxRTUStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("YesNoStatusID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("PMReportFormServerID");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("WillowlynxRTUStatusID");
+
+                    b.HasIndex("YesNoStatusID");
+
+                    b.ToTable("PMServerWillowlynxRTUStatuses");
                 });
 
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.ReportForm", b =>
@@ -1814,6 +3348,44 @@ namespace ControlTower.Migrations
                     b.ToTable("ReportFormTypes");
                 });
 
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.ResultStatus", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ResultStatuses");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.ServerDiskStatus", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ServerDiskStatuses");
+                });
+
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.StationNameWarehouse", b =>
                 {
                     b.Property<Guid>("ID")
@@ -1855,6 +3427,132 @@ namespace ControlTower.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("SystemNameWarehouses");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.WillowlynxCCTVCameraStatus", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("WillowlynxCCTVCameraStatuses");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.WillowlynxHistoricalReportStatus", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("WillowlynxHistoricalReportStatuses");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.WillowlynxHistoricalTrendStatus", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("WillowlynxHistoricalTrendStatuses");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.WillowlynxNetworkStatus", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("WillowlynxNetworkStatuses");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.WillowlynxProcessStatus", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("WillowlynxProcessStatuses");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.WillowlynxRTUStatus", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("WillowlynxRTUStatuses");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.YesNoStatus", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("YesNoStatuses");
                 });
 
             modelBuilder.Entity("ControlTower.Models.RoomBookingSystem.Building", b =>
@@ -2790,6 +4488,40 @@ namespace ControlTower.Migrations
                     b.Navigation("UpdatedByUser");
                 });
 
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMReportFormServer", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormType", "PMReportFormType")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormTypeID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.ReportForm", "ReportForm")
+                        .WithMany()
+                        .HasForeignKey("ReportFormID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMReportFormType");
+
+                    b.Navigation("ReportForm");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMReportFormType", b =>
                 {
                     b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
@@ -2803,6 +4535,999 @@ namespace ControlTower.Migrations
                     b.Navigation("CreatedByUser");
 
                     b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerASAFirewall", b =>
+                {
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.ASAFirewallStatus", "ASAFirewallStatus")
+                        .WithMany()
+                        .HasForeignKey("ASAFirewallStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormServer", "PMReportFormServer")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormServerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.ResultStatus", "ResultStatus")
+                        .WithMany()
+                        .HasForeignKey("ResultStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ASAFirewallStatus");
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMReportFormServer");
+
+                    b.Navigation("ResultStatus");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerCPUAndMemoryUsage", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormServer", "PMReportFormServer")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormServerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMReportFormServer");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerCPUUsageDetails", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMServerCPUAndMemoryUsage", "PMServerCPUAndMemoryUsage")
+                        .WithMany("PMServerCPUUsageDetails")
+                        .HasForeignKey("PMServerCPUAndMemoryUsageID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.ResultStatus", "ResultStatus")
+                        .WithMany()
+                        .HasForeignKey("ResultStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMServerCPUAndMemoryUsage");
+
+                    b.Navigation("ResultStatus");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerDiskUsageHealth", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormServer", "PMReportFormServer")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormServerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMReportFormServer");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerDiskUsageHealthDetails", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMServerDiskUsageHealth", "PMServerDiskUsageHealth")
+                        .WithMany("PMServerDiskUsageHealthDetails")
+                        .HasForeignKey("PMServerDiskUsageHealthID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.ResultStatus", "ResultStatus")
+                        .WithMany()
+                        .HasForeignKey("ResultStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.ServerDiskStatus", "ServerDiskStatus")
+                        .WithMany()
+                        .HasForeignKey("ServerDiskStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMServerDiskUsageHealth");
+
+                    b.Navigation("ResultStatus");
+
+                    b.Navigation("ServerDiskStatus");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerFailOver", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormServer", "PMReportFormServer")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormServerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMReportFormServer");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerFailOverDetails", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.FailOverStatus", "FailOverStatus")
+                        .WithMany()
+                        .HasForeignKey("FailOverStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMServerFailOver", "PMServerFailOver")
+                        .WithMany("PMServerFailOverDetails")
+                        .HasForeignKey("PMServerFailOverID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.YesNoStatus", "YesNoStatus")
+                        .WithMany()
+                        .HasForeignKey("YesNoStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("FailOverStatus");
+
+                    b.Navigation("PMServerFailOver");
+
+                    b.Navigation("UpdatedByUser");
+
+                    b.Navigation("YesNoStatus");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerHardDriveHealth", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormServer", "PMReportFormServer")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormServerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMReportFormServer");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerHardDriveHealthDetails", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMServerHardDriveHealth", "PMServerHardDriveHealth")
+                        .WithMany("PMServerHardDriveHealthDetails")
+                        .HasForeignKey("PMServerHardDriveHealthID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.ResultStatus", "ResultStatus")
+                        .WithMany()
+                        .HasForeignKey("ResultStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMServerHardDriveHealth");
+
+                    b.Navigation("ResultStatus");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerHealth", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormServer", "PMReportFormServer")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormServerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMReportFormServer");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerHealthDetails", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMServerHealth", "PMServerHealth")
+                        .WithMany("PMServerHealthDetails")
+                        .HasForeignKey("PMServerHealthID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.ResultStatus", "ResultStatus")
+                        .WithMany()
+                        .HasForeignKey("ResultStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMServerHealth");
+
+                    b.Navigation("ResultStatus");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerHotFixes", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormServer", "PMReportFormServer")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormServerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMReportFormServer");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerHotFixesDetails", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMServerHotFixes", "PMServerHotFixes")
+                        .WithMany("PMServerHotFixesDetails")
+                        .HasForeignKey("PMServerHotFixesID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.ResultStatus", "ResultStatus")
+                        .WithMany()
+                        .HasForeignKey("ResultStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMServerHotFixes");
+
+                    b.Navigation("ResultStatus");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerMemoryUsageDetails", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMServerCPUAndMemoryUsage", "PMServerCPUAndMemoryUsage")
+                        .WithMany("PMServerMemoryUsageDetails")
+                        .HasForeignKey("PMServerCPUAndMemoryUsageID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.ResultStatus", "ResultStatus")
+                        .WithMany()
+                        .HasForeignKey("ResultStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMServerCPUAndMemoryUsage");
+
+                    b.Navigation("ResultStatus");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerMonthlyDatabaseBackup", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormServer", "PMReportFormServer")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormServerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMReportFormServer");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerMonthlyDatabaseBackupDetails", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMServerMonthlyDatabaseBackup", "PMServerMonthlyDatabaseBackup")
+                        .WithMany("PMServerMonthlyDatabaseBackupDetails")
+                        .HasForeignKey("PMServerMonthlyDatabaseBackupID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.YesNoStatus", "YesNoStatus")
+                        .WithMany()
+                        .HasForeignKey("YesNoStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMServerMonthlyDatabaseBackup");
+
+                    b.Navigation("UpdatedByUser");
+
+                    b.Navigation("YesNoStatus");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerMonthlyDatabaseCreation", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormServer", "PMReportFormServer")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormServerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMReportFormServer");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerMonthlyDatabaseCreationDetails", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMServerMonthlyDatabaseCreation", "PMServerMonthlyDatabaseCreation")
+                        .WithMany("PMServerMonthlyDatabaseCreationDetails")
+                        .HasForeignKey("PMServerMonthlyDatabaseCreationID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.YesNoStatus", "YesNoStatus")
+                        .WithMany()
+                        .HasForeignKey("YesNoStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMServerMonthlyDatabaseCreation");
+
+                    b.Navigation("UpdatedByUser");
+
+                    b.Navigation("YesNoStatus");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerMonthlySCADADataBackupDetails", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMServerMonthlyDatabaseBackup", "PMServerMonthlyDatabaseBackup")
+                        .WithMany("PMServerMonthlySCADADataBackupDetails")
+                        .HasForeignKey("PMServerMonthlyDatabaseBackupID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.YesNoStatus", "YesNoStatus")
+                        .WithMany()
+                        .HasForeignKey("YesNoStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMServerMonthlyDatabaseBackup");
+
+                    b.Navigation("UpdatedByUser");
+
+                    b.Navigation("YesNoStatus");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerNetworkHealth", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.NetworkStatus", "NetworkStatus")
+                        .WithMany()
+                        .HasForeignKey("NetworkStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormServer", "PMReportFormServer")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormServerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.YesNoStatus", "YesNoStatus")
+                        .WithMany()
+                        .HasForeignKey("YesNoStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("NetworkStatus");
+
+                    b.Navigation("PMReportFormServer");
+
+                    b.Navigation("UpdatedByUser");
+
+                    b.Navigation("YesNoStatus");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerSoftwarePatchSummary", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormServer", "PMReportFormServer")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormServerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMReportFormServer");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerTimeSync", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormServer", "PMReportFormServer")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormServerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMReportFormServer");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerTimeSyncDetails", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMServerTimeSync", "PMServerTimeSync")
+                        .WithMany("PMServerTimeSyncDetails")
+                        .HasForeignKey("PMServerTimeSyncID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.ResultStatus", "ResultStatus")
+                        .WithMany()
+                        .HasForeignKey("ResultStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMServerTimeSync");
+
+                    b.Navigation("ResultStatus");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerWillowlynxCCTVCamera", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormServer", "PMReportFormServer")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormServerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.WillowlynxCCTVCameraStatus", "WillowlynxCCTVCameraStatus")
+                        .WithMany()
+                        .HasForeignKey("WillowlynxCCTVCameraStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.YesNoStatus", "YesNoStatus")
+                        .WithMany()
+                        .HasForeignKey("YesNoStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMReportFormServer");
+
+                    b.Navigation("UpdatedByUser");
+
+                    b.Navigation("WillowlynxCCTVCameraStatus");
+
+                    b.Navigation("YesNoStatus");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerWillowlynxHistoricalReport", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormServer", "PMReportFormServer")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormServerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.WillowlynxHistoricalReportStatus", "WillowlynxHistoricalReportStatus")
+                        .WithMany()
+                        .HasForeignKey("WillowlynxHistoricalReportStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.YesNoStatus", "YesNoStatus")
+                        .WithMany()
+                        .HasForeignKey("YesNoStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMReportFormServer");
+
+                    b.Navigation("UpdatedByUser");
+
+                    b.Navigation("WillowlynxHistoricalReportStatus");
+
+                    b.Navigation("YesNoStatus");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerWillowlynxHistoricalTrend", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormServer", "PMReportFormServer")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormServerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.WillowlynxHistoricalTrendStatus", "WillowlynxHistoricalTrendStatus")
+                        .WithMany()
+                        .HasForeignKey("WillowlynxHistoricalTrendStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.YesNoStatus", "YesNoStatus")
+                        .WithMany()
+                        .HasForeignKey("YesNoStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMReportFormServer");
+
+                    b.Navigation("UpdatedByUser");
+
+                    b.Navigation("WillowlynxHistoricalTrendStatus");
+
+                    b.Navigation("YesNoStatus");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerWillowlynxNetworkStatus", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormServer", "PMReportFormServer")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormServerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.WillowlynxNetworkStatus", "WillowlynxNetworkStatus")
+                        .WithMany()
+                        .HasForeignKey("WillowlynxNetworkStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.YesNoStatus", "YesNoStatus")
+                        .WithMany()
+                        .HasForeignKey("YesNoStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMReportFormServer");
+
+                    b.Navigation("UpdatedByUser");
+
+                    b.Navigation("WillowlynxNetworkStatus");
+
+                    b.Navigation("YesNoStatus");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerWillowlynxProcessStatus", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormServer", "PMReportFormServer")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormServerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.WillowlynxProcessStatus", "WillowlynxProcessStatus")
+                        .WithMany()
+                        .HasForeignKey("WillowlynxProcessStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.YesNoStatus", "YesNoStatus")
+                        .WithMany()
+                        .HasForeignKey("YesNoStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMReportFormServer");
+
+                    b.Navigation("UpdatedByUser");
+
+                    b.Navigation("WillowlynxProcessStatus");
+
+                    b.Navigation("YesNoStatus");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerWillowlynxRTUStatus", b =>
+                {
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormServer", "PMReportFormServer")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormServerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.WillowlynxRTUStatus", "WillowlynxRTUStatus")
+                        .WithMany()
+                        .HasForeignKey("WillowlynxRTUStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.YesNoStatus", "YesNoStatus")
+                        .WithMany()
+                        .HasForeignKey("YesNoStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("PMReportFormServer");
+
+                    b.Navigation("UpdatedByUser");
+
+                    b.Navigation("WillowlynxRTUStatus");
+
+                    b.Navigation("YesNoStatus");
                 });
 
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.ReportForm", b =>
@@ -3100,6 +5825,55 @@ namespace ControlTower.Migrations
                     b.Navigation("PMMainRtuCabinets");
 
                     b.Navigation("PMRTUCabinetCoolings");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerCPUAndMemoryUsage", b =>
+                {
+                    b.Navigation("PMServerCPUUsageDetails");
+
+                    b.Navigation("PMServerMemoryUsageDetails");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerDiskUsageHealth", b =>
+                {
+                    b.Navigation("PMServerDiskUsageHealthDetails");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerFailOver", b =>
+                {
+                    b.Navigation("PMServerFailOverDetails");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerHardDriveHealth", b =>
+                {
+                    b.Navigation("PMServerHardDriveHealthDetails");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerHealth", b =>
+                {
+                    b.Navigation("PMServerHealthDetails");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerHotFixes", b =>
+                {
+                    b.Navigation("PMServerHotFixesDetails");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerMonthlyDatabaseBackup", b =>
+                {
+                    b.Navigation("PMServerMonthlyDatabaseBackupDetails");
+
+                    b.Navigation("PMServerMonthlySCADADataBackupDetails");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerMonthlyDatabaseCreation", b =>
+                {
+                    b.Navigation("PMServerMonthlyDatabaseCreationDetails");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerTimeSync", b =>
+                {
+                    b.Navigation("PMServerTimeSyncDetails");
                 });
 
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.StationNameWarehouse", b =>

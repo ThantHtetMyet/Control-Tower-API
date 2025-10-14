@@ -65,9 +65,9 @@ namespace ControlTower.Controllers.ReportManagementSystem
             return Ok(PMReportFormServer);
         }
 
-        // GET: api/PMReportFormServer/5
+        // GET: api/PMReportFormServer/5 - Enhanced with all related PM Server data
         [HttpGet("{id}")]
-        public async Task<ActionResult<PMReportFormServerDto>> GetPMReportFormServer(Guid id)
+        public async Task<ActionResult> GetPMReportFormServerWithDetails(Guid id)
         {
             var pmReportFormServer = await _context.PMReportFormServer
                 .Include(p => p.ReportForm)
@@ -80,31 +80,6 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 .Include(p => p.CreatedByUser)
                 .Include(p => p.UpdatedByUser)
                 .Where(p => p.ID == id && !p.IsDeleted)
-                .Select(p => new PMReportFormServerDto
-                {
-                    ID = p.ID,
-                    ReportFormID = p.ReportFormID,
-                    PMReportFormTypeID = p.PMReportFormTypeID,
-                    ProjectNo = p.ProjectNo,
-                    Customer = p.Customer,
-                    ReportTitle = p.ReportTitle,
-                    AttendedBy = p.AttendedBy,
-                    WitnessedBy = p.WitnessedBy,
-                    StartDate = p.StartDate,
-                    CompletionDate = p.CompletionDate,
-                    Remarks = p.Remarks,
-                    IsDeleted = p.IsDeleted,
-                    CreatedDate = p.CreatedDate,
-                    UpdatedDate = p.UpdatedDate,
-                    CreatedBy = p.CreatedBy,
-                    UpdatedBy = p.UpdatedBy,
-                    PMReportFormTypeName = p.PMReportFormType.Name,
-                    CreatedByUserName = $"{p.CreatedByUser.FirstName} {p.CreatedByUser.LastName}",
-                    UpdatedByUserName = p.UpdatedByUser != null ? $"{p.UpdatedByUser.FirstName} {p.UpdatedByUser.LastName}" : null,
-                    JobNo = p.ReportForm.JobNo,
-                    StationName = p.ReportForm.StationNameWarehouse.Name,
-                    SystemDescription = p.ReportForm.SystemNameWarehouse.Name
-                })
                 .FirstOrDefaultAsync();
 
             if (pmReportFormServer == null)
@@ -112,7 +87,415 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 return NotFound();
             }
 
-            return Ok(pmReportFormServer);
+            // Get all related PM Server data
+            var pmServerHealths = await _context.PMServerHealths
+                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Include(h => h.CreatedByUser)
+                .Include(h => h.UpdatedByUser)
+                .Select(h => new
+                {
+                    ID = h.ID,
+                    PMReportFormServerID = h.PMReportFormServerID,
+                    Remarks = h.Remarks,
+                    CreatedDate = h.CreatedDate,
+                    UpdatedDate = h.UpdatedDate,
+                    CreatedBy = h.CreatedBy,
+                    UpdatedBy = h.UpdatedBy,
+                    CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                })
+                .ToListAsync();
+
+            var pmServerHardDriveHealths = await _context.PMServerHardDriveHealths
+                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Include(h => h.CreatedByUser)
+                .Include(h => h.UpdatedByUser)
+                .Select(h => new
+                {
+                    ID = h.ID,
+                    PMReportFormServerID = h.PMReportFormServerID,
+                    Remarks = h.Remarks,
+                    CreatedDate = h.CreatedDate,
+                    UpdatedDate = h.UpdatedDate,
+                    CreatedBy = h.CreatedBy,
+                    UpdatedBy = h.UpdatedBy,
+                    CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                })
+                .ToListAsync();
+
+            var pmServerDiskUsageHealths = await _context.PMServerDiskUsageHealths
+                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Include(h => h.CreatedByUser)
+                .Include(h => h.UpdatedByUser)
+                .Select(h => new
+                {
+                    ID = h.ID,
+                    PMReportFormServerID = h.PMReportFormServerID,
+                    Remarks = h.Remarks,
+                    CreatedDate = h.CreatedDate,
+                    UpdatedDate = h.UpdatedDate,
+                    CreatedBy = h.CreatedBy,
+                    UpdatedBy = h.UpdatedBy,
+                    CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                })
+                .ToListAsync();
+
+            var pmServerCPUAndMemoryUsages = await _context.PMServerCPUAndMemoryUsages
+                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Include(h => h.CreatedByUser)
+                .Include(h => h.UpdatedByUser)
+                .Select(h => new
+                {
+                    ID = h.ID,
+                    PMReportFormServerID = h.PMReportFormServerID,
+                    Remarks = h.Remarks,
+                    CreatedDate = h.CreatedDate,
+                    UpdatedDate = h.UpdatedDate,
+                    CreatedBy = h.CreatedBy,
+                    UpdatedBy = h.UpdatedBy,
+                    CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                })
+                .ToListAsync();
+
+            var pmServerNetworkHealths = await _context.PMServerNetworkHealths
+                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Include(h => h.NetworkStatus)
+                .Include(h => h.CreatedByUser)
+                .Include(h => h.UpdatedByUser)
+                .Select(h => new
+                {
+                    ID = h.ID,
+                    PMReportFormServerID = h.PMReportFormServerID,
+                    NetworkStatusID = h.NetworkStatusID,
+                    NetworkStatusName = h.NetworkStatus.Name,
+                    Remarks = h.Remarks,
+                    CreatedDate = h.CreatedDate,
+                    UpdatedDate = h.UpdatedDate,
+                    CreatedBy = h.CreatedBy,
+                    UpdatedBy = h.UpdatedBy,
+                    CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                })
+                .ToListAsync();
+
+            var pmServerWillowlynxProcessStatuses = await _context.PMServerWillowlynxProcessStatuses
+                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Include(h => h.WillowlynxProcessStatus)
+                .Include(h => h.CreatedByUser)
+                .Include(h => h.UpdatedByUser)
+                .Select(h => new
+                {
+                    ID = h.ID,
+                    PMReportFormServerID = h.PMReportFormServerID,
+                    WillowlynxProcessStatusID = h.WillowlynxProcessStatusID,
+                    WillowlynxProcessStatusName = h.WillowlynxProcessStatus.Name,
+                    Remarks = h.Remarks,
+                    CreatedDate = h.CreatedDate,
+                    UpdatedDate = h.UpdatedDate,
+                    CreatedBy = h.CreatedBy,
+                    UpdatedBy = h.UpdatedBy,
+                    CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                })
+                .ToListAsync();
+
+            var pmServerWillowlynxNetworkStatuses = await _context.PMServerWillowlynxNetworkStatuses
+                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Include(h => h.WillowlynxNetworkStatus)
+                .Include(h => h.CreatedByUser)
+                .Include(h => h.UpdatedByUser)
+                .Select(h => new
+                {
+                    ID = h.ID,
+                    PMReportFormServerID = h.PMReportFormServerID,
+                    WillowlynxNetworkStatusID = h.WillowlynxNetworkStatusID,
+                    WillowlynxNetworkStatusName = h.WillowlynxNetworkStatus.Name,
+                    Remarks = h.Remarks,
+                    CreatedDate = h.CreatedDate,
+                    UpdatedDate = h.UpdatedDate,
+                    CreatedBy = h.CreatedBy,
+                    UpdatedBy = h.UpdatedBy,
+                    CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                })
+                .ToListAsync();
+
+            var pmServerWillowlynxRTUStatuses = await _context.PMServerWillowlynxRTUStatuses
+                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Include(h => h.WillowlynxRTUStatus)
+                .Include(h => h.CreatedByUser)
+                .Include(h => h.UpdatedByUser)
+                .Select(h => new
+                {
+                    ID = h.ID,
+                    PMReportFormServerID = h.PMReportFormServerID,
+                    WillowlynxRTUStatusID = h.WillowlynxRTUStatusID,
+                    WillowlynxRTUStatusName = h.WillowlynxRTUStatus.Name,
+                    Remarks = h.Remarks,
+                    CreatedDate = h.CreatedDate,
+                    UpdatedDate = h.UpdatedDate,
+                    CreatedBy = h.CreatedBy,
+                    UpdatedBy = h.UpdatedBy,
+                    CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                })
+                .ToListAsync();
+
+            var pmServerWillowlynxHistoricalTrends = await _context.PMServerWillowlynxHistoricalTrends
+                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Include(h => h.WillowlynxHistoricalTrendStatus)
+                .Include(h => h.CreatedByUser)
+                .Include(h => h.UpdatedByUser)
+                .Select(h => new
+                {
+                    ID = h.ID,
+                    PMReportFormServerID = h.PMReportFormServerID,
+                    WillowlynxHistoricalTrendStatusID = h.WillowlynxHistoricalTrendStatusID,
+                    WillowlynxHistoricalTrendStatusName = h.WillowlynxHistoricalTrendStatus.Name,
+                    Remarks = h.Remarks,
+                    CreatedDate = h.CreatedDate,
+                    UpdatedDate = h.UpdatedDate,
+                    CreatedBy = h.CreatedBy,
+                    UpdatedBy = h.UpdatedBy,
+                    CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                })
+                .ToListAsync();
+
+            var pmServerWillowlynxHistoricalReports = await _context.PMServerWillowlynxHistoricalReports
+                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Include(h => h.WillowlynxHistoricalReportStatus)
+                .Include(h => h.CreatedByUser)
+                .Include(h => h.UpdatedByUser)
+                .Select(h => new
+                {
+                    ID = h.ID,
+                    PMReportFormServerID = h.PMReportFormServerID,
+                    WillowlynxHistoricalReportStatusID = h.WillowlynxHistoricalReportStatusID,
+                    WillowlynxHistoricalReportStatusName = h.WillowlynxHistoricalReportStatus.Name,
+                    Remarks = h.Remarks,
+                    CreatedDate = h.CreatedDate,
+                    UpdatedDate = h.UpdatedDate,
+                    CreatedBy = h.CreatedBy,
+                    UpdatedBy = h.UpdatedBy,
+                    CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                })
+                .ToListAsync();
+
+            var pmServerWillowlynxCCTVCameras = await _context.PMServerWillowlynxCCTVCameras
+                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Include(h => h.WillowlynxCCTVCameraStatus)
+                .Include(h => h.YesNoStatus)
+                .Include(h => h.CreatedByUser)
+                .Include(h => h.UpdatedByUser)
+                .Select(h => new
+                {
+                    ID = h.ID,
+                    PMReportFormServerID = h.PMReportFormServerID,
+                    WillowlynxCCTVCameraStatusID = h.WillowlynxCCTVCameraStatusID,
+                    WillowlynxCCTVCameraStatusName = h.WillowlynxCCTVCameraStatus.Name,
+                    YesNoStatusID = h.YesNoStatusID,
+                    YesNoStatusName = h.YesNoStatus.Name,
+                    Remarks = h.Remarks,
+                    CreatedDate = h.CreatedDate,
+                    UpdatedDate = h.UpdatedDate,
+                    CreatedBy = h.CreatedBy,
+                    UpdatedBy = h.UpdatedBy,
+                    CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                })
+                .ToListAsync();
+
+            var pmServerMonthlyDatabaseCreations = await _context.PMServerMonthlyDatabaseCreations
+                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Include(h => h.CreatedByUser)
+                .Include(h => h.UpdatedByUser)
+                .Select(h => new
+                {
+                    ID = h.ID,
+                    PMReportFormServerID = h.PMReportFormServerID,
+                    Remarks = h.Remarks,
+                    CreatedDate = h.CreatedDate,
+                    UpdatedDate = h.UpdatedDate,
+                    CreatedBy = h.CreatedBy,
+                    UpdatedBy = h.UpdatedBy,
+                    CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                })
+                .ToListAsync();
+
+            var pmServerMonthlyDatabaseBackups = await _context.PMServerMonthlyDatabaseBackups
+                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Include(h => h.CreatedByUser)
+                .Include(h => h.UpdatedByUser)
+                .Select(h => new
+                {
+                    ID = h.ID,
+                    PMReportFormServerID = h.PMReportFormServerID,
+                    Remarks = h.Remarks,
+                    CreatedDate = h.CreatedDate,
+                    UpdatedDate = h.UpdatedDate,
+                    CreatedBy = h.CreatedBy,
+                    UpdatedBy = h.UpdatedBy,
+                    CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                })
+                .ToListAsync();
+
+            var pmServerTimeSyncs = await _context.PMServerTimeSyncs
+                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Include(h => h.CreatedByUser)
+                .Include(h => h.UpdatedByUser)
+                .Select(h => new
+                {
+                    ID = h.ID,
+                    PMReportFormServerID = h.PMReportFormServerID,
+                    Remarks = h.Remarks,
+                    CreatedDate = h.CreatedDate,
+                    UpdatedDate = h.UpdatedDate,
+                    CreatedBy = h.CreatedBy,
+                    UpdatedBy = h.UpdatedBy,
+                    CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                })
+                .ToListAsync();
+
+            var pmServerHotFixes = await _context.PMServerHotFixes
+                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Include(h => h.CreatedByUser)
+                .Include(h => h.UpdatedByUser)
+                .Select(h => new
+                {
+                    ID = h.ID,
+                    PMReportFormServerID = h.PMReportFormServerID,
+                    Remarks = h.Remarks,
+                    CreatedDate = h.CreatedDate,
+                    UpdatedDate = h.UpdatedDate,
+                    CreatedBy = h.CreatedBy,
+                    UpdatedBy = h.UpdatedBy,
+                    CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                })
+                .ToListAsync();
+
+            var pmServerFailOvers = await _context.PMServerFailOvers
+                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Include(h => h.CreatedByUser)
+                .Include(h => h.UpdatedByUser)
+                .Select(h => new
+                {
+                    ID = h.ID,
+                    PMReportFormServerID = h.PMReportFormServerID,
+                    Remarks = h.Remarks,
+                    CreatedDate = h.CreatedDate,
+                    UpdatedDate = h.UpdatedDate,
+                    CreatedBy = h.CreatedBy,
+                    UpdatedBy = h.UpdatedBy,
+                    CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                })
+                .ToListAsync();
+
+            var pmServerASAFirewalls = await _context.PMServerASAFirewalls
+                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Include(h => h.ASAFirewallStatus)
+                .Include(h => h.ResultStatus)
+                .Include(h => h.CreatedByUser)
+                .Include(h => h.UpdatedByUser)
+                .Select(h => new
+                {
+                    ID = h.ID,
+                    PMReportFormServerID = h.PMReportFormServerID,
+                    ASAFirewallStatusID = h.ASAFirewallStatusID,
+                    ASAFirewallStatusName = h.ASAFirewallStatus.Name,
+                    ResultStatusID = h.ResultStatusID,
+                    ResultStatusName = h.ResultStatus.Name,
+                    CreatedDate = h.CreatedDate,
+                    UpdatedDate = h.UpdatedDate,
+                    CreatedBy = h.CreatedBy,
+                    UpdatedBy = h.UpdatedBy,
+                    CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                })
+                .ToListAsync();
+
+            var pmServerSoftwarePatchSummaries = await _context.PMServerSoftwarePatchSummaries
+                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Include(h => h.CreatedByUser)
+                .Include(h => h.UpdatedByUser)
+                .Select(h => new
+                {
+                    ID = h.ID,
+                    PMReportFormServerID = h.PMReportFormServerID,
+                    SerialNo = h.SerialNo,
+                    ServerName = h.ServerName,
+                    PreviousPatch = h.PreviousPatch,
+                    CurrentPatch = h.CurrentPatch,
+                    Remarks = h.Remarks,
+                    CreatedDate = h.CreatedDate,
+                    UpdatedDate = h.UpdatedDate,
+                    CreatedBy = h.CreatedBy,
+                    UpdatedBy = h.UpdatedBy,
+                    CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                })
+                .ToListAsync();
+
+            var result = new
+            {
+                // Main PM Report Form Server data
+                PMReportFormServer = new PMReportFormServerDto
+                {
+                    ID = pmReportFormServer.ID,
+                    ReportFormID = pmReportFormServer.ReportFormID,
+                    PMReportFormTypeID = pmReportFormServer.PMReportFormTypeID,
+                    ProjectNo = pmReportFormServer.ProjectNo,
+                    Customer = pmReportFormServer.Customer,
+                    ReportTitle = pmReportFormServer.ReportTitle,
+                    AttendedBy = pmReportFormServer.AttendedBy,
+                    WitnessedBy = pmReportFormServer.WitnessedBy,
+                    StartDate = pmReportFormServer.StartDate,
+                    CompletionDate = pmReportFormServer.CompletionDate,
+                    Remarks = pmReportFormServer.Remarks,
+                    IsDeleted = pmReportFormServer.IsDeleted,
+                    CreatedDate = pmReportFormServer.CreatedDate,
+                    UpdatedDate = pmReportFormServer.UpdatedDate,
+                    CreatedBy = pmReportFormServer.CreatedBy,
+                    UpdatedBy = pmReportFormServer.UpdatedBy,
+                    PMReportFormTypeName = pmReportFormServer.PMReportFormType.Name,
+                    CreatedByUserName = $"{pmReportFormServer.CreatedByUser.FirstName} {pmReportFormServer.CreatedByUser.LastName}",
+                    UpdatedByUserName = pmReportFormServer.UpdatedByUser != null ? $"{pmReportFormServer.UpdatedByUser.FirstName} {pmReportFormServer.UpdatedByUser.LastName}" : null,
+                    JobNo = pmReportFormServer.ReportForm.JobNo,
+                    StationName = pmReportFormServer.ReportForm.StationNameWarehouse.Name,
+                    SystemDescription = pmReportFormServer.ReportForm.SystemNameWarehouse.Name
+                },
+
+                // All related PM Server data arrays
+                PMServerHealths = pmServerHealths,
+                PMServerHardDriveHealths = pmServerHardDriveHealths,
+                PMServerDiskUsageHealths = pmServerDiskUsageHealths,
+                PMServerCPUAndMemoryUsages = pmServerCPUAndMemoryUsages,
+                PMServerNetworkHealths = pmServerNetworkHealths,
+                PMServerWillowlynxProcessStatuses = pmServerWillowlynxProcessStatuses,
+                PMServerWillowlynxNetworkStatuses = pmServerWillowlynxNetworkStatuses,
+                PMServerWillowlynxRTUStatuses = pmServerWillowlynxRTUStatuses,
+                PMServerWillowlynxHistoricalTrends = pmServerWillowlynxHistoricalTrends,
+                PMServerWillowlynxHistoricalReports = pmServerWillowlynxHistoricalReports,
+                PMServerWillowlynxCCTVCameras = pmServerWillowlynxCCTVCameras,
+                PMServerMonthlyDatabaseCreations = pmServerMonthlyDatabaseCreations,
+                PMServerMonthlyDatabaseBackups = pmServerMonthlyDatabaseBackups,
+                PMServerTimeSyncs = pmServerTimeSyncs,
+                PMServerHotFixes = pmServerHotFixes,
+                PMServerFailOvers = pmServerFailOvers,
+                PMServerASAFirewalls = pmServerASAFirewalls,
+                PMServerSoftwarePatchSummaries = pmServerSoftwarePatchSummaries
+            };
+
+            return Ok(result);
         }
 
         // POST: api/PMReportFormServer
