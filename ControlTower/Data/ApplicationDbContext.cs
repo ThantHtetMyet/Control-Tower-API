@@ -66,10 +66,8 @@ namespace ControlTower.Data
         public DbSet<PMServerMemoryUsageDetails> PMServerMemoryUsageDetails { get; set; }
         public DbSet<PMServerNetworkHealth> PMServerNetworkHealths { get; set; }
         public DbSet<ServerDiskStatus> ServerDiskStatuses { get; set; }
-        public DbSet<NetworkStatus> NetworkStatuses { get; set; }
         public DbSet<YesNoStatus> YesNoStatuses { get; set; }
         public DbSet<PMServerWillowlynxProcessStatus> PMServerWillowlynxProcessStatuses { get; set; }
-        public DbSet<WillowlynxProcessStatus> WillowlynxProcessStatuses { get; set; }
         public DbSet<PMServerWillowlynxNetworkStatus> PMServerWillowlynxNetworkStatuses { get; set; }
         public DbSet<WillowlynxNetworkStatus> WillowlynxNetworkStatuses { get; set; }
         public DbSet<PMServerWillowlynxRTUStatus> PMServerWillowlynxRTUStatuses { get; set; }
@@ -914,11 +912,6 @@ namespace ControlTower.Data
                 .HasForeignKey(p => p.PMReportFormServerID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<PMServerNetworkHealth>()
-                .HasOne(p => p.NetworkStatus)
-                .WithMany()
-                .HasForeignKey(p => p.NetworkStatusID)
-                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PMServerNetworkHealth>()
                 .HasOne(p => p.YesNoStatus)
@@ -943,12 +936,6 @@ namespace ControlTower.Data
                 .HasOne(p => p.PMReportFormServer)
                 .WithMany()
                 .HasForeignKey(p => p.PMReportFormServerID)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<PMServerWillowlynxProcessStatus>()
-                .HasOne(p => p.WillowlynxProcessStatus)
-                .WithMany()
-                .HasForeignKey(p => p.WillowlynxProcessStatusID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PMServerWillowlynxProcessStatus>()

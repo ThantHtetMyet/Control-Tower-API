@@ -13,9 +13,6 @@ namespace ControlTower.Models.ReportManagementSystem
         public Guid PMReportFormServerID { get; set; }
 
         [Required]
-        public Guid NetworkStatusID { get; set; }
-
-        [Required]
         public Guid YesNoStatusID { get; set; }
 
         public DateTime? DateChecked { get; set; }
@@ -37,9 +34,6 @@ namespace ControlTower.Models.ReportManagementSystem
         // Navigation properties
         [ForeignKey("PMReportFormServerID")]
         public virtual PMReportFormServer PMReportFormServer { get; set; }
-
-        [ForeignKey("NetworkStatusID")]
-        public virtual NetworkStatus NetworkStatus { get; set; }
 
         [ForeignKey("YesNoStatusID")]
         public virtual YesNoStatus YesNoStatus { get; set; }

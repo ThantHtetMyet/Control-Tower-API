@@ -4,6 +4,7 @@ using ControlTower.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControlTower.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251014071800_RemoveNetworkStatusTable")]
+    partial class RemoveNetworkStatusTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3073,6 +3076,9 @@ namespace ControlTower.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("WillowlynxProcessStatusID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("YesNoStatusID")
                         .HasColumnType("uniqueidentifier");
 
@@ -3083,6 +3089,8 @@ namespace ControlTower.Migrations
                     b.HasIndex("PMReportFormServerID");
 
                     b.HasIndex("UpdatedBy");
+
+                    b.HasIndex("WillowlynxProcessStatusID");
 
                     b.HasIndex("YesNoStatusID");
 
@@ -3471,6 +3479,24 @@ namespace ControlTower.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("WillowlynxNetworkStatuses");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.WillowlynxProcessStatus", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("WillowlynxProcessStatuses");
                 });
 
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.WillowlynxRTUStatus", b =>
@@ -5410,6 +5436,12 @@ namespace ControlTower.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.WillowlynxProcessStatus", "WillowlynxProcessStatus")
+                        .WithMany()
+                        .HasForeignKey("WillowlynxProcessStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ControlTower.Models.ReportManagementSystem.YesNoStatus", "YesNoStatus")
                         .WithMany()
                         .HasForeignKey("YesNoStatusID")
@@ -5421,6 +5453,8 @@ namespace ControlTower.Migrations
                     b.Navigation("PMReportFormServer");
 
                     b.Navigation("UpdatedByUser");
+
+                    b.Navigation("WillowlynxProcessStatus");
 
                     b.Navigation("YesNoStatus");
                 });

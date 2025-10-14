@@ -162,15 +162,12 @@ namespace ControlTower.Controllers.ReportManagementSystem
 
             var pmServerNetworkHealths = await _context.PMServerNetworkHealths
                 .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
-                .Include(h => h.NetworkStatus)
                 .Include(h => h.CreatedByUser)
                 .Include(h => h.UpdatedByUser)
                 .Select(h => new
                 {
                     ID = h.ID,
                     PMReportFormServerID = h.PMReportFormServerID,
-                    NetworkStatusID = h.NetworkStatusID,
-                    NetworkStatusName = h.NetworkStatus.Name,
                     Remarks = h.Remarks,
                     CreatedDate = h.CreatedDate,
                     UpdatedDate = h.UpdatedDate,
@@ -183,15 +180,12 @@ namespace ControlTower.Controllers.ReportManagementSystem
 
             var pmServerWillowlynxProcessStatuses = await _context.PMServerWillowlynxProcessStatuses
                 .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
-                .Include(h => h.WillowlynxProcessStatus)
                 .Include(h => h.CreatedByUser)
                 .Include(h => h.UpdatedByUser)
                 .Select(h => new
                 {
                     ID = h.ID,
                     PMReportFormServerID = h.PMReportFormServerID,
-                    WillowlynxProcessStatusID = h.WillowlynxProcessStatusID,
-                    WillowlynxProcessStatusName = h.WillowlynxProcessStatus.Name,
                     Remarks = h.Remarks,
                     CreatedDate = h.CreatedDate,
                     UpdatedDate = h.UpdatedDate,
