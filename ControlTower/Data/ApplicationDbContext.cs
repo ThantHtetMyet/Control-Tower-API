@@ -89,7 +89,6 @@ namespace ControlTower.Data
         public DbSet<PMServerHotFixesDetails> PMServerHotFixesDetails { get; set; }
         public DbSet<PMServerFailOver> PMServerFailOvers { get; set; }
         public DbSet<PMServerFailOverDetails> PMServerFailOverDetails { get; set; }
-        public DbSet<FailOverStatus> FailOverStatuses { get; set; }
         public DbSet<PMServerASAFirewall> PMServerASAFirewalls { get; set; }
         public DbSet<PMServerSoftwarePatchSummary> PMServerSoftwarePatchSummaries { get; set; }
         public DbSet<ASAFirewallStatus> ASAFirewallStatuses { get; set; }
@@ -1336,12 +1335,6 @@ namespace ControlTower.Data
                 .HasOne(p => p.PMServerFailOver)
                 .WithMany(h => h.PMServerFailOverDetails)
                 .HasForeignKey(p => p.PMServerFailOverID)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<PMServerFailOverDetails>()
-                .HasOne(p => p.FailOverStatus)
-                .WithMany()
-                .HasForeignKey(p => p.FailOverStatusID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PMServerFailOverDetails>()
