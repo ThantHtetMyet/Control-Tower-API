@@ -4,24 +4,25 @@ using ControlTower.Models.EmployeeManagementSystem;
 
 namespace ControlTower.Models.ReportManagementSystem
 {
-    public class PMServerASAFirewall
+    public class PMServerSoftwarePatchDetails
     {
         [Key]
         public Guid ID { get; set; }
 
-        [ForeignKey("PMReportFormServer")]
-        public Guid PMReportFormServerID { get; set; }
+        [ForeignKey("PMServerSoftwarePatchSummary")]
+        public Guid PMServerSoftwarePatchSummaryID { get; set; }
 
-        public int SerialNumber { get; set; }
+        [StringLength(100)]
+        public string? SerialNo { get; set; }
 
         [StringLength(500)]
-        public string? CommandInput { get; set; }
+        public string? ServerName { get; set; }
 
-        [ForeignKey("ASAFirewallStatus")]
-        public Guid ASAFirewallStatusID { get; set; }
+        [StringLength(500)]
+        public string? PreviousPatch { get; set; }
 
-        [ForeignKey("ResultStatus")]
-        public Guid ResultStatusID { get; set; }
+        [StringLength(500)]
+        public string? CurrentPatch { get; set; }
 
         [StringLength(1000)]
         public string? Remarks { get; set; }
@@ -39,9 +40,7 @@ namespace ControlTower.Models.ReportManagementSystem
         public Guid? UpdatedBy { get; set; }
 
         // Navigation properties
-        public virtual PMReportFormServer PMReportFormServer { get; set; }
-        public virtual ASAFirewallStatus ASAFirewallStatus { get; set; }
-        public virtual ResultStatus ResultStatus { get; set; }
+        public virtual PMServerSoftwarePatchSummary PMServerSoftwarePatchSummary { get; set; }
         public virtual User CreatedByUser { get; set; }
         public virtual User? UpdatedByUser { get; set; }
     }

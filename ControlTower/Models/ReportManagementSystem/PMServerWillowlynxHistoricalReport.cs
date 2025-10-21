@@ -13,9 +13,6 @@ namespace ControlTower.Models.ReportManagementSystem
         public Guid PMReportFormServerID { get; set; }
 
         [Required]
-        public Guid WillowlynxHistoricalReportStatusID { get; set; }
-
-        [Required]
         public Guid YesNoStatusID { get; set; }
 
         public string? Remarks { get; set; }
@@ -38,9 +35,6 @@ namespace ControlTower.Models.ReportManagementSystem
         // Navigation properties
         [ForeignKey("PMReportFormServerID")]
         public virtual PMReportFormServer PMReportFormServer { get; set; }
-
-        [ForeignKey("WillowlynxHistoricalReportStatusID")]
-        public virtual WillowlynxHistoricalReportStatus WillowlynxHistoricalReportStatus { get; set; }
 
         [ForeignKey("YesNoStatusID")]
         public virtual YesNoStatus YesNoStatus { get; set; }

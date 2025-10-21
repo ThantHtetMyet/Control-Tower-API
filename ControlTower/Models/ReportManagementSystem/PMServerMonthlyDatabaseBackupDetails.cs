@@ -4,13 +4,13 @@ using ControlTower.Models.EmployeeManagementSystem;
 
 namespace ControlTower.Models.ReportManagementSystem
 {
-    public class PMServerMonthlyDatabaseBackupDetails
+    public class PMServerMSSQLDatabaseBackupDetails
     {
         [Key]
         public Guid ID { get; set; }
 
-        [ForeignKey("PMServerMonthlyDatabaseBackup")]
-        public Guid PMServerMonthlyDatabaseBackupID { get; set; }
+        [ForeignKey("PMServerDatabaseBackup")]
+        public Guid PMServerDatabaseBackupID { get; set; }
 
         [StringLength(100)]
         public string? SerialNo { get; set; }
@@ -37,7 +37,7 @@ namespace ControlTower.Models.ReportManagementSystem
         public Guid? UpdatedBy { get; set; }
 
         // Navigation properties
-        public virtual PMServerMonthlyDatabaseBackup PMServerMonthlyDatabaseBackup { get; set; }
+        public virtual PMServerDatabaseBackup PMServerDatabaseBackup { get; set; }
         public virtual YesNoStatus YesNoStatus { get; set; }
         public virtual User CreatedByUser { get; set; }
         public virtual User? UpdatedByUser { get; set; }

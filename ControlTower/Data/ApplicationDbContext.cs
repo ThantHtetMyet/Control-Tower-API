@@ -69,20 +69,15 @@ namespace ControlTower.Data
         public DbSet<YesNoStatus> YesNoStatuses { get; set; }
         public DbSet<PMServerWillowlynxProcessStatus> PMServerWillowlynxProcessStatuses { get; set; }
         public DbSet<PMServerWillowlynxNetworkStatus> PMServerWillowlynxNetworkStatuses { get; set; }
-        public DbSet<WillowlynxNetworkStatus> WillowlynxNetworkStatuses { get; set; }
         public DbSet<PMServerWillowlynxRTUStatus> PMServerWillowlynxRTUStatuses { get; set; }
-        public DbSet<WillowlynxRTUStatus> WillowlynxRTUStatuses { get; set; }
         public DbSet<PMServerWillowlynxHistoricalTrend> PMServerWillowlynxHistoricalTrends { get; set; }
-        public DbSet<WillowlynxHistoricalTrendStatus> WillowlynxHistoricalTrendStatuses { get; set; }
         public DbSet<PMServerWillowlynxHistoricalReport> PMServerWillowlynxHistoricalReports { get; set; }
-        public DbSet<WillowlynxHistoricalReportStatus> WillowlynxHistoricalReportStatuses { get; set; }
         public DbSet<PMServerWillowlynxCCTVCamera> PMServerWillowlynxCCTVCameras { get; set; }
-        public DbSet<WillowlynxCCTVCameraStatus> WillowlynxCCTVCameraStatuses { get; set; }
         public DbSet<PMServerMonthlyDatabaseCreation> PMServerMonthlyDatabaseCreations { get; set; }
         public DbSet<PMServerMonthlyDatabaseCreationDetails> PMServerMonthlyDatabaseCreationDetails { get; set; }
-        public DbSet<PMServerMonthlyDatabaseBackup> PMServerMonthlyDatabaseBackups { get; set; }
-        public DbSet<PMServerMonthlyDatabaseBackupDetails> PMServerMonthlyDatabaseBackupDetails { get; set; }
-        public DbSet<PMServerMonthlySCADADataBackupDetails> PMServerMonthlySCADADataBackupDetails { get; set; }
+        public DbSet<PMServerDatabaseBackup> PMServerDatabaseBackups { get; set; }
+        public DbSet<PMServerMSSQLDatabaseBackupDetails> PMServerMSSQLDatabaseBackupDetails { get; set; }
+        public DbSet<PMServerSCADADataBackupDetails> PMServerSCADADataBackupDetails { get; set; }
         public DbSet<PMServerTimeSync> PMServerTimeSyncs { get; set; }
         public DbSet<PMServerTimeSyncDetails> PMServerTimeSyncDetails { get; set; }
         public DbSet<PMServerHotFixes> PMServerHotFixes { get; set; }
@@ -91,6 +86,7 @@ namespace ControlTower.Data
         public DbSet<PMServerFailOverDetails> PMServerFailOverDetails { get; set; }
         public DbSet<PMServerASAFirewall> PMServerASAFirewalls { get; set; }
         public DbSet<PMServerSoftwarePatchSummary> PMServerSoftwarePatchSummaries { get; set; }
+        public DbSet<PMServerSoftwarePatchDetails> PMServerSoftwarePatchDetails { get; set; }
         public DbSet<ASAFirewallStatus> ASAFirewallStatuses { get; set; }
         public DbSet<PMMainRtuCabinet> PMMainRtuCabinets { get; set; }
         public DbSet<PMChamberMagneticContact> PMChamberMagneticContacts { get; set; }
@@ -963,12 +959,6 @@ namespace ControlTower.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PMServerWillowlynxNetworkStatus>()
-                .HasOne(p => p.WillowlynxNetworkStatus)
-                .WithMany()
-                .HasForeignKey(p => p.WillowlynxNetworkStatusID)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<PMServerWillowlynxNetworkStatus>()
                 .HasOne(p => p.YesNoStatus)
                 .WithMany()
                 .HasForeignKey(p => p.YesNoStatusID)
@@ -991,12 +981,6 @@ namespace ControlTower.Data
                 .HasOne(p => p.PMReportFormServer)
                 .WithMany()
                 .HasForeignKey(p => p.PMReportFormServerID)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<PMServerWillowlynxRTUStatus>()
-                .HasOne(p => p.WillowlynxRTUStatus)
-                .WithMany()
-                .HasForeignKey(p => p.WillowlynxRTUStatusID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PMServerWillowlynxRTUStatus>()
@@ -1025,12 +1009,6 @@ namespace ControlTower.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PMServerWillowlynxHistoricalTrend>()
-                .HasOne(p => p.WillowlynxHistoricalTrendStatus)
-                .WithMany()
-                .HasForeignKey(p => p.WillowlynxHistoricalTrendStatusID)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<PMServerWillowlynxHistoricalTrend>()
                 .HasOne(p => p.YesNoStatus)
                 .WithMany()
                 .HasForeignKey(p => p.YesNoStatusID)
@@ -1056,12 +1034,6 @@ namespace ControlTower.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PMServerWillowlynxHistoricalReport>()
-                .HasOne(p => p.WillowlynxHistoricalReportStatus)
-                .WithMany()
-                .HasForeignKey(p => p.WillowlynxHistoricalReportStatusID)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<PMServerWillowlynxHistoricalReport>()
                 .HasOne(p => p.YesNoStatus)
                 .WithMany()
                 .HasForeignKey(p => p.YesNoStatusID)
@@ -1084,12 +1056,6 @@ namespace ControlTower.Data
                 .HasOne(p => p.PMReportFormServer)
                 .WithMany()
                 .HasForeignKey(p => p.PMReportFormServerID)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<PMServerWillowlynxCCTVCamera>()
-                .HasOne(p => p.WillowlynxCCTVCameraStatus)
-                .WithMany()
-                .HasForeignKey(p => p.WillowlynxCCTVCameraStatusID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PMServerWillowlynxCCTVCamera>()
@@ -1154,70 +1120,70 @@ namespace ControlTower.Data
                 .HasForeignKey(p => p.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Configure PMServerMonthlyDatabaseBackup relationships
-            modelBuilder.Entity<PMServerMonthlyDatabaseBackup>()
+            // Configure PMServerDatabaseBackup relationships
+            modelBuilder.Entity<PMServerDatabaseBackup>()
                 .HasOne(p => p.PMReportFormServer)
                 .WithMany()
                 .HasForeignKey(p => p.PMReportFormServerID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<PMServerMonthlyDatabaseBackup>()
+            modelBuilder.Entity<PMServerDatabaseBackup>()
                 .HasOne(p => p.CreatedByUser)
                 .WithMany()
                 .HasForeignKey(p => p.CreatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<PMServerMonthlyDatabaseBackup>()
+            modelBuilder.Entity<PMServerDatabaseBackup>()
                 .HasOne(p => p.UpdatedByUser)
                 .WithMany()
                 .HasForeignKey(p => p.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Configure PMServerMonthlyDatabaseBackupDetails relationships
-            modelBuilder.Entity<PMServerMonthlyDatabaseBackupDetails>()
-                .HasOne(p => p.PMServerMonthlyDatabaseBackup)
-                .WithMany(h => h.PMServerMonthlyDatabaseBackupDetails)
-                .HasForeignKey(p => p.PMServerMonthlyDatabaseBackupID)
+            // Configure PMServerMSSQLDatabaseBackupDetails relationships
+            modelBuilder.Entity<PMServerMSSQLDatabaseBackupDetails>()
+                .HasOne(p => p.PMServerDatabaseBackup)
+                .WithMany(h => h.PMServerMSSQLDatabaseBackupDetails)
+                .HasForeignKey(p => p.PMServerDatabaseBackupID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<PMServerMonthlyDatabaseBackupDetails>()
+            modelBuilder.Entity<PMServerMSSQLDatabaseBackupDetails>()
                 .HasOne(p => p.YesNoStatus)
                 .WithMany()
                 .HasForeignKey(p => p.YesNoStatusID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<PMServerMonthlyDatabaseBackupDetails>()
+            modelBuilder.Entity<PMServerMSSQLDatabaseBackupDetails>()
                 .HasOne(p => p.CreatedByUser)
                 .WithMany()
                 .HasForeignKey(p => p.CreatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<PMServerMonthlyDatabaseBackupDetails>()
+            modelBuilder.Entity<PMServerMSSQLDatabaseBackupDetails>()
                 .HasOne(p => p.UpdatedByUser)
                 .WithMany()
                 .HasForeignKey(p => p.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Configure PMServerMonthlySCADADataBackupDetails relationships
-            modelBuilder.Entity<PMServerMonthlySCADADataBackupDetails>()
-                .HasOne(p => p.PMServerMonthlyDatabaseBackup)
-                .WithMany(h => h.PMServerMonthlySCADADataBackupDetails)
-                .HasForeignKey(p => p.PMServerMonthlyDatabaseBackupID)
+            // Configure PMServerSCADADataBackupDetails relationships
+            modelBuilder.Entity<PMServerSCADADataBackupDetails>()
+                .HasOne(p => p.PMServerDatabaseBackup)
+                .WithMany(h => h.PMServerSCADADataBackupDetails)
+                .HasForeignKey(p => p.PMServerDatabaseBackupID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<PMServerMonthlySCADADataBackupDetails>()
+            modelBuilder.Entity<PMServerSCADADataBackupDetails>()
                 .HasOne(p => p.YesNoStatus)
                 .WithMany()
                 .HasForeignKey(p => p.YesNoStatusID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<PMServerMonthlySCADADataBackupDetails>()
+            modelBuilder.Entity<PMServerSCADADataBackupDetails>()
                 .HasOne(p => p.CreatedByUser)
                 .WithMany()
                 .HasForeignKey(p => p.CreatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<PMServerMonthlySCADADataBackupDetails>()
+            modelBuilder.Entity<PMServerSCADADataBackupDetails>()
                 .HasOne(p => p.UpdatedByUser)
                 .WithMany()
                 .HasForeignKey(p => p.UpdatedBy)
@@ -1400,6 +1366,25 @@ namespace ControlTower.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PMServerSoftwarePatchSummary>()
+                .HasOne(p => p.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(p => p.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // PMServerSoftwarePatchDetails relationships
+            modelBuilder.Entity<PMServerSoftwarePatchDetails>()
+                .HasOne(p => p.PMServerSoftwarePatchSummary)
+                .WithMany(s => s.PMServerSoftwarePatchDetails)
+                .HasForeignKey(p => p.PMServerSoftwarePatchSummaryID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PMServerSoftwarePatchDetails>()
+                .HasOne(p => p.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(p => p.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PMServerSoftwarePatchDetails>()
                 .HasOne(p => p.UpdatedByUser)
                 .WithMany()
                 .HasForeignKey(p => p.UpdatedBy)

@@ -6272,6 +6272,22 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "sortField",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "asc"
+            }
           }
         ],
         "responses": {
@@ -11147,6 +11163,60 @@
           "createdBy": {
             "type": "string",
             "format": "uuid"
+          },
+          "serverHealthData": {
+            "$ref": "#/components/schemas/PMServerHealthDataDto"
+          },
+          "diskUsageData": {
+            "$ref": "#/components/schemas/PMServerDiskUsageDataDto"
+          },
+          "cpuAndRamUsageData": {
+            "$ref": "#/components/schemas/PMServerCPUAndMemoryDataDto"
+          },
+          "networkHealthData": {
+            "$ref": "#/components/schemas/PMServerNetworkHealthDataDto"
+          },
+          "willowlynxProcessStatusData": {
+            "$ref": "#/components/schemas/PMServerWillowlynxProcessStatusDataDto"
+          },
+          "willowlynxNetworkStatusData": {
+            "$ref": "#/components/schemas/PMServerWillowlynxNetworkStatusDataDto"
+          },
+          "willowlynxRTUStatusData": {
+            "$ref": "#/components/schemas/PMServerWillowlynxRTUStatusDataDto"
+          },
+          "willowlynxHistorialTrendData": {
+            "$ref": "#/components/schemas/PMServerWillowlynxHistoricalTrendDataDto"
+          },
+          "willowlynxHistoricalReportData": {
+            "$ref": "#/components/schemas/PMServerWillowlynxHistoricalReportDataDto"
+          },
+          "willowlynxSumpPitCCTVCameraData": {
+            "$ref": "#/components/schemas/PMServerWillowlynxCCTVCameraDataDto"
+          },
+          "monthlyDatabaseCreationData": {
+            "$ref": "#/components/schemas/PMServerMonthlyDatabaseCreationDataDto"
+          },
+          "databaseBackupData": {
+            "$ref": "#/components/schemas/PMServerDatabaseBackupDataDto"
+          },
+          "timeSyncData": {
+            "$ref": "#/components/schemas/PMServerTimeSyncDataDto"
+          },
+          "hotFixesData": {
+            "$ref": "#/components/schemas/PMServerHotFixesDataDto"
+          },
+          "autoFailOverData": {
+            "$ref": "#/components/schemas/PMServerFailOverDataDto"
+          },
+          "asaFirewallData": {
+            "$ref": "#/components/schemas/PMServerASAFirewallDataDto"
+          },
+          "softwarePatchData": {
+            "$ref": "#/components/schemas/PMServerSoftwarePatchDataDto"
+          },
+          "hardDriveHealthData": {
+            "$ref": "#/components/schemas/PMServerHardDriveHealthDataDto"
           }
         },
         "additionalProperties": false
@@ -12965,6 +13035,60 @@
           "systemDescription": {
             "type": "string",
             "nullable": true
+          },
+          "serverHealthData": {
+            "$ref": "#/components/schemas/PMServerHealthDataDto"
+          },
+          "diskUsageData": {
+            "$ref": "#/components/schemas/PMServerDiskUsageDataDto"
+          },
+          "cpuAndRamUsageData": {
+            "$ref": "#/components/schemas/PMServerCPUAndMemoryDataDto"
+          },
+          "networkHealthData": {
+            "$ref": "#/components/schemas/PMServerNetworkHealthDataDto"
+          },
+          "willowlynxProcessStatusData": {
+            "$ref": "#/components/schemas/PMServerWillowlynxProcessStatusDataDto"
+          },
+          "willowlynxNetworkStatusData": {
+            "$ref": "#/components/schemas/PMServerWillowlynxNetworkStatusDataDto"
+          },
+          "willowlynxRTUStatusData": {
+            "$ref": "#/components/schemas/PMServerWillowlynxRTUStatusDataDto"
+          },
+          "willowlynxHistorialTrendData": {
+            "$ref": "#/components/schemas/PMServerWillowlynxHistoricalTrendDataDto"
+          },
+          "willowlynxHistoricalReportData": {
+            "$ref": "#/components/schemas/PMServerWillowlynxHistoricalReportDataDto"
+          },
+          "willowlynxSumpPitCCTVCameraData": {
+            "$ref": "#/components/schemas/PMServerWillowlynxCCTVCameraDataDto"
+          },
+          "monthlyDatabaseCreationData": {
+            "$ref": "#/components/schemas/PMServerMonthlyDatabaseCreationDataDto"
+          },
+          "databaseBackupData": {
+            "$ref": "#/components/schemas/PMServerDatabaseBackupDataDto"
+          },
+          "timeSyncData": {
+            "$ref": "#/components/schemas/PMServerTimeSyncDataDto"
+          },
+          "hotFixesData": {
+            "$ref": "#/components/schemas/PMServerHotFixesDataDto"
+          },
+          "autoFailOverData": {
+            "$ref": "#/components/schemas/PMServerFailOverDataDto"
+          },
+          "asaFirewallData": {
+            "$ref": "#/components/schemas/PMServerASAFirewallDataDto"
+          },
+          "softwarePatchData": {
+            "$ref": "#/components/schemas/PMServerSoftwarePatchDataDto"
+          },
+          "hardDriveHealthData": {
+            "$ref": "#/components/schemas/PMServerHardDriveHealthDataDto"
           }
         },
         "additionalProperties": false
@@ -13006,6 +13130,793 @@
             "nullable": true
           },
           "updatedByUserName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerASAFirewallDataDto": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMServerASAFirewallDetailDto"
+            },
+            "nullable": true
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerASAFirewallDetailDto": {
+        "type": "object",
+        "properties": {
+          "serialNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "commandInput": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "asaFirewallStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "resultStatusID": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerCPUAndMemoryDataDto": {
+        "type": "object",
+        "properties": {
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "cpuUsageDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMServerCPUUsageDetailDto"
+            },
+            "nullable": true
+          },
+          "memoryUsageDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMServerMemoryUsageDetailDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerCPUUsageDetailDto": {
+        "type": "object",
+        "properties": {
+          "serialNo": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "cpuUsage": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "resultStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerDatabaseBackupDataDto": {
+        "type": "object",
+        "properties": {
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "latestBackupFileName": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "mssqlDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMServerMSSQLDatabaseBackupDetailDto"
+            },
+            "nullable": true
+          },
+          "scadaDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMServerSCADADataBackupDetailDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerDiskUsageDataDto": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMServerDiskUsageDetailDto"
+            },
+            "nullable": true
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerDiskUsageDetailDto": {
+        "type": "object",
+        "properties": {
+          "diskName": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "capacity": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "freeSpace": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "usage": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverDiskStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "resultStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerFailOverDataDto": {
+        "type": "object",
+        "properties": {
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMServerFailOverDetailDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerFailOverDetailDto": {
+        "type": "object",
+        "properties": {
+          "yesNoStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "toServer": {
+            "type": "string",
+            "nullable": true
+          },
+          "fromServer": {
+            "type": "string",
+            "nullable": true
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerHardDriveHealthDataDto": {
+        "type": "object",
+        "properties": {
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMServerHardDriveHealthDetailDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerHardDriveHealthDetailDto": {
+        "type": "object",
+        "properties": {
+          "serverName": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "hardDriveName": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "dateChecked": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "driveLetter": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "driveType": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "yesNoStatusID": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "temperature": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "resultStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerHealthDataDto": {
+        "type": "object",
+        "properties": {
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMServerHealthDetailDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerHealthDetailDto": {
+        "type": "object",
+        "properties": {
+          "serverName": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "resultStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerHotFixesDataDto": {
+        "type": "object",
+        "properties": {
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMServerHotFixesDetailDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerHotFixesDetailDto": {
+        "type": "object",
+        "properties": {
+          "serialNo": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "latestHotFixsApplied": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "dateInstalled": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "resultStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerMSSQLDatabaseBackupDetailDto": {
+        "type": "object",
+        "properties": {
+          "serialNo": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "yesNoStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerMemoryUsageDetailDto": {
+        "type": "object",
+        "properties": {
+          "serialNo": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "memorySize": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "memoryInUse": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "resultStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerMonthlyDatabaseCreationDataDto": {
+        "type": "object",
+        "properties": {
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMServerMonthlyDatabaseCreationDetailDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerMonthlyDatabaseCreationDetailDto": {
+        "type": "object",
+        "properties": {
+          "serialNo": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "dateCreated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "yesNoStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerNetworkHealthDataDto": {
+        "type": "object",
+        "properties": {
+          "yesNoStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dateChecked": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerSCADADataBackupDetailDto": {
+        "type": "object",
+        "properties": {
+          "serialNo": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "yesNoStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerSoftwarePatchDataDto": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMServerSoftwarePatchDetailDto"
+            },
+            "nullable": true
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerSoftwarePatchDetailDto": {
+        "type": "object",
+        "properties": {
+          "serialNo": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "previousPatch": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "currentPatch": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerTimeSyncDataDto": {
+        "type": "object",
+        "properties": {
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PMServerTimeSyncDetailDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerTimeSyncDetailDto": {
+        "type": "object",
+        "properties": {
+          "serialNo": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "resultStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerWillowlynxCCTVCameraDataDto": {
+        "type": "object",
+        "properties": {
+          "yesNoStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerWillowlynxHistoricalReportDataDto": {
+        "type": "object",
+        "properties": {
+          "yesNoStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerWillowlynxHistoricalTrendDataDto": {
+        "type": "object",
+        "properties": {
+          "yesNoStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerWillowlynxNetworkStatusDataDto": {
+        "type": "object",
+        "properties": {
+          "yesNoStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerWillowlynxProcessStatusDataDto": {
+        "type": "object",
+        "properties": {
+          "yesNoStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerWillowlynxRTUStatusDataDto": {
+        "type": "object",
+        "properties": {
+          "yesNoStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
             "type": "string",
             "nullable": true
           }
@@ -14760,6 +15671,60 @@
             "type": "string",
             "format": "uuid",
             "nullable": true
+          },
+          "serverHealthData": {
+            "$ref": "#/components/schemas/PMServerHealthDataDto"
+          },
+          "diskUsageData": {
+            "$ref": "#/components/schemas/PMServerDiskUsageDataDto"
+          },
+          "cpuAndRamUsageData": {
+            "$ref": "#/components/schemas/PMServerCPUAndMemoryDataDto"
+          },
+          "networkHealthData": {
+            "$ref": "#/components/schemas/PMServerNetworkHealthDataDto"
+          },
+          "willowlynxProcessStatusData": {
+            "$ref": "#/components/schemas/PMServerWillowlynxProcessStatusDataDto"
+          },
+          "willowlynxNetworkStatusData": {
+            "$ref": "#/components/schemas/PMServerWillowlynxNetworkStatusDataDto"
+          },
+          "willowlynxRTUStatusData": {
+            "$ref": "#/components/schemas/PMServerWillowlynxRTUStatusDataDto"
+          },
+          "willowlynxHistorialTrendData": {
+            "$ref": "#/components/schemas/PMServerWillowlynxHistoricalTrendDataDto"
+          },
+          "willowlynxHistoricalReportData": {
+            "$ref": "#/components/schemas/PMServerWillowlynxHistoricalReportDataDto"
+          },
+          "willowlynxSumpPitCCTVCameraData": {
+            "$ref": "#/components/schemas/PMServerWillowlynxCCTVCameraDataDto"
+          },
+          "monthlyDatabaseCreationData": {
+            "$ref": "#/components/schemas/PMServerMonthlyDatabaseCreationDataDto"
+          },
+          "databaseBackupData": {
+            "$ref": "#/components/schemas/PMServerDatabaseBackupDataDto"
+          },
+          "timeSyncData": {
+            "$ref": "#/components/schemas/PMServerTimeSyncDataDto"
+          },
+          "hotFixesData": {
+            "$ref": "#/components/schemas/PMServerHotFixesDataDto"
+          },
+          "autoFailOverData": {
+            "$ref": "#/components/schemas/PMServerFailOverDataDto"
+          },
+          "asaFirewallData": {
+            "$ref": "#/components/schemas/PMServerASAFirewallDataDto"
+          },
+          "softwarePatchData": {
+            "$ref": "#/components/schemas/PMServerSoftwarePatchDataDto"
+          },
+          "hardDriveHealthData": {
+            "$ref": "#/components/schemas/PMServerHardDriveHealthDataDto"
           }
         },
         "additionalProperties": false

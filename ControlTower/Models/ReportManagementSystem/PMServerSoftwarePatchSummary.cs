@@ -12,18 +12,6 @@ namespace ControlTower.Models.ReportManagementSystem
         [ForeignKey("PMReportFormServer")]
         public Guid PMReportFormServerID { get; set; }
 
-        [StringLength(100)]
-        public string? SerialNo { get; set; }
-
-        [StringLength(500)]
-        public string? ServerName { get; set; }
-
-        [StringLength(500)]
-        public string? PreviousPatch { get; set; }
-
-        [StringLength(500)]
-        public string? CurrentPatch { get; set; }
-
         [StringLength(1000)]
         public string? Remarks { get; set; }
 
@@ -43,5 +31,6 @@ namespace ControlTower.Models.ReportManagementSystem
         public virtual PMReportFormServer PMReportFormServer { get; set; }
         public virtual User CreatedByUser { get; set; }
         public virtual User? UpdatedByUser { get; set; }
+        public virtual ICollection<PMServerSoftwarePatchDetails> PMServerSoftwarePatchDetails { get; set; } = new List<PMServerSoftwarePatchDetails>();
     }
 }

@@ -42,7 +42,9 @@ namespace ControlTower.Controllers.ReportManagementSystem
             [FromQuery] string search = "",
             [FromQuery] Guid? reportFormTypeId = null,
             [FromQuery] Guid? SystemNameWarehouseID = null,
-            [FromQuery] Guid? StationNameWarehouseID = null)
+            [FromQuery] Guid? StationNameWarehouseID = null,
+            [FromQuery] string sortField = "",
+            [FromQuery] string sortDirection = "asc")
         {
             var query = _context.ReportForms
                 .Where(rf => !rf.IsDeleted)
@@ -80,11 +82,66 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 query = query.Where(rf => rf.StationNameWarehouseID == StationNameWarehouseID.Value);
             }
 
+            // Apply sorting
+            if (!string.IsNullOrEmpty(sortField))
+            {
+                switch (sortField.ToLower())
+                {
+                    case "reportformtypename":
+                    case "specificreporttypename":
+                        query = sortDirection.ToLower() == "desc" 
+                            ? query.OrderByDescending(rf => rf.ReportFormType.Name)
+                            : query.OrderBy(rf => rf.ReportFormType.Name);
+                        break;
+                    case "jobno":
+                        query = sortDirection.ToLower() == "desc" 
+                            ? query.OrderByDescending(rf => rf.JobNo)
+                            : query.OrderBy(rf => rf.JobNo);
+                        break;
+                    case "systemname":
+                        query = sortDirection.ToLower() == "desc" 
+                            ? query.OrderByDescending(rf => rf.SystemNameWarehouse.Name)
+                            : query.OrderBy(rf => rf.SystemNameWarehouse.Name);
+                        break;
+                    case "stationname":
+                        query = sortDirection.ToLower() == "desc" 
+                            ? query.OrderByDescending(rf => rf.StationNameWarehouse.Name)
+                            : query.OrderBy(rf => rf.StationNameWarehouse.Name);
+                        break;
+                    case "formstatus":
+                        query = sortDirection.ToLower() == "desc" 
+                            ? query.OrderByDescending(rf => rf.FormStatus)
+                            : query.OrderBy(rf => rf.FormStatus);
+                        break;
+                    case "createddate":
+                        query = sortDirection.ToLower() == "desc" 
+                            ? query.OrderByDescending(rf => rf.CreatedDate)
+                            : query.OrderBy(rf => rf.CreatedDate);
+                        break;
+                    case "createdby":
+                        query = sortDirection.ToLower() == "desc" 
+                            ? query.OrderByDescending(rf => rf.CreatedByUser.FirstName + " " + rf.CreatedByUser.LastName)
+                            : query.OrderBy(rf => rf.CreatedByUser.FirstName + " " + rf.CreatedByUser.LastName);
+                        break;
+                    case "updateddate":
+                        query = sortDirection.ToLower() == "desc" 
+                            ? query.OrderByDescending(rf => rf.UpdatedDate)
+                            : query.OrderBy(rf => rf.UpdatedDate);
+                        break;
+                    default:
+                        query = query.OrderByDescending(rf => rf.CreatedDate);
+                        break;
+                }
+            }
+            else
+            {
+                query = query.OrderByDescending(rf => rf.CreatedDate);
+            }
+
             var totalCount = await query.CountAsync();
             var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
 
             var reportForms = await query
-                .OrderByDescending(rf => rf.CreatedDate)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .Select(rf => new

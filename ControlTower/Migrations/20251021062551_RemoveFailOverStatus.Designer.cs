@@ -4,6 +4,7 @@ using ControlTower.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControlTower.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251021062551_RemoveFailOverStatus")]
+    partial class RemoveFailOverStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1742,10 +1745,6 @@ namespace ControlTower.Migrations
                     b.Property<Guid>("ASAFirewallStatusID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CommandInput")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -1758,15 +1757,8 @@ namespace ControlTower.Migrations
                     b.Property<Guid>("PMReportFormServerID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Remarks")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
                     b.Property<Guid>("ResultStatusID")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("SerialNumber")
-                        .HasColumnType("int");
 
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
@@ -2092,7 +2084,7 @@ namespace ControlTower.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("PMServerFailOverID")
+                    b.Property<Guid?>("PMServerFailOverID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Remarks")
@@ -2695,7 +2687,7 @@ namespace ControlTower.Migrations
                     b.ToTable("PMServerSCADADataBackupDetails");
                 });
 
-            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerSoftwarePatchDetails", b =>
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerSoftwarePatchSummary", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
@@ -2714,7 +2706,7 @@ namespace ControlTower.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("PMServerSoftwarePatchSummaryID")
+                    b.Property<Guid>("PMReportFormServerID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PreviousPatch")
@@ -2732,45 +2724,6 @@ namespace ControlTower.Migrations
                     b.Property<string>("ServerName")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("PMServerSoftwarePatchSummaryID");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("PMServerSoftwarePatchDetails");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerSoftwarePatchSummary", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("PMReportFormServerID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Remarks")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
@@ -4632,11 +4585,9 @@ namespace ControlTower.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMServerFailOver", "PMServerFailOver")
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMServerFailOver", null)
                         .WithMany("PMServerFailOverDetails")
-                        .HasForeignKey("PMServerFailOverID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("PMServerFailOverID");
 
                     b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
                         .WithMany()
@@ -4650,8 +4601,6 @@ namespace ControlTower.Migrations
                         .IsRequired();
 
                     b.Navigation("CreatedByUser");
-
-                    b.Navigation("PMServerFailOver");
 
                     b.Navigation("UpdatedByUser");
 
@@ -5033,32 +4982,6 @@ namespace ControlTower.Migrations
                     b.Navigation("UpdatedByUser");
 
                     b.Navigation("YesNoStatus");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerSoftwarePatchDetails", b =>
-                {
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMServerSoftwarePatchSummary", "PMServerSoftwarePatchSummary")
-                        .WithMany("PMServerSoftwarePatchDetails")
-                        .HasForeignKey("PMServerSoftwarePatchSummaryID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("PMServerSoftwarePatchSummary");
-
-                    b.Navigation("UpdatedByUser");
                 });
 
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerSoftwarePatchSummary", b =>
@@ -5696,11 +5619,6 @@ namespace ControlTower.Migrations
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerMonthlyDatabaseCreation", b =>
                 {
                     b.Navigation("PMServerMonthlyDatabaseCreationDetails");
-                });
-
-            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerSoftwarePatchSummary", b =>
-                {
-                    b.Navigation("PMServerSoftwarePatchDetails");
                 });
 
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerTimeSync", b =>

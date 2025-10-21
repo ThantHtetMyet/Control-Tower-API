@@ -4,7 +4,7 @@ using ControlTower.Models.EmployeeManagementSystem;
 
 namespace ControlTower.Models.ReportManagementSystem
 {
-    public class PMServerMonthlyDatabaseBackup
+    public class PMServerDatabaseBackup
     {
         [Key]
         public Guid ID { get; set; }
@@ -34,7 +34,7 @@ namespace ControlTower.Models.ReportManagementSystem
         public virtual PMReportFormServer PMReportFormServer { get; set; }
         public virtual User CreatedByUser { get; set; }
         public virtual User? UpdatedByUser { get; set; }
-        public virtual ICollection<PMServerMonthlyDatabaseBackupDetails> PMServerMonthlyDatabaseBackupDetails { get; set; } = new List<PMServerMonthlyDatabaseBackupDetails>();
-        public virtual ICollection<PMServerMonthlySCADADataBackupDetails> PMServerMonthlySCADADataBackupDetails { get; set; } = new List<PMServerMonthlySCADADataBackupDetails>();
+        public virtual ICollection<PMServerMSSQLDatabaseBackupDetails> PMServerMSSQLDatabaseBackupDetails { get; set; } = new List<PMServerMSSQLDatabaseBackupDetails>();
+        public virtual ICollection<PMServerSCADADataBackupDetails> PMServerSCADADataBackupDetails { get; set; } = new List<PMServerSCADADataBackupDetails>();
     }
 }
