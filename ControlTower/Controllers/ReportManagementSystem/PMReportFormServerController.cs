@@ -69,29 +69,38 @@ namespace ControlTower.Controllers.ReportManagementSystem
         [HttpGet("{id}")]
         public async Task<ActionResult> GetPMReportFormServerWithDetails(Guid id)
         {
+            // First, find the ReportForm by the provided ID
+            var reportForm = await _context.ReportForms
+                .Include(r => r.ReportFormType)
+                .Include(r => r.SystemNameWarehouse)
+                .Include(r => r.StationNameWarehouse)
+                .Where(r => r.ID == id && !r.IsDeleted)
+                .FirstOrDefaultAsync();
+
+            if (reportForm == null)
+            {
+                return NotFound("ReportForm not found");
+            }
+
+            // Then find the PMReportFormServer using the ReportForm ID
             var pmReportFormServer = await _context.PMReportFormServer
-                .Include(p => p.ReportForm)
-                    .ThenInclude(r => r.ReportFormType)
-                .Include(p => p.ReportForm)
-                    .ThenInclude(r => r.SystemNameWarehouse)
-                .Include(p => p.ReportForm)
-                    .ThenInclude(r => r.StationNameWarehouse)
                 .Include(p => p.PMReportFormType)
                 .Include(p => p.CreatedByUser)
                 .Include(p => p.UpdatedByUser)
-                .Where(p => p.ID == id && !p.IsDeleted)
+                .Where(p => p.ReportFormID == reportForm.ID && !p.IsDeleted)
                 .FirstOrDefaultAsync();
 
             if (pmReportFormServer == null)
             {
-                return NotFound();
+                return NotFound("PMReportFormServer not found for this ReportForm");
             }
 
-            // Get all related PM Server data
+            // Get all related PM Server data using the PMReportFormServer ID
             var pmServerHealths = await _context.PMServerHealths
-                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Where(h => h.PMReportFormServerID == pmReportFormServer.ID && !h.IsDeleted)
                 .Include(h => h.CreatedByUser)
                 .Include(h => h.UpdatedByUser)
+                .Include(h => h.PMServerHealthDetails)
                 .Select(h => new
                 {
                     ID = h.ID,
@@ -102,14 +111,28 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     CreatedBy = h.CreatedBy,
                     UpdatedBy = h.UpdatedBy,
                     CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
-                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null,
+                    Details = h.PMServerHealthDetails.Where(d => !d.IsDeleted).Select(d => new
+                    {
+                        ID = d.ID,
+                        PMServerHealthID = d.PMServerHealthID,
+                        ResultStatusID = d.ResultStatusID, // Using correct ResultStatusID property
+                        ResultStatusName = d.ResultStatus.Name, // Getting display name from navigation property
+                        ServerName = d.ServerName,
+                        Remarks = d.Remarks,
+                        CreatedDate = d.CreatedDate,
+                        UpdatedDate = d.UpdatedDate,
+                        CreatedBy = d.CreatedBy,
+                        UpdatedBy = d.UpdatedBy
+                    }).ToList()
                 })
                 .ToListAsync();
 
             var pmServerHardDriveHealths = await _context.PMServerHardDriveHealths
-                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Where(h => h.PMReportFormServerID == pmReportFormServer.ID && !h.IsDeleted)
                 .Include(h => h.CreatedByUser)
                 .Include(h => h.UpdatedByUser)
+                .Include(h => h.PMServerHardDriveHealthDetails)
                 .Select(h => new
                 {
                     ID = h.ID,
@@ -120,14 +143,32 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     CreatedBy = h.CreatedBy,
                     UpdatedBy = h.UpdatedBy,
                     CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
-                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null,
+                    Details = h.PMServerHardDriveHealthDetails.Where(d => !d.IsDeleted).Select(d => new
+                    {
+                        ID = d.ID,
+                        PMServerHardDriveHealthID = d.PMServerHardDriveHealthID,
+                        ServerName = d.ServerName,
+                        HardDriveName = d.ServerName, // Using ServerName as HardDriveName since HardDriveName doesn't exist in model
+                        ResultStatusID = d.ResultStatusID, // Using correct ResultStatusID property
+                        ResultStatusName = d.ResultStatus.Name, // Getting display name from navigation property
+                        Remarks = d.Remarks,
+                        CreatedDate = d.CreatedDate,
+                        UpdatedDate = d.UpdatedDate,
+                        CreatedBy = d.CreatedBy,
+                        UpdatedBy = d.UpdatedBy
+                    }).ToList()
                 })
                 .ToListAsync();
 
             var pmServerDiskUsageHealths = await _context.PMServerDiskUsageHealths
-                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Where(h => h.PMReportFormServerID == pmReportFormServer.ID && !h.IsDeleted)
                 .Include(h => h.CreatedByUser)
                 .Include(h => h.UpdatedByUser)
+                .Include(h => h.PMServerDiskUsageHealthDetails)
+                    .ThenInclude(d => d.ServerDiskStatus)
+                .Include(h => h.PMServerDiskUsageHealthDetails)
+                    .ThenInclude(d => d.ResultStatus)
                 .Select(h => new
                 {
                     ID = h.ID,
@@ -138,14 +179,35 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     CreatedBy = h.CreatedBy,
                     UpdatedBy = h.UpdatedBy,
                     CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
-                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null,
+                    Details = h.PMServerDiskUsageHealthDetails.Where(d => !d.IsDeleted).Select(d => new
+                    {
+                        ID = d.ID,
+                        PMServerDiskUsageHealthID = d.PMServerDiskUsageHealthID,
+                        ServerName = d.ServerName,
+                        DiskName = d.DiskName,
+                        Capacity = d.Capacity,
+                        FreeSpace = d.FreeSpace,
+                        Usage = d.Usage,
+                        ServerDiskStatusID = d.ServerDiskStatusID,
+                        ServerDiskStatusName = d.ServerDiskStatus.Name, // Getting display name from navigation property
+                        ResultStatusID = d.ResultStatusID,
+                        ResultStatusName = d.ResultStatus.Name, // Getting display name from navigation property
+                        Remarks = d.Remarks,
+                        CreatedDate = d.CreatedDate,
+                        UpdatedDate = d.UpdatedDate,
+                        CreatedBy = d.CreatedBy,
+                        UpdatedBy = d.UpdatedBy
+                    }).ToList()
                 })
                 .ToListAsync();
 
             var pmServerCPUAndMemoryUsages = await _context.PMServerCPUAndMemoryUsages
-                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Where(h => h.PMReportFormServerID == pmReportFormServer.ID && !h.IsDeleted)
                 .Include(h => h.CreatedByUser)
                 .Include(h => h.UpdatedByUser)
+                .Include(h => h.PMServerCPUUsageDetails)
+                .Include(h => h.PMServerMemoryUsageDetails)
                 .Select(h => new
                 {
                     ID = h.ID,
@@ -156,18 +218,52 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     CreatedBy = h.CreatedBy,
                     UpdatedBy = h.UpdatedBy,
                     CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
-                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null,
+                    CPUUsageDetails = h.PMServerCPUUsageDetails.Where(d => !d.IsDeleted).Select(d => new
+                    {
+                        ID = d.ID,
+                        PMServerCPUAndMemoryUsageID = d.PMServerCPUAndMemoryUsageID,
+                        SerialNo = d.SerialNo,
+                        ResultStatusID = d.ResultStatusID, 
+                        ResultStatusName = d.ResultStatus.Name, 
+                        ServerName = d.ServerName,
+                        CPUUsagePercentage = d.CPUUsage,
+                        Remarks = d.Remarks,
+                        CreatedDate = d.CreatedDate,
+                        UpdatedDate = d.UpdatedDate,
+                        CreatedBy = d.CreatedBy,
+                        UpdatedBy = d.UpdatedBy
+                    }).ToList(),
+                    MemoryUsageDetails = h.PMServerMemoryUsageDetails.Where(d => !d.IsDeleted).Select(d => new
+                    {
+                        ID = d.ID,
+                        PMServerCPUAndMemoryUsageID = d.PMServerCPUAndMemoryUsageID,
+                        SerialNo = d.SerialNo,
+                        ResultStatusID = d.ResultStatusID, 
+                        ResultStatusName = d.ResultStatus.Name, 
+                        ServerName = d.ServerName,
+                        MemorySize = d.MemorySize,
+                        MemoryUsagePercentage = d.MemoryInUse,
+                        Remarks = d.Remarks,
+                        CreatedDate = d.CreatedDate,
+                        UpdatedDate = d.UpdatedDate,
+                        CreatedBy = d.CreatedBy,
+                        UpdatedBy = d.UpdatedBy
+                    }).ToList()
                 })
                 .ToListAsync();
 
             var pmServerNetworkHealths = await _context.PMServerNetworkHealths
-                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Where(h => h.PMReportFormServerID == pmReportFormServer.ID && !h.IsDeleted)
                 .Include(h => h.CreatedByUser)
                 .Include(h => h.UpdatedByUser)
                 .Select(h => new
                 {
                     ID = h.ID,
                     PMReportFormServerID = h.PMReportFormServerID,
+                    YesNoStatusID = h.YesNoStatusID,
+                    YesNoStatusName = h.YesNoStatus.Name,
+                    DateChecked = h.DateChecked,
                     Remarks = h.Remarks,
                     CreatedDate = h.CreatedDate,
                     UpdatedDate = h.UpdatedDate,
@@ -179,13 +275,15 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 .ToListAsync();
 
             var pmServerWillowlynxProcessStatuses = await _context.PMServerWillowlynxProcessStatuses
-                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Where(h => h.PMReportFormServerID == pmReportFormServer.ID && !h.IsDeleted)
                 .Include(h => h.CreatedByUser)
                 .Include(h => h.UpdatedByUser)
                 .Select(h => new
                 {
                     ID = h.ID,
                     PMReportFormServerID = h.PMReportFormServerID,
+                    YesNoStatusID = h.YesNoStatusID,
+                    YesNoStatusName = h.YesNoStatus.Name,
                     Remarks = h.Remarks,
                     CreatedDate = h.CreatedDate,
                     UpdatedDate = h.UpdatedDate,
@@ -197,7 +295,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 .ToListAsync();
 
             var pmServerWillowlynxNetworkStatuses = await _context.PMServerWillowlynxNetworkStatuses
-                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Where(h => h.PMReportFormServerID == pmReportFormServer.ID && !h.IsDeleted)
                 .Include(h => h.CreatedByUser)
                 .Include(h => h.UpdatedByUser)
                 .Select(h => new
@@ -205,6 +303,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     ID = h.ID,
                     PMReportFormServerID = h.PMReportFormServerID,
                     YesNoStatusID = h.YesNoStatusID,
+                    YesNoStatusName = h.YesNoStatus.Name,
                     Remarks = h.Remarks,
                     CreatedDate = h.CreatedDate,
                     UpdatedDate = h.UpdatedDate,
@@ -216,7 +315,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 .ToListAsync();
 
             var pmServerWillowlynxRTUStatuses = await _context.PMServerWillowlynxRTUStatuses
-                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Where(h => h.PMReportFormServerID == pmReportFormServer.ID && !h.IsDeleted)
                 .Include(h => h.CreatedByUser)
                 .Include(h => h.UpdatedByUser)
                 .Select(h => new
@@ -224,6 +323,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     ID = h.ID,
                     PMReportFormServerID = h.PMReportFormServerID,
                     YesNoStatusID = h.YesNoStatusID,
+                    YesNoStatusName = h.YesNoStatus.Name,
                     Remarks = h.Remarks,
                     CreatedDate = h.CreatedDate,
                     UpdatedDate = h.UpdatedDate,
@@ -235,7 +335,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 .ToListAsync();
 
             var pmServerWillowlynxHistoricalTrends = await _context.PMServerWillowlynxHistoricalTrends
-                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Where(h => h.PMReportFormServerID == pmReportFormServer.ID && !h.IsDeleted)
                 .Include(h => h.CreatedByUser)
                 .Include(h => h.UpdatedByUser)
                 .Select(h => new
@@ -243,6 +343,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     ID = h.ID,
                     PMReportFormServerID = h.PMReportFormServerID,
                     YesNoStatusID = h.YesNoStatusID,
+                    YesNoStatusName = h.YesNoStatus.Name,
                     Remarks = h.Remarks,
                     CreatedDate = h.CreatedDate,
                     UpdatedDate = h.UpdatedDate,
@@ -254,7 +355,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 .ToListAsync();
 
             var pmServerWillowlynxHistoricalReports = await _context.PMServerWillowlynxHistoricalReports
-                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Where(h => h.PMReportFormServerID == pmReportFormServer.ID && !h.IsDeleted)
                 .Include(h => h.CreatedByUser)
                 .Include(h => h.UpdatedByUser)
                 .Select(h => new
@@ -262,6 +363,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     ID = h.ID,
                     PMReportFormServerID = h.PMReportFormServerID,
                     YesNoStatusID = h.YesNoStatusID,
+                    YesNoStatusName = h.YesNoStatus.Name,
                     Remarks = h.Remarks,
                     CreatedDate = h.CreatedDate,
                     UpdatedDate = h.UpdatedDate,
@@ -273,7 +375,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 .ToListAsync();
 
             var pmServerWillowlynxCCTVCameras = await _context.PMServerWillowlynxCCTVCameras
-                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Where(h => h.PMReportFormServerID == pmReportFormServer.ID && !h.IsDeleted)
                 .Include(h => h.YesNoStatus)
                 .Include(h => h.CreatedByUser)
                 .Include(h => h.UpdatedByUser)
@@ -294,9 +396,10 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 .ToListAsync();
 
             var pmServerMonthlyDatabaseCreations = await _context.PMServerMonthlyDatabaseCreations
-                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Where(h => h.PMReportFormServerID == pmReportFormServer.ID && !h.IsDeleted)
                 .Include(h => h.CreatedByUser)
                 .Include(h => h.UpdatedByUser)
+                .Include(h => h.PMServerMonthlyDatabaseCreationDetails)
                 .Select(h => new
                 {
                     ID = h.ID,
@@ -307,14 +410,30 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     CreatedBy = h.CreatedBy,
                     UpdatedBy = h.UpdatedBy,
                     CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
-                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null,
+                    Details = h.PMServerMonthlyDatabaseCreationDetails.Where(d => !d.IsDeleted).Select(d => new
+                    {
+                        ID = d.ID,
+                        PMServerMonthlyDatabaseCreationID = d.PMServerMonthlyDatabaseCreationID,
+                        YesNoStatusID = d.YesNoStatusID,
+                        YesNoStatusName = d.YesNoStatus.Name,
+                        ServerName = d.ServerName,
+                        DatabaseName = d.ServerName, // Using ServerName as DatabaseName since DatabaseName doesn't exist in model
+                        Remarks = d.Remarks,
+                        CreatedDate = d.CreatedDate,
+                        UpdatedDate = d.UpdatedDate,
+                        CreatedBy = d.CreatedBy,
+                        UpdatedBy = d.UpdatedBy
+                    }).ToList()
                 })
                 .ToListAsync();
 
             var pmServerDatabaseBackups = await _context.PMServerDatabaseBackups
-                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Where(h => h.PMReportFormServerID == pmReportFormServer.ID && !h.IsDeleted)
                 .Include(h => h.CreatedByUser)
                 .Include(h => h.UpdatedByUser)
+                .Include(h => h.PMServerMSSQLDatabaseBackupDetails)
+                .Include(h => h.PMServerSCADADataBackupDetails)
                 .Select(h => new
                 {
                     ID = h.ID,
@@ -325,14 +444,43 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     CreatedBy = h.CreatedBy,
                     UpdatedBy = h.UpdatedBy,
                     CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
-                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null,
+                    MSSQLDatabaseBackupDetails = h.PMServerMSSQLDatabaseBackupDetails.Where(d => !d.IsDeleted).Select(d => new
+                    {
+                        ID = d.ID,
+                        PMServerMonthlyDatabaseBackupID = d.PMServerDatabaseBackupID, // Using PMServerDatabaseBackupID since PMServerMonthlyDatabaseBackupID doesn't exist
+                        YesNoStatusID = d.YesNoStatusID,
+                        YesNoStatusName = d.YesNoStatus.Name,
+                        ServerName = d.ServerName,
+                        DatabaseName = d.ServerName, // Using ServerName as DatabaseName since DatabaseName doesn't exist in model
+                        Remarks = d.Remarks,
+                        CreatedDate = d.CreatedDate,
+                        UpdatedDate = d.UpdatedDate,
+                        CreatedBy = d.CreatedBy,
+                        UpdatedBy = d.UpdatedBy
+                    }).ToList(),
+                    SCADADataBackupDetails = h.PMServerSCADADataBackupDetails.Where(d => !d.IsDeleted).Select(d => new
+                    {
+                        ID = d.ID,
+                        PMServerMonthlyDatabaseBackupID = d.PMServerDatabaseBackupID, // Using PMServerDatabaseBackupID since PMServerMonthlyDatabaseBackupID doesn't exist
+                        YesNoStatusID = d.YesNoStatusID,
+                        YesNoStatusName = d.YesNoStatus.Name,
+                        ServerName = d.ServerName,
+                        SCADADataName = d.ServerName, // Using ServerName as SCADADataName since SCADADataName doesn't exist in model
+                        Remarks = d.Remarks,
+                        CreatedDate = d.CreatedDate,
+                        UpdatedDate = d.UpdatedDate,
+                        CreatedBy = d.CreatedBy,
+                        UpdatedBy = d.UpdatedBy
+                    }).ToList()
                 })
                 .ToListAsync();
 
             var pmServerTimeSyncs = await _context.PMServerTimeSyncs
-                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Where(h => h.PMReportFormServerID == pmReportFormServer.ID && !h.IsDeleted)
                 .Include(h => h.CreatedByUser)
                 .Include(h => h.UpdatedByUser)
+                .Include(h => h.PMServerTimeSyncDetails)
                 .Select(h => new
                 {
                     ID = h.ID,
@@ -343,14 +491,29 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     CreatedBy = h.CreatedBy,
                     UpdatedBy = h.UpdatedBy,
                     CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
-                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null,
+                    Details = h.PMServerTimeSyncDetails.Where(d => !d.IsDeleted).Select(d => new
+                    {
+                        ID = d.ID,
+                        PMServerTimeSyncID = d.PMServerTimeSyncID,
+                        ResultStatusID = d.ResultStatusID,
+                        ResultStatusName = d.ResultStatus.Name,
+                        ServerName = d.ServerName,
+                        TimeSyncSource = d.ServerName, // Using ServerName as TimeSyncSource since TimeSyncSource doesn't exist in model
+                        Remarks = d.Remarks,
+                        CreatedDate = d.CreatedDate,
+                        UpdatedDate = d.UpdatedDate,
+                        CreatedBy = d.CreatedBy,
+                        UpdatedBy = d.UpdatedBy
+                    }).ToList()
                 })
                 .ToListAsync();
 
             var pmServerHotFixes = await _context.PMServerHotFixes
-                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Where(h => h.PMReportFormServerID == pmReportFormServer.ID && !h.IsDeleted)
                 .Include(h => h.CreatedByUser)
                 .Include(h => h.UpdatedByUser)
+                .Include(h => h.PMServerHotFixesDetails)
                 .Select(h => new
                 {
                     ID = h.ID,
@@ -361,14 +524,29 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     CreatedBy = h.CreatedBy,
                     UpdatedBy = h.UpdatedBy,
                     CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
-                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null,
+                    Details = h.PMServerHotFixesDetails.Where(d => !d.IsDeleted).Select(d => new
+                    {
+                        ID = d.ID,
+                        PMServerHotFixesID = d.PMServerHotFixesID,
+                        ResultStatusID = d.ResultStatusID,
+                        ResultStatusName = d.ResultStatus.Name,
+                        ServerName = d.ServerName,
+                        HotFixName = d.LatestHotFixsApplied, // Using LatestHotFixsApplied since HotFixName doesn't exist in model
+                        Remarks = d.Remarks,
+                        CreatedDate = d.CreatedDate,
+                        UpdatedDate = d.UpdatedDate,
+                        CreatedBy = d.CreatedBy,
+                        UpdatedBy = d.UpdatedBy
+                    }).ToList()
                 })
                 .ToListAsync();
 
             var pmServerFailOvers = await _context.PMServerFailOvers
-                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Where(h => h.PMReportFormServerID == pmReportFormServer.ID && !h.IsDeleted)
                 .Include(h => h.CreatedByUser)
                 .Include(h => h.UpdatedByUser)
+                .Include(h => h.PMServerFailOverDetails)
                 .Select(h => new
                 {
                     ID = h.ID,
@@ -379,12 +557,26 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     CreatedBy = h.CreatedBy,
                     UpdatedBy = h.UpdatedBy,
                     CreatedByUserName = h.CreatedByUser != null ? $"{h.CreatedByUser.FirstName} {h.CreatedByUser.LastName}" : null,
-                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null
+                    UpdatedByUserName = h.UpdatedByUser != null ? $"{h.UpdatedByUser.FirstName} {h.UpdatedByUser.LastName}" : null,
+                    Details = h.PMServerFailOverDetails.Where(d => !d.IsDeleted).Select(d => new
+                    {
+                        ID = d.ID,
+                        PMServerFailOverID = d.PMServerFailOverID,
+                        YesNoStatusID = d.YesNoStatusID,
+                        YesNoStatusName = d.YesNoStatus.Name,
+                        FromServer = d.FromServer,
+                        ToServer = d.ToServer,
+                        Remarks = d.Remarks,
+                        CreatedDate = d.CreatedDate,
+                        UpdatedDate = d.UpdatedDate,
+                        CreatedBy = d.CreatedBy,
+                        UpdatedBy = d.UpdatedBy
+                    }).ToList()
                 })
                 .ToListAsync();
 
             var pmServerASAFirewalls = await _context.PMServerASAFirewalls
-                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Where(h => h.PMReportFormServerID == pmReportFormServer.ID && !h.IsDeleted)
                 .Include(h => h.ASAFirewallStatus)
                 .Include(h => h.ResultStatus)
                 .Include(h => h.CreatedByUser)
@@ -410,7 +602,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 .ToListAsync();
 
             var pmServerSoftwarePatchSummaries = await _context.PMServerSoftwarePatchSummaries
-                .Where(h => h.PMReportFormServerID == id && !h.IsDeleted)
+                .Where(h => h.PMReportFormServerID == pmReportFormServer.ID && !h.IsDeleted)
                 .Include(h => h.CreatedByUser)
                 .Include(h => h.UpdatedByUser)
                 .Include(h => h.PMServerSoftwarePatchDetails)
@@ -443,6 +635,23 @@ namespace ControlTower.Controllers.ReportManagementSystem
 
             var result = new
             {
+                // ReportForm data
+                ReportForm = new
+                {
+                    ID = reportForm.ID,
+                    JobNo = reportForm.JobNo,
+                    ReportFormTypeID = reportForm.ReportFormTypeID,
+                    ReportFormTypeName = reportForm.ReportFormType?.Name,
+                    SystemNameWarehouseID = reportForm.SystemNameWarehouseID,
+                    SystemDescription = reportForm.SystemNameWarehouse?.Name,
+                    StationNameWarehouseID = reportForm.StationNameWarehouseID,
+                    StationName = reportForm.StationNameWarehouse?.Name,
+                    CreatedDate = reportForm.CreatedDate,
+                    UpdatedDate = reportForm.UpdatedDate,
+                    CreatedBy = reportForm.CreatedBy,
+                    UpdatedBy = reportForm.UpdatedBy
+                },
+
                 // Main PM Report Form Server data
                 PMReportFormServer = new PMReportFormServerDto
                 {
@@ -462,12 +671,24 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     UpdatedDate = pmReportFormServer.UpdatedDate,
                     CreatedBy = pmReportFormServer.CreatedBy,
                     UpdatedBy = pmReportFormServer.UpdatedBy,
-                    PMReportFormTypeName = pmReportFormServer.PMReportFormType.Name,
-                    CreatedByUserName = $"{pmReportFormServer.CreatedByUser.FirstName} {pmReportFormServer.CreatedByUser.LastName}",
+                    PMReportFormTypeName = pmReportFormServer.PMReportFormType?.Name,
+                    CreatedByUserName = pmReportFormServer.CreatedByUser != null ? $"{pmReportFormServer.CreatedByUser.FirstName} {pmReportFormServer.CreatedByUser.LastName}" : null,
                     UpdatedByUserName = pmReportFormServer.UpdatedByUser != null ? $"{pmReportFormServer.UpdatedByUser.FirstName} {pmReportFormServer.UpdatedByUser.LastName}" : null,
-                    JobNo = pmReportFormServer.ReportForm.JobNo,
-                    StationName = pmReportFormServer.ReportForm.StationNameWarehouse.Name,
-                    SystemDescription = pmReportFormServer.ReportForm.SystemNameWarehouse.Name
+                    JobNo = reportForm.JobNo,
+                    StationName = reportForm.StationNameWarehouse?.Name,
+                    SystemDescription = reportForm.SystemNameWarehouse?.Name,
+                    
+                    // Map server health data to DTO
+                    ServerHealthData = pmServerHealths.FirstOrDefault() != null ? new PMServerHealthDataDto
+                    {
+                        Remarks = pmServerHealths.FirstOrDefault()?.Remarks,
+                        Details = pmServerHealths.FirstOrDefault()?.Details?.Select(d => new PMServerHealthDetailDto
+                        {
+                            ServerName = d.ServerName,
+                            ResultStatusID = d.ResultStatusID,
+                            Remarks = d.Remarks
+                        }).ToList()
+                    } : null
                 },
 
                 // All related PM Server data arrays
