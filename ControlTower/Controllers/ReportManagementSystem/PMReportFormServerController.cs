@@ -415,10 +415,10 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     {
                         ID = d.ID,
                         PMServerMonthlyDatabaseCreationID = d.PMServerMonthlyDatabaseCreationID,
+                        SerialNo = d.SerialNo,
                         YesNoStatusID = d.YesNoStatusID,
                         YesNoStatusName = d.YesNoStatus.Name,
                         ServerName = d.ServerName,
-                        DatabaseName = d.ServerName, // Using ServerName as DatabaseName since DatabaseName doesn't exist in model
                         Remarks = d.Remarks,
                         CreatedDate = d.CreatedDate,
                         UpdatedDate = d.UpdatedDate,
@@ -439,6 +439,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     ID = h.ID,
                     PMReportFormServerID = h.PMReportFormServerID,
                     Remarks = h.Remarks,
+                    LatestBackupFileName = h.LatestBackupFileName,
                     CreatedDate = h.CreatedDate,
                     UpdatedDate = h.UpdatedDate,
                     CreatedBy = h.CreatedBy,
@@ -496,6 +497,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     {
                         ID = d.ID,
                         PMServerTimeSyncID = d.PMServerTimeSyncID,
+                        SerialNo = d.SerialNo,
                         ResultStatusID = d.ResultStatusID,
                         ResultStatusName = d.ResultStatus.Name,
                         ServerName = d.ServerName,
@@ -529,6 +531,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     {
                         ID = d.ID,
                         PMServerHotFixesID = d.PMServerHotFixesID,
+                        SerialNo = d.SerialNo,
                         ResultStatusID = d.ResultStatusID,
                         ResultStatusName = d.ResultStatus.Name,
                         ServerName = d.ServerName,

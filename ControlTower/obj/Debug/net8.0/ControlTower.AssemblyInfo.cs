@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ControlTower")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e01f18c53a27bd7054ea14d1207769776e98b47e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a4b5190cd5eb540ef5f90f35da02dda008d4d646")]
 [assembly: System.Reflection.AssemblyProductAttribute("ControlTower")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ControlTower")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
