@@ -450,6 +450,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     {
                         ID = d.ID,
                         PMServerMonthlyDatabaseBackupID = d.PMServerDatabaseBackupID, // Using PMServerDatabaseBackupID since PMServerMonthlyDatabaseBackupID doesn't exist
+                        SerialNo = d.SerialNo,
                         YesNoStatusID = d.YesNoStatusID,
                         YesNoStatusName = d.YesNoStatus.Name,
                         ServerName = d.ServerName,
@@ -464,6 +465,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     {
                         ID = d.ID,
                         PMServerMonthlyDatabaseBackupID = d.PMServerDatabaseBackupID, // Using PMServerDatabaseBackupID since PMServerMonthlyDatabaseBackupID doesn't exist
+                        SerialNo = d.SerialNo,
                         YesNoStatusID = d.YesNoStatusID,
                         YesNoStatusName = d.YesNoStatus.Name,
                         ServerName = d.ServerName,
