@@ -15673,13 +15673,13 @@
             "nullable": true
           },
           "serverHealthData": {
-            "$ref": "#/components/schemas/PMServerHealthDataDto"
+            "$ref": "#/components/schemas/UpdatePMServerHealthDataDto"
           },
           "diskUsageData": {
-            "$ref": "#/components/schemas/PMServerDiskUsageDataDto"
+            "$ref": "#/components/schemas/UpdatePMServerDiskUsageDataDto"
           },
           "cpuAndRamUsageData": {
-            "$ref": "#/components/schemas/PMServerCPUAndMemoryDataDto"
+            "$ref": "#/components/schemas/UpdatePMServerCPUAndMemoryDataDto"
           },
           "networkHealthData": {
             "$ref": "#/components/schemas/PMServerNetworkHealthDataDto"
@@ -15703,28 +15703,28 @@
             "$ref": "#/components/schemas/PMServerWillowlynxCCTVCameraDataDto"
           },
           "monthlyDatabaseCreationData": {
-            "$ref": "#/components/schemas/PMServerMonthlyDatabaseCreationDataDto"
+            "$ref": "#/components/schemas/UpdatePMServerMonthlyDatabaseCreationDataDto"
           },
           "databaseBackupData": {
-            "$ref": "#/components/schemas/PMServerDatabaseBackupDataDto"
+            "$ref": "#/components/schemas/UpdatePMServerDatabaseBackupDataDto"
           },
           "timeSyncData": {
-            "$ref": "#/components/schemas/PMServerTimeSyncDataDto"
+            "$ref": "#/components/schemas/UpdatePMServerTimeSyncDataDto"
           },
           "hotFixesData": {
-            "$ref": "#/components/schemas/PMServerHotFixesDataDto"
+            "$ref": "#/components/schemas/UpdatePMServerHotFixesDataDto"
           },
           "autoFailOverData": {
-            "$ref": "#/components/schemas/PMServerFailOverDataDto"
+            "$ref": "#/components/schemas/UpdatePMServerFailOverDataDto"
           },
           "asaFirewallData": {
-            "$ref": "#/components/schemas/PMServerASAFirewallDataDto"
+            "$ref": "#/components/schemas/UpdatePMServerASAFirewallDataDto"
           },
           "softwarePatchData": {
-            "$ref": "#/components/schemas/PMServerSoftwarePatchDataDto"
+            "$ref": "#/components/schemas/UpdatePMServerSoftwarePatchDataDto"
           },
           "hardDriveHealthData": {
-            "$ref": "#/components/schemas/PMServerHardDriveHealthDataDto"
+            "$ref": "#/components/schemas/UpdatePMServerHardDriveHealthDataDto"
           }
         },
         "additionalProperties": false
@@ -15739,6 +15739,819 @@
             "maxLength": 255,
             "minLength": 0,
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerASAFirewallDataDto": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdatePMServerASAFirewallDetailDto"
+            },
+            "nullable": true
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerASAFirewallDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "serialNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "commandInput": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "asaFirewallStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "resultStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "isNew": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerCPUAndMemoryDataDto": {
+        "type": "object",
+        "properties": {
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "cpuUsageDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdatePMServerCPUUsageDetailDto"
+            },
+            "nullable": true
+          },
+          "memoryUsageDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdatePMServerMemoryUsageDetailDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerCPUUsageDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "serialNo": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "cpuUsage": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "resultStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "isNew": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerDatabaseBackupDataDto": {
+        "type": "object",
+        "properties": {
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "latestBackupFileName": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "mssqlDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdatePMServerMSSQLDatabaseBackupDetailDto"
+            },
+            "nullable": true
+          },
+          "scadaDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdatePMServerSCADADataBackupDetailDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerDiskUsageDataDto": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdatePMServerDiskUsageDetailDto"
+            },
+            "nullable": true
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerDiskUsageDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "diskName": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "capacity": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "freeSpace": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "usage": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverDiskStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "resultStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "isNew": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerFailOverDataDto": {
+        "type": "object",
+        "properties": {
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdatePMServerFailOverDetailDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerFailOverDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "yesNoStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "toServer": {
+            "type": "string",
+            "nullable": true
+          },
+          "fromServer": {
+            "type": "string",
+            "nullable": true
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "isNew": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerHardDriveHealthDataDto": {
+        "type": "object",
+        "properties": {
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdatePMServerHardDriveHealthDetailDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerHardDriveHealthDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "hardDriveName": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "dateChecked": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "driveLetter": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "driveType": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "yesNoStatusID": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "temperature": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "resultStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "isNew": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerHealthDataDto": {
+        "type": "object",
+        "properties": {
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdatePMServerHealthDetailDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerHealthDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "resultStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "isNew": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerHotFixesDataDto": {
+        "type": "object",
+        "properties": {
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdatePMServerHotFixesDetailDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerHotFixesDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "serialNo": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "latestHotFixsApplied": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "dateInstalled": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "resultStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "isNew": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerMSSQLDatabaseBackupDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "serialNo": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "yesNoStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "isNew": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerMemoryUsageDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "serialNo": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "memorySize": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "memoryInUse": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "resultStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "isNew": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerMonthlyDatabaseCreationDataDto": {
+        "type": "object",
+        "properties": {
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdatePMServerMonthlyDatabaseCreationDetailDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerMonthlyDatabaseCreationDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "serialNo": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "dateCreated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "yesNoStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "isNew": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerSCADADataBackupDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "serialNo": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "yesNoStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "isNew": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerSoftwarePatchDataDto": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdatePMServerSoftwarePatchDetailDto"
+            },
+            "nullable": true
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerSoftwarePatchDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "serialNo": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "previousPatch": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "currentPatch": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "isNew": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerTimeSyncDataDto": {
+        "type": "object",
+        "properties": {
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdatePMServerTimeSyncDetailDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerTimeSyncDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "serialNo": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "resultStatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "isNew": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false

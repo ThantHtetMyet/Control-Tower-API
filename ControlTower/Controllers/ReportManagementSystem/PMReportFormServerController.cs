@@ -1361,17 +1361,34 @@ namespace ControlTower.Controllers.ReportManagementSystem
             await _context.SaveChangesAsync();
         }
 
-        // PUT: api/PMReportFormServer/5
+        // PUT: api/PMReportFormServer/5 - Enhanced update with proper tracking
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPMReportFormServer(Guid id, UpdatePMReportFormServerDto updateDto)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                var pmReportFormServer = await _context.PMReportFormServer.FindAsync(id);
+                // Find the PMReportFormServer by ReportForm ID or PMReportFormServer ID
+                PMReportFormServer? pmReportFormServer = null;
+                
+                // First try to find by PMReportFormServer ID directly
+                pmReportFormServer = await _context.PMReportFormServer.FindAsync(id);
+                
+                // If not found, try to find by ReportForm ID
+                if (pmReportFormServer == null)
+                {
+                    var reportForm = await _context.ReportForms.FindAsync(id);
+                    if (reportForm != null && !reportForm.IsDeleted)
+                    {
+                        pmReportFormServer = await _context.PMReportFormServer
+                            .Where(p => p.ReportFormID == id && !p.IsDeleted)
+                            .FirstOrDefaultAsync();
+                    }
+                }
+
                 if (pmReportFormServer == null || pmReportFormServer.IsDeleted)
                 {
-                    return NotFound();
+                    return NotFound("PMReportFormServer not found");
                 }
 
                 // Validate that PMReportFormType exists
@@ -1391,7 +1408,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     }
                 }
 
-                // Update main PM Report Form Server
+                // Update main PM Report Form Server properties
                 pmReportFormServer.PMReportFormTypeID = updateDto.PMReportFormTypeID;
                 pmReportFormServer.ProjectNo = updateDto.ProjectNo;
                 pmReportFormServer.Customer = updateDto.Customer;
@@ -1404,18 +1421,1329 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 pmReportFormServer.UpdatedDate = DateTime.UtcNow;
                 pmReportFormServer.UpdatedBy = updateDto.UpdatedBy;
 
-                // Update PM Server component data
-                await UpdatePMServerComponentData(id, updateDto);
+                // Update PM Server component data with proper tracking
+                await UpdatePMServerComponentDataWithTracking(pmReportFormServer.ID, updateDto);
 
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
 
                 return NoContent();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 await transaction.RollbackAsync();
-                throw;
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        private async Task UpdatePMServerComponentDataWithTracking(Guid pmReportFormServerID, UpdatePMReportFormServerDto updateDto)
+        {
+            // Update Server Health Data with tracking
+            if (updateDto.ServerHealthData != null)
+            {
+                await UpdateServerHealthDataWithTracking(pmReportFormServerID, updateDto.ServerHealthData, updateDto.UpdatedBy);
+            }
+
+            // Update Disk Usage Data with tracking
+            if (updateDto.DiskUsageData != null)
+            {
+                await UpdateDiskUsageDataWithTracking(pmReportFormServerID, updateDto.DiskUsageData, updateDto.UpdatedBy);
+            }
+
+            // Update CPU and Memory Data with tracking
+            if (updateDto.CpuAndRamUsageData != null)
+            {
+                await UpdateCpuAndMemoryDataWithTracking(pmReportFormServerID, updateDto.CpuAndRamUsageData, updateDto.UpdatedBy);
+            }
+
+            // Update Monthly Database Creation Data with tracking
+            if (updateDto.MonthlyDatabaseCreationData != null)
+            {
+                await UpdateMonthlyDatabaseCreationDataWithTracking(pmReportFormServerID, updateDto.MonthlyDatabaseCreationData, updateDto.UpdatedBy);
+            }
+
+            // Update Database Backup Data with tracking
+            if (updateDto.DatabaseBackupData != null)
+            {
+                await UpdateDatabaseBackupDataWithTracking(pmReportFormServerID, updateDto.DatabaseBackupData, updateDto.UpdatedBy);
+            }
+
+            // Update Time Sync Data with tracking
+            if (updateDto.TimeSyncData != null)
+            {
+                await UpdateTimeSyncDataWithTracking(pmReportFormServerID, updateDto.TimeSyncData, updateDto.UpdatedBy);
+            }
+
+            // Update Hot Fixes Data with tracking
+            if (updateDto.HotFixesData != null)
+            {
+                await UpdateHotFixesDataWithTracking(pmReportFormServerID, updateDto.HotFixesData, updateDto.UpdatedBy);
+            }
+
+            // Update Auto Fail Over Data with tracking
+            if (updateDto.AutoFailOverData != null)
+            {
+                await UpdateAutoFailOverDataWithTracking(pmReportFormServerID, updateDto.AutoFailOverData, updateDto.UpdatedBy);
+            }
+
+            // Update ASA Firewall Data with tracking
+            if (updateDto.AsaFirewallData != null)
+            {
+                await UpdateAsaFirewallDataWithTracking(pmReportFormServerID, updateDto.AsaFirewallData, updateDto.UpdatedBy);
+            }
+
+            // Update Software Patch Data with tracking
+            if (updateDto.SoftwarePatchData != null)
+            {
+                await UpdateSoftwarePatchDataWithTracking(pmReportFormServerID, updateDto.SoftwarePatchData, updateDto.UpdatedBy);
+            }
+
+            // Update Hard Drive Health Data with tracking
+            if (updateDto.HardDriveHealthData != null)
+            {
+                await UpdateHardDriveHealthDataWithTracking(pmReportFormServerID, updateDto.HardDriveHealthData, updateDto.UpdatedBy);
+            }
+        }
+
+        private async Task UpdateServerHealthDataWithTracking(Guid pmReportFormServerID, UpdatePMServerHealthDataDto updateData, Guid? updatedBy)
+        {
+            // Get or create the main ServerHealth record
+            var serverHealth = await _context.PMServerHealths
+                .Include(s => s.PMServerHealthDetails)
+                .Where(s => s.PMReportFormServerID == pmReportFormServerID && !s.IsDeleted)
+                .FirstOrDefaultAsync();
+
+            if (serverHealth == null)
+            {
+                serverHealth = new PMServerHealth
+                {
+                    ID = Guid.NewGuid(),
+                    PMReportFormServerID = pmReportFormServerID,
+                    Remarks = updateData.Remarks,
+                    IsDeleted = false,
+                    CreatedDate = DateTime.UtcNow,
+                    UpdatedBy = updatedBy
+                };
+                _context.PMServerHealths.Add(serverHealth);
+            }
+            else
+            {
+                serverHealth.Remarks = updateData.Remarks;
+                serverHealth.UpdatedBy = updatedBy;
+                serverHealth.UpdatedDate = DateTime.UtcNow;
+            }
+
+            // Process detail records with tracking
+            if (updateData.Details != null)
+            {
+                foreach (var detailDto in updateData.Details)
+                {
+                    if (detailDto.IsDeleted && detailDto.ID.HasValue)
+                    {
+                        // Mark existing record as deleted
+                        var existingDetail = await _context.PMServerHealthDetails
+                            .Where(d => d.ID == detailDto.ID.Value)
+                            .FirstOrDefaultAsync();
+                        if (existingDetail != null)
+                        {
+                            existingDetail.IsDeleted = true;
+                            existingDetail.UpdatedBy = updatedBy;
+                            existingDetail.UpdatedDate = DateTime.UtcNow;
+                        }
+                    }
+                    else if (detailDto.IsNew)
+                    {
+                        // Create new record only if updatedBy has a valid value
+                        if (updatedBy.HasValue)
+                        {
+                            var newDetail = new PMServerHealthDetails
+                            {
+                                ID = Guid.NewGuid(),
+                                PMServerHealthID = serverHealth.ID,
+                                ServerName = detailDto.ServerName,
+                                ResultStatusID = detailDto.ResultStatusID,
+                                Remarks = detailDto.Remarks,
+                                IsDeleted = false,
+                                CreatedDate = DateTime.UtcNow,
+                                CreatedBy = updatedBy.Value,
+                                UpdatedBy = updatedBy
+                            };
+                            _context.PMServerHealthDetails.Add(newDetail);
+                        }
+                    }
+                    else if (detailDto.ID.HasValue)
+                    {
+                        // Update existing record
+                        var existingDetail = await _context.PMServerHealthDetails
+                            .Where(d => d.ID == detailDto.ID.Value)
+                            .FirstOrDefaultAsync();
+                        if (existingDetail != null)
+                        {
+                            existingDetail.ServerName = detailDto.ServerName;
+                            existingDetail.ResultStatusID = detailDto.ResultStatusID;
+                            existingDetail.Remarks = detailDto.Remarks;
+                            existingDetail.UpdatedBy = updatedBy;
+                            existingDetail.UpdatedDate = DateTime.UtcNow;
+                        }
+                    }
+                }
+            }
+        }
+
+        private async Task UpdateDiskUsageDataWithTracking(Guid pmReportFormServerID, UpdatePMServerDiskUsageDataDto updateData, Guid? updatedBy)
+        {
+            // Get or create the main DiskUsage record
+            var diskUsage = await _context.PMServerDiskUsageHealths
+                .Include(d => d.PMServerDiskUsageHealthDetails)
+                .Where(d => d.PMReportFormServerID == pmReportFormServerID && !d.IsDeleted)
+                .FirstOrDefaultAsync();
+
+            if (diskUsage == null)
+            {
+                diskUsage = new PMServerDiskUsageHealth
+                {
+                    ID = Guid.NewGuid(),
+                    PMReportFormServerID = pmReportFormServerID,
+                    Remarks = updateData.Remarks,
+                    IsDeleted = false,
+                    CreatedDate = DateTime.UtcNow,
+                    UpdatedBy = updatedBy
+                };
+                _context.PMServerDiskUsageHealths.Add(diskUsage);
+            }
+            else
+            {
+                diskUsage.Remarks = updateData.Remarks;
+                diskUsage.UpdatedBy = updatedBy;
+                diskUsage.UpdatedDate = DateTime.UtcNow;
+            }
+
+            // Process detail records with tracking
+            if (updateData.Details != null)
+            {
+                foreach (var detailDto in updateData.Details)
+                {
+                    if (detailDto.IsDeleted && detailDto.ID.HasValue)
+                    {
+                        // Mark existing record as deleted
+                        var existingDetail = await _context.PMServerDiskUsageHealthDetails
+                            .Where(d => d.ID == detailDto.ID.Value)
+                            .FirstOrDefaultAsync();
+                        if (existingDetail != null)
+                        {
+                            existingDetail.IsDeleted = true;
+                            existingDetail.UpdatedBy = updatedBy;
+                            existingDetail.UpdatedDate = DateTime.UtcNow;
+                        }
+                    }
+                    else if (detailDto.IsNew)
+                    {
+                        // Create new record only if updatedBy has a valid value
+                        if (updatedBy.HasValue)
+                        {
+                            var newDetail = new PMServerDiskUsageHealthDetails
+                            {
+                                ID = Guid.NewGuid(),
+                                PMServerDiskUsageHealthID = diskUsage.ID,
+                                ServerName = detailDto.ServerName,
+                                DiskName = detailDto.DiskName,
+                                Capacity = detailDto.Capacity,
+                                FreeSpace = detailDto.FreeSpace,
+                                Usage = detailDto.Usage,
+                                ServerDiskStatusID = detailDto.ServerDiskStatusID,
+                                ResultStatusID = detailDto.ResultStatusID,
+                                Remarks = detailDto.Remarks,
+                                IsDeleted = false,
+                                CreatedDate = DateTime.UtcNow,
+                                CreatedBy = updatedBy.Value,
+                                UpdatedBy = updatedBy
+                            };
+                            _context.PMServerDiskUsageHealthDetails.Add(newDetail);
+                        }
+                    }
+                    else if (detailDto.ID.HasValue)
+                    {
+                        // Update existing record
+                        var existingDetail = await _context.PMServerDiskUsageHealthDetails
+                            .Where(d => d.ID == detailDto.ID.Value)
+                            .FirstOrDefaultAsync();
+                        if (existingDetail != null)
+                        {
+                            existingDetail.ServerName = detailDto.ServerName;
+                            existingDetail.DiskName = detailDto.DiskName;
+                            existingDetail.Capacity = detailDto.Capacity;
+                            existingDetail.FreeSpace = detailDto.FreeSpace;
+                            existingDetail.Usage = detailDto.Usage;
+                            existingDetail.ServerDiskStatusID = detailDto.ServerDiskStatusID;
+                            existingDetail.ResultStatusID = detailDto.ResultStatusID;
+                            existingDetail.Remarks = detailDto.Remarks;
+                            existingDetail.UpdatedBy = updatedBy;
+                            existingDetail.UpdatedDate = DateTime.UtcNow;
+                        }
+                    }
+                }
+            }
+        }
+
+        private async Task UpdateCpuAndMemoryDataWithTracking(Guid pmReportFormServerID, UpdatePMServerCPUAndMemoryDataDto updateData, Guid? updatedBy)
+        {
+            // Get or create the main CPU and Memory record
+            var cpuMemory = await _context.PMServerCPUAndMemoryUsages
+                .Include(c => c.PMServerCPUUsageDetails)
+                .Include(c => c.PMServerMemoryUsageDetails)
+                .Where(c => c.PMReportFormServerID == pmReportFormServerID && !c.IsDeleted)
+                .FirstOrDefaultAsync();
+
+            if (cpuMemory == null)
+            {
+                cpuMemory = new PMServerCPUAndMemoryUsage
+                {
+                    ID = Guid.NewGuid(),
+                    PMReportFormServerID = pmReportFormServerID,
+                    Remarks = updateData.Remarks,
+                    IsDeleted = false,
+                    CreatedDate = DateTime.UtcNow,
+                    UpdatedBy = updatedBy
+                };
+                _context.PMServerCPUAndMemoryUsages.Add(cpuMemory);
+            }
+            else
+            {
+                cpuMemory.Remarks = updateData.Remarks;
+                cpuMemory.UpdatedBy = updatedBy;
+                cpuMemory.UpdatedDate = DateTime.UtcNow;
+            }
+
+            // Process CPU Usage detail records with tracking
+            if (updateData.CPUUsageDetails != null)
+            {
+                foreach (var detailDto in updateData.CPUUsageDetails)
+                {
+                    if (detailDto.IsDeleted && detailDto.ID.HasValue)
+                    {
+                        // Mark existing record as deleted
+                        var existingDetail = await _context.PMServerCPUUsageDetails
+                            .Where(d => d.ID == detailDto.ID.Value)
+                            .FirstOrDefaultAsync();
+                        if (existingDetail != null)
+                        {
+                            existingDetail.IsDeleted = true;
+                            existingDetail.UpdatedBy = updatedBy;
+                            existingDetail.UpdatedDate = DateTime.UtcNow;
+                        }
+                    }
+                    else if (detailDto.IsNew)
+                    {
+                        // Create new record only if updatedBy has a valid value
+                        if (updatedBy.HasValue)
+                        {
+                            var newDetail = new PMServerCPUUsageDetails
+                            {
+                                ID = Guid.NewGuid(),
+                                PMServerCPUAndMemoryUsageID = cpuMemory.ID,
+                                SerialNo = detailDto.SerialNo,
+                                ServerName = detailDto.ServerName,
+                                CPUUsage = detailDto.CPUUsage,
+                                ResultStatusID = detailDto.ResultStatusID,
+                                Remarks = detailDto.Remarks,
+                                IsDeleted = false,
+                                CreatedDate = DateTime.UtcNow,
+                                CreatedBy = updatedBy.Value,
+                                UpdatedBy = updatedBy
+                            };
+                            _context.PMServerCPUUsageDetails.Add(newDetail);
+                        }
+                    }
+                    else if (detailDto.ID.HasValue)
+                    {
+                        // Update existing record
+                        var existingDetail = await _context.PMServerCPUUsageDetails
+                            .Where(d => d.ID == detailDto.ID.Value)
+                            .FirstOrDefaultAsync();
+                        if (existingDetail != null)
+                        {
+                            existingDetail.SerialNo = detailDto.SerialNo;
+                            existingDetail.ServerName = detailDto.ServerName;
+                            existingDetail.CPUUsage = detailDto.CPUUsage;
+                            existingDetail.ResultStatusID = detailDto.ResultStatusID;
+                            existingDetail.Remarks = detailDto.Remarks;
+                            existingDetail.UpdatedBy = updatedBy;
+                            existingDetail.UpdatedDate = DateTime.UtcNow;
+                        }
+                    }
+                }
+            }
+
+            // Process Memory Usage detail records with tracking
+            if (updateData.MemoryUsageDetails != null)
+            {
+                foreach (var detailDto in updateData.MemoryUsageDetails)
+                {
+                    if (detailDto.IsDeleted && detailDto.ID.HasValue)
+                    {
+                        // Mark existing record as deleted
+                        var existingDetail = await _context.PMServerMemoryUsageDetails
+                            .Where(d => d.ID == detailDto.ID.Value)
+                            .FirstOrDefaultAsync();
+                        if (existingDetail != null)
+                        {
+                            existingDetail.IsDeleted = true;
+                            existingDetail.UpdatedBy = updatedBy;
+                            existingDetail.UpdatedDate = DateTime.UtcNow;
+                        }
+                    }
+                    else if (detailDto.IsNew)
+                    {
+                        // Create new record only if updatedBy has a valid value
+                        if (updatedBy.HasValue)
+                        {
+                            var newDetail = new PMServerMemoryUsageDetails
+                            {
+                                ID = Guid.NewGuid(),
+                                PMServerCPUAndMemoryUsageID = cpuMemory.ID,
+                                SerialNo = detailDto.SerialNo,
+                                ServerName = detailDto.ServerName,
+                                MemorySize = detailDto.MemorySize,
+                                MemoryInUse = detailDto.MemoryInUse,
+                                ResultStatusID = detailDto.ResultStatusID,
+                                Remarks = detailDto.Remarks,
+                                IsDeleted = false,
+                                CreatedDate = DateTime.UtcNow,
+                                CreatedBy = updatedBy.Value,
+                                UpdatedBy = updatedBy
+                            };
+                            _context.PMServerMemoryUsageDetails.Add(newDetail);
+                        }
+                    }
+                    else if (detailDto.ID.HasValue)
+                    {
+                        // Update existing record
+                        var existingDetail = await _context.PMServerMemoryUsageDetails
+                            .Where(d => d.ID == detailDto.ID.Value)
+                            .FirstOrDefaultAsync();
+                        if (existingDetail != null)
+                        {
+                            existingDetail.SerialNo = detailDto.SerialNo;
+                            existingDetail.ServerName = detailDto.ServerName;
+                            existingDetail.MemorySize = detailDto.MemorySize;
+                            existingDetail.MemoryInUse = detailDto.MemoryInUse;
+                            existingDetail.ResultStatusID = detailDto.ResultStatusID;
+                            existingDetail.Remarks = detailDto.Remarks;
+                            existingDetail.UpdatedBy = updatedBy;
+                            existingDetail.UpdatedDate = DateTime.UtcNow;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Placeholder methods for other components - implement as needed
+        private async Task UpdateMonthlyDatabaseCreationDataWithTracking(Guid pmReportFormServerID, UpdatePMServerMonthlyDatabaseCreationDataDto updateData, Guid? updatedBy)
+        {
+            // Get existing Monthly Database Creation record
+            var existingRecord = await _context.PMServerMonthlyDatabaseCreations
+                .Include(x => x.PMServerMonthlyDatabaseCreationDetails)
+                .FirstOrDefaultAsync(x => x.PMReportFormServerID == pmReportFormServerID && !x.IsDeleted);
+
+            if (existingRecord == null)
+            {
+                // Create new record only if updatedBy has a valid value
+                if (updatedBy.HasValue)
+                {
+                    var newRecord = new PMServerMonthlyDatabaseCreation
+                    {
+                        ID = Guid.NewGuid(),
+                        PMReportFormServerID = pmReportFormServerID,
+                        Remarks = updateData.Remarks,
+                        IsDeleted = false,
+                        CreatedBy = updatedBy.Value,
+                        CreatedDate = DateTime.UtcNow
+                    };
+                    _context.PMServerMonthlyDatabaseCreations.Add(newRecord);
+
+                    // Add new details
+                    if (updateData.Details != null)
+                    {
+                        foreach (var detail in updateData.Details.Where(d => !d.IsDeleted))
+                        {
+                            var newDetail = new PMServerMonthlyDatabaseCreationDetails
+                            {
+                                ID = Guid.NewGuid(),
+                                PMServerMonthlyDatabaseCreationID = newRecord.ID,
+                                SerialNo = detail.SerialNo,
+                                ServerName = detail.ServerName,
+                                YesNoStatusID = detail.YesNoStatusID,
+                                Remarks = detail.Remarks,
+                                IsDeleted = false,
+                                CreatedBy = updatedBy.Value,
+                                CreatedDate = DateTime.UtcNow
+                            };
+                            _context.PMServerMonthlyDatabaseCreationDetails.Add(newDetail);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Update existing record
+                existingRecord.Remarks = updateData.Remarks;
+                existingRecord.UpdatedBy = updatedBy;
+                existingRecord.UpdatedDate = DateTime.UtcNow;
+
+                // Handle details with tracking
+                if (updateData.Details != null)
+                {
+                    foreach (var detail in updateData.Details)
+                    {
+                        if (detail.IsDeleted && detail.ID.HasValue)
+                        {
+                            // Soft delete existing detail
+                            var existingDetail = existingRecord.PMServerMonthlyDatabaseCreationDetails
+                                .FirstOrDefault(d => d.ID == detail.ID.Value);
+                            if (existingDetail != null)
+                            {
+                                existingDetail.IsDeleted = true;
+                                existingDetail.UpdatedBy = updatedBy;
+                                existingDetail.UpdatedDate = DateTime.UtcNow;
+                            }
+                        }
+                        else if (detail.IsNew || !detail.ID.HasValue)
+                        {
+                            // Create new detail only if updatedBy has a valid value
+                            if (updatedBy.HasValue)
+                            {
+                                var newDetail = new PMServerMonthlyDatabaseCreationDetails
+                                {
+                                    ID = Guid.NewGuid(),
+                                    PMServerMonthlyDatabaseCreationID = existingRecord.ID,
+                                    SerialNo = detail.SerialNo,
+                                    ServerName = detail.ServerName,
+                                    YesNoStatusID = detail.YesNoStatusID,
+                                    Remarks = detail.Remarks,
+                                    IsDeleted = false,
+                                    CreatedBy = updatedBy.Value,
+                                    CreatedDate = DateTime.UtcNow
+                                };
+                                _context.PMServerMonthlyDatabaseCreationDetails.Add(newDetail);
+                            }
+                        }
+                        
+                        else if (detail.ID.HasValue)
+                        {
+                            // Update existing detail
+                            var existingDetail = existingRecord.PMServerMonthlyDatabaseCreationDetails
+                                .FirstOrDefault(d => d.ID == detail.ID.Value);
+                            if (existingDetail != null)
+                            {
+                                existingDetail.SerialNo = detail.SerialNo;
+                                existingDetail.ServerName = detail.ServerName;
+                                existingDetail.YesNoStatusID = detail.YesNoStatusID;
+                                existingDetail.Remarks = detail.Remarks;
+                                existingDetail.UpdatedBy = updatedBy;
+                                existingDetail.UpdatedDate = DateTime.UtcNow;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private async Task UpdateDatabaseBackupDataWithTracking(Guid pmReportFormServerID, UpdatePMServerDatabaseBackupDataDto updateData, Guid? updatedBy)
+        {
+            // Get existing Database Backup record
+            var existingRecord = await _context.PMServerDatabaseBackups
+                .Include(x => x.PMServerMSSQLDatabaseBackupDetails)
+                .Include(x => x.PMServerSCADADataBackupDetails)
+                .FirstOrDefaultAsync(x => x.PMReportFormServerID == pmReportFormServerID && !x.IsDeleted);
+
+            if (existingRecord == null)
+            {
+                // Create new record only if updatedBy has a valid value
+                if (updatedBy.HasValue)
+                {
+                    var newRecord = new PMServerDatabaseBackup
+                    {
+                        ID = Guid.NewGuid(),
+                        PMReportFormServerID = pmReportFormServerID,
+                        Remarks = updateData.Remarks,
+                        LatestBackupFileName = updateData.LatestBackupFileName,
+                        IsDeleted = false,
+                        CreatedBy = updatedBy.Value,
+                        CreatedDate = DateTime.UtcNow
+                    };
+                    _context.PMServerDatabaseBackups.Add(newRecord);
+
+                    // Add new MSSQL details
+                    if (updateData.MSSQLDetails != null)
+                    {
+                        foreach (var detail in updateData.MSSQLDetails.Where(d => !d.IsDeleted))
+                        {
+                            var newDetail = new PMServerMSSQLDatabaseBackupDetails
+                            {
+                                ID = Guid.NewGuid(),
+                                PMServerDatabaseBackupID = newRecord.ID,
+                                SerialNo = detail.SerialNo,
+                                ServerName = detail.ServerName,
+                                YesNoStatusID = detail.YesNoStatusID,
+                                Remarks = detail.Remarks,
+                                IsDeleted = false,
+                                CreatedBy = updatedBy.Value,
+                                CreatedDate = DateTime.UtcNow
+                            };
+                            _context.PMServerMSSQLDatabaseBackupDetails.Add(newDetail);
+                        }
+                    }
+
+                    // Add new SCADA details
+                    if (updateData.SCADADetails != null)
+                    {
+                        foreach (var detail in updateData.SCADADetails.Where(d => !d.IsDeleted))
+                        {
+                            var newDetail = new PMServerSCADADataBackupDetails
+                            {
+                                ID = Guid.NewGuid(),
+                                PMServerDatabaseBackupID = newRecord.ID,
+                                SerialNo = detail.SerialNo,
+                                ServerName = detail.ServerName,
+                                YesNoStatusID = detail.YesNoStatusID,
+                                Remarks = detail.Remarks,
+                                IsDeleted = false,
+                                CreatedBy = updatedBy.Value,
+                                CreatedDate = DateTime.UtcNow
+                            };
+                            _context.PMServerSCADADataBackupDetails.Add(newDetail);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Update existing record
+                existingRecord.Remarks = updateData.Remarks;
+                existingRecord.LatestBackupFileName = updateData.LatestBackupFileName;
+                existingRecord.UpdatedBy = updatedBy;
+                existingRecord.UpdatedDate = DateTime.UtcNow;
+
+                // Handle MSSQL details with tracking
+                if (updateData.MSSQLDetails != null)
+                {
+                    foreach (var detail in updateData.MSSQLDetails)
+                    {
+                        if (detail.IsDeleted && detail.ID.HasValue)
+                        {
+                            // Soft delete existing detail
+                            var existingDetail = existingRecord.PMServerMSSQLDatabaseBackupDetails
+                                .FirstOrDefault(d => d.ID == detail.ID.Value);
+                            if (existingDetail != null)
+                            {
+                                existingDetail.IsDeleted = true;
+                                existingDetail.UpdatedBy = updatedBy;
+                                existingDetail.UpdatedDate = DateTime.UtcNow;
+                            }
+                        }
+                        else if (detail.IsNew || !detail.ID.HasValue)
+                        {
+                            // Create new detail only if updatedBy has a valid value
+                            if (updatedBy.HasValue)
+                            {
+                                var newDetail = new PMServerMSSQLDatabaseBackupDetails
+                                {
+                                    ID = Guid.NewGuid(),
+                                    PMServerDatabaseBackupID = existingRecord.ID,
+                                    SerialNo = detail.SerialNo,
+                                    ServerName = detail.ServerName,
+                                    YesNoStatusID = detail.YesNoStatusID,
+                                    Remarks = detail.Remarks,
+                                    IsDeleted = false,
+                                    CreatedBy = updatedBy.Value,
+                                    CreatedDate = DateTime.UtcNow
+                                };
+                                _context.PMServerMSSQLDatabaseBackupDetails.Add(newDetail);
+                            }
+                        }
+                        else if (detail.ID.HasValue)
+                        {
+                            // Update existing detail
+                            var existingDetail = existingRecord.PMServerMSSQLDatabaseBackupDetails
+                                .FirstOrDefault(d => d.ID == detail.ID.Value);
+                            if (existingDetail != null)
+                            {
+                                existingDetail.SerialNo = detail.SerialNo;
+                                existingDetail.ServerName = detail.ServerName;
+                                existingDetail.YesNoStatusID = detail.YesNoStatusID;
+                                existingDetail.Remarks = detail.Remarks;
+                                existingDetail.UpdatedBy = updatedBy;
+                                existingDetail.UpdatedDate = DateTime.UtcNow;
+                            }
+                        }
+                    }
+                }
+
+                // Handle SCADA details with tracking
+                if (updateData.SCADADetails != null)
+                {
+                    foreach (var detail in updateData.SCADADetails)
+                    {
+                        if (detail.IsDeleted && detail.ID.HasValue)
+                        {
+                            // Soft delete existing detail
+                            var existingDetail = existingRecord.PMServerSCADADataBackupDetails
+                                .FirstOrDefault(d => d.ID == detail.ID.Value);
+                            if (existingDetail != null)
+                            {
+                                existingDetail.IsDeleted = true;
+                                existingDetail.UpdatedBy = updatedBy;
+                                existingDetail.UpdatedDate = DateTime.UtcNow;
+                            }
+                        }
+                        else if (detail.IsNew || !detail.ID.HasValue)
+                        {
+                            // Create new detail only if updatedBy has a valid value
+                            if (updatedBy.HasValue)
+                            {
+                                var newDetail = new PMServerSCADADataBackupDetails
+                                {
+                                    ID = Guid.NewGuid(),
+                                    PMServerDatabaseBackupID = existingRecord.ID,
+                                    SerialNo = detail.SerialNo,
+                                    ServerName = detail.ServerName,
+                                    YesNoStatusID = detail.YesNoStatusID,
+                                    Remarks = detail.Remarks,
+                                    IsDeleted = false,
+                                    CreatedBy = updatedBy.Value,
+                                    CreatedDate = DateTime.UtcNow
+                                };
+                                _context.PMServerSCADADataBackupDetails.Add(newDetail);
+                            }
+                        }
+                        else if (detail.ID.HasValue)
+                        {
+                            // Update existing detail
+                            var existingDetail = existingRecord.PMServerSCADADataBackupDetails
+                                .FirstOrDefault(d => d.ID == detail.ID.Value);
+                            if (existingDetail != null)
+                            {
+                                existingDetail.SerialNo = detail.SerialNo;
+                                existingDetail.ServerName = detail.ServerName;
+                                existingDetail.YesNoStatusID = detail.YesNoStatusID;
+                                existingDetail.Remarks = detail.Remarks;
+                                existingDetail.UpdatedBy = updatedBy;
+                                existingDetail.UpdatedDate = DateTime.UtcNow;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private async Task UpdateTimeSyncDataWithTracking(Guid pmReportFormServerID, UpdatePMServerTimeSyncDataDto updateData, Guid? updatedBy)
+        {
+            // Get existing Time Sync record
+            var existingRecord = await _context.PMServerTimeSyncs
+                .Include(x => x.PMServerTimeSyncDetails)
+                .FirstOrDefaultAsync(x => x.PMReportFormServerID == pmReportFormServerID && !x.IsDeleted);
+
+            if (existingRecord == null)
+            {
+                // Create new record only if updatedBy has a valid value
+                if (updatedBy.HasValue)
+                {
+                    var newRecord = new PMServerTimeSync
+                    {
+                        ID = Guid.NewGuid(),
+                        PMReportFormServerID = pmReportFormServerID,
+                        Remarks = updateData.Remarks,
+                        IsDeleted = false,
+                        CreatedBy = updatedBy.Value,
+                        CreatedDate = DateTime.UtcNow
+                    };
+                    _context.PMServerTimeSyncs.Add(newRecord);
+
+                    // Add new details
+                    if (updateData.Details != null)
+                    {
+                        foreach (var detail in updateData.Details.Where(d => !d.IsDeleted))
+                        {
+                            var newDetail = new PMServerTimeSyncDetails
+                                {
+                                    ID = Guid.NewGuid(),
+                                    PMServerTimeSyncID = newRecord.ID,
+                                    SerialNo = detail.SerialNo,
+                                    ServerName = detail.ServerName,
+                                    ResultStatusID = detail.ResultStatusID,
+                                    Remarks = detail.Remarks,
+                                    IsDeleted = false,
+                                    CreatedBy = updatedBy.Value,
+                                    CreatedDate = DateTime.UtcNow
+                                };
+                            _context.PMServerTimeSyncDetails.Add(newDetail);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Update existing record
+                existingRecord.Remarks = updateData.Remarks;
+                existingRecord.UpdatedBy = updatedBy;
+                existingRecord.UpdatedDate = DateTime.UtcNow;
+
+                // Handle details with tracking
+                if (updateData.Details != null)
+                {
+                    foreach (var detail in updateData.Details)
+                    {
+                        if (detail.IsDeleted && detail.ID.HasValue)
+                        {
+                            // Soft delete existing detail
+                            var existingDetail = existingRecord.PMServerTimeSyncDetails
+                                .FirstOrDefault(d => d.ID == detail.ID.Value);
+                            if (existingDetail != null)
+                            {
+                                existingDetail.IsDeleted = true;
+                                existingDetail.UpdatedBy = updatedBy;
+                                existingDetail.UpdatedDate = DateTime.UtcNow;
+                            }
+                        }
+                        else if (detail.IsNew || !detail.ID.HasValue)
+                        {
+                            // Create new detail only if updatedBy has a valid value
+                            if (updatedBy.HasValue)
+                            {
+                                var newDetail = new PMServerTimeSyncDetails
+                                {
+                                    ID = Guid.NewGuid(),
+                                    PMServerTimeSyncID = existingRecord.ID,
+                                    SerialNo = detail.SerialNo,
+                                    ServerName = detail.ServerName,
+                                    ResultStatusID = detail.ResultStatusID,
+                                    Remarks = detail.Remarks,
+                                    IsDeleted = false,
+                                    CreatedBy = updatedBy.Value,
+                                    CreatedDate = DateTime.UtcNow
+                                };
+                                _context.PMServerTimeSyncDetails.Add(newDetail);
+                            }
+                        }
+                        else if (detail.ID.HasValue)
+                        {
+                            // Update existing detail
+                            var existingDetail = existingRecord.PMServerTimeSyncDetails
+                                .FirstOrDefault(d => d.ID == detail.ID.Value);
+                            if (existingDetail != null)
+                            {
+                                existingDetail.SerialNo = detail.SerialNo;
+                                existingDetail.ServerName = detail.ServerName;
+                                existingDetail.ResultStatusID = detail.ResultStatusID;
+                                existingDetail.Remarks = detail.Remarks;
+                                existingDetail.UpdatedBy = updatedBy;
+                                existingDetail.UpdatedDate = DateTime.UtcNow;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private async Task UpdateHotFixesDataWithTracking(Guid pmReportFormServerID, UpdatePMServerHotFixesDataDto updateData, Guid? updatedBy)
+        {
+            // Get existing Hot Fixes record
+            var existingRecord = await _context.PMServerHotFixes
+                .Include(x => x.PMServerHotFixesDetails)
+                .FirstOrDefaultAsync(x => x.PMReportFormServerID == pmReportFormServerID && !x.IsDeleted);
+
+            if (existingRecord == null)
+            {
+                // Create new record only if updatedBy has a valid value
+                if (updatedBy.HasValue)
+                {
+                    var newRecord = new PMServerHotFixes
+                    {
+                        ID = Guid.NewGuid(),
+                        PMReportFormServerID = pmReportFormServerID,
+                        Remarks = updateData.Remarks,
+                        IsDeleted = false,
+                        CreatedBy = updatedBy.Value,
+                        CreatedDate = DateTime.UtcNow
+                    };
+                    _context.PMServerHotFixes.Add(newRecord);
+
+                    // Add new details
+                    if (updateData.Details != null)
+                    {
+                        foreach (var detail in updateData.Details.Where(d => !d.IsDeleted))
+                        {
+                            var newDetail = new PMServerHotFixesDetails
+                            {
+                                ID = Guid.NewGuid(),
+                                PMServerHotFixesID = newRecord.ID,
+                                SerialNo = detail.SerialNo,
+                                ServerName = detail.ServerName,
+                                LatestHotFixsApplied = detail.LatestHotFixsApplied,
+                                ResultStatusID = detail.ResultStatusID,
+                                Remarks = detail.Remarks,
+                                IsDeleted = false,
+                                CreatedBy = updatedBy.Value,
+                                CreatedDate = DateTime.UtcNow
+                            };
+                            _context.PMServerHotFixesDetails.Add(newDetail);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Update existing record
+                existingRecord.Remarks = updateData.Remarks;
+                existingRecord.UpdatedBy = updatedBy;
+                existingRecord.UpdatedDate = DateTime.UtcNow;
+
+                // Handle details with tracking
+                if (updateData.Details != null)
+                {
+                    foreach (var detail in updateData.Details)
+                    {
+                        if (detail.IsDeleted && detail.ID.HasValue)
+                        {
+                            // Soft delete existing detail
+                            var existingDetail = existingRecord.PMServerHotFixesDetails
+                                .FirstOrDefault(d => d.ID == detail.ID.Value);
+                            if (existingDetail != null)
+                            {
+                                existingDetail.IsDeleted = true;
+                                existingDetail.UpdatedBy = updatedBy;
+                                existingDetail.UpdatedDate = DateTime.UtcNow;
+                            }
+                        }
+                        else if (detail.IsNew || !detail.ID.HasValue)
+                        {
+                            // Create new detail only if updatedBy has a valid value
+                            if (updatedBy.HasValue)
+                            {
+                                var newDetail = new PMServerHotFixesDetails
+                                {
+                                    ID = Guid.NewGuid(),
+                                    PMServerHotFixesID = existingRecord.ID,
+                                    SerialNo = detail.SerialNo,
+                                    ServerName = detail.ServerName,
+                                    LatestHotFixsApplied = detail.LatestHotFixsApplied,
+                                    ResultStatusID = detail.ResultStatusID,
+                                    Remarks = detail.Remarks,
+                                    IsDeleted = false,
+                                    CreatedBy = updatedBy.Value,
+                                    CreatedDate = DateTime.UtcNow
+                                };
+                                _context.PMServerHotFixesDetails.Add(newDetail);
+                            }
+                        }
+                        else if (detail.ID.HasValue)
+                        {
+                            // Update existing detail
+                            var existingDetail = existingRecord.PMServerHotFixesDetails
+                                .FirstOrDefault(d => d.ID == detail.ID.Value);
+                            if (existingDetail != null)
+                            {
+                                existingDetail.SerialNo = detail.SerialNo;
+                                existingDetail.ServerName = detail.ServerName;
+                                existingDetail.LatestHotFixsApplied = detail.LatestHotFixsApplied;
+                                existingDetail.ResultStatusID = detail.ResultStatusID;
+                                existingDetail.Remarks = detail.Remarks;
+                                existingDetail.UpdatedBy = updatedBy;
+                                existingDetail.UpdatedDate = DateTime.UtcNow;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private async Task UpdateAutoFailOverDataWithTracking(Guid pmReportFormServerID, UpdatePMServerFailOverDataDto updateData, Guid? updatedBy)
+        {
+            // Get existing Fail Over record
+            var existingRecord = await _context.PMServerFailOvers
+                .Include(x => x.PMServerFailOverDetails)
+                .FirstOrDefaultAsync(x => x.PMReportFormServerID == pmReportFormServerID && !x.IsDeleted);
+
+            if (existingRecord == null)
+            {
+                // Create new record only if updatedBy has a valid value
+                if (updatedBy.HasValue)
+                {
+                    var newRecord = new PMServerFailOver
+                    {
+                        ID = Guid.NewGuid(),
+                        PMReportFormServerID = pmReportFormServerID,
+                        Remarks = updateData.Remarks,
+                        IsDeleted = false,
+                        CreatedBy = updatedBy.Value,
+                        CreatedDate = DateTime.UtcNow
+                    };
+                    _context.PMServerFailOvers.Add(newRecord);
+
+                    // Add new details
+                    if (updateData.Details != null)
+                    {
+                        foreach (var detail in updateData.Details.Where(d => !d.IsDeleted))
+                        {
+                            var newDetail = new PMServerFailOverDetails
+                            {
+                                ID = Guid.NewGuid(),
+                                PMServerFailOverID = newRecord.ID,
+                                YesNoStatusID = detail.YesNoStatusID,
+                                ToServer = detail.ToServer,
+                                FromServer = detail.FromServer,
+                                Remarks = detail.Remarks,
+                                IsDeleted = false,
+                                CreatedBy = updatedBy.Value,
+                                CreatedDate = DateTime.UtcNow
+                            };
+                            _context.PMServerFailOverDetails.Add(newDetail);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Update existing record
+                existingRecord.Remarks = updateData.Remarks;
+                existingRecord.UpdatedBy = updatedBy;
+                existingRecord.UpdatedDate = DateTime.UtcNow;
+
+                // Handle details with tracking
+                if (updateData.Details != null)
+                {
+                    foreach (var detail in updateData.Details)
+                    {
+                        if (detail.IsDeleted && detail.ID.HasValue)
+                        {
+                            // Soft delete existing detail
+                            var existingDetail = existingRecord.PMServerFailOverDetails
+                                .FirstOrDefault(d => d.ID == detail.ID.Value);
+                            if (existingDetail != null)
+                            {
+                                existingDetail.IsDeleted = true;
+                                existingDetail.UpdatedBy = updatedBy;
+                                existingDetail.UpdatedDate = DateTime.UtcNow;
+                            }
+                        }
+                        else if (detail.IsNew || !detail.ID.HasValue)
+                        {
+                            // Create new detail only if updatedBy has a valid value
+                            if (updatedBy.HasValue)
+                            {
+                                var newDetail = new PMServerFailOverDetails
+                                {
+                                    ID = Guid.NewGuid(),
+                                    PMServerFailOverID = existingRecord.ID,
+                                    YesNoStatusID = detail.YesNoStatusID,
+                                    ToServer = detail.ToServer,
+                                    FromServer = detail.FromServer,
+                                    Remarks = detail.Remarks,
+                                    IsDeleted = false,
+                                    CreatedBy = updatedBy.Value,
+                                    CreatedDate = DateTime.UtcNow
+                                };
+                                _context.PMServerFailOverDetails.Add(newDetail);
+                            }
+                        }
+                        else if (detail.ID.HasValue)
+                        {
+                            // Update existing detail
+                            var existingDetail = existingRecord.PMServerFailOverDetails
+                                .FirstOrDefault(d => d.ID == detail.ID.Value);
+                            if (existingDetail != null)
+                            {
+                                existingDetail.YesNoStatusID = detail.YesNoStatusID;
+                                existingDetail.ToServer = detail.ToServer;
+                                existingDetail.FromServer = detail.FromServer;
+                                existingDetail.Remarks = detail.Remarks;
+                                existingDetail.UpdatedBy = updatedBy;
+                                existingDetail.UpdatedDate = DateTime.UtcNow;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private async Task UpdateAsaFirewallDataWithTracking(Guid pmReportFormServerID, UpdatePMServerASAFirewallDataDto updateData, Guid? updatedBy)
+        {
+            // Handle ASA Firewall details with tracking (Note: ASA Firewall doesn't have a parent record, only details)
+            if (updateData.Details != null)
+            {
+                // Get existing ASA Firewall records
+                var existingRecords = await _context.PMServerASAFirewalls
+                    .Where(x => x.PMReportFormServerID == pmReportFormServerID && !x.IsDeleted)
+                    .ToListAsync();
+
+                foreach (var detail in updateData.Details)
+                {
+                    if (detail.IsDeleted && detail.ID.HasValue)
+                    {
+                        // Soft delete existing record
+                        var existingRecord = existingRecords.FirstOrDefault(r => r.ID == detail.ID.Value);
+                        if (existingRecord != null)
+                        {
+                            existingRecord.IsDeleted = true;
+                            existingRecord.UpdatedBy = updatedBy;
+                            existingRecord.UpdatedDate = DateTime.UtcNow;
+                        }
+                    }
+                    else if (detail.IsNew || !detail.ID.HasValue)
+                    {
+                        // Create new record only if updatedBy has a valid value
+                        if (updatedBy.HasValue)
+                        {
+                            var newRecord = new PMServerASAFirewall
+                            {
+                                ID = Guid.NewGuid(),
+                                PMReportFormServerID = pmReportFormServerID,
+                                SerialNumber = detail.SerialNumber,
+                                CommandInput = detail.CommandInput,
+                                ASAFirewallStatusID = detail.ASAFirewallStatusID,
+                                ResultStatusID = detail.ResultStatusID,
+                                Remarks = updateData.Remarks, // Use parent remarks since detail doesn't have remarks
+                                IsDeleted = false,
+                                CreatedBy = updatedBy.Value,
+                                CreatedDate = DateTime.UtcNow
+                            };
+                            _context.PMServerASAFirewalls.Add(newRecord);
+                        }
+                    }
+                    else if (detail.ID.HasValue)
+                    {
+                        // Update existing record
+                        var existingRecord = existingRecords.FirstOrDefault(r => r.ID == detail.ID.Value);
+                        if (existingRecord != null)
+                        {
+                            existingRecord.SerialNumber = detail.SerialNumber;
+                            existingRecord.CommandInput = detail.CommandInput;
+                            existingRecord.ASAFirewallStatusID = detail.ASAFirewallStatusID;
+                            existingRecord.ResultStatusID = detail.ResultStatusID;
+                            existingRecord.Remarks = updateData.Remarks; // Use parent remarks since detail doesn't have remarks
+                            existingRecord.UpdatedBy = updatedBy;
+                            existingRecord.UpdatedDate = DateTime.UtcNow;
+                        }
+                    }
+                }
+            }
+        }
+
+        private async Task UpdateSoftwarePatchDataWithTracking(Guid pmReportFormServerID, UpdatePMServerSoftwarePatchDataDto updateData, Guid? updatedBy)
+        {
+            // Get existing Software Patch Summary record
+            var existingRecord = await _context.PMServerSoftwarePatchSummaries
+                .Include(x => x.PMServerSoftwarePatchDetails)
+                .FirstOrDefaultAsync(x => x.PMReportFormServerID == pmReportFormServerID && !x.IsDeleted);
+
+            if (existingRecord == null)
+            {
+                // Create new record only if updatedBy has a valid value
+                if (updatedBy.HasValue)
+                {
+                    var newRecord = new PMServerSoftwarePatchSummary
+                    {
+                        ID = Guid.NewGuid(),
+                        PMReportFormServerID = pmReportFormServerID,
+                        Remarks = updateData.Remarks,
+                        IsDeleted = false,
+                        CreatedBy = updatedBy.Value,
+                        CreatedDate = DateTime.UtcNow
+                    };
+                    _context.PMServerSoftwarePatchSummaries.Add(newRecord);
+
+                    // Add new details
+                    if (updateData.Details != null)
+                    {
+                        foreach (var detail in updateData.Details.Where(d => !d.IsDeleted))
+                        {
+                            var newDetail = new PMServerSoftwarePatchDetails
+                            {
+                                ID = Guid.NewGuid(),
+                                PMServerSoftwarePatchSummaryID = newRecord.ID,
+                                SerialNo = detail.SerialNo,
+                                ServerName = detail.ServerName,
+                                PreviousPatch = detail.PreviousPatch,
+                                CurrentPatch = detail.CurrentPatch,
+                                Remarks = detail.Remarks,
+                                IsDeleted = false,
+                                CreatedBy = updatedBy.Value,
+                                CreatedDate = DateTime.UtcNow
+                            };
+                            _context.PMServerSoftwarePatchDetails.Add(newDetail);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Update existing record
+                existingRecord.Remarks = updateData.Remarks;
+                existingRecord.UpdatedBy = updatedBy;
+                existingRecord.UpdatedDate = DateTime.UtcNow;
+
+                // Handle details with tracking
+                if (updateData.Details != null)
+                {
+                    foreach (var detail in updateData.Details)
+                    {
+                        if (detail.IsDeleted && detail.ID.HasValue)
+                        {
+                            // Soft delete existing detail
+                            var existingDetail = existingRecord.PMServerSoftwarePatchDetails
+                                .FirstOrDefault(d => d.ID == detail.ID.Value);
+                            if (existingDetail != null)
+                            {
+                                existingDetail.IsDeleted = true;
+                                existingDetail.UpdatedBy = updatedBy;
+                                existingDetail.UpdatedDate = DateTime.UtcNow;
+                            }
+                        }
+                        else if (detail.IsNew || !detail.ID.HasValue)
+                        {
+                            // Create new detail only if updatedBy has a valid value
+                            if (updatedBy.HasValue)
+                            {
+                                var newDetail = new PMServerSoftwarePatchDetails
+                                {
+                                    ID = Guid.NewGuid(),
+                                    PMServerSoftwarePatchSummaryID = existingRecord.ID,
+                                    SerialNo = detail.SerialNo,
+                                    ServerName = detail.ServerName,
+                                    PreviousPatch = detail.PreviousPatch,
+                                    CurrentPatch = detail.CurrentPatch,
+                                    Remarks = detail.Remarks,
+                                    IsDeleted = false,
+                                    CreatedBy = updatedBy.Value,
+                                    CreatedDate = DateTime.UtcNow
+                                };
+                                _context.PMServerSoftwarePatchDetails.Add(newDetail);
+                            }
+                        }
+                        else if (detail.ID.HasValue)
+                        {
+                            // Update existing detail
+                            var existingDetail = existingRecord.PMServerSoftwarePatchDetails
+                                .FirstOrDefault(d => d.ID == detail.ID.Value);
+                            if (existingDetail != null)
+                            {
+                                existingDetail.SerialNo = detail.SerialNo;
+                                existingDetail.ServerName = detail.ServerName;
+                                existingDetail.PreviousPatch = detail.PreviousPatch;
+                                existingDetail.CurrentPatch = detail.CurrentPatch;
+                                existingDetail.Remarks = detail.Remarks;
+                                existingDetail.UpdatedBy = updatedBy;
+                                existingDetail.UpdatedDate = DateTime.UtcNow;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private async Task UpdateHardDriveHealthDataWithTracking(Guid pmReportFormServerID, UpdatePMServerHardDriveHealthDataDto updateData, Guid? updatedBy)
+        {
+            // Get existing Hard Drive Health record
+            var existingRecord = await _context.PMServerHardDriveHealths
+                .Include(x => x.PMServerHardDriveHealthDetails)
+                .FirstOrDefaultAsync(x => x.PMReportFormServerID == pmReportFormServerID && !x.IsDeleted);
+
+            if (existingRecord == null)
+            {
+                // Create new record only if updatedBy has a valid value
+                if (updatedBy.HasValue)
+                {
+                    var newRecord = new PMServerHardDriveHealth
+                    {
+                        ID = Guid.NewGuid(),
+                        PMReportFormServerID = pmReportFormServerID,
+                        Remarks = updateData.Remarks,
+                        IsDeleted = false,
+                        CreatedBy = updatedBy.Value,
+                        CreatedDate = DateTime.UtcNow
+                    };
+                    _context.PMServerHardDriveHealths.Add(newRecord);
+
+                    // Add new details
+                    if (updateData.Details != null)
+                    {
+                        foreach (var detail in updateData.Details.Where(d => !d.IsDeleted))
+                        {
+                            var newDetail = new PMServerHardDriveHealthDetails
+                            {
+                                ID = Guid.NewGuid(),
+                                PMServerHardDriveHealthID = newRecord.ID,
+                                ServerName = detail.ServerName,
+                                ResultStatusID = detail.ResultStatusID,
+                                Remarks = detail.Remarks,
+                                IsDeleted = false,
+                                CreatedBy = updatedBy.Value,
+                                CreatedDate = DateTime.UtcNow
+                            };
+                            _context.PMServerHardDriveHealthDetails.Add(newDetail);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Update existing record
+                existingRecord.Remarks = updateData.Remarks;
+                existingRecord.UpdatedBy = updatedBy;
+                existingRecord.UpdatedDate = DateTime.UtcNow;
+
+                // Handle details with tracking
+                if (updateData.Details != null)
+                {
+                    foreach (var detail in updateData.Details)
+                    {
+                        if (detail.IsDeleted && detail.ID.HasValue)
+                        {
+                            // Soft delete existing detail
+                            var existingDetail = existingRecord.PMServerHardDriveHealthDetails
+                                .FirstOrDefault(d => d.ID == detail.ID.Value);
+                            if (existingDetail != null)
+                            {
+                                existingDetail.IsDeleted = true;
+                                existingDetail.UpdatedBy = updatedBy;
+                                existingDetail.UpdatedDate = DateTime.UtcNow;
+                            }
+                        }
+                        else if (detail.IsNew || !detail.ID.HasValue)
+                        {
+                            // Create new detail only if updatedBy has a valid value
+                            if (updatedBy.HasValue)
+                            {
+                                var newDetail = new PMServerHardDriveHealthDetails
+                                {
+                                    ID = Guid.NewGuid(),
+                                    PMServerHardDriveHealthID = existingRecord.ID,
+                                    ServerName = detail.ServerName,
+                                    ResultStatusID = detail.ResultStatusID,
+                                    Remarks = detail.Remarks,
+                                    IsDeleted = false,
+                                    CreatedBy = updatedBy.Value,
+                                    CreatedDate = DateTime.UtcNow
+                                };
+                                _context.PMServerHardDriveHealthDetails.Add(newDetail);
+                            }
+                        }
+                        else if (detail.ID.HasValue)
+                        {
+                            // Update existing detail
+                            var existingDetail = existingRecord.PMServerHardDriveHealthDetails
+                                .FirstOrDefault(d => d.ID == detail.ID.Value);
+                            if (existingDetail != null)
+                            {
+                                existingDetail.ServerName = detail.ServerName;
+                                existingDetail.ResultStatusID = detail.ResultStatusID;
+                                existingDetail.Remarks = detail.Remarks;
+                                existingDetail.UpdatedBy = updatedBy;
+                                existingDetail.UpdatedDate = DateTime.UtcNow;
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -1454,17 +2782,22 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 {
                     foreach (var detail in updateDto.ServerHealthData.Details)
                     {
-                        var healthDetail = new PMServerHealthDetails
+                        // Only create new records if UpdatedBy has a valid value
+                        if (updateDto.UpdatedBy.HasValue)
                         {
-                            ID = Guid.NewGuid(),
-                            PMServerHealthID = serverHealth.ID,
-                            ServerName = detail.ServerName,
-                            ResultStatusID = detail.ResultStatusID,
-                            Remarks = detail.Remarks ?? "",
-                            UpdatedBy = updateDto.UpdatedBy,
-                            CreatedDate = DateTime.UtcNow
-                        };
-                        _context.PMServerHealthDetails.Add(healthDetail);
+                            var healthDetail = new PMServerHealthDetails
+                            {
+                                ID = Guid.NewGuid(),
+                                PMServerHealthID = serverHealth.ID,
+                                ServerName = detail.ServerName,
+                                ResultStatusID = detail.ResultStatusID,
+                                Remarks = detail.Remarks ?? "",
+                                CreatedBy = updateDto.UpdatedBy.Value,
+                                UpdatedBy = updateDto.UpdatedBy,
+                                CreatedDate = DateTime.UtcNow
+                            };
+                            _context.PMServerHealthDetails.Add(healthDetail);
+                        }
                     }
                 }
             }
