@@ -11132,33 +11132,8 @@
             "type": "string",
             "nullable": true
           },
-          "attendedBy": {
-            "maxLength": 255,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "witnessedBy": {
-            "maxLength": 255,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "completionDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "remarks": {
-            "maxLength": 1000,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
+          "signOffData": {
+            "$ref": "#/components/schemas/SignOffDataDto"
           },
           "createdBy": {
             "type": "string",
@@ -12969,27 +12944,8 @@
             "type": "string",
             "nullable": true
           },
-          "attendedBy": {
-            "type": "string",
-            "nullable": true
-          },
-          "witnessedBy": {
-            "type": "string",
-            "nullable": true
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "completionDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "remarks": {
-            "type": "string",
-            "nullable": true
+          "signOffData": {
+            "$ref": "#/components/schemas/SignOffDataDto"
           },
           "isDeleted": {
             "type": "boolean"
@@ -14268,6 +14224,40 @@
           "password": {
             "minLength": 1,
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SignOffDataDto": {
+        "type": "object",
+        "properties": {
+          "attendedBy": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "witnessedBy": {
+            "maxLength": 255,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "completionDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "remarks": {
+            "maxLength": 1000,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -15639,33 +15629,8 @@
             "type": "string",
             "nullable": true
           },
-          "attendedBy": {
-            "maxLength": 255,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "witnessedBy": {
-            "maxLength": 255,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "completionDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "remarks": {
-            "maxLength": 1000,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
+          "signOffData": {
+            "$ref": "#/components/schemas/SignOffDataDto"
           },
           "updatedBy": {
             "type": "string",
@@ -15693,7 +15658,7 @@
           "willowlynxRTUStatusData": {
             "$ref": "#/components/schemas/PMServerWillowlynxRTUStatusDataDto"
           },
-          "willowlynxHistorialTrendData": {
+          "willowlynxHistoricalTrendData": {
             "$ref": "#/components/schemas/PMServerWillowlynxHistoricalTrendDataDto"
           },
           "willowlynxHistoricalReportData": {
@@ -15900,6 +15865,64 @@
         },
         "additionalProperties": false
       },
+      "UpdatePMServerDiskDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "disk": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "capacity": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "freeSpace": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "usage": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "check": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "isNew": {
+            "type": "boolean"
+          },
+          "isModified": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "UpdatePMServerDiskUsageDataDto": {
         "type": "object",
         "properties": {
@@ -15907,6 +15930,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/UpdatePMServerDiskUsageDetailDto"
+            },
+            "nullable": true
+          },
+          "servers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdatePMServerDto"
             },
             "nullable": true
           },
@@ -15972,6 +16002,39 @@
             "nullable": true
           },
           "isNew": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "serverName": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "disks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdatePMServerDiskDto"
+            },
+            "nullable": true
+          },
+          "isNew": {
+            "type": "boolean"
+          },
+          "isModified": {
             "type": "boolean"
           },
           "isDeleted": {

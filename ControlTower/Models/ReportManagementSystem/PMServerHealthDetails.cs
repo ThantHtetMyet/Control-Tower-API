@@ -19,7 +19,7 @@ namespace ControlTower.Models.ReportManagementSystem
         public string? ServerName { get; set; }
 
         [StringLength(1000)]
-        public string Remarks { get; set; }
+        public string? Remarks { get; set; }
 
         public bool IsDeleted { get; set; } = false;
 

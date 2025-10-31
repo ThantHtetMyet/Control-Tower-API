@@ -43,11 +43,14 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     ProjectNo = p.ProjectNo,
                     Customer = p.Customer,
                     ReportTitle = p.ReportTitle,
-                    AttendedBy = p.AttendedBy,
-                    WitnessedBy = p.WitnessedBy,
-                    StartDate = p.StartDate,
-                    CompletionDate = p.CompletionDate,
-                    Remarks = p.Remarks,
+                    SignOffData = new SignOffDataDto
+                    {
+                        AttendedBy = p.AttendedBy,
+                        WitnessedBy = p.WitnessedBy,
+                        StartDate = p.StartDate,
+                        CompletionDate = p.CompletionDate,
+                        Remarks = p.Remarks
+                    },
                     IsDeleted = p.IsDeleted,
                     CreatedDate = p.CreatedDate,
                     UpdatedDate = p.UpdatedDate,
@@ -666,11 +669,14 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     ProjectNo = pmReportFormServer.ProjectNo,
                     Customer = pmReportFormServer.Customer,
                     ReportTitle = pmReportFormServer.ReportTitle,
-                    AttendedBy = pmReportFormServer.AttendedBy,
-                    WitnessedBy = pmReportFormServer.WitnessedBy,
-                    StartDate = pmReportFormServer.StartDate,
-                    CompletionDate = pmReportFormServer.CompletionDate,
-                    Remarks = pmReportFormServer.Remarks,
+                    SignOffData = new SignOffDataDto
+                    {
+                        AttendedBy = pmReportFormServer.AttendedBy,
+                        WitnessedBy = pmReportFormServer.WitnessedBy,
+                        StartDate = pmReportFormServer.StartDate,
+                        CompletionDate = pmReportFormServer.CompletionDate,
+                        Remarks = pmReportFormServer.Remarks
+                    },
                     IsDeleted = pmReportFormServer.IsDeleted,
                     CreatedDate = pmReportFormServer.CreatedDate,
                     UpdatedDate = pmReportFormServer.UpdatedDate,
@@ -756,11 +762,11 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     ProjectNo = createDto.ProjectNo,
                     Customer = createDto.Customer,
                     ReportTitle = createDto.ReportTitle,
-                    AttendedBy = createDto.AttendedBy,
-                    WitnessedBy = createDto.WitnessedBy,
-                    StartDate = createDto.StartDate,
-                    CompletionDate = createDto.CompletionDate,
-                    Remarks = createDto.Remarks,
+                    AttendedBy = createDto.SignOffData?.AttendedBy,
+                    WitnessedBy = createDto.SignOffData?.WitnessedBy,
+                    StartDate = createDto.SignOffData?.StartDate,
+                    CompletionDate = createDto.SignOffData?.CompletionDate,
+                    Remarks = createDto.SignOffData?.Remarks,
                     IsDeleted = false,
                     CreatedDate = DateTime.UtcNow,
                     CreatedBy = createDto.CreatedBy
@@ -782,11 +788,14 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     ProjectNo = pmReportFormServer.ProjectNo,
                     Customer = pmReportFormServer.Customer,
                     ReportTitle = pmReportFormServer.ReportTitle,
-                    AttendedBy = pmReportFormServer.AttendedBy,
-                    WitnessedBy = pmReportFormServer.WitnessedBy,
-                    StartDate = pmReportFormServer.StartDate,
-                    CompletionDate = pmReportFormServer.CompletionDate,
-                    Remarks = pmReportFormServer.Remarks,
+                    SignOffData = new SignOffDataDto
+                    {
+                        AttendedBy = pmReportFormServer.AttendedBy,
+                        WitnessedBy = pmReportFormServer.WitnessedBy,
+                        StartDate = pmReportFormServer.StartDate,
+                        CompletionDate = pmReportFormServer.CompletionDate,
+                        Remarks = pmReportFormServer.Remarks
+                    },
                     IsDeleted = pmReportFormServer.IsDeleted,
                     CreatedDate = pmReportFormServer.CreatedDate,
                     UpdatedDate = pmReportFormServer.UpdatedDate,
@@ -1413,11 +1422,11 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 pmReportFormServer.ProjectNo = updateDto.ProjectNo;
                 pmReportFormServer.Customer = updateDto.Customer;
                 pmReportFormServer.ReportTitle = updateDto.ReportTitle;
-                pmReportFormServer.AttendedBy = updateDto.AttendedBy;
-                pmReportFormServer.WitnessedBy = updateDto.WitnessedBy;
-                pmReportFormServer.StartDate = updateDto.StartDate;
-                pmReportFormServer.CompletionDate = updateDto.CompletionDate;
-                pmReportFormServer.Remarks = updateDto.Remarks;
+                pmReportFormServer.AttendedBy = updateDto.SignOffData?.AttendedBy;
+                pmReportFormServer.WitnessedBy = updateDto.SignOffData?.WitnessedBy;
+                pmReportFormServer.StartDate = updateDto.SignOffData?.StartDate;
+                pmReportFormServer.CompletionDate = updateDto.SignOffData?.CompletionDate;
+                pmReportFormServer.Remarks = updateDto.SignOffData?.Remarks;
                 pmReportFormServer.UpdatedDate = DateTime.UtcNow;
                 pmReportFormServer.UpdatedBy = updateDto.UpdatedBy;
 
@@ -1502,6 +1511,48 @@ namespace ControlTower.Controllers.ReportManagementSystem
             if (updateDto.HardDriveHealthData != null)
             {
                 await UpdateHardDriveHealthDataWithTracking(pmReportFormServerID, updateDto.HardDriveHealthData, updateDto.UpdatedBy);
+            }
+
+            // Update Network Health Data with tracking
+            if (updateDto.NetworkHealthData != null)
+            {
+                await UpdateNetworkHealthDataWithTracking(pmReportFormServerID, updateDto.NetworkHealthData, updateDto.UpdatedBy);
+            }
+
+            // Update Willowlynx Process Status Data with tracking
+            if (updateDto.WillowlynxProcessStatusData != null)
+            {
+                await UpdateWillowlynxProcessStatusDataWithTracking(pmReportFormServerID, updateDto.WillowlynxProcessStatusData, updateDto.UpdatedBy);
+            }
+
+            // Update Willowlynx Network Status Data with tracking
+            if (updateDto.WillowlynxNetworkStatusData != null)
+            {
+                await UpdateWillowlynxNetworkStatusDataWithTracking(pmReportFormServerID, updateDto.WillowlynxNetworkStatusData, updateDto.UpdatedBy);
+            }
+
+            // Update Willowlynx RTU Status Data with tracking
+            if (updateDto.WillowlynxRTUStatusData != null)
+            {
+                await UpdateWillowlynxRTUStatusDataWithTracking(pmReportFormServerID, updateDto.WillowlynxRTUStatusData, updateDto.UpdatedBy);
+            }
+
+            // Update Willowlynx Historical Trend Data with tracking
+            if (updateDto.WillowlynxHistoricalTrendData != null)
+            {
+                await UpdateWillowlynxHistoricalTrendDataWithTracking(pmReportFormServerID, updateDto.WillowlynxHistoricalTrendData, updateDto.UpdatedBy);
+            }
+
+            // Update Willowlynx Historical Report Data with tracking
+            if (updateDto.WillowlynxHistoricalReportData != null)
+            {
+                await UpdateWillowlynxHistoricalReportDataWithTracking(pmReportFormServerID, updateDto.WillowlynxHistoricalReportData, updateDto.UpdatedBy);
+            }
+
+            // Update Willowlynx Sump Pit CCTV Camera Data with tracking
+            if (updateDto.WillowlynxSumpPitCCTVCameraData != null)
+            {
+                await UpdateWillowlynxSumpPitCCTVCameraDataWithTracking(pmReportFormServerID, updateDto.WillowlynxSumpPitCCTVCameraData, updateDto.UpdatedBy);
             }
         }
 
@@ -1618,67 +1669,188 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 diskUsage.UpdatedDate = DateTime.UtcNow;
             }
 
-            // Process detail records with tracking
-            if (updateData.Details != null)
+            // Convert hierarchical structure to flat structure for processing
+            var allDiskDetails = new List<UpdatePMServerDiskUsageDetailDto>();
+
+            // Handle new hierarchical structure (servers with disks)
+            if (updateData.Servers != null && updateData.Servers.Any())
             {
-                foreach (var detailDto in updateData.Details)
+                foreach (var server in updateData.Servers)
                 {
-                    if (detailDto.IsDeleted && detailDto.ID.HasValue)
+                    foreach (var disk in server.Disks)
                     {
-                        // Mark existing record as deleted
-                        var existingDetail = await _context.PMServerDiskUsageHealthDetails
-                            .Where(d => d.ID == detailDto.ID.Value)
-                            .FirstOrDefaultAsync();
-                        if (existingDetail != null)
+                        allDiskDetails.Add(new UpdatePMServerDiskUsageDetailDto
                         {
-                            existingDetail.IsDeleted = true;
-                            existingDetail.UpdatedBy = updatedBy;
-                            existingDetail.UpdatedDate = DateTime.UtcNow;
+                            ID = disk.Id,
+                            DiskName = disk.Disk,
+                            ServerName = server.ServerName,
+                            Capacity = disk.Capacity,
+                            FreeSpace = disk.FreeSpace,
+                            Usage = disk.Usage,
+                            ServerDiskStatusID = disk.Status,
+                            ResultStatusID = disk.Check,
+                            Remarks = disk.Remarks,
+                            IsNew = disk.IsNew,
+                            IsDeleted = disk.IsDeleted
+                        });
+                    }
+                }
+            }
+            // Handle legacy flat structure for backward compatibility
+            else if (updateData.Details != null && updateData.Details.Any())
+            {
+                allDiskDetails = updateData.Details;
+            }
+
+            // Process detail records with tracking and cascading logic
+            if (allDiskDetails.Any())
+            {
+                // Group details by server name to handle server-level operations
+                var serverGroups = allDiskDetails.GroupBy(d => d.ServerName).ToList();
+
+                foreach (var serverGroup in serverGroups)
+                {
+                    var serverName = serverGroup.Key;
+                    var serverDisks = serverGroup.ToList();
+
+                    // Check if this is a server-level deletion (all disks for a server are marked as deleted)
+                    var isServerDeletion = serverDisks.All(d => d.IsDeleted) && serverDisks.Any();
+                    
+                    // Check if this is a server-level restoration (all disks for a server are being restored)
+                    var isServerRestoration = serverDisks.All(d => !d.IsDeleted) && 
+                                            serverDisks.Any(d => d.ID.HasValue) &&
+                                            await _context.PMServerDiskUsageHealthDetails
+                                                .AnyAsync(existing => serverDisks.Select(sd => sd.ID).Contains(existing.ID) && existing.IsDeleted);
+
+                    if (isServerDeletion)
+                    {
+                        // Server deletion: cascade to all disks for this server
+                        var allServerDisks = await _context.PMServerDiskUsageHealthDetails
+                            .Where(d => d.PMServerDiskUsageHealthID == diskUsage.ID && 
+                                       d.ServerName == serverName && !d.IsDeleted)
+                            .ToListAsync();
+
+                        foreach (var disk in allServerDisks)
+                        {
+                            disk.IsDeleted = true;
+                            disk.UpdatedBy = updatedBy;
+                            disk.UpdatedDate = DateTime.UtcNow;
                         }
                     }
-                    else if (detailDto.IsNew)
+                    else if (isServerRestoration)
                     {
-                        // Create new record only if updatedBy has a valid value
-                        if (updatedBy.HasValue)
+                        // Server restoration: cascade to all disks for this server
+                        var allServerDisks = await _context.PMServerDiskUsageHealthDetails
+                            .Where(d => d.PMServerDiskUsageHealthID == diskUsage.ID && 
+                                       d.ServerName == serverName && d.IsDeleted)
+                            .ToListAsync();
+
+                        foreach (var disk in allServerDisks)
                         {
-                            var newDetail = new PMServerDiskUsageHealthDetails
+                            disk.IsDeleted = false;
+                            disk.UpdatedBy = updatedBy;
+                            disk.UpdatedDate = DateTime.UtcNow;
+                        }
+                    }
+                    else
+                    {
+                        // Individual disk operations
+                        foreach (var detailDto in serverDisks)
+                        {
+                            // Validation: Check if server is deleted before allowing individual disk operations
+                            if (detailDto.ID.HasValue)
                             {
-                                ID = Guid.NewGuid(),
-                                PMServerDiskUsageHealthID = diskUsage.ID,
-                                ServerName = detailDto.ServerName,
-                                DiskName = detailDto.DiskName,
-                                Capacity = detailDto.Capacity,
-                                FreeSpace = detailDto.FreeSpace,
-                                Usage = detailDto.Usage,
-                                ServerDiskStatusID = detailDto.ServerDiskStatusID,
-                                ResultStatusID = detailDto.ResultStatusID,
-                                Remarks = detailDto.Remarks,
-                                IsDeleted = false,
-                                CreatedDate = DateTime.UtcNow,
-                                CreatedBy = updatedBy.Value,
-                                UpdatedBy = updatedBy
-                            };
-                            _context.PMServerDiskUsageHealthDetails.Add(newDetail);
-                        }
-                    }
-                    else if (detailDto.ID.HasValue)
-                    {
-                        // Update existing record
-                        var existingDetail = await _context.PMServerDiskUsageHealthDetails
-                            .Where(d => d.ID == detailDto.ID.Value)
-                            .FirstOrDefaultAsync();
-                        if (existingDetail != null)
-                        {
-                            existingDetail.ServerName = detailDto.ServerName;
-                            existingDetail.DiskName = detailDto.DiskName;
-                            existingDetail.Capacity = detailDto.Capacity;
-                            existingDetail.FreeSpace = detailDto.FreeSpace;
-                            existingDetail.Usage = detailDto.Usage;
-                            existingDetail.ServerDiskStatusID = detailDto.ServerDiskStatusID;
-                            existingDetail.ResultStatusID = detailDto.ResultStatusID;
-                            existingDetail.Remarks = detailDto.Remarks;
-                            existingDetail.UpdatedBy = updatedBy;
-                            existingDetail.UpdatedDate = DateTime.UtcNow;
+                                var existingDisk = await _context.PMServerDiskUsageHealthDetails
+                                    .Where(d => d.ID == detailDto.ID.Value)
+                                    .FirstOrDefaultAsync();
+
+                                if (existingDisk != null)
+                                {
+                                    // Check if any disk for this server is deleted (indicating server is deleted)
+                                    var serverHasDeletedDisks = await _context.PMServerDiskUsageHealthDetails
+                                        .AnyAsync(d => d.PMServerDiskUsageHealthID == diskUsage.ID && 
+                                                      d.ServerName == serverName && d.IsDeleted);
+
+                                    // Skip individual operations if server is considered deleted
+                                    if (serverHasDeletedDisks && !detailDto.IsDeleted)
+                                    {
+                                        continue; // Skip this operation - server is deleted
+                                    }
+
+                                    // Skip operations on individual deleted disks (unless restoring)
+                                    if (existingDisk.IsDeleted && !detailDto.IsDeleted)
+                                    {
+                                        continue; // Skip this operation - disk is deleted
+                                    }
+                                }
+                            }
+
+                            if (detailDto.IsDeleted && detailDto.ID.HasValue)
+                            {
+                                // Mark existing record as deleted
+                                var existingDetail = await _context.PMServerDiskUsageHealthDetails
+                                    .Where(d => d.ID == detailDto.ID.Value)
+                                    .FirstOrDefaultAsync();
+                                if (existingDetail != null)
+                                {
+                                    existingDetail.IsDeleted = true;
+                                    existingDetail.UpdatedBy = updatedBy;
+                                    existingDetail.UpdatedDate = DateTime.UtcNow;
+                                }
+                            }
+                            else if (detailDto.IsNew)
+                            {
+                                // Create new record only if updatedBy has a valid value
+                                if (updatedBy.HasValue)
+                                {
+                                    // Check if server is deleted before adding new disk
+                                    var serverHasDeletedDisks = await _context.PMServerDiskUsageHealthDetails
+                                        .AnyAsync(d => d.PMServerDiskUsageHealthID == diskUsage.ID && 
+                                                      d.ServerName == serverName && d.IsDeleted);
+
+                                    if (!serverHasDeletedDisks)
+                                    {
+                                        var newDetail = new PMServerDiskUsageHealthDetails
+                                        {
+                                            ID = Guid.NewGuid(),
+                                            PMServerDiskUsageHealthID = diskUsage.ID,
+                                            ServerName = detailDto.ServerName,
+                                            DiskName = detailDto.DiskName,
+                                            Capacity = detailDto.Capacity,
+                                            FreeSpace = detailDto.FreeSpace,
+                                            Usage = detailDto.Usage,
+                                            ServerDiskStatusID = detailDto.ServerDiskStatusID,
+                                            ResultStatusID = detailDto.ResultStatusID,
+                                            Remarks = detailDto.Remarks,
+                                            IsDeleted = false,
+                                            CreatedDate = DateTime.UtcNow,
+                                            CreatedBy = updatedBy.Value,
+                                            UpdatedBy = updatedBy
+                                        };
+                                        _context.PMServerDiskUsageHealthDetails.Add(newDetail);
+                                    }
+                                }
+                            }
+                            else if (detailDto.ID.HasValue)
+                            {
+                                // Update existing record
+                                var existingDetail = await _context.PMServerDiskUsageHealthDetails
+                                    .Where(d => d.ID == detailDto.ID.Value)
+                                    .FirstOrDefaultAsync();
+                                if (existingDetail != null && !existingDetail.IsDeleted)
+                                {
+                                    existingDetail.ServerName = detailDto.ServerName;
+                                    existingDetail.DiskName = detailDto.DiskName;
+                                    existingDetail.Capacity = detailDto.Capacity;
+                                    existingDetail.FreeSpace = detailDto.FreeSpace;
+                                    existingDetail.Usage = detailDto.Usage;
+                                    existingDetail.ServerDiskStatusID = detailDto.ServerDiskStatusID;
+                                    existingDetail.ResultStatusID = detailDto.ResultStatusID;
+                                    existingDetail.Remarks = detailDto.Remarks;
+                                    existingDetail.UpdatedBy = updatedBy;
+                                    existingDetail.UpdatedDate = DateTime.UtcNow;
+                                }
+                            }
                         }
                     }
                 }
@@ -2744,6 +2916,286 @@ namespace ControlTower.Controllers.ReportManagementSystem
                         }
                     }
                 }
+            }
+        }
+
+        private async Task UpdateNetworkHealthDataWithTracking(Guid pmReportFormServerID, PMServerNetworkHealthDataDto updateData, Guid? updatedBy)
+        {
+            // Get existing NetworkHealth record
+            var existingNetworkHealth = await _context.PMServerNetworkHealths
+                .Where(n => n.PMReportFormServerID == pmReportFormServerID && !n.IsDeleted)
+                .FirstOrDefaultAsync();
+
+            if (existingNetworkHealth == null)
+            {
+                // Create new record if it doesn't exist
+                if (updatedBy.HasValue)
+                {
+                    var newNetworkHealth = new PMServerNetworkHealth
+                    {
+                        ID = Guid.NewGuid(),
+                        PMReportFormServerID = pmReportFormServerID,
+                        YesNoStatusID = updateData.YesNoStatusID,
+                        DateChecked = updateData.DateChecked,
+                        Remarks = updateData.Remarks,
+                        IsDeleted = false,
+                        CreatedBy = updatedBy.Value,
+                        UpdatedBy = updatedBy.Value,
+                        CreatedDate = DateTime.UtcNow,
+                        UpdatedDate = DateTime.UtcNow
+                    };
+                    _context.PMServerNetworkHealths.Add(newNetworkHealth);
+                }
+            }
+            else
+            {
+                // Update existing record
+                existingNetworkHealth.YesNoStatusID = updateData.YesNoStatusID;
+                existingNetworkHealth.DateChecked = updateData.DateChecked;
+                existingNetworkHealth.Remarks = updateData.Remarks;
+                existingNetworkHealth.UpdatedBy = updatedBy.Value;
+                existingNetworkHealth.UpdatedDate = DateTime.UtcNow;
+            }
+        }
+
+        private async Task UpdateWillowlynxProcessStatusDataWithTracking(Guid pmReportFormServerID, PMServerWillowlynxProcessStatusDataDto updateData, Guid? updatedBy)
+        {
+            // Get existing Willowlynx Process Status record
+            var existingProcessStatus = await _context.PMServerWillowlynxProcessStatuses
+                .Where(w => w.PMReportFormServerID == pmReportFormServerID && !w.IsDeleted)
+                .FirstOrDefaultAsync();
+
+            if (existingProcessStatus == null)
+            {
+                // Create new record if it doesn't exist
+                if (updatedBy.HasValue && updateData.YesNoStatusID != Guid.Empty)
+                {
+                    var newProcessStatus = new PMServerWillowlynxProcessStatus
+                    {
+                        ID = Guid.NewGuid(),
+                        PMReportFormServerID = pmReportFormServerID,
+                        YesNoStatusID = updateData.YesNoStatusID,
+                        Remarks = updateData.Remarks,
+                        IsDeleted = false,
+                        CreatedBy = updatedBy.Value,
+                        UpdatedBy = updatedBy.Value,
+                        CreatedDate = DateTime.UtcNow,
+                        UpdatedDate = DateTime.UtcNow
+                    };
+                    _context.PMServerWillowlynxProcessStatuses.Add(newProcessStatus);
+                }
+            }
+            else
+            {
+                // Update existing record
+                if (updateData.YesNoStatusID != Guid.Empty)
+                {
+                    existingProcessStatus.YesNoStatusID = updateData.YesNoStatusID;
+                }
+                existingProcessStatus.Remarks = updateData.Remarks;
+                existingProcessStatus.UpdatedBy = updatedBy.Value;
+                existingProcessStatus.UpdatedDate = DateTime.UtcNow;
+            }
+        }
+
+        private async Task UpdateWillowlynxNetworkStatusDataWithTracking(Guid pmReportFormServerID, PMServerWillowlynxNetworkStatusDataDto updateData, Guid? updatedBy)
+        {
+            // Get existing Willowlynx Network Status record
+            var existingNetworkStatus = await _context.PMServerWillowlynxNetworkStatuses
+                .Where(w => w.PMReportFormServerID == pmReportFormServerID && !w.IsDeleted)
+                .FirstOrDefaultAsync();
+
+            if (existingNetworkStatus == null)
+            {
+                // Create new record if it doesn't exist
+                if (updatedBy.HasValue && updateData.YesNoStatusID != Guid.Empty)
+                {
+                    var newNetworkStatus = new PMServerWillowlynxNetworkStatus
+                    {
+                        ID = Guid.NewGuid(),
+                        PMReportFormServerID = pmReportFormServerID,
+                        YesNoStatusID = updateData.YesNoStatusID,
+                        Remarks = updateData.Remarks,
+                        IsDeleted = false,
+                        CreatedBy = updatedBy.Value,
+                        UpdatedBy = updatedBy.Value,
+                        CreatedDate = DateTime.UtcNow,
+                        UpdatedDate = DateTime.UtcNow
+                    };
+                    _context.PMServerWillowlynxNetworkStatuses.Add(newNetworkStatus);
+                }
+            }
+            else
+            {
+                // Update existing record
+                if (updateData.YesNoStatusID != Guid.Empty)
+                {
+                    existingNetworkStatus.YesNoStatusID = updateData.YesNoStatusID;
+                }
+                existingNetworkStatus.Remarks = updateData.Remarks;
+                existingNetworkStatus.UpdatedBy = updatedBy.Value;
+                existingNetworkStatus.UpdatedDate = DateTime.UtcNow;
+            }
+             
+        }
+
+        private async Task UpdateWillowlynxRTUStatusDataWithTracking(Guid pmReportFormServerID, PMServerWillowlynxRTUStatusDataDto updateData, Guid? updatedBy)
+        {
+            // Get existing Willowlynx RTU Status record
+            var existingRTUStatus = await _context.PMServerWillowlynxRTUStatuses
+                .Where(w => w.PMReportFormServerID == pmReportFormServerID && !w.IsDeleted)
+                .FirstOrDefaultAsync();
+
+            if (existingRTUStatus == null)
+            {
+                // Create new record if it doesn't exist
+                if (updatedBy.HasValue && updateData.YesNoStatusID != Guid.Empty)
+                {
+                    var newRTUStatus = new PMServerWillowlynxRTUStatus
+                    {
+                        ID = Guid.NewGuid(),
+                        PMReportFormServerID = pmReportFormServerID,
+                        YesNoStatusID = updateData.YesNoStatusID,
+                        Remarks = updateData.Remarks,
+                        IsDeleted = false,
+                        CreatedBy = updatedBy.Value,
+                        UpdatedBy = updatedBy.Value,
+                        CreatedDate = DateTime.UtcNow,
+                        UpdatedDate = DateTime.UtcNow
+                    };
+                    _context.PMServerWillowlynxRTUStatuses.Add(newRTUStatus);
+                }
+            }
+            else
+            {
+                // Update existing record
+                if (updateData.YesNoStatusID != Guid.Empty)
+                {
+                    existingRTUStatus.YesNoStatusID = updateData.YesNoStatusID;
+                }
+                existingRTUStatus.Remarks = updateData.Remarks;
+                existingRTUStatus.UpdatedBy = updatedBy.Value;
+                existingRTUStatus.UpdatedDate = DateTime.UtcNow;
+            }
+        }
+
+        private async Task UpdateWillowlynxHistoricalTrendDataWithTracking(Guid pmReportFormServerID, PMServerWillowlynxHistoricalTrendDataDto updateData, Guid? updatedBy)
+        {
+            // Get existing Willowlynx Historical Trend record
+            var existingHistoricalTrend = await _context.PMServerWillowlynxHistoricalTrends
+                .Where(w => w.PMReportFormServerID == pmReportFormServerID && !w.IsDeleted)
+                .FirstOrDefaultAsync();
+
+            if (existingHistoricalTrend == null)
+            {
+                // Create new record if it doesn't exist
+                if (updatedBy.HasValue && updateData.YesNoStatusID != Guid.Empty)
+                {
+                    var newHistoricalTrend = new PMServerWillowlynxHistoricalTrend
+                    {
+                        ID = Guid.NewGuid(),
+                        PMReportFormServerID = pmReportFormServerID,
+                        YesNoStatusID = updateData.YesNoStatusID,
+                        Remarks = updateData.Remarks,
+                        IsDeleted = false,
+                        CreatedBy = updatedBy.Value,
+                        UpdatedBy = updatedBy.Value,
+                        CreatedDate = DateTime.UtcNow,
+                        UpdatedDate = DateTime.UtcNow
+                    };
+                    _context.PMServerWillowlynxHistoricalTrends.Add(newHistoricalTrend);
+                }
+            }
+            else
+            {
+                // Update existing record
+                if (updateData.YesNoStatusID != Guid.Empty)
+                {
+                    existingHistoricalTrend.YesNoStatusID = updateData.YesNoStatusID;
+                }
+                existingHistoricalTrend.Remarks = updateData.Remarks;
+                existingHistoricalTrend.UpdatedBy = updatedBy.Value;
+                existingHistoricalTrend.UpdatedDate = DateTime.UtcNow;
+            }
+        }
+
+        private async Task UpdateWillowlynxHistoricalReportDataWithTracking(Guid pmReportFormServerID, PMServerWillowlynxHistoricalReportDataDto updateData, Guid? updatedBy)
+        {
+            // Get existing Willowlynx Historical Report record
+            var existingHistoricalReport = await _context.PMServerWillowlynxHistoricalReports
+                .Where(w => w.PMReportFormServerID == pmReportFormServerID && !w.IsDeleted)
+                .FirstOrDefaultAsync();
+
+            if (existingHistoricalReport == null)
+            {
+                // Create new record if it doesn't exist
+                if (updatedBy.HasValue && updateData.YesNoStatusID != Guid.Empty)
+                {
+                    var newHistoricalReport = new PMServerWillowlynxHistoricalReport
+                    {
+                        ID = Guid.NewGuid(),
+                        PMReportFormServerID = pmReportFormServerID,
+                        YesNoStatusID = updateData.YesNoStatusID,
+                        Remarks = updateData.Remarks,
+                        IsDeleted = false,
+                        CreatedBy = updatedBy.Value,
+                        UpdatedBy = updatedBy.Value,
+                        CreatedDate = DateTime.UtcNow,
+                        UpdatedDate = DateTime.UtcNow
+                    };
+                    _context.PMServerWillowlynxHistoricalReports.Add(newHistoricalReport);
+                }
+            }
+            else
+            {
+                // Update existing record
+                if (updateData.YesNoStatusID != Guid.Empty)
+                {
+                    existingHistoricalReport.YesNoStatusID = updateData.YesNoStatusID;
+                }
+                existingHistoricalReport.Remarks = updateData.Remarks;
+                existingHistoricalReport.UpdatedBy = updatedBy.Value;
+                existingHistoricalReport.UpdatedDate = DateTime.UtcNow;
+            }
+        }
+
+        private async Task UpdateWillowlynxSumpPitCCTVCameraDataWithTracking(Guid pmReportFormServerID, PMServerWillowlynxCCTVCameraDataDto updateData, Guid? updatedBy)
+        {
+            // Get existing Willowlynx CCTV Camera record
+            var existingCCTVCamera = await _context.PMServerWillowlynxCCTVCameras
+                .Where(w => w.PMReportFormServerID == pmReportFormServerID && !w.IsDeleted)
+                .FirstOrDefaultAsync();
+
+            if (existingCCTVCamera == null)
+            {
+                // Create new record if it doesn't exist
+                if (updatedBy.HasValue && updateData.YesNoStatusID != Guid.Empty)
+                {
+                    var newCCTVCamera = new PMServerWillowlynxCCTVCamera
+                    {
+                        ID = Guid.NewGuid(),
+                        PMReportFormServerID = pmReportFormServerID,
+                        YesNoStatusID = updateData.YesNoStatusID,
+                        Remarks = updateData.Remarks,
+                        IsDeleted = false,
+                        CreatedBy = updatedBy.Value,
+                        UpdatedBy = updatedBy.Value,
+                        CreatedDate = DateTime.UtcNow,
+                        UpdatedDate = DateTime.UtcNow
+                    };
+                    _context.PMServerWillowlynxCCTVCameras.Add(newCCTVCamera);
+                }
+            }
+            else
+            {
+                // Update existing record
+                if (updateData.YesNoStatusID != Guid.Empty)
+                {
+                    existingCCTVCamera.YesNoStatusID = updateData.YesNoStatusID;
+                }
+                existingCCTVCamera.Remarks = updateData.Remarks;
+                existingCCTVCamera.UpdatedBy = updatedBy.Value;
+                existingCCTVCamera.UpdatedDate = DateTime.UtcNow;
             }
         }
 

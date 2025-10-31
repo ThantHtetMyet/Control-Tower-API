@@ -2,6 +2,22 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ControlTower.DTOs.ReportManagementSystem
 {
+    public class SignOffDataDto
+    {
+        [StringLength(255)]
+        public string? AttendedBy { get; set; }
+
+        [StringLength(255)]
+        public string? WitnessedBy { get; set; }
+
+        public DateTime? StartDate { get; set; }
+
+        public DateTime? CompletionDate { get; set; }
+
+        [StringLength(1000)]
+        public string? Remarks { get; set; }
+    }
+
     public class PMReportFormServerDto
     {
         public Guid ID { get; set; }
@@ -10,11 +26,7 @@ namespace ControlTower.DTOs.ReportManagementSystem
         public string? ProjectNo { get; set; }
         public string? Customer { get; set; }
         public string? ReportTitle { get; set; }
-        public string? AttendedBy { get; set; }
-        public string? WitnessedBy { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? CompletionDate { get; set; }
-        public string? Remarks { get; set; }
+        public SignOffDataDto? SignOffData { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
@@ -67,18 +79,7 @@ namespace ControlTower.DTOs.ReportManagementSystem
         [StringLength(255)]
         public string? ReportTitle { get; set; }
 
-        [StringLength(255)]
-        public string? AttendedBy { get; set; }
-
-        [StringLength(255)]
-        public string? WitnessedBy { get; set; }
-
-        public DateTime? StartDate { get; set; }
-
-        public DateTime? CompletionDate { get; set; }
-
-        [StringLength(1000)]
-        public string? Remarks { get; set; }
+        public SignOffDataDto? SignOffData { get; set; }
 
         [Required]
         public Guid CreatedBy { get; set; }
@@ -118,18 +119,7 @@ namespace ControlTower.DTOs.ReportManagementSystem
         [StringLength(255)]
         public string? ReportTitle { get; set; }
 
-        [StringLength(255)]
-        public string? AttendedBy { get; set; }
-
-        [StringLength(255)]
-        public string? WitnessedBy { get; set; }
-
-        public DateTime? StartDate { get; set; }
-
-        public DateTime? CompletionDate { get; set; }
-
-        [StringLength(1000)]
-        public string? Remarks { get; set; }
+        public SignOffDataDto? SignOffData { get; set; }
 
         public Guid? UpdatedBy { get; set; }
 
@@ -141,7 +131,7 @@ namespace ControlTower.DTOs.ReportManagementSystem
         public PMServerWillowlynxProcessStatusDataDto? WillowlynxProcessStatusData { get; set; }
         public PMServerWillowlynxNetworkStatusDataDto? WillowlynxNetworkStatusData { get; set; }
         public PMServerWillowlynxRTUStatusDataDto? WillowlynxRTUStatusData { get; set; }
-        public PMServerWillowlynxHistoricalTrendDataDto? WillowlynxHistorialTrendData { get; set; }
+        public PMServerWillowlynxHistoricalTrendDataDto? WillowlynxHistoricalTrendData { get; set; }
         public PMServerWillowlynxHistoricalReportDataDto? WillowlynxHistoricalReportData { get; set; }
         public PMServerWillowlynxCCTVCameraDataDto? WillowlynxSumpPitCCTVCameraData { get; set; }
         public UpdatePMServerMonthlyDatabaseCreationDataDto? MonthlyDatabaseCreationData { get; set; }
@@ -165,8 +155,40 @@ namespace ControlTower.DTOs.ReportManagementSystem
     public class UpdatePMServerDiskUsageDataDto
     {
         public List<UpdatePMServerDiskUsageDetailDto> Details { get; set; } = new List<UpdatePMServerDiskUsageDetailDto>();
+        public List<UpdatePMServerDto> Servers { get; set; } = new List<UpdatePMServerDto>();
         [StringLength(1000)]
         public string? Remarks { get; set; }
+    }
+
+    public class UpdatePMServerDto
+    {
+        public Guid? Id { get; set; }
+        [StringLength(200)]
+        public string? ServerName { get; set; }
+        public List<UpdatePMServerDiskDto> Disks { get; set; } = new List<UpdatePMServerDiskDto>();
+        public bool IsNew { get; set; } = false;
+        public bool IsModified { get; set; } = false;
+        public bool IsDeleted { get; set; } = false;
+    }
+
+    public class UpdatePMServerDiskDto
+    {
+        public Guid? Id { get; set; }
+        [StringLength(200)]
+        public string? Disk { get; set; }
+        public Guid Status { get; set; }
+        [StringLength(100)]
+        public string? Capacity { get; set; }
+        [StringLength(100)]
+        public string? FreeSpace { get; set; }
+        [StringLength(100)]
+        public string? Usage { get; set; }
+        public Guid Check { get; set; }
+        [StringLength(500)]
+        public string? Remarks { get; set; }
+        public bool IsNew { get; set; } = false;
+        public bool IsModified { get; set; } = false;
+        public bool IsDeleted { get; set; } = false;
     }
 
     public class UpdatePMServerCPUAndMemoryDataDto
