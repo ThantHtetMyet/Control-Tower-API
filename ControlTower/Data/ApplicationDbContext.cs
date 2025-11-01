@@ -55,6 +55,7 @@ namespace ControlTower.Data
         // PM Report Management System
         public DbSet<PMReportFormRTU> PMReportFormRTU { get; set; }
         public DbSet<PMReportFormServer> PMReportFormServer { get; set; }
+        public DbSet<PMServerReportFormPDFRequestLog> PMServerReportFormPDFRequestLogs { get; set; }
         public DbSet<PMServerHealth> PMServerHealths { get; set; }
         public DbSet<PMServerHealthDetails> PMServerHealthDetails { get; set; }
         public DbSet<PMServerHardDriveHealth> PMServerHardDriveHealths { get; set; }

@@ -6217,6 +6217,240 @@
         }
       }
     },
+    "/api/PMServerReportFormPDFRequestLog": {
+      "get": {
+        "tags": [
+          "PMServerReportFormPDFRequestLog"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMServerReportFormPDFRequestLogDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMServerReportFormPDFRequestLogDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMServerReportFormPDFRequestLogDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PMServerReportFormPDFRequestLog"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMServerReportFormPDFRequestLogDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMServerReportFormPDFRequestLogDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePMServerReportFormPDFRequestLogDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMServerReportFormPDFRequestLogDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMServerReportFormPDFRequestLogDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMServerReportFormPDFRequestLogDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PMServerReportFormPDFRequestLog/{id}": {
+      "get": {
+        "tags": [
+          "PMServerReportFormPDFRequestLog"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMServerReportFormPDFRequestLogDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMServerReportFormPDFRequestLogDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PMServerReportFormPDFRequestLogDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "PMServerReportFormPDFRequestLog"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMServerReportFormPDFRequestLogDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMServerReportFormPDFRequestLogDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePMServerReportFormPDFRequestLogDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "PMServerReportFormPDFRequestLog"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PMServerReportFormPDFRequestLog/ByPMReportFormServer/{pmReportFormServerId}": {
+      "get": {
+        "tags": [
+          "PMServerReportFormPDFRequestLog"
+        ],
+        "parameters": [
+          {
+            "name": "pmReportFormServerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMServerReportFormPDFRequestLogDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMServerReportFormPDFRequestLogDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PMServerReportFormPDFRequestLogDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/ReportForm": {
       "get": {
         "tags": [
@@ -11210,6 +11444,29 @@
         },
         "additionalProperties": false
       },
+      "CreatePMServerReportFormPDFRequestLogDto": {
+        "required": [
+          "reportFormID",
+          "requestedBy",
+          "requestedDate"
+        ],
+        "type": "object",
+        "properties": {
+          "reportFormID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "requestedBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "requestedDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
       "CreateReportFormDto": {
         "required": [
           "jobNo",
@@ -13647,6 +13904,40 @@
           "remarks": {
             "maxLength": 1000,
             "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PMServerReportFormPDFRequestLogDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmReportFormServerID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "requestedBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "requestedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "requestedByUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "pmReportFormServerTitle": {
             "type": "string",
             "nullable": true
           }
@@ -16452,6 +16743,34 @@
           },
           "isDeleted": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePMServerReportFormPDFRequestLogDto": {
+        "required": [
+          "id",
+          "pmReportFormServerID",
+          "requestedBy",
+          "requestedDate"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pmReportFormServerID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "requestedBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "requestedDate": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false

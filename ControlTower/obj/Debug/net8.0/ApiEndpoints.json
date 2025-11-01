@@ -3632,6 +3632,141 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMServerReportFormPDFRequestLogController",
+    "Method": "GetPMServerReportFormPDFRequestLogs",
+    "RelativePath": "api/PMServerReportFormPDFRequestLog",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.PMServerReportFormPDFRequestLogDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMServerReportFormPDFRequestLogController",
+    "Method": "PostPMServerReportFormPDFRequestLog",
+    "RelativePath": "api/PMServerReportFormPDFRequestLog",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreatePMServerReportFormPDFRequestLogDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.PMServerReportFormPDFRequestLogDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMServerReportFormPDFRequestLogController",
+    "Method": "GetPMServerReportFormPDFRequestLog",
+    "RelativePath": "api/PMServerReportFormPDFRequestLog/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.PMServerReportFormPDFRequestLogDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMServerReportFormPDFRequestLogController",
+    "Method": "PutPMServerReportFormPDFRequestLog",
+    "RelativePath": "api/PMServerReportFormPDFRequestLog/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdatePMServerReportFormPDFRequestLogDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMServerReportFormPDFRequestLogController",
+    "Method": "DeletePMServerReportFormPDFRequestLog",
+    "RelativePath": "api/PMServerReportFormPDFRequestLog/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.PMServerReportFormPDFRequestLogController",
+    "Method": "GetPMServerReportFormPDFRequestLogsByPMReportFormServer",
+    "RelativePath": "api/PMServerReportFormPDFRequestLog/ByPMReportFormServer/{pmReportFormServerId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pmReportFormServerId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.PMServerReportFormPDFRequestLogDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormController",
     "Method": "GetReportForms",
     "RelativePath": "api/ReportForm",
