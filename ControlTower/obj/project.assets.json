@@ -5602,11 +5602,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\ControlTower.csproj",
+      "projectUniqueName": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\B_001_Workplace\\ControlTower\\ControlTower\\ControlTower\\ControlTower.csproj",
       "projectName": "ControlTower",
-      "projectPath": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\ControlTower.csproj",
+      "projectPath": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\B_001_Workplace\\ControlTower\\ControlTower\\ControlTower\\ControlTower.csproj",
       "packagesPath": "C:\\Users\\thanthtet.myet\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\02_Workplace\\ControlTower\\ControlTower\\ControlTower\\obj\\",
+      "outputPath": "C:\\Users\\thanthtet.myet\\Documents\\01_Willowglen\\B_001_Workplace\\ControlTower\\ControlTower\\ControlTower\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -5703,7 +5703,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

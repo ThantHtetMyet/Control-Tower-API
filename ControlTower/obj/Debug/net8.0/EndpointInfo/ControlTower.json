@@ -1261,6 +1261,29 @@
         }
       }
     },
+    "/api/CMReportForm/{id}/generate-pdf": {
+      "post": {
+        "tags": [
+          "CMReportForm"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/CMReportFormType": {
       "get": {
         "tags": [
@@ -5826,6 +5849,29 @@
         }
       },
       "delete": {
+        "tags": [
+          "PMReportFormServer"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PMReportFormServer/{id}/generate-pdf": {
+      "post": {
         "tags": [
           "PMReportFormServer"
         ],
