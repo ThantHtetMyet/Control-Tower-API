@@ -3,18 +3,41 @@ using Microsoft.EntityFrameworkCore;
 using ControlTower.Data;
 using ControlTower.Models.ReportManagementSystem;
 using ControlTower.DTOs.ReportManagementSystem;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using MQTTnet;
+using MQTTnet.Client;
+using MQTTnet.Protocol;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.IO;
+using System.Threading;
 
 namespace ControlTower.Controllers.ReportManagementSystem
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PMReportFormRTUController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<PMReportFormRTUController> _logger;
+        private static readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
 
-        public PMReportFormRTUController(ApplicationDbContext context)
+        public PMReportFormRTUController(
+            ApplicationDbContext context,
+            IConfiguration configuration,
+            ILogger<PMReportFormRTUController> logger)
         {
             _context = context;
+            _configuration = configuration;
+            _logger = logger;
         }
 
         // GET: api/PMReportForm
@@ -101,6 +124,15 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 return BadRequest(ModelState);
             }
 
+            var pmReportFormType = await _context.PMReportFormTypes
+                .AsNoTracking()
+                .FirstOrDefaultAsync(t => t.ID == createDto.PMReportFormTypeID && !t.IsDeleted);
+
+            if (pmReportFormType == null)
+            {
+                return BadRequest(new { message = "Invalid PM Report Form Type ID." });
+            }
+
             var pmReportForm = new PMReportFormRTU
             {
                 ID = Guid.NewGuid(),
@@ -108,6 +140,9 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 PMReportFormTypeID = createDto.PMReportFormTypeID,
                 ProjectNo = createDto.ProjectNo,
                 Customer = createDto.Customer,
+                ReportTitle = string.IsNullOrWhiteSpace(createDto.ReportTitle)
+                    ? $"Preventative Maintenance ({pmReportFormType.Name?.ToUpperInvariant()})"
+                    : createDto.ReportTitle,
                 DateOfService = createDto.DateOfService,
                 CleaningOfCabinet = createDto.CleaningOfCabinet,
                 Remarks = createDto.Remarks,
@@ -212,6 +247,200 @@ namespace ControlTower.Controllers.ReportManagementSystem
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "PM report form deleted successfully." });
+        }
+
+        [HttpPost("{id}/generate-pdf")]
+        public async Task<IActionResult> GenerateRtuPmPdf(Guid id, CancellationToken cancellationToken)
+        {
+            var reportForm = await _context.ReportForms
+                .AsNoTracking()
+                .FirstOrDefaultAsync(r => r.ID == id && !r.IsDeleted, cancellationToken);
+
+            if (reportForm == null)
+            {
+                return NotFound($"Report form with ID {id} was not found.");
+            }
+
+            var requestedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "api_user";
+
+            try
+            {
+                var result = await GeneratePdfAsync(id, requestedBy, cancellationToken);
+                var downloadName = result.FileName ?? $"RTU_PM_Report_{reportForm.JobNo ?? id.ToString()}.pdf";
+                return File(result.FileContent, "application/pdf", downloadName);
+            }
+            catch (OperationCanceledException)
+            {
+                return StatusCode(504, "Timed out waiting for PDF generation.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to generate RTU PM report for {ReportId}", id);
+                return StatusCode(500, $"Failed to generate PDF: {ex.Message}");
+            }
+        }
+
+        private async Task<PdfGenerationResult> GeneratePdfAsync(Guid reportId, string requestedBy, CancellationToken cancellationToken)
+        {
+            var mqttFactory = new MqttFactory();
+            using var mqttClient = mqttFactory.CreateMqttClient();
+            var mqttOptions = BuildMqttOptions();
+
+            var statusTopic = $"controltower/rtu_pm_reportform_pdf_status/{reportId}";
+            var requestTopic = $"controltower/rtu_pm_reportform_pdf/{reportId}";
+            var completionSource = new TaskCompletionSource<PdfStatusMessage>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            mqttClient.ApplicationMessageReceivedAsync += e =>
+            {
+                if (e.ApplicationMessage.Topic == statusTopic)
+                {
+                    var payload = e.ApplicationMessage.ConvertPayloadToString();
+                    try
+                    {
+                        var status = JsonSerializer.Deserialize<PdfStatusMessage>(payload, _jsonOptions);
+                        if (status != null && !string.IsNullOrWhiteSpace(status.Status))
+                        {
+                            var normalized = status.Status.ToLowerInvariant();
+                            if (normalized == "completed" || normalized == "failed")
+                            {
+                                completionSource.TrySetResult(status);
+                            }
+                        }
+                    }
+                    catch (JsonException jsonEx)
+                    {
+                        _logger.LogError(jsonEx, "Failed to parse PDF status payload: {Payload}", payload);
+                    }
+                }
+
+                return Task.CompletedTask;
+            };
+
+            await mqttClient.ConnectAsync(mqttOptions, cancellationToken);
+            await mqttClient.SubscribeAsync(statusTopic, MqttQualityOfServiceLevel.AtLeastOnce, cancellationToken);
+
+            var payload = JsonSerializer.Serialize(new
+            {
+                report_id = reportId.ToString(),
+                requested_by = requestedBy,
+                timestamp = DateTime.UtcNow.ToString("o")
+            });
+
+            var publishMessage = new MqttApplicationMessageBuilder()
+                .WithTopic(requestTopic)
+                .WithPayload(payload)
+                .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce)
+                .Build();
+
+            await mqttClient.PublishAsync(publishMessage, cancellationToken);
+
+            var timeoutSeconds = _configuration.GetValue("PDFGenerator:StatusTimeoutSeconds", 120);
+            using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            timeoutCts.CancelAfter(TimeSpan.FromSeconds(timeoutSeconds));
+
+            PdfStatusMessage statusMessage;
+            try
+            {
+                using (timeoutCts.Token.Register(() => completionSource.TrySetCanceled(), useSynchronizationContext: false))
+                {
+                    statusMessage = await completionSource.Task;
+                }
+            }
+            finally
+            {
+                if (mqttClient.IsConnected)
+                {
+                    await mqttClient.UnsubscribeAsync(statusTopic, cancellationToken);
+                    await mqttClient.DisconnectAsync(cancellationToken: cancellationToken);
+                }
+            }
+
+            if (!statusMessage.Status.Equals("completed", StringComparison.OrdinalIgnoreCase))
+            {
+                var errorMessage = statusMessage.Message ?? "PDF generation failed.";
+                throw new InvalidOperationException(errorMessage);
+            }
+
+            var fileName = statusMessage.FileName;
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                throw new InvalidOperationException("PDF generation completed but no file name was provided.");
+            }
+
+            var outputDirectory = GetPdfOutputDirectory();
+            var filePath = Path.Combine(outputDirectory, fileName);
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                throw new FileNotFoundException($"Generated PDF not found at {filePath}.");
+            }
+
+            var fileBytes = await System.IO.File.ReadAllBytesAsync(filePath, cancellationToken);
+            return new PdfGenerationResult(fileBytes, fileName);
+        }
+
+        private MqttClientOptions BuildMqttOptions()
+        {
+            var host = _configuration["MQTT:Host"] ?? "localhost";
+            var port = _configuration.GetValue("MQTT:Port", 1883);
+            var username = _configuration["MQTT:Username"];
+            var password = _configuration["MQTT:Password"];
+
+            var builder = new MqttClientOptionsBuilder()
+                .WithClientId($"controltower_rtu_api_{Guid.NewGuid():N}")
+                .WithTcpServer(host, port)
+                .WithCleanSession();
+
+            if (!string.IsNullOrEmpty(username))
+            {
+                builder.WithCredentials(username, password);
+            }
+
+            return builder.Build();
+        }
+
+        private string GetPdfOutputDirectory()
+        {
+            var configuredPath = _configuration["PDFGenerator:OutputDirectory"];
+            if (string.IsNullOrWhiteSpace(configuredPath))
+            {
+                return Path.Combine(AppContext.BaseDirectory, "PDF_File");
+            }
+
+            if (Path.IsPathRooted(configuredPath))
+            {
+                return Path.GetFullPath(configuredPath);
+            }
+
+            var current = new DirectoryInfo(AppContext.BaseDirectory);
+            while (current != null)
+            {
+                var candidate = Path.GetFullPath(Path.Combine(current.FullName, configuredPath));
+                if (Directory.Exists(candidate))
+                {
+                    return candidate;
+                }
+                current = current.Parent;
+            }
+
+            return Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, configuredPath));
+        }
+
+        private sealed record PdfGenerationResult(byte[] FileContent, string FileName);
+
+        private sealed class PdfStatusMessage
+        {
+            [JsonPropertyName("report_id")]
+            public string? ReportId { get; set; }
+
+            [JsonPropertyName("status")]
+            public string Status { get; set; } = string.Empty;
+
+            [JsonPropertyName("message")]
+            public string? Message { get; set; }
+
+            [JsonPropertyName("file_name")]
+            public string? FileName { get; set; }
         }
     }
 }

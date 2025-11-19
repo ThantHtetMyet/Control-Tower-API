@@ -42,6 +42,9 @@ namespace ControlTower.DTOs.ReportManagementSystem
         public string? Remarks { get; set; }
         public string? AttendedBy { get; set; }
         public string? ApprovedBy { get; set; }
+
+        [StringLength(500)]
+        public string? ReportTitle { get; set; }
     }
 
     public class UpdatePMReportFormRTUDto

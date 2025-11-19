@@ -5702,6 +5702,29 @@
         }
       }
     },
+    "/api/PMReportFormRTU/{id}/generate-pdf": {
+      "post": {
+        "tags": [
+          "PMReportFormRTU"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/PMReportFormServer": {
       "get": {
         "tags": [
@@ -11372,6 +11395,12 @@
             "nullable": true
           },
           "approvedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "reportTitle": {
+            "maxLength": 500,
+            "minLength": 0,
             "type": "string",
             "nullable": true
           }

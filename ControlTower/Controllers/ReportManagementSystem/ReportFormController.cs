@@ -141,7 +141,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
             var totalCount = await query.CountAsync();
             var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
 
-            var reportForms = await query
+            var reportFormsRaw = await query
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .Select(rf => new
@@ -149,14 +149,6 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     ID = rf.ID,
                     ReportFormTypeID = rf.ReportFormTypeID,
                     ReportFormTypeName = rf.ReportFormType.Name,
-                    // Get specific PM type name if it's a PM report, otherwise use the main report type name
-                    SpecificReportTypeName = rf.ReportFormType.Name == "Preventative Maintenance"
-                        ? _context.PMReportFormRTU
-                            .Where(pm => pm.ReportFormID == rf.ID && !pm.IsDeleted)
-                            .Include(pm => pm.PMReportFormType)
-                            .Select(pm => pm.PMReportFormType.Name)
-                            .FirstOrDefault() ?? rf.ReportFormType.Name
-                        : rf.ReportFormType.Name,
                     JobNo = rf.JobNo,
                     SystemNameWarehouseID = rf.SystemNameWarehouseID,
                     SystemNameWarehouseName = rf.SystemNameWarehouse.Name,
@@ -171,14 +163,25 @@ namespace ControlTower.Controllers.ReportManagementSystem
                         .Where(cm => cm.ReportFormID == rf.ID && !cm.IsDeleted)
                         .Select(cm => cm.ProjectNo)
                         .FirstOrDefault(),
-                    // Get PM Report data if exists
-                    PMCustomer = _context.PMReportFormRTU
+                    PMRTUInfo = _context.PMReportFormRTU
                         .Where(pm => pm.ReportFormID == rf.ID && !pm.IsDeleted)
-                        .Select(pm => pm.Customer)
+                        .Select(pm => new
+                        {
+                            pm.PMReportFormTypeID,
+                            TypeName = pm.PMReportFormType.Name,
+                            pm.Customer,
+                            pm.ProjectNo
+                        })
                         .FirstOrDefault(),
-                    PMProjectNo = _context.PMReportFormRTU
+                    PMServerInfo = _context.PMReportFormServer
                         .Where(pm => pm.ReportFormID == rf.ID && !pm.IsDeleted)
-                        .Select(pm => pm.ProjectNo)
+                        .Select(pm => new
+                        {
+                            pm.PMReportFormTypeID,
+                            TypeName = pm.PMReportFormType.Name,
+                            pm.Customer,
+                            pm.ProjectNo
+                        })
                         .FirstOrDefault(),
                     IsDeleted = rf.IsDeleted,
                     CreatedDate = rf.CreatedDate,
@@ -190,9 +193,67 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     UploadStatus = rf.UploadStatus,
                     UploadHostname = rf.UploadHostname,
                     UploadIPAddress = rf.UploadIPAddress,
-                    FormStatus = rf.FormStatus
+                    FormStatus = rf.FormStatus,
+                    CMTypeInfo = _context.CMReportForms
+                        .Where(cm => cm.ReportFormID == rf.ID && !cm.IsDeleted)
+                        .Select(cm => new
+                        {
+                            cm.CMReportFormTypeID,
+                            TypeName = cm.CMReportFormType != null ? cm.CMReportFormType.Name : null
+                        })
+                        .FirstOrDefault()
                 })
                 .ToListAsync();
+
+            var reportForms = reportFormsRaw.Select(rf =>
+            {
+                var cmInfo = rf.CMTypeInfo;
+                var pmInfo = rf.PMRTUInfo ?? rf.PMServerInfo;
+                var hasPMData = pmInfo != null;
+                var hasCMData = cmInfo != null;
+                var specificTypeName = hasPMData
+                    ? pmInfo!.TypeName
+                    : hasCMData
+                        ? cmInfo!.TypeName
+                        : rf.ReportFormTypeName;
+                var specificTypeId = hasPMData
+                    ? (Guid?)pmInfo!.PMReportFormTypeID
+                    : hasCMData
+                        ? cmInfo!.CMReportFormTypeID
+                        : null;
+
+                return new
+                {
+                    rf.ID,
+                    rf.ReportFormTypeID,
+                    rf.ReportFormTypeName,
+                    SpecificReportTypeName = specificTypeName,
+                    SpecificReportTypeID = specificTypeId,
+                    rf.JobNo,
+                    rf.SystemNameWarehouseID,
+                    rf.SystemNameWarehouseName,
+                    rf.StationNameWarehouseID,
+                    rf.StationNameWarehouseName,
+                    rf.CMCustomer,
+                    rf.CMProjectNo,
+                    PMCustomer = pmInfo?.Customer,
+                    PMProjectNo = pmInfo?.ProjectNo,
+                    rf.IsDeleted,
+                    rf.CreatedDate,
+                    rf.UpdatedDate,
+                    rf.CreatedBy,
+                    rf.CreatedByUserName,
+                    rf.UpdatedBy,
+                    rf.UpdatedByUserName,
+                    rf.UploadStatus,
+                    rf.UploadHostname,
+                    rf.UploadIPAddress,
+                    rf.FormStatus,
+                    HasPMRTUData = rf.PMRTUInfo != null,
+                    HasPMServerData = rf.PMServerInfo != null,
+                    HasCMData = cmInfo != null
+                };
+            }).ToList();
 
             return Ok(new
             {
@@ -464,6 +525,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     ID = pmReportFormRTU.ID,
                     PMReportFormTypeID = pmReportFormRTU.PMReportFormTypeID,
                     PMReportFormTypeName = pmReportFormRTU.PMReportFormType.Name,
+                    ReportTitle = pmReportFormRTU.ReportTitle,
                     ProjectNo = pmReportFormRTU.ProjectNo,
                     Customer = pmReportFormRTU.Customer,
                     DateOfService = pmReportFormRTU.DateOfService,
