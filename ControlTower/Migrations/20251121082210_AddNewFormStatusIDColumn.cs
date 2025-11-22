@@ -5,7 +5,7 @@
 namespace ControlTower.Migrations
 {
     /// <inheritdoc />
-    public partial class AddCMReportFormTypeCol : Migration
+    public partial class AddNewFormStatusIDColumn : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

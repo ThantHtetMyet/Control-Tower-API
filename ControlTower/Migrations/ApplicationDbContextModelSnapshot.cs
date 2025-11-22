@@ -1591,6 +1591,9 @@ namespace ControlTower.Migrations
                     b.Property<DateTime?>("DateOfService")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("FormstatusID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -1618,6 +1621,8 @@ namespace ControlTower.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("CreatedBy");
+
+                    b.HasIndex("FormstatusID");
 
                     b.HasIndex("PMReportFormTypeID");
 
@@ -1650,6 +1655,9 @@ namespace ControlTower.Migrations
                     b.Property<string>("Customer")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid>("FormstatusID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -1688,6 +1696,8 @@ namespace ControlTower.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("CreatedBy");
+
+                    b.HasIndex("FormstatusID");
 
                     b.HasIndex("PMReportFormTypeID");
 
@@ -4353,6 +4363,12 @@ namespace ControlTower.Migrations
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.FormStatusWarehouse", "FormStatusWarehouse")
+                        .WithMany()
+                        .HasForeignKey("FormstatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormType", "PMReportFormType")
                         .WithMany()
                         .HasForeignKey("PMReportFormTypeID")
@@ -4371,6 +4387,8 @@ namespace ControlTower.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("CreatedByUser");
+
+                    b.Navigation("FormStatusWarehouse");
 
                     b.Navigation("PMReportFormType");
 
@@ -4387,6 +4405,12 @@ namespace ControlTower.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.FormStatusWarehouse", "FormStatusWarehouse")
+                        .WithMany()
+                        .HasForeignKey("FormstatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormType", "PMReportFormType")
                         .WithMany()
                         .HasForeignKey("PMReportFormTypeID")
@@ -4405,6 +4429,8 @@ namespace ControlTower.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("CreatedByUser");
+
+                    b.Navigation("FormStatusWarehouse");
 
                     b.Navigation("PMReportFormType");
 

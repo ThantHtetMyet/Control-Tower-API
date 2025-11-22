@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControlTower.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251030134617_UpdatePMServerHealthDetails_Remarks_Col")]
-    partial class UpdatePMServerHealthDetails_Remarks_Col
+    [Migration("20251121072428_InitialDatabase")]
+    partial class InitialDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1594,6 +1594,9 @@ namespace ControlTower.Migrations
                     b.Property<DateTime?>("DateOfService")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("FormstatusID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -1621,6 +1624,8 @@ namespace ControlTower.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("CreatedBy");
+
+                    b.HasIndex("FormstatusID");
 
                     b.HasIndex("PMReportFormTypeID");
 
@@ -1653,6 +1658,9 @@ namespace ControlTower.Migrations
                     b.Property<string>("Customer")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid>("FormstatusID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -1691,6 +1699,8 @@ namespace ControlTower.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("CreatedBy");
+
+                    b.HasIndex("FormstatusID");
 
                     b.HasIndex("PMReportFormTypeID");
 
@@ -2643,6 +2653,33 @@ namespace ControlTower.Migrations
                     b.HasIndex("YesNoStatusID");
 
                     b.ToTable("PMServerNetworkHealths");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerReportFormPDFRequestLog", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("PMReportFormServerID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RequestedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("RequestedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("PMReportFormServerID");
+
+                    b.HasIndex("RequestedBy");
+
+                    b.ToTable("PMServerReportFormPDFRequestLogs");
                 });
 
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerSCADADataBackupDetails", b =>
@@ -4329,6 +4366,12 @@ namespace ControlTower.Migrations
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.FormStatusWarehouse", "FormStatusWarehouse")
+                        .WithMany()
+                        .HasForeignKey("FormstatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormType", "PMReportFormType")
                         .WithMany()
                         .HasForeignKey("PMReportFormTypeID")
@@ -4347,6 +4390,8 @@ namespace ControlTower.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("CreatedByUser");
+
+                    b.Navigation("FormStatusWarehouse");
 
                     b.Navigation("PMReportFormType");
 
@@ -4363,6 +4408,12 @@ namespace ControlTower.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.FormStatusWarehouse", "FormStatusWarehouse")
+                        .WithMany()
+                        .HasForeignKey("FormstatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormType", "PMReportFormType")
                         .WithMany()
                         .HasForeignKey("PMReportFormTypeID")
@@ -4381,6 +4432,8 @@ namespace ControlTower.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("CreatedByUser");
+
+                    b.Navigation("FormStatusWarehouse");
 
                     b.Navigation("PMReportFormType");
 
@@ -5001,6 +5054,25 @@ namespace ControlTower.Migrations
                     b.Navigation("UpdatedByUser");
 
                     b.Navigation("YesNoStatus");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerReportFormPDFRequestLog", b =>
+                {
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.PMReportFormServer", "PMReportFormServer")
+                        .WithMany()
+                        .HasForeignKey("PMReportFormServerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ControlTower.Models.EmployeeManagementSystem.User", "RequestedByUser")
+                        .WithMany()
+                        .HasForeignKey("RequestedBy")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PMReportFormServer");
+
+                    b.Navigation("RequestedByUser");
                 });
 
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.PMServerSCADADataBackupDetails", b =>

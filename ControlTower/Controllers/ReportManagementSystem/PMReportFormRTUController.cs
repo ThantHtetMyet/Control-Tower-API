@@ -46,6 +46,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
         {
             var PMReportFormRTU = await _context.PMReportFormRTU
                 .Include(p => p.PMReportFormType)
+                .Include(p => p.FormStatusWarehouse)
                 .Include(p => p.CreatedByUser)
                 .Include(p => p.UpdatedByUser)
                 .Where(p => !p.IsDeleted)
@@ -54,6 +55,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     ID = p.ID,
                     ReportFormID = p.ReportFormID,
                     PMReportFormTypeID = p.PMReportFormTypeID,
+                    FormstatusID = p.FormstatusID,
                     ProjectNo = p.ProjectNo,
                     Customer = p.Customer,
                     DateOfService = p.DateOfService,
@@ -67,6 +69,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     CreatedBy = p.CreatedBy,
                     UpdatedBy = p.UpdatedBy,
                     PMReportFormTypeName = p.PMReportFormType != null ? p.PMReportFormType.Name : null,
+                    FormStatusName = p.FormStatusWarehouse != null ? p.FormStatusWarehouse.Name : null,
                     CreatedByUserName = p.CreatedByUser != null ? $"{p.CreatedByUser.FirstName} {p.CreatedByUser.LastName}" : null,
                     UpdatedByUserName = p.UpdatedByUser != null ? $"{p.UpdatedByUser.FirstName} {p.UpdatedByUser.LastName}" : null
                 })
@@ -81,6 +84,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
         {
             var pmReportForm = await _context.PMReportFormRTU
                 .Include(p => p.PMReportFormType)
+                .Include(p => p.FormStatusWarehouse)
                 .Include(p => p.CreatedByUser)
                 .Include(p => p.UpdatedByUser)
                 .Where(p => p.ID == id && !p.IsDeleted)
@@ -89,6 +93,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     ID = p.ID,
                     ReportFormID = p.ReportFormID,
                     PMReportFormTypeID = p.PMReportFormTypeID,
+                    FormstatusID = p.FormstatusID,
                     ProjectNo = p.ProjectNo,
                     Customer = p.Customer,
                     DateOfService = p.DateOfService,
@@ -102,6 +107,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     CreatedBy = p.CreatedBy,
                     UpdatedBy = p.UpdatedBy,
                     PMReportFormTypeName = p.PMReportFormType != null ? p.PMReportFormType.Name : null,
+                    FormStatusName = p.FormStatusWarehouse != null ? p.FormStatusWarehouse.Name : null,
                     CreatedByUserName = p.CreatedByUser != null ? $"{p.CreatedByUser.FirstName} {p.CreatedByUser.LastName}" : null,
                     UpdatedByUserName = p.UpdatedByUser != null ? $"{p.UpdatedByUser.FirstName} {p.UpdatedByUser.LastName}" : null
                 })
@@ -128,6 +134,13 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 .AsNoTracking()
                 .FirstOrDefaultAsync(t => t.ID == createDto.PMReportFormTypeID && !t.IsDeleted);
 
+            var formStatusExists = await _context.FormStatusWarehouses
+                .AnyAsync(f => f.ID == createDto.FormstatusID && !f.IsDeleted);
+            if (!formStatusExists)
+            {
+                return BadRequest(new { message = "Invalid FormstatusID." });
+            }
+
             if (pmReportFormType == null)
             {
                 return BadRequest(new { message = "Invalid PM Report Form Type ID." });
@@ -138,6 +151,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 ID = Guid.NewGuid(),
                 ReportFormID = createDto.ReportFormID,
                 PMReportFormTypeID = createDto.PMReportFormTypeID,
+                FormstatusID = createDto.FormstatusID,
                 ProjectNo = createDto.ProjectNo,
                 Customer = createDto.Customer,
                 ReportTitle = string.IsNullOrWhiteSpace(createDto.ReportTitle)
@@ -206,6 +220,18 @@ namespace ControlTower.Controllers.ReportManagementSystem
             {
                 return NotFound(new { message = "PM report form not found." });
             }
+
+            if (updateDto.FormstatusID.HasValue)
+            {
+                var formStatusExists = await _context.FormStatusWarehouses
+                    .AnyAsync(f => f.ID == updateDto.FormstatusID.Value && !f.IsDeleted);
+                if (!formStatusExists)
+                {
+                    return BadRequest(new { message = "Invalid FormstatusID." });
+                }
+                pmReportForm.FormstatusID = updateDto.FormstatusID.Value;
+            }
+            pmReportForm.FormstatusID = updateDto.FormstatusID ?? pmReportForm.FormstatusID;
             pmReportForm.ProjectNo = updateDto.ProjectNo;
             pmReportForm.Customer = updateDto.Customer;
             pmReportForm.DateOfService = updateDto.DateOfService;
@@ -404,26 +430,43 @@ namespace ControlTower.Controllers.ReportManagementSystem
             var configuredPath = _configuration["PDFGenerator:OutputDirectory"];
             if (string.IsNullOrWhiteSpace(configuredPath))
             {
-                return Path.Combine(AppContext.BaseDirectory, "PDF_File");
+                configuredPath = Path.Combine("ControlTower_Python", "PDF_Generator", "Server_PM_ReportForm_PDF", "PDF_File");
             }
 
+            var resolved = ResolvePdfPath(configuredPath);
+            Directory.CreateDirectory(resolved);
+            return resolved;
+        }
+
+        private static string ResolvePdfPath(string configuredPath)
+        {
             if (Path.IsPathRooted(configuredPath))
             {
                 return Path.GetFullPath(configuredPath);
             }
 
+            var solutionRoot = FindSolutionRoot();
+            if (!string.IsNullOrEmpty(solutionRoot))
+            {
+                return Path.GetFullPath(Path.Combine(solutionRoot, configuredPath));
+            }
+
+            return Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, configuredPath));
+        }
+
+        private static string? FindSolutionRoot()
+        {
             var current = new DirectoryInfo(AppContext.BaseDirectory);
             while (current != null)
             {
-                var candidate = Path.GetFullPath(Path.Combine(current.FullName, configuredPath));
-                if (Directory.Exists(candidate))
+                if (System.IO.File.Exists(Path.Combine(current.FullName, "ControlTower.sln")))
                 {
-                    return candidate;
+                    return current.FullName;
                 }
                 current = current.Parent;
             }
 
-            return Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, configuredPath));
+            return null;
         }
 
         private sealed record PdfGenerationResult(byte[] FileContent, string FileName);

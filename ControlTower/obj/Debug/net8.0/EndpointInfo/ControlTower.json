@@ -11356,6 +11356,7 @@
       },
       "CreatePMReportFormRTUDto": {
         "required": [
+          "formstatusID",
           "pmReportFormTypeID",
           "reportFormID"
         ],
@@ -11366,6 +11367,10 @@
             "format": "uuid"
           },
           "pmReportFormTypeID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formstatusID": {
             "type": "string",
             "format": "uuid"
           },
@@ -11410,6 +11415,7 @@
       "CreatePMReportFormServerDto": {
         "required": [
           "createdBy",
+          "formstatusID",
           "pmReportFormTypeID",
           "reportFormID"
         ],
@@ -11420,6 +11426,10 @@
             "format": "uuid"
           },
           "pmReportFormTypeID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formstatusID": {
             "type": "string",
             "format": "uuid"
           },
@@ -13184,6 +13194,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "formstatusID": {
+            "type": "string",
+            "format": "uuid"
+          },
           "projectNo": {
             "type": "string",
             "nullable": true
@@ -13238,6 +13252,10 @@
             "type": "string",
             "nullable": true
           },
+          "formStatusName": {
+            "type": "string",
+            "nullable": true
+          },
           "createdByUserName": {
             "type": "string",
             "nullable": true
@@ -13261,6 +13279,10 @@
             "format": "uuid"
           },
           "pmReportFormTypeID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "formstatusID": {
             "type": "string",
             "format": "uuid"
           },
@@ -13301,6 +13323,10 @@
             "nullable": true
           },
           "pmReportFormTypeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "formStatusName": {
             "type": "string",
             "nullable": true
           },
@@ -15935,6 +15961,11 @@
       "UpdatePMReportFormRTUDto": {
         "type": "object",
         "properties": {
+          "formstatusID": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
           "projectNo": {
             "type": "string",
             "nullable": true
@@ -15976,6 +16007,11 @@
           "pmReportFormTypeID": {
             "type": "string",
             "format": "uuid"
+          },
+          "formstatusID": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
           },
           "projectNo": {
             "maxLength": 255,

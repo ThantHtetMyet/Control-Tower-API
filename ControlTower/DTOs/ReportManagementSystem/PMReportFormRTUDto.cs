@@ -7,6 +7,7 @@ namespace ControlTower.DTOs.ReportManagementSystem
         public Guid ID { get; set; }
         public Guid ReportFormID { get; set; }
         public Guid PMReportFormTypeID { get; set; }
+        public Guid FormstatusID { get; set; }
         public string? ProjectNo { get; set; }
         public string? Customer { get; set; }
         public DateTime? DateOfService { get; set; }
@@ -22,6 +23,7 @@ namespace ControlTower.DTOs.ReportManagementSystem
 
         // Navigation properties for display
         public string? PMReportFormTypeName { get; set; }
+        public string? FormStatusName { get; set; }
         public string? CreatedByUserName { get; set; }
         public string? UpdatedByUserName { get; set; }
     }
@@ -33,6 +35,8 @@ namespace ControlTower.DTOs.ReportManagementSystem
         
         [Required]
         public Guid PMReportFormTypeID { get; set; }
+        [Required]
+        public Guid FormstatusID { get; set; }
         
 
         public string? ProjectNo { get; set; }
@@ -49,6 +53,7 @@ namespace ControlTower.DTOs.ReportManagementSystem
 
     public class UpdatePMReportFormRTUDto
     {
+        public Guid? FormstatusID { get; set; }
         public string? ProjectNo { get; set; }
         public string? Customer { get; set; }
         public DateTime? DateOfService { get; set; }

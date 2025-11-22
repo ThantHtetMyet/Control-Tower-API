@@ -23,6 +23,8 @@ namespace ControlTower.Models.ReportManagementSystem
         public string? Remarks { get; set; }
         public string? AttendedBy { get; set; }
         public string? ApprovedBy { get; set; }
+        [ForeignKey("FormStatusWarehouse")]
+        public Guid FormstatusID { get; set; }
 
         public bool IsDeleted { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -37,6 +39,7 @@ namespace ControlTower.Models.ReportManagementSystem
         // Navigation properties
         public virtual ReportForm? ReportForm { get; set; }
         public virtual PMReportFormType? PMReportFormType { get; set; }
+        public virtual FormStatusWarehouse? FormStatusWarehouse { get; set; }
         public virtual User? CreatedByUser { get; set; }
         public virtual User? UpdatedByUser { get; set; }
 

@@ -1,12 +1,12 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using ControlTower.Data;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Http.Features;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.IdentityModel.Tokens;
+using ControlTower.Data;
 
 internal class Program
 {
@@ -14,53 +14,55 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // ================= Add services =================
-        builder.Services.AddControllers()
+        // ================= Services =================
+
+        // Controllers + JSON options
+        builder.Services
+            .AddControllers()
             .AddJsonOptions(options =>
             {
-                // Handle JSON serialization cycles if needed
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-                // Add camelCase property naming policy
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             });
 
-        // ===== CORS (allow all) =====
+        // CORS
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowReactApp", policy =>
             {
-                policy
-                    .WithOrigins(
-                        "http://192.3.71.120:5002", // React app URL
-                        "http://192.3.71.120:5001", // API URL (for same-origin requests)
-                        "http://localhost:5001",    // API URL
-                        "http://localhost:8080",    // Development React
-                        "http://localhost:3000",    // Development React
-                        "https://localhost:7145"    // Development API
+                policy.WithOrigins(
+                        "http://192.3.62.144:5002", // React app URL
+                        "http://192.3.62.144:5001", // API URL (same-origin)
+                        "http://localhost:5001",
+                        "http://localhost:8080",
+                        "http://localhost:3000",
+                        "https://localhost:7145"
                     )
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .AllowCredentials(); // required for cookies/auth headers
+                    .AllowCredentials();
             });
         });
 
-        // ===== Database =====
+        // Database
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-        // ===== Swagger =====
+        // Swagger
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        // ===== JWT Authentication =====
-        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        // JWT Authentication
+        builder.Services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
+                var key = builder.Configuration["JwtSettings:Key"] ?? string.Empty;
+
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"] ?? "")),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
@@ -68,24 +70,28 @@ internal class Program
                 };
             });
 
-        // ===== File upload limit =====
+        // File upload limit
         builder.Services.Configure<FormOptions>(options =>
         {
             options.MultipartBodyLengthLimit = 100 * 1024 * 1024; // 100MB
         });
+
         builder.Services.AddAuthorization();
 
         var app = builder.Build();
 
         // ================= Middleware =================
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
 
-        // Configure static file serving for news images
-        var newsFileStoragePath = builder.Configuration["NewsFileStorage:BasePath"];
+        // Swagger (enabled for all environments)
+        app.UseSwagger();
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "ControlTower API v1");
+            c.RoutePrefix = "swagger";
+        });
+
+        // Static files for news images
+        var newsFileStoragePath = app.Configuration["NewsFileStorage:BasePath"];
         if (!string.IsNullOrEmpty(newsFileStoragePath) && Directory.Exists(newsFileStoragePath))
         {
             app.UseStaticFiles(new StaticFileOptions
@@ -95,17 +101,17 @@ internal class Program
             });
         }
 
-        // If IIS isn't using HTTPS, comment this line
+        // If IIS isn't using HTTPS, keep this commented
         // app.UseHttpsRedirection();
 
-        // Apply CORS (must be before auth)
-        app.UseCors("AllowReactApp"); // Fix: use the correct policy name
+        // CORS
+        app.UseCors("AllowReactApp");
 
-        // Authentication & Authorization
+        // Auth
         app.UseAuthentication();
         app.UseAuthorization();
 
-        // Map controllers
+        // Endpoints
         app.MapControllers();
 
         app.Run();

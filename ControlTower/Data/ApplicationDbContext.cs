@@ -582,6 +582,12 @@ namespace ControlTower.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PMReportFormRTU>()
+                .HasOne(p => p.FormStatusWarehouse)
+                .WithMany()
+                .HasForeignKey(p => p.FormstatusID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PMReportFormRTU>()
                 .HasOne(p => p.CreatedByUser)
                 .WithMany()
                 .HasForeignKey(p => p.CreatedBy)
@@ -680,6 +686,12 @@ namespace ControlTower.Data
                 .HasOne(p => p.PMReportFormType)
                 .WithMany()
                 .HasForeignKey(p => p.PMReportFormTypeID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PMReportFormServer>()
+                .HasOne(p => p.FormStatusWarehouse)
+                .WithMany()
+                .HasForeignKey(p => p.FormstatusID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PMReportFormServer>()

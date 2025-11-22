@@ -29,6 +29,8 @@ namespace ControlTower.Models.ReportManagementSystem
 
         [StringLength(500)]
         public string? WitnessedBy { get; set; }
+        [ForeignKey("FormStatusWarehouse")]
+        public Guid FormstatusID { get; set; }
 
         public DateTime? StartDate { get; set; }
 
@@ -52,6 +54,7 @@ namespace ControlTower.Models.ReportManagementSystem
         // Navigation properties
         public virtual ReportForm ReportForm { get; set; }
         public virtual PMReportFormType PMReportFormType { get; set; }
+        public virtual FormStatusWarehouse? FormStatusWarehouse { get; set; }
         public virtual User CreatedByUser { get; set; }
         public virtual User? UpdatedByUser { get; set; }
     }
