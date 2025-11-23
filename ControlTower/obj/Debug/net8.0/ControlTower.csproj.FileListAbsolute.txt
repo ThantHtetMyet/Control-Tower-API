@@ -212,8 +212,6 @@ C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\Con
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\Microsoft.Extensions.Caching.Abstractions.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\Microsoft.Extensions.Caching.Memory.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
-C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\Microsoft.Extensions.Configuration.FileExtensions.dll
-C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Json.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
@@ -256,7 +254,6 @@ C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\Con
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\System.Runtime.Caching.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\System.Security.Cryptography.Xml.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\System.Security.Permissions.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\System.Text.Encodings.Web.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\System.Text.Json.dll
@@ -361,4 +358,5 @@ C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\Con
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\obj\Debug\net8.0\ControlTower.pdb
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\obj\Debug\net8.0\ControlTower.genruntimeconfig.cache
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\obj\Debug\net8.0\ref\ControlTower.dll
+C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\obj\Debug\net8.0\swae.build.ex.cache
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

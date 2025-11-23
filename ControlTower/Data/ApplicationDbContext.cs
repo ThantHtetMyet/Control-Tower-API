@@ -93,6 +93,7 @@ namespace ControlTower.Data
         public DbSet<PMChamberMagneticContact> PMChamberMagneticContacts { get; set; }
         public DbSet<PMRTUCabinetCooling> PMRTUCabinetCoolings { get; set; }
         public DbSet<PMDVREquipment> PMDVREquipments { get; set; }
+        public DbSet<ReportFormFinalReport> ReportFormFinalReports { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -1401,6 +1402,31 @@ namespace ControlTower.Data
                 .HasOne(p => p.UpdatedByUser)
                 .WithMany()
                 .HasForeignKey(p => p.UpdatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // ReportFormFinalReport relationships (avoid cascade cycles)
+            modelBuilder.Entity<ReportFormFinalReport>()
+                .HasOne(r => r.ReportForm)
+                .WithMany()
+                .HasForeignKey(r => r.ReportFormID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ReportFormFinalReport>()
+                .HasOne(r => r.UploadedByUser)
+                .WithMany()
+                .HasForeignKey(r => r.UploadedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ReportFormFinalReport>()
+                .HasOne(r => r.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(r => r.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ReportFormFinalReport>()
+                .HasOne(r => r.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(r => r.UpdatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

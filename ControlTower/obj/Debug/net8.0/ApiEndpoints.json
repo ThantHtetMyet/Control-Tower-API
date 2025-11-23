@@ -4075,6 +4075,188 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormFinalReportController",
+    "Method": "GetReportFormFinalReports",
+    "RelativePath": "api/ReportFormFinalReport",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.ReportFormFinalReportDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormFinalReportController",
+    "Method": "CreateReportFormFinalReport",
+    "RelativePath": "api/ReportFormFinalReport",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.CreateReportFormFinalReportDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.ReportFormFinalReportDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormFinalReportController",
+    "Method": "GetReportFormFinalReport",
+    "RelativePath": "api/ReportFormFinalReport/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.ReportFormFinalReportDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormFinalReportController",
+    "Method": "UpdateReportFormFinalReport",
+    "RelativePath": "api/ReportFormFinalReport/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDto",
+        "Type": "ControlTower.DTOs.ReportManagementSystem.UpdateReportFormFinalReportDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormFinalReportController",
+    "Method": "DeleteReportFormFinalReport",
+    "RelativePath": "api/ReportFormFinalReport/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormFinalReportController",
+    "Method": "GetByReportForm",
+    "RelativePath": "api/ReportFormFinalReport/ByReportForm/{reportFormId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reportFormId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ControlTower.DTOs.ReportManagementSystem.ReportFormFinalReportDto, ControlTower, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormFinalReportController",
+    "Method": "DownloadFinalReport",
+    "RelativePath": "api/ReportFormFinalReport/download/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormFinalReportController",
+    "Method": "UploadFinalReport",
+    "RelativePath": "api/ReportFormFinalReport/upload",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ReportFormId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "FinalReportFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ControlTower.DTOs.ReportManagementSystem.ReportFormFinalReportDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormImageController",
     "Method": "GetReportFormImages",
     "RelativePath": "api/ReportFormImage",

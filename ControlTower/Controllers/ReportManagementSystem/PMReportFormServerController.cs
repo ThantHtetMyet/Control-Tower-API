@@ -1435,6 +1435,14 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     return NotFound("PMReportFormServer not found");
                 }
 
+                await _context.Entry(pmReportFormServer).Reference(p => p.FormStatusWarehouse).LoadAsync();
+                var currentStatusName = pmReportFormServer.FormStatusWarehouse?.Name?.Trim();
+                if (!string.IsNullOrEmpty(currentStatusName) &&
+                    currentStatusName.Equals("Close", StringComparison.OrdinalIgnoreCase))
+                {
+                    return BadRequest("Closed Server PM reports cannot be modified.");
+                }
+
                 // Validate that PMReportFormType exists
                 var pmReportFormTypeExists = await _context.PMReportFormTypes.AnyAsync(t => t.ID == updateDto.PMReportFormTypeID && !t.IsDeleted);
                 if (!pmReportFormTypeExists)
