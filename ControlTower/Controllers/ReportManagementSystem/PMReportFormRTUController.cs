@@ -214,6 +214,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
             }
 
             var pmReportForm = await _context.PMReportFormRTU
+                .Include(p => p.ReportForm)
                 .FirstOrDefaultAsync(p => p.ID == id && !p.IsDeleted);
 
             if (pmReportForm == null)
@@ -223,15 +224,32 @@ namespace ControlTower.Controllers.ReportManagementSystem
 
             if (updateDto.FormstatusID.HasValue)
             {
-                var formStatusExists = await _context.FormStatusWarehouses
-                    .AnyAsync(f => f.ID == updateDto.FormstatusID.Value && !f.IsDeleted);
-                if (!formStatusExists)
+                var formStatusWarehouse = await _context.FormStatusWarehouses
+                    .FirstOrDefaultAsync(f => f.ID == updateDto.FormstatusID.Value && !f.IsDeleted);
+                if (formStatusWarehouse == null)
                 {
                     return BadRequest(new { message = "Invalid FormstatusID." });
                 }
                 pmReportForm.FormstatusID = updateDto.FormstatusID.Value;
+                
+                // Also update the parent ReportForm's FormStatus field
+                if (pmReportForm.ReportForm != null)
+                {
+                    pmReportForm.ReportForm.FormStatus = formStatusWarehouse.Name;
+                }
             }
-            pmReportForm.FormstatusID = updateDto.FormstatusID ?? pmReportForm.FormstatusID;
+            
+            if (updateDto.PMReportFormTypeID.HasValue)
+            {
+                var pmReportFormType = await _context.PMReportFormTypes
+                    .FirstOrDefaultAsync(t => t.ID == updateDto.PMReportFormTypeID.Value && !t.IsDeleted);
+                if (pmReportFormType == null)
+                {
+                    return BadRequest(new { message = "Invalid PMReportFormTypeID." });
+                }
+                pmReportForm.PMReportFormTypeID = updateDto.PMReportFormTypeID.Value;
+            }
+            
             pmReportForm.ProjectNo = updateDto.ProjectNo;
             pmReportForm.Customer = updateDto.Customer;
             pmReportForm.DateOfService = updateDto.DateOfService;

@@ -61,5 +61,6 @@ namespace ControlTower.DTOs.ReportManagementSystem
         public string? Remarks { get; set; }
         public string? AttendedBy { get; set; }
         public string? ApprovedBy { get; set; }
+        public Guid? PMReportFormTypeID { get; set; }
     }
 }

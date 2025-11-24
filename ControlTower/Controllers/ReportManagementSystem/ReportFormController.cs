@@ -340,6 +340,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 .Include(pm => pm.PMReportFormType)
                 .Include(pm => pm.CreatedByUser)
                 .Include(pm => pm.UpdatedByUser)
+                .Include(pm => pm.FormStatusWarehouse)
                 .FirstOrDefaultAsync();
 
             if (pmReportFormRTU == null)
@@ -519,7 +520,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 UploadStatus = reportForm.UploadStatus,
                 UploadHostname = reportForm.UploadHostname,
                 UploadIPAddress = reportForm.UploadIPAddress,
-                FormStatus = reportForm.FormStatus,
+                FormStatus = pmReportFormRTU.FormstatusID,
                 CreatedDate = reportForm.CreatedDate,
                 UpdatedDate = reportForm.UpdatedDate,
                 CreatedBy = reportForm.CreatedBy,
