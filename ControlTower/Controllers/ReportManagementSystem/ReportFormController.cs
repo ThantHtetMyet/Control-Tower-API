@@ -170,7 +170,8 @@ namespace ControlTower.Controllers.ReportManagementSystem
                             pm.PMReportFormTypeID,
                             TypeName = pm.PMReportFormType.Name,
                             pm.Customer,
-                            pm.ProjectNo
+                            pm.ProjectNo,
+                            FormStatusName = pm.FormStatusWarehouse != null ? pm.FormStatusWarehouse.Name : null
                         })
                         .FirstOrDefault(),
                     PMServerInfo = _context.PMReportFormServer
@@ -180,7 +181,8 @@ namespace ControlTower.Controllers.ReportManagementSystem
                             pm.PMReportFormTypeID,
                             TypeName = pm.PMReportFormType.Name,
                             pm.Customer,
-                            pm.ProjectNo
+                            pm.ProjectNo,
+                            FormStatusName = pm.FormStatusWarehouse != null ? pm.FormStatusWarehouse.Name : null
                         })
                         .FirstOrDefault(),
                     IsDeleted = rf.IsDeleted,
@@ -199,7 +201,8 @@ namespace ControlTower.Controllers.ReportManagementSystem
                         .Select(cm => new
                         {
                             cm.CMReportFormTypeID,
-                            TypeName = cm.CMReportFormType != null ? cm.CMReportFormType.Name : null
+                            TypeName = cm.CMReportFormType != null ? cm.CMReportFormType.Name : null,
+                            FormStatusName = cm.FormStatusWarehouse != null ? cm.FormStatusWarehouse.Name : null
                         })
                         .FirstOrDefault()
                 })
@@ -221,6 +224,11 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     : hasCMData
                         ? cmInfo!.CMReportFormTypeID
                         : null;
+                var derivedStatus = !string.IsNullOrWhiteSpace(pmInfo?.FormStatusName)
+                    ? pmInfo!.FormStatusName
+                    : (!string.IsNullOrWhiteSpace(cmInfo?.FormStatusName)
+                        ? cmInfo!.FormStatusName
+                        : rf.FormStatus);
 
                 return new
                 {
@@ -248,7 +256,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     rf.UploadStatus,
                     rf.UploadHostname,
                     rf.UploadIPAddress,
-                    rf.FormStatus,
+                    FormStatus = derivedStatus,
                     HasPMRTUData = rf.PMRTUInfo != null,
                     HasPMServerData = rf.PMServerInfo != null,
                     HasCMData = cmInfo != null
