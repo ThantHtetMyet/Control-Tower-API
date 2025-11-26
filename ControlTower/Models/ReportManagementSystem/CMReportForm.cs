@@ -17,8 +17,8 @@ namespace ControlTower.Models.ReportManagementSystem
         public virtual CMReportFormType CMReportFormType { get; set; }
 
         [ForeignKey("FurtherActionTakenWarehouse")]
-        public Guid FurtherActionTakenID { get; set; }
-        public virtual FurtherActionTakenWarehouse FurtherActionTakenWarehouse { get; set; }
+        public Guid? FurtherActionTakenID { get; set; }
+        public virtual FurtherActionTakenWarehouse? FurtherActionTakenWarehouse { get; set; }
 
         [ForeignKey("FormStatusWarehouse")]
         public Guid FormstatusID { get; set; }

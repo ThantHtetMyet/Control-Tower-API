@@ -213,11 +213,15 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 return BadRequest(new { message = "Invalid CM Report Form Type ID." });
             }
 
-            var furtherActionExists = await _context.FurtherActionTakenWarehouses
-                .AnyAsync(f => f.ID == createDto.FurtherActionTakenID && !f.IsDeleted);
-            if (!furtherActionExists)
+            // Only validate FurtherActionTakenID if it has a value (allow null/empty)
+            if (createDto.FurtherActionTakenID.HasValue)
             {
-                return BadRequest(new { message = "Invalid Further Action Taken ID." });
+                var furtherActionExists = await _context.FurtherActionTakenWarehouses
+                    .AnyAsync(f => f.ID == createDto.FurtherActionTakenID && !f.IsDeleted);
+                if (!furtherActionExists)
+                {
+                    return BadRequest(new { message = "Invalid Further Action Taken ID." });
+                }
             }
 
             var formStatusExists = await _context.FormStatusWarehouses
@@ -312,12 +316,15 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 return NotFound(new { message = "CM Report Form not found." });
             }
 
-            // Validate foreign key relationships
-            var furtherActionExists = await _context.FurtherActionTakenWarehouses
-                .AnyAsync(f => f.ID == updateDto.FurtherActionTakenID && !f.IsDeleted);
-            if (!furtherActionExists)
+            // Validate foreign key relationships - only validate FurtherActionTakenID if it has a value
+            if (updateDto.FurtherActionTakenID.HasValue)
             {
-                return BadRequest(new { message = "Invalid Further Action Taken ID." });
+                var furtherActionExists = await _context.FurtherActionTakenWarehouses
+                    .AnyAsync(f => f.ID == updateDto.FurtherActionTakenID && !f.IsDeleted);
+                if (!furtherActionExists)
+                {
+                    return BadRequest(new { message = "Invalid Further Action Taken ID." });
+                }
             }
 
             var formStatusExists = await _context.FormStatusWarehouses

@@ -10517,7 +10517,8 @@
           },
           "furtherActionTakenID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "formstatusID": {
             "type": "string",
@@ -11105,7 +11106,6 @@
           "cmReportFormTypeID",
           "createdBy",
           "formstatusID",
-          "furtherActionTakenID",
           "reportFormID"
         ],
         "type": "object",
@@ -11120,7 +11120,8 @@
           },
           "furtherActionTakenID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "formstatusID": {
             "type": "string",
@@ -15602,8 +15603,7 @@
       "UpdateCMReportFormDto": {
         "required": [
           "cmReportFormTypeID",
-          "formstatusID",
-          "furtherActionTakenID"
+          "formstatusID"
         ],
         "type": "object",
         "properties": {
@@ -15613,7 +15613,8 @@
           },
           "furtherActionTakenID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "formstatusID": {
             "type": "string",
@@ -16408,6 +16409,11 @@
           },
           "approvedBy": {
             "type": "string",
+            "nullable": true
+          },
+          "pmReportFormTypeID": {
+            "type": "string",
+            "format": "uuid",
             "nullable": true
           }
         },

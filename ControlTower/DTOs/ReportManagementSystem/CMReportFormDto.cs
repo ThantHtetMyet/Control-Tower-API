@@ -7,7 +7,7 @@ namespace ControlTower.DTOs.ReportManagementSystem
         public Guid ID { get; set; }
         public Guid ReportFormID { get; set; }
         public Guid CMReportFormTypeID { get; set; }
-        public Guid FurtherActionTakenID { get; set; }
+        public Guid? FurtherActionTakenID { get; set; }
         public Guid FormstatusID { get; set; }
         public string? Customer { get; set; }
         public string? ReportTitle { get; set; }
@@ -49,8 +49,8 @@ namespace ControlTower.DTOs.ReportManagementSystem
         [Required]
         public Guid CMReportFormTypeID { get; set; }
 
-        [Required]
-        public Guid FurtherActionTakenID { get; set; }
+        
+        public Guid? FurtherActionTakenID { get; set; }
 
         [Required]
         public Guid FormstatusID { get; set; }
@@ -82,8 +82,8 @@ namespace ControlTower.DTOs.ReportManagementSystem
         [Required]
         public Guid CMReportFormTypeID { get; set; }
 
-        [Required]
-        public Guid FurtherActionTakenID { get; set; }
+        
+        public Guid? FurtherActionTakenID { get; set; }
 
         [Required]
         public Guid FormstatusID { get; set; }
