@@ -79,9 +79,7 @@ namespace ControlTower.DTOs.ReportManagementSystem
 
     public class UpdateCMReportFormDto
     {
-        [Required]
-        public Guid CMReportFormTypeID { get; set; }
-
+        public Guid? CMReportFormTypeID { get; set; }
         
         public Guid? FurtherActionTakenID { get; set; }
 

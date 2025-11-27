@@ -15602,14 +15602,14 @@
       },
       "UpdateCMReportFormDto": {
         "required": [
-          "cmReportFormTypeID",
           "formstatusID"
         ],
         "type": "object",
         "properties": {
           "cmReportFormTypeID": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "furtherActionTakenID": {
             "type": "string",
