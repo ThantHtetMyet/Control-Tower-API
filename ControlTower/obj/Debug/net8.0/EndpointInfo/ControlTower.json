@@ -1284,6 +1284,29 @@
         }
       }
     },
+    "/api/CMReportForm/{id}/generate-final-report-pdf": {
+      "post": {
+        "tags": [
+          "CMReportForm"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/CMReportFormType": {
       "get": {
         "tags": [

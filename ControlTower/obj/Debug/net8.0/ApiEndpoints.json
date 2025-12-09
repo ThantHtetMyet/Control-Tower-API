@@ -707,6 +707,22 @@
   },
   {
     "ContainingType": "ControlTower.Controllers.ReportManagementSystem.CMReportFormController",
+    "Method": "GenerateCmFinalReportPdf",
+    "RelativePath": "api/CMReportForm/{id}/generate-final-report-pdf",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.CMReportFormController",
     "Method": "GenerateCmReportPdf",
     "RelativePath": "api/CMReportForm/{id}/generate-pdf",
     "HttpMethod": "POST",

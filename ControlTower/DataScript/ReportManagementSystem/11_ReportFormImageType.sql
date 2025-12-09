@@ -56,5 +56,19 @@ VALUES
     0,
     GETDATE(),
     GETDATE()
+),
+(
+    '99999999-9999-9999-9999-999999999999',
+    'AttendedBySignature',
+    0,
+    GETDATE(),
+    GETDATE()
+),
+(
+    '10101010-1010-1010-1010-101010101010',
+    'ApprovedBySignature',
+    0,
+    GETDATE(),
+    GETDATE()
 );
 

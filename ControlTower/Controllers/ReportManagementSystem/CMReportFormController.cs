@@ -430,6 +430,181 @@ namespace ControlTower.Controllers.ReportManagementSystem
             }
         }
 
+        // POST: api/CMReportForm/{id}/generate-final-report-pdf
+        // New endpoint for generating final report PDF with signatures
+        [HttpPost("{id}/generate-final-report-pdf")]
+        public async Task<IActionResult> GenerateCmFinalReportPdf(Guid id, CancellationToken cancellationToken)
+        {
+            var reportForm = await _context.ReportForms
+                .AsNoTracking()
+                .FirstOrDefaultAsync(r => r.ID == id && !r.IsDeleted, cancellationToken);
+
+            if (reportForm == null)
+            {
+                return NotFound($"Report form with ID {id} was not found.");
+            }
+
+            var requestedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "api_user";
+
+            try
+            {
+                var result = await GenerateFinalReportPdfAsync(id, requestedBy, cancellationToken);
+                
+                // Save the generated PDF as a final report attachment
+                var basePath = _configuration["ReportManagementSystemFileStorage:BasePath"] ?? "C:\\Temp\\ReportFormFiles";
+                var reportFolder = Path.Combine(basePath, id.ToString());
+                var finalReportFolder = Path.Combine(reportFolder, "ReportForm_FinalReport");
+                Directory.CreateDirectory(finalReportFolder);
+
+                var fileName = result.FileName ?? $"CM_FinalReport_{reportForm.JobNo ?? id.ToString()}.pdf";
+                var savedPath = Path.Combine(finalReportFolder, fileName);
+                var relativePath = Path.Combine(id.ToString(), "ReportForm_FinalReport", fileName);
+
+                // Save the PDF file
+                await System.IO.File.WriteAllBytesAsync(savedPath, result.FileContent, cancellationToken);
+
+                // Get user ID for database record
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (Guid.TryParse(userIdClaim, out Guid userId))
+                {
+                    // Create database record for the final report
+                    var finalReportEntity = new ReportFormFinalReport
+                    {
+                        ID = Guid.NewGuid(),
+                        ReportFormID = id,
+                        AttachmentName = fileName,
+                        AttachmentPath = relativePath,
+                        IsDeleted = false,
+                        UploadedDate = DateTime.UtcNow,
+                        UploadedBy = userId,
+                        CreatedDate = DateTime.UtcNow,
+                        CreatedBy = userId
+                    };
+
+                    _context.ReportFormFinalReports.Add(finalReportEntity);
+                    await _context.SaveChangesAsync(cancellationToken);
+                }
+
+                return Ok(new { 
+                    message = "Final report PDF generated and saved successfully.",
+                    fileName = fileName,
+                    reportFormId = id
+                });
+            }
+            catch (OperationCanceledException)
+            {
+                return StatusCode(504, "Timed out waiting for final report PDF generation.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to generate final report PDF for {ReportId}", id);
+                return StatusCode(500, $"Failed to generate final report PDF: {ex.Message}");
+            }
+        }
+
+        private async Task<PdfGenerationResult> GenerateFinalReportPdfAsync(Guid reportId, string requestedBy, CancellationToken cancellationToken)
+        {
+            var mqttFactory = new MqttFactory();
+            using var mqttClient = mqttFactory.CreateMqttClient();
+            var mqttOptions = BuildMqttOptions();
+
+            // Use different topic for final report generation with signatures
+            var topicKey = "cm_reportform_signature_pdf";
+            var statusTopic = $"controltower/{topicKey}_status/{reportId}";
+            var requestTopic = $"controltower/{topicKey}/{reportId}";
+
+            var completionSource = new TaskCompletionSource<PdfStatusMessage>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            mqttClient.ApplicationMessageReceivedAsync += e =>
+            {
+                if (e.ApplicationMessage.Topic == statusTopic)
+                {
+                    var payload = e.ApplicationMessage.ConvertPayloadToString();
+                    try
+                    {
+                        var status = JsonSerializer.Deserialize<PdfStatusMessage>(payload, _jsonOptions);
+                        if (status != null && !string.IsNullOrWhiteSpace(status.Status))
+                        {
+                            var normalized = status.Status.ToLowerInvariant();
+                            if (normalized == "completed" || normalized == "failed")
+                            {
+                                completionSource.TrySetResult(status);
+                            }
+                        }
+                    }
+                    catch (JsonException jsonEx)
+                    {
+                        _logger.LogError(jsonEx, "Failed to parse CM Final Report PDF status payload: {Payload}", payload);
+                    }
+                }
+
+                return Task.CompletedTask;
+            };
+
+            await mqttClient.ConnectAsync(mqttOptions, cancellationToken);
+            await mqttClient.SubscribeAsync(statusTopic, MqttQualityOfServiceLevel.AtLeastOnce, cancellationToken);
+
+            var payload = JsonSerializer.Serialize(new
+            {
+                report_id = reportId.ToString(),
+                requested_by = requestedBy,
+                timestamp = DateTime.UtcNow.ToString("o"),
+                report_type = "cm_final_report"
+            });
+
+            var publishMessage = new MqttApplicationMessageBuilder()
+                .WithTopic(requestTopic)
+                .WithPayload(payload)
+                .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce)
+                .Build();
+
+            await mqttClient.PublishAsync(publishMessage, cancellationToken);
+
+            var timeoutSeconds = _configuration.GetValue("PDFGenerator:StatusTimeoutSeconds", 120);
+            using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            timeoutCts.CancelAfter(TimeSpan.FromSeconds(timeoutSeconds));
+
+            PdfStatusMessage statusMessage;
+            try
+            {
+                using (timeoutCts.Token.Register(() => completionSource.TrySetCanceled(), useSynchronizationContext: false))
+                {
+                    statusMessage = await completionSource.Task;
+                }
+            }
+            finally
+            {
+                if (mqttClient.IsConnected)
+                {
+                    await mqttClient.UnsubscribeAsync(statusTopic, cancellationToken);
+                    await mqttClient.DisconnectAsync(cancellationToken: cancellationToken);
+                }
+            }
+
+            if (!statusMessage.Status.Equals("completed", StringComparison.OrdinalIgnoreCase))
+            {
+                var errorMessage = statusMessage.Message ?? "Final report PDF generation failed.";
+                throw new InvalidOperationException(errorMessage);
+            }
+
+            var fileName = statusMessage.FileName;
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                throw new InvalidOperationException("Final report PDF generation completed but no file name was provided.");
+            }
+
+            var outputDirectory = GetPdfOutputDirectory();
+            var filePath = Path.Combine(outputDirectory, fileName);
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                throw new FileNotFoundException($"Generated final report PDF not found at {filePath}.");
+            }
+
+            var fileBytes = await System.IO.File.ReadAllBytesAsync(filePath, cancellationToken);
+            return new PdfGenerationResult(fileBytes, fileName);
+        }
+
         private async Task<PdfGenerationResult> GeneratePdfAsync(Guid reportId, string requestedBy, CancellationToken cancellationToken)
         {
             var mqttFactory = new MqttFactory();
