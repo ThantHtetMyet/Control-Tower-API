@@ -3448,6 +3448,36 @@ namespace ControlTower.Migrations
                     b.ToTable("ServerDiskStatuses");
                 });
 
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.ServerHostNameWarehouse", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<Guid>("StationNameID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("StationNameID");
+
+                    b.ToTable("ServerHostNameWarehouses");
+                });
+
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.StationNameWarehouse", b =>
                 {
                     b.Property<Guid>("ID")
@@ -5614,6 +5644,17 @@ namespace ControlTower.Migrations
                     b.Navigation("CreatedByUser");
 
                     b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.ServerHostNameWarehouse", b =>
+                {
+                    b.HasOne("ControlTower.Models.ReportManagementSystem.StationNameWarehouse", "StationNameWarehouse")
+                        .WithMany()
+                        .HasForeignKey("StationNameID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("StationNameWarehouse");
                 });
 
             modelBuilder.Entity("ControlTower.Models.ReportManagementSystem.StationNameWarehouse", b =>

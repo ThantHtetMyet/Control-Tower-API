@@ -450,44 +450,85 @@ namespace ControlTower.Controllers.ReportManagementSystem
             {
                 var result = await GenerateFinalReportPdfAsync(id, requestedBy, cancellationToken);
                 
-                // Save the generated PDF as a final report attachment
+                // Validate result
+                if (result == null)
+                {
+                    _logger.LogError("PDF generation returned null result for ReportForm ID: {ReportId}", id);
+                    return StatusCode(500, "PDF generation failed - no result returned.");
+                }
+                
+                if (result.FileContent == null || result.FileContent.Length == 0)
+                {
+                    _logger.LogError("PDF generation returned empty file content for ReportForm ID: {ReportId}", id);
+                    return StatusCode(500, "PDF generation failed - empty file returned.");
+                }
+                
+                if (string.IsNullOrWhiteSpace(result.FileName))
+                {
+                    _logger.LogError("PDF generation returned no filename for ReportForm ID: {ReportId}", id);
+                    return StatusCode(500, "PDF generation failed - no filename returned.");
+                }
+                
+                _logger.LogInformation("PDF generation successful for ReportForm ID: {ReportId}, File: {FileName}, Size: {Size} bytes", 
+                    id, result.FileName, result.FileContent.Length);
+                
+                // Use the EXACT same pattern as manual upload (UploadFinalReport endpoint)
                 var basePath = _configuration["ReportManagementSystemFileStorage:BasePath"] ?? "C:\\Temp\\ReportFormFiles";
                 var reportFolder = Path.Combine(basePath, id.ToString());
                 var finalReportFolder = Path.Combine(reportFolder, "ReportForm_FinalReport");
                 Directory.CreateDirectory(finalReportFolder);
 
-                var fileName = result.FileName ?? $"CM_FinalReport_{reportForm.JobNo ?? id.ToString()}.pdf";
-                var savedPath = Path.Combine(finalReportFolder, fileName);
-                var relativePath = Path.Combine(id.ToString(), "ReportForm_FinalReport", fileName);
+                // Generate filename with timestamp (EXACTLY like manual upload)
+                var originalName = $"CM_FinalReport_{reportForm.JobNo ?? id.ToString()}.pdf";
+                var safeName = $"{DateTime.UtcNow:yyyyMMddHHmmssfff}_{originalName}";
+                var savedPath = Path.Combine(finalReportFolder, safeName);
+                var relativePath = Path.Combine(id.ToString(), "ReportForm_FinalReport", safeName);
 
-                // Save the PDF file
+                // Save the PDF file (copying from Python's temp location)
                 await System.IO.File.WriteAllBytesAsync(savedPath, result.FileContent, cancellationToken);
 
-                // Get user ID for database record
-                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                if (Guid.TryParse(userIdClaim, out Guid userId))
+                // Clean up Python's temp file
+                var pythonTempPath = Path.Combine(GetPdfOutputDirectory(), result.FileName);
+                if (System.IO.File.Exists(pythonTempPath))
                 {
-                    // Create database record for the final report
-                    var finalReportEntity = new ReportFormFinalReport
+                    try
                     {
-                        ID = Guid.NewGuid(),
-                        ReportFormID = id,
-                        AttachmentName = fileName,
-                        AttachmentPath = relativePath,
-                        IsDeleted = false,
-                        UploadedDate = DateTime.UtcNow,
-                        UploadedBy = userId,
-                        CreatedDate = DateTime.UtcNow,
-                        CreatedBy = userId
-                    };
-
-                    _context.ReportFormFinalReports.Add(finalReportEntity);
-                    await _context.SaveChangesAsync(cancellationToken);
+                        System.IO.File.Delete(pythonTempPath);
+                        _logger.LogInformation("Cleaned up temporary PDF from Python generator: {TempPath}", pythonTempPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex, "Failed to delete temporary PDF file: {TempPath}", pythonTempPath);
+                    }
                 }
+
+                // Get user ID and create database record (EXACTLY like manual upload)
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (!Guid.TryParse(userIdClaim, out Guid userId))
+                {
+                    return Unauthorized(new { message = "User context is not available." });
+                }
+
+                // Create database record with EXACT same structure as manual upload
+                var entity = new ReportFormFinalReport
+                {
+                    ID = Guid.NewGuid(),
+                    ReportFormID = id,
+                    AttachmentName = originalName,  // User-friendly name (matching manual upload)
+                    AttachmentPath = relativePath,  // Relative path with timestamp (matching manual upload)
+                    IsDeleted = false,
+                    UploadedDate = DateTime.UtcNow,
+                    UploadedBy = userId,
+                    CreatedDate = DateTime.UtcNow,
+                    CreatedBy = userId
+                };
+
+                _context.ReportFormFinalReports.Add(entity);
+                await _context.SaveChangesAsync(cancellationToken);
 
                 return Ok(new { 
                     message = "Final report PDF generated and saved successfully.",
-                    fileName = fileName,
+                    fileName = originalName,
                     reportFormId = id
                 });
             }
@@ -517,17 +558,25 @@ namespace ControlTower.Controllers.ReportManagementSystem
 
             mqttClient.ApplicationMessageReceivedAsync += e =>
             {
+                _logger.LogInformation("[MQTT RECEIVED] Topic: {Topic}", e.ApplicationMessage.Topic);
+                
                 if (e.ApplicationMessage.Topic == statusTopic)
                 {
                     var payload = e.ApplicationMessage.ConvertPayloadToString();
+                    _logger.LogInformation("[MQTT PAYLOAD] {Payload}", payload);
+                    
                     try
                     {
                         var status = JsonSerializer.Deserialize<PdfStatusMessage>(payload, _jsonOptions);
                         if (status != null && !string.IsNullOrWhiteSpace(status.Status))
                         {
                             var normalized = status.Status.ToLowerInvariant();
+                            _logger.LogInformation("[MQTT STATUS] Status: {Status}, Message: {Message}, FileName: {FileName}", 
+                                status.Status, status.Message, status.FileName);
+                                
                             if (normalized == "completed" || normalized == "failed")
                             {
+                                _logger.LogInformation("[MQTT] Setting completion result with status: {Status}", normalized);
                                 completionSource.TrySetResult(status);
                             }
                         }
@@ -537,12 +586,19 @@ namespace ControlTower.Controllers.ReportManagementSystem
                         _logger.LogError(jsonEx, "Failed to parse CM Final Report PDF status payload: {Payload}", payload);
                     }
                 }
+                else
+                {
+                    _logger.LogWarning("[MQTT MISMATCH] Received message on topic {ReceivedTopic}, expected {ExpectedTopic}", 
+                        e.ApplicationMessage.Topic, statusTopic);
+                }
 
                 return Task.CompletedTask;
             };
 
             await mqttClient.ConnectAsync(mqttOptions, cancellationToken);
+            _logger.LogInformation("[MQTT] Connected to broker, subscribing to: {StatusTopic}", statusTopic);
             await mqttClient.SubscribeAsync(statusTopic, MqttQualityOfServiceLevel.AtLeastOnce, cancellationToken);
+            _logger.LogInformation("[MQTT] Subscribed successfully, waiting for status updates");
 
             var payload = JsonSerializer.Serialize(new
             {
@@ -558,7 +614,10 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce)
                 .Build();
 
+            _logger.LogInformation("[MQTT] Publishing request to: {RequestTopic}", requestTopic);
+            _logger.LogInformation("[MQTT] Request payload: {Payload}", payload);
             await mqttClient.PublishAsync(publishMessage, cancellationToken);
+            _logger.LogInformation("[MQTT] Request published, waiting for response on: {StatusTopic}", statusTopic);
 
             var timeoutSeconds = _configuration.GetValue("PDFGenerator:StatusTimeoutSeconds", 120);
             using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
@@ -731,7 +790,8 @@ namespace ControlTower.Controllers.ReportManagementSystem
             var configuredPath = _configuration["PDFGenerator:OutputDirectory"];
             if (string.IsNullOrWhiteSpace(configuredPath))
             {
-                configuredPath = Path.Combine("ControlTower_Python", "PDF_Generator", "Server_PM_ReportForm_PDF", "PDF_File");
+                // Updated to match new clean folder structure
+                configuredPath = Path.Combine("ControlTower_Python", "PDF_Generator", "PDF_File");
             }
 
             var resolved = ResolvePdfPath(configuredPath);

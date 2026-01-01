@@ -47,6 +47,7 @@ namespace ControlTower.Data
         public DbSet<ReportForm> ReportForms { get; set; }
         public DbSet<SystemNameWarehouse> SystemNameWarehouses { get; set; }
         public DbSet<StationNameWarehouse> StationNameWarehouses { get; set; }
+        public DbSet<ServerHostNameWarehouse> ServerHostNameWarehouses { get; set; }
         public DbSet<ReportFormImageType> ReportFormImageTypes { get; set; }
         public DbSet<ReportFormImage> ReportFormImages { get; set; }
         public DbSet<CMReportForm> CMReportForms { get; set; }

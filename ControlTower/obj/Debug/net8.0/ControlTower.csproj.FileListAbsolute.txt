@@ -359,4 +359,13 @@ C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\Con
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\obj\Debug\net8.0\ControlTower.genruntimeconfig.cache
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\obj\Debug\net8.0\ref\ControlTower.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\obj\Debug\net8.0\swae.build.ex.cache
+C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\Serilog.dll
+C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\Serilog.AspNetCore.dll
+C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\Serilog.Extensions.Hosting.dll
+C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\Serilog.Extensions.Logging.dll
+C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\Serilog.Formatting.Compact.dll
+C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\Serilog.Settings.Configuration.dll
+C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\Serilog.Sinks.Console.dll
+C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\Serilog.Sinks.Debug.dll
+C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\bin\Debug\net8.0\Serilog.Sinks.File.dll
 C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

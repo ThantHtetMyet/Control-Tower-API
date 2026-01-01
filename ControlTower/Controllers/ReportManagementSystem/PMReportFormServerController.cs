@@ -1611,6 +1611,16 @@ namespace ControlTower.Controllers.ReportManagementSystem
 
         private async Task UpdateServerHealthDataWithTracking(Guid pmReportFormServerID, UpdatePMServerHealthDataDto updateData, Guid? updatedBy)
         {
+            // Validate that updatedBy user exists if provided
+            if (updatedBy.HasValue)
+            {
+                var userExists = await _context.Users.AnyAsync(u => u.ID == updatedBy.Value && !u.IsDeleted);
+                if (!userExists)
+                {
+                    throw new InvalidOperationException($"Invalid UpdatedBy user ID: {updatedBy.Value}");
+                }
+            }
+
             // Get or create the main ServerHealth record
             var serverHealth = await _context.PMServerHealths
                 .Include(s => s.PMServerHealthDetails)
@@ -1619,6 +1629,12 @@ namespace ControlTower.Controllers.ReportManagementSystem
 
             if (serverHealth == null)
             {
+                // Only create if we have a valid user ID
+                if (!updatedBy.HasValue)
+                {
+                    throw new InvalidOperationException("Cannot create PMServerHealth record without a valid UpdatedBy user ID");
+                }
+
                 serverHealth = new PMServerHealth
                 {
                     ID = Guid.NewGuid(),
@@ -1626,6 +1642,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     Remarks = updateData.Remarks,
                     IsDeleted = false,
                     CreatedDate = DateTime.UtcNow,
+                    CreatedBy = updatedBy.Value,
                     UpdatedBy = updatedBy
                 };
                 _context.PMServerHealths.Add(serverHealth);
@@ -1657,8 +1674,8 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     }
                     else if (detailDto.IsNew)
                     {
-                        // Create new record only if updatedBy has a valid value
-                        if (updatedBy.HasValue)
+                        // Create new record only if updatedBy has a valid value and ResultStatusID is valid
+                        if (updatedBy.HasValue && detailDto.ResultStatusID != Guid.Empty)
                         {
                             var newDetail = new PMServerHealthDetails
                             {
@@ -1677,11 +1694,11 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     }
                     else if (detailDto.ID.HasValue)
                     {
-                        // Update existing record
+                        // Update existing record only if ResultStatusID is valid
                         var existingDetail = await _context.PMServerHealthDetails
                             .Where(d => d.ID == detailDto.ID.Value)
                             .FirstOrDefaultAsync();
-                        if (existingDetail != null)
+                        if (existingDetail != null && detailDto.ResultStatusID != Guid.Empty)
                         {
                             existingDetail.ServerName = detailDto.ServerName;
                             existingDetail.ResultStatusID = detailDto.ResultStatusID;
@@ -1696,6 +1713,16 @@ namespace ControlTower.Controllers.ReportManagementSystem
 
         private async Task UpdateDiskUsageDataWithTracking(Guid pmReportFormServerID, UpdatePMServerDiskUsageDataDto updateData, Guid? updatedBy)
         {
+            // Validate that updatedBy user exists if provided
+            if (updatedBy.HasValue)
+            {
+                var userExists = await _context.Users.AnyAsync(u => u.ID == updatedBy.Value && !u.IsDeleted);
+                if (!userExists)
+                {
+                    throw new InvalidOperationException($"Invalid UpdatedBy user ID: {updatedBy.Value}");
+                }
+            }
+
             // Get or create the main DiskUsage record
             var diskUsage = await _context.PMServerDiskUsageHealths
                 .Include(d => d.PMServerDiskUsageHealthDetails)
@@ -1704,6 +1731,12 @@ namespace ControlTower.Controllers.ReportManagementSystem
 
             if (diskUsage == null)
             {
+                // Only create if we have a valid user ID
+                if (!updatedBy.HasValue)
+                {
+                    throw new InvalidOperationException("Cannot create PMServerDiskUsageHealth record without a valid UpdatedBy user ID");
+                }
+
                 diskUsage = new PMServerDiskUsageHealth
                 {
                     ID = Guid.NewGuid(),
@@ -1711,6 +1744,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     Remarks = updateData.Remarks,
                     IsDeleted = false,
                     CreatedDate = DateTime.UtcNow,
+                    CreatedBy = updatedBy.Value,
                     UpdatedBy = updatedBy
                 };
                 _context.PMServerDiskUsageHealths.Add(diskUsage);
@@ -1853,8 +1887,8 @@ namespace ControlTower.Controllers.ReportManagementSystem
                             }
                             else if (detailDto.IsNew)
                             {
-                                // Create new record only if updatedBy has a valid value
-                                if (updatedBy.HasValue)
+                                // Create new record only if updatedBy has a valid value and required IDs are valid
+                                if (updatedBy.HasValue && detailDto.ResultStatusID != Guid.Empty && detailDto.ServerDiskStatusID != Guid.Empty)
                                 {
                                     // Check if server is deleted before adding new disk
                                     var serverHasDeletedDisks = await _context.PMServerDiskUsageHealthDetails
@@ -1886,11 +1920,12 @@ namespace ControlTower.Controllers.ReportManagementSystem
                             }
                             else if (detailDto.ID.HasValue)
                             {
-                                // Update existing record
+                                // Update existing record only if required IDs are valid
                                 var existingDetail = await _context.PMServerDiskUsageHealthDetails
                                     .Where(d => d.ID == detailDto.ID.Value)
                                     .FirstOrDefaultAsync();
-                                if (existingDetail != null && !existingDetail.IsDeleted)
+                                if (existingDetail != null && !existingDetail.IsDeleted && 
+                                    detailDto.ResultStatusID != Guid.Empty && detailDto.ServerDiskStatusID != Guid.Empty)
                                 {
                                     existingDetail.ServerName = detailDto.ServerName;
                                     existingDetail.DiskName = detailDto.DiskName;
@@ -1912,6 +1947,16 @@ namespace ControlTower.Controllers.ReportManagementSystem
 
         private async Task UpdateCpuAndMemoryDataWithTracking(Guid pmReportFormServerID, UpdatePMServerCPUAndMemoryDataDto updateData, Guid? updatedBy)
         {
+            // Validate that updatedBy user exists if provided
+            if (updatedBy.HasValue)
+            {
+                var userExists = await _context.Users.AnyAsync(u => u.ID == updatedBy.Value && !u.IsDeleted);
+                if (!userExists)
+                {
+                    throw new InvalidOperationException($"Invalid UpdatedBy user ID: {updatedBy.Value}");
+                }
+            }
+
             // Get or create the main CPU and Memory record
             var cpuMemory = await _context.PMServerCPUAndMemoryUsages
                 .Include(c => c.PMServerCPUUsageDetails)
@@ -1921,6 +1966,12 @@ namespace ControlTower.Controllers.ReportManagementSystem
 
             if (cpuMemory == null)
             {
+                // Only create if we have a valid user ID
+                if (!updatedBy.HasValue)
+                {
+                    throw new InvalidOperationException("Cannot create PMServerCPUAndMemoryUsage record without a valid UpdatedBy user ID");
+                }
+
                 cpuMemory = new PMServerCPUAndMemoryUsage
                 {
                     ID = Guid.NewGuid(),
@@ -1928,6 +1979,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     Remarks = updateData.Remarks,
                     IsDeleted = false,
                     CreatedDate = DateTime.UtcNow,
+                    CreatedBy = updatedBy.Value,
                     UpdatedBy = updatedBy
                 };
                 _context.PMServerCPUAndMemoryUsages.Add(cpuMemory);
@@ -2868,6 +2920,16 @@ namespace ControlTower.Controllers.ReportManagementSystem
 
         private async Task UpdateHardDriveHealthDataWithTracking(Guid pmReportFormServerID, UpdatePMServerHardDriveHealthDataDto updateData, Guid? updatedBy)
         {
+            // Validate that updatedBy user exists if provided
+            if (updatedBy.HasValue)
+            {
+                var userExists = await _context.Users.AnyAsync(u => u.ID == updatedBy.Value && !u.IsDeleted);
+                if (!userExists)
+                {
+                    throw new InvalidOperationException($"Invalid UpdatedBy user ID: {updatedBy.Value}");
+                }
+            }
+
             // Get existing Hard Drive Health record
             var existingRecord = await _context.PMServerHardDriveHealths
                 .Include(x => x.PMServerHardDriveHealthDetails)
@@ -2875,38 +2937,40 @@ namespace ControlTower.Controllers.ReportManagementSystem
 
             if (existingRecord == null)
             {
-                // Create new record only if updatedBy has a valid value
-                if (updatedBy.HasValue)
+                // Only create if we have a valid user ID
+                if (!updatedBy.HasValue)
                 {
-                    var newRecord = new PMServerHardDriveHealth
-                    {
-                        ID = Guid.NewGuid(),
-                        PMReportFormServerID = pmReportFormServerID,
-                        Remarks = updateData.Remarks,
-                        IsDeleted = false,
-                        CreatedBy = updatedBy.Value,
-                        CreatedDate = DateTime.UtcNow
-                    };
-                    _context.PMServerHardDriveHealths.Add(newRecord);
+                    throw new InvalidOperationException("Cannot create PMServerHardDriveHealth record without a valid UpdatedBy user ID");
+                }
 
-                    // Add new details
-                    if (updateData.Details != null)
+                var newRecord = new PMServerHardDriveHealth
+                {
+                    ID = Guid.NewGuid(),
+                    PMReportFormServerID = pmReportFormServerID,
+                    Remarks = updateData.Remarks,
+                    IsDeleted = false,
+                    CreatedBy = updatedBy.Value,
+                    CreatedDate = DateTime.UtcNow
+                };
+                _context.PMServerHardDriveHealths.Add(newRecord);
+
+                // Add new details
+                if (updateData.Details != null)
+                {
+                    foreach (var detail in updateData.Details.Where(d => !d.IsDeleted && d.ResultStatusID != Guid.Empty))
                     {
-                        foreach (var detail in updateData.Details.Where(d => !d.IsDeleted))
+                        var newDetail = new PMServerHardDriveHealthDetails
                         {
-                            var newDetail = new PMServerHardDriveHealthDetails
-                            {
-                                ID = Guid.NewGuid(),
-                                PMServerHardDriveHealthID = newRecord.ID,
-                                ServerName = detail.ServerName,
-                                ResultStatusID = detail.ResultStatusID,
-                                Remarks = detail.Remarks,
-                                IsDeleted = false,
-                                CreatedBy = updatedBy.Value,
-                                CreatedDate = DateTime.UtcNow
-                            };
-                            _context.PMServerHardDriveHealthDetails.Add(newDetail);
-                        }
+                            ID = Guid.NewGuid(),
+                            PMServerHardDriveHealthID = newRecord.ID,
+                            ServerName = detail.ServerName,
+                            ResultStatusID = detail.ResultStatusID,
+                            Remarks = detail.Remarks,
+                            IsDeleted = false,
+                            CreatedBy = updatedBy.Value,
+                            CreatedDate = DateTime.UtcNow
+                        };
+                        _context.PMServerHardDriveHealthDetails.Add(newDetail);
                     }
                 }
             }
@@ -2936,8 +3000,8 @@ namespace ControlTower.Controllers.ReportManagementSystem
                         }
                         else if (detail.IsNew || !detail.ID.HasValue)
                         {
-                            // Create new detail only if updatedBy has a valid value
-                            if (updatedBy.HasValue)
+                            // Create new detail only if updatedBy has a valid value and ResultStatusID is valid
+                            if (updatedBy.HasValue && detail.ResultStatusID != Guid.Empty)
                             {
                                 var newDetail = new PMServerHardDriveHealthDetails
                                 {
@@ -2955,10 +3019,10 @@ namespace ControlTower.Controllers.ReportManagementSystem
                         }
                         else if (detail.ID.HasValue)
                         {
-                            // Update existing detail
+                            // Update existing detail only if ResultStatusID is valid
                             var existingDetail = existingRecord.PMServerHardDriveHealthDetails
                                 .FirstOrDefault(d => d.ID == detail.ID.Value);
-                            if (existingDetail != null)
+                            if (existingDetail != null && detail.ResultStatusID != Guid.Empty)
                             {
                                 existingDetail.ServerName = detail.ServerName;
                                 existingDetail.ResultStatusID = detail.ResultStatusID;
@@ -3626,7 +3690,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
             var configuredPath = _configuration["PDFGenerator:OutputDirectory"];
             if (string.IsNullOrWhiteSpace(configuredPath))
             {
-                configuredPath = Path.Combine("ControlTower_Python", "PDF_Generator", "Server_PM_ReportForm_PDF", "PDF_File");
+                configuredPath = Path.Combine("ControlTower_Python", "PDF_Generator", "PDF_File");
             }
 
             var resolvedPath = ResolvePdfPath(configuredPath);
@@ -3663,6 +3727,240 @@ namespace ControlTower.Controllers.ReportManagementSystem
             }
 
             return null;
+        }
+
+        // POST: api/PMReportFormServer/{id}/generate-final-report-pdf
+        // New endpoint for generating final report PDF with signatures
+        [HttpPost("{id}/generate-final-report-pdf")]
+        public async Task<IActionResult> GenerateServerPmFinalReportPdf(Guid id, CancellationToken cancellationToken)
+        {
+            var reportForm = await _context.ReportForms
+                .AsNoTracking()
+                .FirstOrDefaultAsync(r => r.ID == id && !r.IsDeleted, cancellationToken);
+
+            if (reportForm == null)
+            {
+                return NotFound($"Report form with ID {id} was not found.");
+            }
+
+            var requestedBy = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "api_user";
+
+            try
+            {
+                var result = await GenerateFinalReportPdfAsync(id, requestedBy, cancellationToken);
+                
+                // Validate result
+                if (result == null)
+                {
+                    _logger.LogError("PDF generation returned null result for ReportForm ID: {ReportId}", id);
+                    return StatusCode(500, "PDF generation failed - no result returned.");
+                }
+                
+                if (result.FileContent == null || result.FileContent.Length == 0)
+                {
+                    _logger.LogError("PDF generation returned empty file content for ReportForm ID: {ReportId}", id);
+                    return StatusCode(500, "PDF generation failed - empty file returned.");
+                }
+                
+                if (string.IsNullOrWhiteSpace(result.FileName))
+                {
+                    _logger.LogError("PDF generation returned no filename for ReportForm ID: {ReportId}", id);
+                    return StatusCode(500, "PDF generation failed - no filename returned.");
+                }
+                
+                _logger.LogInformation("PDF generation successful for ReportForm ID: {ReportId}, File: {FileName}, Size: {Size} bytes", 
+                    id, result.FileName, result.FileContent.Length);
+                
+                // Use the EXACT same pattern as manual upload (UploadFinalReport endpoint)
+                var basePath = _configuration["ReportManagementSystemFileStorage:BasePath"] ?? "C:\\Temp\\ReportFormFiles";
+                var reportFolder = Path.Combine(basePath, id.ToString());
+                var finalReportFolder = Path.Combine(reportFolder, "ReportForm_FinalReport");
+                Directory.CreateDirectory(finalReportFolder);
+
+                // Generate filename with timestamp (EXACTLY like manual upload)
+                var originalName = $"ServerPM_FinalReport_{reportForm.JobNo ?? id.ToString()}.pdf";
+                var safeName = $"{DateTime.UtcNow:yyyyMMddHHmmssfff}_{originalName}";
+                var savedPath = Path.Combine(finalReportFolder, safeName);
+                var relativePath = Path.Combine(id.ToString(), "ReportForm_FinalReport", safeName);
+
+                // Save the PDF file (copying from Python's temp location)
+                await System.IO.File.WriteAllBytesAsync(savedPath, result.FileContent, cancellationToken);
+
+                // Clean up Python's temp file
+                var pythonTempPath = Path.Combine(GetPdfOutputDirectory(), result.FileName);
+                if (System.IO.File.Exists(pythonTempPath))
+                {
+                    try
+                    {
+                        System.IO.File.Delete(pythonTempPath);
+                        _logger.LogInformation("Cleaned up temporary PDF from Python generator: {TempPath}", pythonTempPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex, "Failed to delete temporary PDF file: {TempPath}", pythonTempPath);
+                    }
+                }
+
+                // Get user ID and create database record (EXACTLY like manual upload)
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (!Guid.TryParse(userIdClaim, out Guid userId))
+                {
+                    return Unauthorized(new { message = "User context is not available." });
+                }
+
+                // Create database record with EXACT same structure as manual upload
+                var entity = new ReportFormFinalReport
+                {
+                    ID = Guid.NewGuid(),
+                    ReportFormID = id,
+                    AttachmentName = originalName,  // User-friendly name (matching manual upload)
+                    AttachmentPath = relativePath,  // Relative path with timestamp (matching manual upload)
+                    IsDeleted = false,
+                    UploadedDate = DateTime.UtcNow,
+                    UploadedBy = userId,
+                    CreatedDate = DateTime.UtcNow,
+                    CreatedBy = userId
+                };
+
+                _context.ReportFormFinalReports.Add(entity);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                return Ok(new { 
+                    message = "Final report PDF generated and saved successfully.",
+                    fileName = originalName,
+                    reportFormId = id
+                });
+            }
+            catch (OperationCanceledException)
+            {
+                return StatusCode(504, "Timed out waiting for final report PDF generation.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to generate final report PDF for {ReportId}", id);
+                return StatusCode(500, $"Failed to generate final report PDF: {ex.Message}");
+            }
+        }
+
+        private async Task<PdfGenerationResult> GenerateFinalReportPdfAsync(Guid reportId, string requestedBy, CancellationToken cancellationToken)
+        {
+            var mqttFactory = new MqttFactory();
+            using var mqttClient = mqttFactory.CreateMqttClient();
+            var mqttOptions = BuildMqttOptions();
+
+            // Use different topic for final report generation with signatures
+            var topicKey = "server_pm_reportform_signature_pdf";
+            var statusTopic = $"controltower/{topicKey}_status/{reportId}";
+            var requestTopic = $"controltower/{topicKey}/{reportId}";
+
+            var completionSource = new TaskCompletionSource<PdfStatusMessage>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            mqttClient.ApplicationMessageReceivedAsync += e =>
+            {
+                _logger.LogInformation("[MQTT RECEIVED] Topic: {Topic}", e.ApplicationMessage.Topic);
+                
+                if (e.ApplicationMessage.Topic == statusTopic)
+                {
+                    var payload = e.ApplicationMessage.ConvertPayloadToString();
+                    _logger.LogInformation("[MQTT PAYLOAD] {Payload}", payload);
+                    
+                    try
+                    {
+                        var status = JsonSerializer.Deserialize<PdfStatusMessage>(payload, _jsonOptions);
+                        if (status != null && !string.IsNullOrWhiteSpace(status.Status))
+                        {
+                            var normalized = status.Status.ToLowerInvariant();
+                            _logger.LogInformation("[MQTT STATUS] Status: {Status}, Message: {Message}, FileName: {FileName}", 
+                                status.Status, status.Message, status.FileName);
+                                
+                            if (normalized == "completed" || normalized == "failed")
+                            {
+                                _logger.LogInformation("[MQTT] Setting completion result with status: {Status}", normalized);
+                                completionSource.TrySetResult(status);
+                            }
+                        }
+                    }
+                    catch (JsonException jsonEx)
+                    {
+                        _logger.LogError(jsonEx, "Failed to parse Server PM Final Report PDF status payload: {Payload}", payload);
+                    }
+                }
+                else
+                {
+                    _logger.LogWarning("[MQTT MISMATCH] Received message on topic {ReceivedTopic}, expected {ExpectedTopic}", 
+                        e.ApplicationMessage.Topic, statusTopic);
+                }
+
+                return Task.CompletedTask;
+            };
+
+            await mqttClient.ConnectAsync(mqttOptions, cancellationToken);
+            _logger.LogInformation("[MQTT] Connected to broker, subscribing to: {StatusTopic}", statusTopic);
+            await mqttClient.SubscribeAsync(statusTopic, MqttQualityOfServiceLevel.AtLeastOnce, cancellationToken);
+            _logger.LogInformation("[MQTT] Subscribed successfully, waiting for status updates");
+
+            var payload = JsonSerializer.Serialize(new
+            {
+                report_id = reportId.ToString(),
+                requested_by = requestedBy,
+                timestamp = DateTime.UtcNow.ToString("o"),
+                report_type = "server_pm_final_report"
+            });
+
+            var publishMessage = new MqttApplicationMessageBuilder()
+                .WithTopic(requestTopic)
+                .WithPayload(payload)
+                .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce)
+                .Build();
+
+            _logger.LogInformation("[MQTT] Publishing request to: {RequestTopic}", requestTopic);
+            _logger.LogInformation("[MQTT] Request payload: {Payload}", payload);
+            await mqttClient.PublishAsync(publishMessage, cancellationToken);
+            _logger.LogInformation("[MQTT] Request published, waiting for response on: {StatusTopic}", statusTopic);
+
+            var timeoutSeconds = _configuration.GetValue("PDFGenerator:StatusTimeoutSeconds", 120);
+            using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            timeoutCts.CancelAfter(TimeSpan.FromSeconds(timeoutSeconds));
+
+            PdfStatusMessage statusMessage;
+            try
+            {
+                using (timeoutCts.Token.Register(() => completionSource.TrySetCanceled(), useSynchronizationContext: false))
+                {
+                    statusMessage = await completionSource.Task;
+                }
+            }
+            finally
+            {
+                if (mqttClient.IsConnected)
+                {
+                    await mqttClient.UnsubscribeAsync(statusTopic, cancellationToken);
+                    await mqttClient.DisconnectAsync(cancellationToken: cancellationToken);
+                }
+            }
+
+            if (!statusMessage.Status.Equals("completed", StringComparison.OrdinalIgnoreCase))
+            {
+                var errorMessage = statusMessage.Message ?? "PDF generation failed.";
+                throw new InvalidOperationException(errorMessage);
+            }
+
+            var fileName = statusMessage.FileName;
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                throw new InvalidOperationException("PDF generation completed but no file name was provided.");
+            }
+
+            var outputDirectory = GetPdfOutputDirectory();
+            var filePath = Path.Combine(outputDirectory, fileName);
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                throw new FileNotFoundException($"Generated final report PDF not found at {filePath}.");
+            }
+
+            var fileBytes = await System.IO.File.ReadAllBytesAsync(filePath, cancellationToken);
+            return new PdfGenerationResult(fileBytes, fileName);
         }
 
         private bool PMReportFormServerExists(Guid id)
