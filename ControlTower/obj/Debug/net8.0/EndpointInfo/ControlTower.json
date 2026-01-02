@@ -17212,6 +17212,11 @@
             "type": "string",
             "nullable": true
           },
+          "serverEntryIndex": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
           "disks": {
             "type": "array",
             "items": {

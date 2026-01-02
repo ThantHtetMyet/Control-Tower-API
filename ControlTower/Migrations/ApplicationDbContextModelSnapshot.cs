@@ -2016,6 +2016,9 @@ namespace ControlTower.Migrations
                     b.Property<Guid>("ServerDiskStatusID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("ServerEntryIndex")
+                        .HasColumnType("int");
+
                     b.Property<string>("ServerName")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");

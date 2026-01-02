@@ -830,9 +830,9 @@ namespace ControlTower.Controllers.ReportManagementSystem
             return null;
         }
 
-        private sealed record PdfGenerationResult(byte[] FileContent, string FileName);
+        public sealed record PdfGenerationResult(byte[] FileContent, string FileName);
 
-        private sealed class PdfStatusMessage
+        public sealed class PdfStatusMessage
         {
             [JsonPropertyName("report_id")]
             public string? ReportId { get; set; }

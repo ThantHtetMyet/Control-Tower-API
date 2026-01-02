@@ -36,6 +36,12 @@ namespace ControlTower.Models.ReportManagementSystem
         [StringLength(1000)]
         public string? Remarks { get; set; }
 
+        /// <summary>
+        /// Server Entry Index: Used to distinguish between duplicate server names.
+        /// Disks with the same ServerName and ServerEntryIndex belong to the same server entry.
+        /// </summary>
+        public int? ServerEntryIndex { get; set; }
+
         public bool IsDeleted { get; set; } = false;
 
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;

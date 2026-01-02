@@ -170,6 +170,11 @@ namespace ControlTower.DTOs.ReportManagementSystem
         public Guid? Id { get; set; }
         [StringLength(200)]
         public string? ServerName { get; set; }
+        /// <summary>
+        /// Server Entry Index: Used to distinguish between duplicate server names.
+        /// Disks with the same ServerName and ServerEntryIndex belong to the same server entry.
+        /// </summary>
+        public int? ServerEntryIndex { get; set; }
         public List<UpdatePMServerDiskDto> Disks { get; set; } = new List<UpdatePMServerDiskDto>();
         public bool IsNew { get; set; } = false;
         public bool IsModified { get; set; } = false;

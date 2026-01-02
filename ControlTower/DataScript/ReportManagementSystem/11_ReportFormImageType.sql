@@ -70,5 +70,33 @@ VALUES
     0,
     GETDATE(),
     GETDATE()
+),
+(
+    'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+    'WillowlynxRTUStatusCheck',
+    0,
+    GETDATE(),
+    GETDATE()
+),
+(
+    'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
+    'WillowlynxProcessStatusCheck',
+    0,
+    GETDATE(),
+    GETDATE()
+),
+(
+    'cccccccc-cccc-cccc-cccc-cccccccccccc',
+    'WillowlynxNetworkStatus',
+    0,
+    GETDATE(),
+    GETDATE()
+),
+(
+    'dddddddd-dddd-dddd-dddd-dddddddddddd',
+    'WillowlynxSumpPitCCTVCamera',
+    0,
+    GETDATE(),
+    GETDATE()
 );
 

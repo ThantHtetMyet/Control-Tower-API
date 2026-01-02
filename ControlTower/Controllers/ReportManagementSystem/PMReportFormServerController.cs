@@ -222,6 +222,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                         ResultStatusID = d.ResultStatusID,
                         ResultStatusName = d.ResultStatus.Name, // Getting display name from navigation property
                         Remarks = d.Remarks,
+                        ServerEntryIndex = d.ServerEntryIndex, // Include ServerEntryIndex to distinguish duplicate server names
                         CreatedDate = d.CreatedDate,
                         UpdatedDate = d.UpdatedDate,
                         CreatedBy = d.CreatedBy,
@@ -1756,44 +1757,185 @@ namespace ControlTower.Controllers.ReportManagementSystem
                 diskUsage.UpdatedDate = DateTime.UtcNow;
             }
 
-            // Convert hierarchical structure to flat structure for processing
-            var allDiskDetails = new List<UpdatePMServerDiskUsageDetailDto>();
-
-            // Handle new hierarchical structure (servers with disks)
+            // Process detail records with tracking and cascading logic
+            // CRITICAL: Process each server entry separately to preserve duplicate server names
+            // Instead of grouping by ServerName (which merges duplicates), process each server individually
+            
+            // Handle new hierarchical structure (servers with disks) - process each server separately
             if (updateData.Servers != null && updateData.Servers.Any())
             {
+                // Process each server entry individually to preserve duplicate server names
+                // Use ServerEntryIndex from DTO if provided, otherwise use array index as fallback
+                int arrayIndex = 0;
                 foreach (var server in updateData.Servers)
                 {
-                    foreach (var disk in server.Disks)
+                    var serverName = server.ServerName;
+                    // Use ServerEntryIndex from DTO if provided, otherwise use array index
+                    // CRITICAL: For existing servers (with IDs), if ServerEntryIndex is null in DTO,
+                    // we should preserve the existing value from database rather than defaulting to arrayIndex
+                    // This prevents overwriting ServerEntryIndex when saving from other components (e.g., ServerHealth_Edit)
+                    int? serverEntryIndex = server.ServerEntryIndex.HasValue 
+                        ? server.ServerEntryIndex.Value 
+                        : null; // Don't default to arrayIndex - preserve existing value for existing records
+                    
+                    // Skip deleted servers (unless they have an ID that needs to be marked as deleted)
+                    if (server.IsDeleted && !server.Id.HasValue)
                     {
-                        allDiskDetails.Add(new UpdatePMServerDiskUsageDetailDto
-                        {
-                            ID = disk.Id,
-                            DiskName = disk.Disk,
-                            ServerName = server.ServerName,
-                            Capacity = disk.Capacity,
-                            FreeSpace = disk.FreeSpace,
-                            Usage = disk.Usage,
-                            ServerDiskStatusID = disk.Status,
-                            ResultStatusID = disk.Check,
-                            Remarks = disk.Remarks,
-                            IsNew = disk.IsNew,
-                            IsDeleted = disk.IsDeleted
-                        });
+                        continue; // Skip new servers that are deleted
                     }
+                    
+                    // Get disks for this specific server entry (not grouped by name)
+                    var serverDisks = new List<UpdatePMServerDiskUsageDetailDto>();
+                    if (server.Disks != null && server.Disks.Any())
+                    {
+                        foreach (var disk in server.Disks)
+                        {
+                            // Skip deleted disks (unless they have an ID that needs to be marked as deleted)
+                            if (disk.IsDeleted && !disk.Id.HasValue)
+                            {
+                                continue;
+                            }
+                            
+                            serverDisks.Add(new UpdatePMServerDiskUsageDetailDto
+                            {
+                                ID = disk.Id,
+                                DiskName = disk.Disk,
+                                ServerName = server.ServerName,
+                                Capacity = disk.Capacity,
+                                FreeSpace = disk.FreeSpace,
+                                Usage = disk.Usage,
+                                ServerDiskStatusID = disk.Status,
+                                ResultStatusID = disk.Check,
+                                Remarks = disk.Remarks,
+                                IsNew = disk.IsNew,
+                                IsDeleted = disk.IsDeleted
+                            });
+                        }
+                    }
+                    
+                    if (!serverDisks.Any())
+                    {
+                        continue; // Skip servers with no valid disks
+                    }
+
+                    // Process each disk individually (don't group by server name to preserve duplicates)
+                    // For duplicate server names, we process each server entry separately
+                    foreach (var detailDto in serverDisks)
+                    {
+                            // Validation: Check if server is deleted before allowing individual disk operations
+                            if (detailDto.ID.HasValue)
+                            {
+                                var existingDisk = await _context.PMServerDiskUsageHealthDetails
+                                    .Where(d => d.ID == detailDto.ID.Value)
+                                    .FirstOrDefaultAsync();
+
+                                if (existingDisk != null)
+                                {
+                                    // Skip operations on individual deleted disks (unless restoring)
+                                    // CRITICAL: Don't check for other disks with the same server name (that would merge duplicates)
+                                    // Just check this specific disk
+                                    if (existingDisk.IsDeleted && !detailDto.IsDeleted)
+                                    {
+                                        continue; // Skip this operation - disk is deleted
+                                    }
+                                }
+                            }
+
+                            if (detailDto.IsDeleted && detailDto.ID.HasValue)
+                            {
+                                // Mark existing record as deleted
+                                var existingDetail = await _context.PMServerDiskUsageHealthDetails
+                                    .Where(d => d.ID == detailDto.ID.Value)
+                                    .FirstOrDefaultAsync();
+                                if (existingDetail != null)
+                                {
+                                    existingDetail.IsDeleted = true;
+                                    existingDetail.UpdatedBy = updatedBy;
+                                    existingDetail.UpdatedDate = DateTime.UtcNow;
+                                }
+                            }
+                            else if (detailDto.IsNew)
+                            {
+                                // Log the incoming data for debugging
+                                _logger.LogInformation($"Processing NEW disk - ServerName: {detailDto.ServerName}, DiskName: {detailDto.DiskName}");
+                                _logger.LogInformation($"  ResultStatusID: {detailDto.ResultStatusID}, ServerDiskStatusID: {detailDto.ServerDiskStatusID}");
+                                _logger.LogInformation($"  IsNew: {detailDto.IsNew}, HasValue(updatedBy): {updatedBy.HasValue}");
+                                _logger.LogInformation($"  ResultStatusID != Guid.Empty: {detailDto.ResultStatusID != Guid.Empty}");
+                                _logger.LogInformation($"  ServerDiskStatusID != Guid.Empty: {detailDto.ServerDiskStatusID != Guid.Empty}");
+                                
+                                // Create new record only if updatedBy has a valid value and required IDs are valid
+                                // CRITICAL: For duplicate server names, we process each server entry individually
+                                // Don't check for other disks with the same server name (that would merge duplicates)
+                                if (updatedBy.HasValue && detailDto.ResultStatusID != Guid.Empty && detailDto.ServerDiskStatusID != Guid.Empty)
+                                {
+                                    _logger.LogInformation($"  CREATING new disk entry for: {detailDto.ServerName} - {detailDto.DiskName}");
+                                    var newDetail = new PMServerDiskUsageHealthDetails
+                                    {
+                                        ID = Guid.NewGuid(),
+                                        PMServerDiskUsageHealthID = diskUsage.ID,
+                                        ServerName = detailDto.ServerName,
+                                        DiskName = detailDto.DiskName,
+                                        Capacity = detailDto.Capacity,
+                                        FreeSpace = detailDto.FreeSpace,
+                                        Usage = detailDto.Usage,
+                                        ServerDiskStatusID = detailDto.ServerDiskStatusID,
+                                        ResultStatusID = detailDto.ResultStatusID,
+                                        Remarks = detailDto.Remarks,
+                                        ServerEntryIndex = serverEntryIndex ?? arrayIndex, // For new records, use provided ServerEntryIndex or fallback to arrayIndex
+                                        IsDeleted = false,
+                                        CreatedDate = DateTime.UtcNow,
+                                        CreatedBy = updatedBy.Value,
+                                        UpdatedBy = updatedBy
+                                    };
+                                    _context.PMServerDiskUsageHealthDetails.Add(newDetail);
+                                }
+                                else
+                                {
+                                    _logger.LogWarning($"  FAILED validation - updatedBy: {updatedBy?.ToString() ?? "null"}, ResultStatusID: {detailDto.ResultStatusID}, ServerDiskStatusID: {detailDto.ServerDiskStatusID}");
+                                }
+                            }
+                            else if (detailDto.ID.HasValue)
+                            {
+                                // Update existing record only if required IDs are valid
+                                var existingDetail = await _context.PMServerDiskUsageHealthDetails
+                                    .Where(d => d.ID == detailDto.ID.Value)
+                                    .FirstOrDefaultAsync();
+                                if (existingDetail != null && !existingDetail.IsDeleted && 
+                                    detailDto.ResultStatusID != Guid.Empty && detailDto.ServerDiskStatusID != Guid.Empty)
+                                {
+                                    existingDetail.ServerName = detailDto.ServerName;
+                                    existingDetail.DiskName = detailDto.DiskName;
+                                    existingDetail.Capacity = detailDto.Capacity;
+                                    existingDetail.FreeSpace = detailDto.FreeSpace;
+                                    existingDetail.Usage = detailDto.Usage;
+                                    existingDetail.ServerDiskStatusID = detailDto.ServerDiskStatusID;
+                                    existingDetail.ResultStatusID = detailDto.ResultStatusID;
+                                    existingDetail.Remarks = detailDto.Remarks;
+                                    // CRITICAL: Only update ServerEntryIndex if it's explicitly provided in the DTO
+                                    // This prevents overwriting existing ServerEntryIndex values when saving from other components (e.g., ServerHealth_Edit)
+                                    // If ServerEntryIndex is not provided (null), preserve the existing value from database
+                                    if (serverEntryIndex.HasValue)
+                                    {
+                                        existingDetail.ServerEntryIndex = serverEntryIndex.Value; // Update server entry index only if explicitly provided
+                                    }
+                                    // If ServerEntryIndex is null in DTO, keep the existing value (don't overwrite)
+                                    existingDetail.UpdatedBy = updatedBy;
+                                    existingDetail.UpdatedDate = DateTime.UtcNow;
+                                }
+                            }
+                    }
+                    // Increment array index for next server entry
+                    arrayIndex++;
                 }
             }
             // Handle legacy flat structure for backward compatibility
+            // Note: Legacy Details structure is no longer used, but kept for reference
+            // If needed in the future, uncomment and ensure UpdatePMServerDiskUsageDataDto has Details property
+            
             else if (updateData.Details != null && updateData.Details.Any())
             {
-                allDiskDetails = updateData.Details;
-            }
-
-            // Process detail records with tracking and cascading logic
-            if (allDiskDetails.Any())
-            {
-                // Group details by server name to handle server-level operations
-                var serverGroups = allDiskDetails.GroupBy(d => d.ServerName).ToList();
+                // Process legacy flat structure - group by ServerName (original behavior)
+                var serverGroups = updateData.Details.GroupBy(d => d.ServerName).ToList();
 
                 foreach (var serverGroup in serverGroups)
                 {
@@ -1890,32 +2032,26 @@ namespace ControlTower.Controllers.ReportManagementSystem
                                 // Create new record only if updatedBy has a valid value and required IDs are valid
                                 if (updatedBy.HasValue && detailDto.ResultStatusID != Guid.Empty && detailDto.ServerDiskStatusID != Guid.Empty)
                                 {
-                                    // Check if server is deleted before adding new disk
-                                    var serverHasDeletedDisks = await _context.PMServerDiskUsageHealthDetails
-                                        .AnyAsync(d => d.PMServerDiskUsageHealthID == diskUsage.ID && 
-                                                      d.ServerName == serverName && d.IsDeleted);
-
-                                    if (!serverHasDeletedDisks)
+                                    // For legacy structure, use 0 as ServerEntryIndex since we group by ServerName
+                                    var newDetail = new PMServerDiskUsageHealthDetails
                                     {
-                                        var newDetail = new PMServerDiskUsageHealthDetails
-                                        {
-                                            ID = Guid.NewGuid(),
-                                            PMServerDiskUsageHealthID = diskUsage.ID,
-                                            ServerName = detailDto.ServerName,
-                                            DiskName = detailDto.DiskName,
-                                            Capacity = detailDto.Capacity,
-                                            FreeSpace = detailDto.FreeSpace,
-                                            Usage = detailDto.Usage,
-                                            ServerDiskStatusID = detailDto.ServerDiskStatusID,
-                                            ResultStatusID = detailDto.ResultStatusID,
-                                            Remarks = detailDto.Remarks,
-                                            IsDeleted = false,
-                                            CreatedDate = DateTime.UtcNow,
-                                            CreatedBy = updatedBy.Value,
-                                            UpdatedBy = updatedBy
-                                        };
-                                        _context.PMServerDiskUsageHealthDetails.Add(newDetail);
-                                    }
+                                        ID = Guid.NewGuid(),
+                                        PMServerDiskUsageHealthID = diskUsage.ID,
+                                        ServerName = detailDto.ServerName,
+                                        DiskName = detailDto.DiskName,
+                                        Capacity = detailDto.Capacity,
+                                        FreeSpace = detailDto.FreeSpace,
+                                        Usage = detailDto.Usage,
+                                        ServerDiskStatusID = detailDto.ServerDiskStatusID,
+                                        ResultStatusID = detailDto.ResultStatusID,
+                                        Remarks = detailDto.Remarks,
+                                        ServerEntryIndex = 0, // Legacy structure uses 0 as default
+                                        IsDeleted = false,
+                                        CreatedDate = DateTime.UtcNow,
+                                        CreatedBy = updatedBy.Value,
+                                        UpdatedBy = updatedBy
+                                    };
+                                    _context.PMServerDiskUsageHealthDetails.Add(newDetail);
                                 }
                             }
                             else if (detailDto.ID.HasValue)
@@ -1943,6 +2079,7 @@ namespace ControlTower.Controllers.ReportManagementSystem
                     }
                 }
             }
+            
         }
 
         private async Task UpdateCpuAndMemoryDataWithTracking(Guid pmReportFormServerID, UpdatePMServerCPUAndMemoryDataDto updateData, Guid? updatedBy)
@@ -3968,9 +4105,9 @@ namespace ControlTower.Controllers.ReportManagementSystem
             return _context.PMReportFormServer.Any(e => e.ID == id && !e.IsDeleted);
         }
 
-        private sealed record PdfGenerationResult(byte[] FileContent, string FileName);
+        public sealed record PdfGenerationResult(byte[] FileContent, string FileName);
 
-        private sealed class PdfStatusMessage
+        public sealed class PdfStatusMessage
         {
             [JsonPropertyName("report_id")]
             public string? ReportId { get; set; }
