@@ -23,6 +23,7 @@ C:\Publish\ControlTower_API\Microsoft.Extensions.Configuration.FileExtensions.dl
 C:\Publish\ControlTower_API\Microsoft.Extensions.Configuration.Json.dll
 C:\Publish\ControlTower_API\Microsoft.Extensions.DependencyInjection.dll
 C:\Publish\ControlTower_API\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Publish\ControlTower_API\Microsoft.Extensions.DependencyModel.dll
 C:\Publish\ControlTower_API\Microsoft.Extensions.Logging.dll
 C:\Publish\ControlTower_API\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Publish\ControlTower_API\Microsoft.Extensions.Options.dll
@@ -40,6 +41,15 @@ C:\Publish\ControlTower_API\Microsoft.OpenApi.dll
 C:\Publish\ControlTower_API\Microsoft.SqlServer.Server.dll
 C:\Publish\ControlTower_API\Microsoft.Win32.SystemEvents.dll
 C:\Publish\ControlTower_API\MQTTnet.dll
+C:\Publish\ControlTower_API\Serilog.dll
+C:\Publish\ControlTower_API\Serilog.AspNetCore.dll
+C:\Publish\ControlTower_API\Serilog.Extensions.Hosting.dll
+C:\Publish\ControlTower_API\Serilog.Extensions.Logging.dll
+C:\Publish\ControlTower_API\Serilog.Formatting.Compact.dll
+C:\Publish\ControlTower_API\Serilog.Settings.Configuration.dll
+C:\Publish\ControlTower_API\Serilog.Sinks.Console.dll
+C:\Publish\ControlTower_API\Serilog.Sinks.Debug.dll
+C:\Publish\ControlTower_API\Serilog.Sinks.File.dll
 C:\Publish\ControlTower_API\Swashbuckle.AspNetCore.Swagger.dll
 C:\Publish\ControlTower_API\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Publish\ControlTower_API\Swashbuckle.AspNetCore.SwaggerUI.dll

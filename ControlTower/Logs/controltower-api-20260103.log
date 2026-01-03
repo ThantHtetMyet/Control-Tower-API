@@ -1,0 +1,5 @@
+2026-01-03 13:15:34.340 [INF]  - Starting ControlTower API
+2026-01-03 13:15:49.500 [INF] Microsoft.Hosting.Lifetime - Now listening on: https://localhost:7145
+2026-01-03 13:15:57.255 [INF] Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+2026-01-03 13:15:58.976 [INF] Microsoft.Hosting.Lifetime - Hosting environment: Development
+2026-01-03 13:16:00.169 [INF] Microsoft.Hosting.Lifetime - Content root path: C:\Users\thanthtet.myet\Documents\01_Willowglen\B_001_Workplace\ControlTower\ControlTower\ControlTower
