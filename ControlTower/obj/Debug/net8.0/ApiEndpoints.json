@@ -4098,6 +4098,42 @@
   },
   {
     "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormController",
+    "Method": "GetDashboardStatistics",
+    "RelativePath": "api/ReportForm/Dashboard/Statistics",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "startDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "reportFormTypeId",
+        "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "formStatus",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "specificType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ControlTower.Controllers.ReportManagementSystem.ReportFormController",
     "Method": "GetNextJobNumber",
     "RelativePath": "api/ReportForm/NextJobNumber",
     "HttpMethod": "GET",

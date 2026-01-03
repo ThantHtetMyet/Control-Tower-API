@@ -1078,5 +1078,277 @@ namespace ControlTower.Controllers.ReportManagementSystem
 
             return Ok(result);
         }
+
+        // GET: api/ReportForm/Dashboard/Statistics
+        [HttpGet("Dashboard/Statistics")]
+        public async Task<ActionResult<object>> GetDashboardStatistics(
+            [FromQuery] DateTime? startDate = null,
+            [FromQuery] DateTime? endDate = null,
+            [FromQuery] Guid? reportFormTypeId = null,
+            [FromQuery] string? formStatus = null,
+            [FromQuery] string? specificType = null)
+        {
+            // Base query
+            var query = _context.ReportForms
+                .Where(rf => !rf.IsDeleted)
+                .Include(rf => rf.ReportFormType)
+                .AsQueryable();
+
+            // Apply date range filter
+            if (startDate.HasValue)
+            {
+                query = query.Where(rf => rf.CreatedDate >= startDate.Value);
+            }
+
+            if (endDate.HasValue)
+            {
+                // Include the entire end date (23:59:59)
+                var endOfDay = endDate.Value.Date.AddDays(1).AddSeconds(-1);
+                query = query.Where(rf => rf.CreatedDate <= endOfDay);
+            }
+
+            // Apply report type filter
+            if (reportFormTypeId.HasValue)
+            {
+                query = query.Where(rf => rf.ReportFormTypeID == reportFormTypeId.Value);
+            }
+
+            // Apply specific type filter (CM, Server, RTU)
+            if (!string.IsNullOrEmpty(specificType))
+            {
+                if (specificType.Equals("Corrective Maintenance", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Filter for CM reports
+                    var cmReportFormIds = await _context.CMReportForms
+                        .Where(cm => !cm.IsDeleted)
+                        .Select(cm => cm.ReportFormID)
+                        .ToListAsync();
+                    query = query.Where(rf => cmReportFormIds.Contains(rf.ID));
+                }
+                else if (specificType.Equals("Server", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Filter for Server PM reports
+                    var serverPMReportFormIds = await _context.PMReportFormServer
+                        .Where(pm => !pm.IsDeleted)
+                        .Select(pm => pm.ReportFormID)
+                        .ToListAsync();
+                    query = query.Where(rf => serverPMReportFormIds.Contains(rf.ID));
+                }
+                else if (specificType.Equals("RTU", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Filter for RTU PM reports
+                    var rtuPMReportFormIds = await _context.PMReportFormRTU
+                        .Where(pm => !pm.IsDeleted)
+                        .Select(pm => pm.ReportFormID)
+                        .ToListAsync();
+                    query = query.Where(rf => rtuPMReportFormIds.Contains(rf.ID));
+                }
+            }
+
+            // Apply status filter - fetch data first, then filter in memory
+            if (!string.IsNullOrEmpty(formStatus))
+            {
+                // Get all report form IDs first
+                var allReportFormIds = await query.Select(rf => rf.ID).ToListAsync();
+                
+                // Get status mappings for all forms
+                var pmRtuStatusMap = await _context.PMReportFormRTU
+                    .Where(pm => !pm.IsDeleted && allReportFormIds.Contains(pm.ReportFormID))
+                    .Include(pm => pm.FormStatusWarehouse)
+                    .Select(pm => new { pm.ReportFormID, Status = pm.FormStatusWarehouse.Name })
+                    .ToListAsync();
+
+                var pmServerStatusMap = await _context.PMReportFormServer
+                    .Where(pm => !pm.IsDeleted && allReportFormIds.Contains(pm.ReportFormID))
+                    .Include(pm => pm.FormStatusWarehouse)
+                    .Select(pm => new { pm.ReportFormID, Status = pm.FormStatusWarehouse.Name })
+                    .ToListAsync();
+
+                var cmStatusMap = await _context.CMReportForms
+                    .Where(cm => !cm.IsDeleted && allReportFormIds.Contains(cm.ReportFormID))
+                    .Include(cm => cm.FormStatusWarehouse)
+                    .Select(cm => new { cm.ReportFormID, Status = cm.FormStatusWarehouse.Name })
+                    .ToListAsync();
+
+                var baseReportStatuses = await query
+                    .Select(rf => new { rf.ID, rf.FormStatus })
+                    .ToListAsync();
+
+                // Filter in memory using case-insensitive comparison
+                var filteredReportFormIds = allReportFormIds.Where(id =>
+                {
+                    var pmRtuStatus = pmRtuStatusMap.FirstOrDefault(x => x.ReportFormID == id)?.Status;
+                    var pmServerStatus = pmServerStatusMap.FirstOrDefault(x => x.ReportFormID == id)?.Status;
+                    var cmStatus = cmStatusMap.FirstOrDefault(x => x.ReportFormID == id)?.Status;
+                    var baseStatus = baseReportStatuses.FirstOrDefault(x => x.ID == id)?.FormStatus;
+
+                    return (pmRtuStatus != null && pmRtuStatus.Equals(formStatus, StringComparison.OrdinalIgnoreCase)) ||
+                           (pmServerStatus != null && pmServerStatus.Equals(formStatus, StringComparison.OrdinalIgnoreCase)) ||
+                           (cmStatus != null && cmStatus.Equals(formStatus, StringComparison.OrdinalIgnoreCase)) ||
+                           (pmRtuStatus == null && pmServerStatus == null && cmStatus == null && 
+                            baseStatus != null && baseStatus.Equals(formStatus, StringComparison.OrdinalIgnoreCase));
+                }).ToList();
+
+                // Apply the filtered IDs back to the query
+                query = query.Where(rf => filteredReportFormIds.Contains(rf.ID));
+            }
+
+            // Calculate statistics
+            var totalReports = await query.CountAsync();
+
+            // Get all report forms with their related data first
+            var reportFormsWithDetails = await query
+                .Include(rf => rf.SystemNameWarehouse)
+                .Include(rf => rf.StationNameWarehouse)
+                .Include(rf => rf.CreatedByUser)
+                .ToListAsync();
+
+            // Get all PM RTU forms
+            var pmRtuForms = await _context.PMReportFormRTU
+                .Where(pm => !pm.IsDeleted)
+                .Include(pm => pm.FormStatusWarehouse)
+                .Include(pm => pm.PMReportFormType)
+                .ToListAsync();
+
+            // Get all PM Server forms
+            var pmServerForms = await _context.PMReportFormServer
+                .Where(pm => !pm.IsDeleted)
+                .Include(pm => pm.FormStatusWarehouse)
+                .Include(pm => pm.PMReportFormType)
+                .ToListAsync();
+
+            // Get all CM forms
+            var cmForms = await _context.CMReportForms
+                .Where(cm => !cm.IsDeleted)
+                .Include(cm => cm.FormStatusWarehouse)
+                .Include(cm => cm.CMReportFormType)
+                .ToListAsync();
+
+            // Create dictionaries for faster lookup
+            var pmRtuDict = pmRtuForms.ToDictionary(pm => pm.ReportFormID);
+            var pmServerDict = pmServerForms.ToDictionary(pm => pm.ReportFormID);
+            var cmDict = cmForms.ToDictionary(cm => cm.ReportFormID);
+
+            // Calculate status breakdown in memory
+            var statusBreakdown = reportFormsWithDetails
+                .Select(rf =>
+                {
+                    string status = "Unknown";
+                    if (pmRtuDict.TryGetValue(rf.ID, out var pmRtu))
+                    {
+                        status = pmRtu.FormStatusWarehouse?.Name ?? "Unknown";
+                    }
+                    else if (pmServerDict.TryGetValue(rf.ID, out var pmServer))
+                    {
+                        status = pmServer.FormStatusWarehouse?.Name ?? "Unknown";
+                    }
+                    else if (cmDict.TryGetValue(rf.ID, out var cm))
+                    {
+                        status = cm.FormStatusWarehouse?.Name ?? "Unknown";
+                    }
+                    else
+                    {
+                        status = rf.FormStatus ?? "Unknown";
+                    }
+                    return status;
+                })
+                .GroupBy(s => s)
+                .Select(g => new
+                {
+                    Status = g.Key,
+                    Count = g.Count()
+                })
+                .ToList();
+
+            // Get report type breakdown
+            var typeBreakdown = reportFormsWithDetails
+                .GroupBy(rf => new { rf.ReportFormTypeID, rf.ReportFormType.Name })
+                .Select(g => new
+                {
+                    ReportTypeId = g.Key.ReportFormTypeID,
+                    ReportTypeName = g.Key.Name,
+                    Count = g.Count()
+                })
+                .ToList();
+
+            // Get recent reports (last 10) with status
+            var recentReports = reportFormsWithDetails
+                .OrderByDescending(rf => rf.CreatedDate)
+                .Take(10)
+                .Select(rf =>
+                {
+                    string status = "Unknown";
+                    string specificType = null;
+
+                    if (pmRtuDict.TryGetValue(rf.ID, out var pmRtu))
+                    {
+                        status = pmRtu.FormStatusWarehouse?.Name ?? "Unknown";
+                        specificType = pmRtu.PMReportFormType?.Name;
+                    }
+                    else if (pmServerDict.TryGetValue(rf.ID, out var pmServer))
+                    {
+                        status = pmServer.FormStatusWarehouse?.Name ?? "Unknown";
+                        specificType = pmServer.PMReportFormType?.Name;
+                    }
+                    else if (cmDict.TryGetValue(rf.ID, out var cm))
+                    {
+                        status = cm.FormStatusWarehouse?.Name ?? "Unknown";
+                        specificType = cm.CMReportFormType?.Name;
+                    }
+                    else
+                    {
+                        status = rf.FormStatus ?? "Unknown";
+                    }
+
+                    return new
+                    {
+                        rf.ID,
+                        rf.JobNo,
+                        ReportType = rf.ReportFormType.Name,
+                        SpecificType = specificType,
+                        SystemName = rf.SystemNameWarehouse.Name,
+                        StationName = rf.StationNameWarehouse.Name,
+                        Status = status,
+                        rf.CreatedDate,
+                        CreatedBy = rf.CreatedByUser.FirstName + " " + rf.CreatedByUser.LastName
+                    };
+                })
+                .ToList();
+
+            // Get monthly trend data (last 12 months)
+            var twelveMonthsAgo = DateTime.Now.AddMonths(-12);
+            var monthlyTrend = await _context.ReportForms
+                .Where(rf => !rf.IsDeleted && rf.CreatedDate >= twelveMonthsAgo)
+                .GroupBy(rf => new { rf.CreatedDate.Year, rf.CreatedDate.Month })
+                .Select(g => new
+                {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    Count = g.Count()
+                })
+                .OrderBy(x => x.Year)
+                .ThenBy(x => x.Month)
+                .ToListAsync();
+
+            return Ok(new
+            {
+                totalReports,
+                statusBreakdown,
+                typeBreakdown,
+                recentReports,
+                monthlyTrend,
+                dateRange = new
+                {
+                    startDate = startDate?.ToString("yyyy-MM-dd"),
+                    endDate = endDate?.ToString("yyyy-MM-dd")
+                },
+                appliedFilters = new
+                {
+                    reportType = reportFormTypeId.HasValue,
+                    status = !string.IsNullOrEmpty(formStatus),
+                    dateRange = startDate.HasValue || endDate.HasValue
+                }
+            });
+        }
     }
 }
